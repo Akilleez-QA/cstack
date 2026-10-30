@@ -60,10 +60,7 @@ suite_node() {
   echo "node: $((n-fails))/$n files passed"; [ "$fails" -eq 0 ]
 }
 
-suite_trufflehog() {
-  trufflehog filesystem . --no-update --json --fail --exclude-paths .trufflehog-exclude-paths.txt &&
-    trufflehog git "file://$ROOT" --branch "$(git branch --show-current)" --no-update --json --fail --exclude-paths .trufflehog-exclude-paths.txt
-}
+suite_trufflehog() { bash ci/scan-secrets.sh; }
 
 suite_links() { "$PY" tools/check_links.py; }
 

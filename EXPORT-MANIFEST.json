@@ -19,8 +19,8 @@
    "bytes": 193
   },
   ".github/workflows/ci.yml": {
-   "sha256": "a83042d377955343715323928f9958ebb472efb9908b6e9b3756420979a78255",
-   "bytes": 427
+   "sha256": "3d41dff5a2cdb1010be2f369bd688c0c38309031d36e9f19d9353988c02b0afb",
+   "bytes": 784
   },
   ".gitignore": {
    "sha256": "5eabc8e7d0e7334a98ca674c845368e5ce011e5f64ba42b19be74988848a19d8",
@@ -63,8 +63,8 @@
    "bytes": 4340
   },
   "SECURITY.md": {
-   "sha256": "20e142904090dd907016abb8c2c54b63f4781c3c25c9ccaa270320eb6fc2b18a",
-   "bytes": 581
+   "sha256": "3f9c3a83c11a80271cd41705ce11fd1096d225a5f2fb5023d7b1a935a69b922f",
+   "bytes": 626
   },
   "SUPPORT.md": {
    "sha256": "ba37d7d99316e5bb951dbcbcf4fdee3b09742c52dd7ed431440cb68c7f4d3d2e",
@@ -231,8 +231,12 @@
    "bytes": 372
   },
   "ci/run-local.sh": {
-   "sha256": "6c6bfa3db6a317cb015edc0aa4e26b3e3afb5681505b3c46769bf49b461303e7",
-   "bytes": 5528
+   "sha256": "37492d99d574bd83ce4f29149756f03836ee0cc0487f91de6faff25d6dbf3ac1",
+   "bytes": 5306
+  },
+  "ci/scan-secrets.sh": {
+   "sha256": "26dadaf054fc202683561e341135414cdfe16fd1524e69a2d99a53661fc08d1f",
+   "bytes": 292
   },
   "cli.py": {
    "sha256": "88bd3d3a9cca6787daab9fb20e011cd36ba7b4c7067448e34ce05d26da679566",
