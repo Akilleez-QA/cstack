@@ -6,7 +6,7 @@ Organization follows the requirements, design, traceability and configuration-co
 
 ## Purpose and design boundary
 
-Cstack composes a control core with trusted domain extensions and bounded capability adapters. The core records goals, decisions, attempts and evidence while the host owns concrete implementation selection. This description covers the Foundation integration and its control path; existing ADRs in docs/ retain their own decision context.
+Cstack composes a control core with trusted domain extensions and bounded capability adapters. The core records goals, decisions, attempts and evidence while the host owns concrete implementation selection. This description covers the Foundation integration and its control path. Source files refer to ADR identifiers, but the inspected export does not contain those ADR documents.
 
 ## Decomposition and allocation
 
