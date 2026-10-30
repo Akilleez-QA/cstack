@@ -17,12 +17,21 @@ Cstack: template for a bot fleet under one human approver (GPL-3.0-only)
 | [foundation-refrigeration](https://github.com/Akilleez-QA/foundation-refrigeration) | Refrigeration data and checks | Foundation |
 | [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | Physics checks for motion | Foundation |
 | [foundation-template](https://github.com/Akilleez-QA/foundation-template) | Minimal Foundation to copy for a new domain | Foundation |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Workshop for running coding agents with checks and receipts | Tool |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | Core engine for coding agents, checks, caching and evidence receipts | Intended execution substrate |
 | [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
 
 ## Map
 
-Cstack hosts the foundations (foundation-engine, foundation-math, foundation-film, foundation-refrigeration, foundation-robotics, foundation-template); endoforge and poodo are tools.
+The intended design places Endoforge at the engine layer: it runs coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters.
+
+That is the target architecture. Today POODO uses its existing Foundation adapters directly. `EndoforgePort` is reserved and unimplemented, exposes no callable synthesis method, and Endoforge is not wired into Cstack. POODO does not run on Endoforge today. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
+
+```mermaid
+flowchart TB
+    E[Endoforge: core engine] -. "intended substrate; EndoforgePort unwired" .-> P[POODO: control and reasoning]
+    P --> A[Domain extensions and adapters]
+    A --> F[Foundations]
+```
 
 ## Status
 
@@ -67,7 +76,7 @@ A Foundation is a domain package that Cstack runs through an adapter. Each one h
 | [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | `foundations/robotics/` | Vendored copy of the repository, same files |
 | [foundation-template](https://github.com/Akilleez-QA/foundation-template) | `foundations/template/` | Vendored copy of the repository, same files |
 | [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | Not included | Linked only. No adapter or pin yet |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Not included | Linked only |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | Pinned copy proposed at vendor/endoforge/ in [PR #16](https://github.com/Akilleez-QA/cstack/pull/16); inclusion in progress | Lifecycle core slice only; no runtime wiring |
 | [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Earlier snapshot of the skill that the core follows |
 
 ### How pins work
