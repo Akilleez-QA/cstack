@@ -76,7 +76,7 @@ A Foundation is a domain package that Cstack runs through an adapter. Each one h
 | [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | `foundations/robotics/` | Vendored copy of the repository, same files |
 | [foundation-template](https://github.com/Akilleez-QA/foundation-template) | `foundations/template/` | Vendored copy of the repository, same files |
 | [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | Not included | Linked only. No adapter or pin yet |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Pinned copy proposed at vendor/endoforge/ in [PR #16](https://github.com/Akilleez-QA/cstack/pull/16); inclusion in progress | Lifecycle core slice only; no runtime wiring |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | `vendor/endoforge/`, pinned in [PR #16](https://github.com/Akilleez-QA/cstack/pull/16) | Lifecycle core slice only; no runtime wiring |
 | [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Earlier snapshot of the skill that the core follows |
 
 ### How pins work

@@ -19,7 +19,7 @@ flowchart TB
     A --> F[Foundations]
 ```
 
-The dashed edge is intended, not implemented. `poodo_core/ports.py` reserves `EndoforgePort` without a callable synthesis method; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the proposed source inclusion.
+The dashed edge is intended, not implemented. `poodo_core/ports.py` reserves `EndoforgePort` without a callable synthesis method; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the source inclusion.
 
 ## Decomposition and allocation
 
