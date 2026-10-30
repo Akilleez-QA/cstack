@@ -91,7 +91,6 @@ class Quorum(Base):
         rig = self.log("host-a", "rig.jsonl"); act = {"op": "poodo", "goal": "g1"}
         rig.intent(self.k["rig-bot"], "rig-bot", act); rig.write(self.k["rig-bot"], "rig-bot", "note", {"x": "original"})
         self.witness_all(rig, ("host-b", "pi"))
-        # root on host-a holds rig-bot's key and rebuilds history from seq 2 with a different entry
         os.remove(self.p("rig.jsonl")); os.remove(self.p("rig.jsonl.cp"))
         evil = self.log("host-a", "rig.jsonl"); evil.intent(self.k["rig-bot"], "rig-bot", act)
         bad = evil.write(self.k["rig-bot"], "rig-bot", "intent", {"digest": L.digest({"op": "poodo", "goal": "evil"})})
