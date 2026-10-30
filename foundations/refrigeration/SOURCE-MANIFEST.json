@@ -35,7 +35,7 @@
     "tests/denylist/confidential-terms.sha256.json": "4cfae964b1ae5c93dc0d862c10a55bbef6346d15339e8f4ccc3cd6c173db4522",
     "tests/denylist/maker-terms.sha256.json": "85d30eac8e87d513ef4385bce399608ac39768c934b5967e1e214d7561521f82",
     "tests/test_bridge.py": "434d0b2d8ed84e43706caf4ceef51e525ecdb4e4f4bd801e10a948c3b00613cb",
-    "tests/test_domain_data.py": "1e750069a2bbf34cd18f28c50b756979bd1d9ccc5ec35ce5959fb42e7c681a31",
+    "tests/test_domain_data.py": "34e2ee3fbde2fc76ac52ee6b980c17dcc213816240fa169e07a91db2ea73198c",
     "tests/test_evidence_units.py": "cc4957e133cd222e1709d434d370ff1a6c6b9ee178c6fabe1c8a9ecf6b364302",
     "tests/test_names_and_manifest.py": "6d058fd30bfd1361f622332204a0dc1549b772a57a4d55f7a33df8b4ab976ed5",
     "tests/test_process_safety.py": "b484b68fae784e040603090e937c58a4c98425970365857c8ea99e704a055edd",

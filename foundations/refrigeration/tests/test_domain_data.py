@@ -117,6 +117,19 @@ class PlantModelTests(unittest.TestCase):
         self.assertFalse(result["resolved"])
         self.assertIsNone(result["kind"])
 
+    def test_line_services_include_example_codes_as_check(self):
+        self.assertEqual(set(plant_model.LINE_SERVICES), {
+            "LSS", "ISS", "HSS", "LTRS", "BD", "HSD", "HG", "DF", "HPL", "IL", "PL", "OIL",
+            "RV", "EQ", "DP", "GLY", "CW", "HR", "?", "CD", "OD", "LTRL", "LTL", "LTS"})
+        for row in plant_model.LINE_SERVICES.values():
+            self.assertEqual(row["origin"], "example provenance: replace with the source you verified")
+            self.assertEqual(row["evidence"]["status"], "CHECK")
+        for code in ("CD", "OD", "LTRL"):
+            self.assertIn("(name inferred)", plant_model.LINE_SERVICES[code]["name"])
+        self.assertFalse(plant_model.resolve_line_service("ZZ")["resolved"])
+        self.assertFalse(plant_model.resolve_line_service("?")["resolved"])
+        self.assertEqual(plant_model.resolve_line_service("hpl")["service"]["name"], "High-pressure liquid")
+
     @unittest.skipUnless(SERVICES_TS.is_file() and KINDS_TS.is_file(), "the reference app source not present")
     def test_ported_lists_match_their_sources(self):
         codes = re.findall(r"^  code\('([A-Z?]+)'", SERVICES_TS.read_text(), re.M)

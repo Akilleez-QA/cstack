@@ -2,7 +2,7 @@
  "schema": "cstack.source-pins/0.1",
  "foundation_refrigeration": {
   "root": "foundations/refrigeration",
-  "source_manifest_sha256": "d07eb4c0255416ecce5beff9654c73597ca41fbd35754ce111af7a6e19a70b75",
+  "source_manifest_sha256": "f37209939210bdb25d2a70e680a42bd629953afc2024378551f23d4367695705",
   "source_manifest_entry_count": 43,
   "inventory_sha256": "86d428e1577afde53c1baff6ffb36c540166bb5ec5ec8c90120c448d3483658d"
  },

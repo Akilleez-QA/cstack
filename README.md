@@ -85,4 +85,6 @@ No business data, no customer or site data, and no engineering, safety or compli
 
 GPL-3.0-only. See `LICENSE` and `NOTICE.md`.
 
-Commercial licenses under different terms are available from Refrigeration.AI. Contact craig@nh3.biz.
+## Commercial licensing
+
+This project is available under the GNU General Public License v3.0 only (GPL-3.0-only). If you want to use it in a product or service under different terms, commercial licenses are available from Refrigeration.AI. Contact craig@nh3.biz.

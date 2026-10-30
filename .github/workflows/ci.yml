@@ -16,3 +16,11 @@ jobs:
       - run: pip install -r requirements.txt -r ci/requirements.txt
       - run: python -B -m unittest discover -s tests
       - run: bash ci/run-local.sh python links
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: curl -fsSL https://github.com/trufflesecurity/trufflehog/releases/download/v3.99.7/trufflehog_3.99.7_linux_amd64.tar.gz | tar -xz -C "$RUNNER_TEMP" trufflehog
+      - run: PATH="$RUNNER_TEMP:$PATH" bash ci/scan-secrets.sh

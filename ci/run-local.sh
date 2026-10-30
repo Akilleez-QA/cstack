@@ -1,32 +1,19 @@
 #!/usr/bin/env bash
-# The CI suites in one script: run locally now, and called by .github/workflows/ci.yml (PR #438, held until the
-# Actions budget is fixed) so CI and local runs cannot drift. Prints a PASS/FAIL/SKIP summary; non-zero if any failed.
-#
-#   bash ci/run-local.sh --setup            # once: a venv with ci/requirements.txt in ~/.cache/cstack-ci/venv
-#   bash ci/run-local.sh                    # every suite: python throttle node links gitleaks
-#   bash ci/run-local.sh python links       # just these
-#
-# Suites run with HOME pointed at an empty temp dir and without the systemd user bus, as on a GitHub runner, so a test
-# that leans on this host fails here too. What CI deliberately leaves out is in ci/host-only.txt, with reasons.
-# PYTHON picks the interpreter (default: the venv if present, else python3). GITLEAKS picks the gitleaks binary.
-# gitleaks scans the commits in CI_BASE..HEAD (default: merge-base with origin/main); without gitleaks on PATH the
-# suite is SKIP locally and FAIL under CI=true.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 ROOT=$PWD
 VENV=${CI_VENV:-${HOME}/.cache/cstack-ci/venv}
-ALL=(python throttle node links gitleaks)
+ALL=(python throttle node links gitleaks trufflehog)
 
 if [ "${1:-}" = --setup ]; then
   python3 -m venv "$VENV" && "$VENV/bin/pip" install -q -r ci/requirements.txt && echo "venv ready: $VENV"; exit
 fi
 PY=${PYTHON:-}
 [ -n "$PY" ] || { [ -x "$VENV/bin/python" ] && PY=$VENV/bin/python || PY=$(command -v python3); }
-# subprocesses that call plain `python3` (pixel-diff, throttle tests) must get the same interpreter and its packages
 PYBIN=$(cd "$(dirname "$PY")" && pwd); export PATH="$PYBIN:$PATH"
 
 SANDBOX=$(mktemp -d "${TMPDIR:-/tmp}/cstack-ci.XXXXXX"); trap 'rm -rf "$SANDBOX"' EXIT
-clean() {  # run "$@" as a GitHub runner would see it: empty HOME, no user systemd bus, no inherited XDG state
+clean() {
   env -u XDG_RUNTIME_DIR -u DBUS_SESSION_BUS_ADDRESS -u XDG_STATE_HOME -u XDG_CONFIG_HOME -u XDG_CACHE_HOME \
       -u WORKERS_DIR -u CSTACK_ROOT HOME="$SANDBOX/home" "$@"
 }
@@ -60,6 +47,8 @@ suite_node() {
   echo "node: $((n-fails))/$n files passed"; [ "$fails" -eq 0 ]
 }
 
+suite_trufflehog() { bash ci/scan-secrets.sh; }
+
 suite_links() { "$PY" tools/check_links.py; }
 
 suite_gitleaks() {
@@ -72,7 +61,6 @@ suite_gitleaks() {
   "$gl" git --config .gitleaks.toml --log-opts="$base..HEAD" --redact --no-banner .
 }
 
-# every host-only path must exist, or the list has rotted
 missing=$(grep -v '^#' ci/host-only.txt | awk 'NF {print $2}' | while read -r p; do [ -e "$p" ] || echo "$p"; done)
 [ -z "$missing" ] || { echo "ci/host-only.txt names paths that do not exist: $missing"; exit 1; }
 
