@@ -1,4 +1,2 @@
 (^|/)foundations/refrigeration/tests/denylist/confidential-terms\.sha256\.json$
 (^|/)foundations/refrigeration/tests/denylist/maker-terms\.sha256\.json$
-(^|/)\.git/objects/c1/e513e10ed0dc0adc8aaee9af26c4c39c2bcd40$
-(^|/)\.git/objects/be/8f6b8d489e3f0294262ea47474e35aa1079e0d$
