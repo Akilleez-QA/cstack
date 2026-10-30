@@ -8,6 +8,19 @@ Organization follows the requirements, design, traceability and configuration-co
 
 Cstack composes a control core with trusted domain extensions and bounded capability adapters. The core records goals, decisions, attempts and evidence while the host owns concrete implementation selection. This description covers the Foundation integration and its control path. Source files refer to ADR identifiers, but the inspected export does not contain those ADR documents.
 
+## Intended engine layering and current implementation
+
+The target design makes Endoforge the core engine for running coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer in `poodo_core/`. Domain extensions and adapters connect that layer to sibling Foundations, which own domain meaning and acceptance.
+
+```mermaid
+flowchart TB
+    E[Endoforge: core engine] -. "EndoforgePort: reserved, unwired" .-> P[POODO: control and reasoning]
+    P --> A[Domain extensions and adapters]
+    A --> F[Foundations]
+```
+
+The dashed edge is intended, not implemented. `poodo_core/ports.py` reserves `EndoforgePort` without a callable synthesis method; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the source inclusion.
+
 ## Decomposition and allocation
 
 | Element | Implementation | Responsibility |
