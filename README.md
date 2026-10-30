@@ -1,3 +1,5 @@
+![Cstack social preview](.github/assets/social-preview.png)
+
 # Cstack
 
 Cstack: template for a bot fleet under one human approver (GPL-3.0-only)
