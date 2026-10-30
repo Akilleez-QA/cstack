@@ -75,7 +75,7 @@ def _write_tree(top, op, max_bytes, max_files):
         index = Path(tmp, "index")
         user_index = top / _git(top, "rev-parse", "--git-path", "index").decode().strip()
         if user_index.is_file():
-            shutil.copyfile(user_index, index)  # a copy: the user's index is only ever read
+            shutil.copy2(user_index, index)
         _git(top, "add", "-A", index=index)
         tree = _git(top, "write-tree", index=index).decode().strip()
     if any(e.startswith(b"160000 ") for e in _git(top, "ls-tree", "-r", "-z", tree).split(b"\0")):
