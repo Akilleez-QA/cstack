@@ -24,6 +24,16 @@ Related projects:
 - Foundation Math: https://github.com/Akilleez-QA/foundation-math
 - POODO: https://github.com/Akilleez-QA/poodo
 
+## Foundations
+
+Cstack uses [Foundation Math](https://github.com/Akilleez-QA/foundation-math) as a byte-pinned tool backend. `bootstrap.py` selects `vendor/foundation-math-v014/`; `adapters/math_stdio.py` binds its custom stdio bridge, and `extensions/foundation_math.py` supplies the domain contract. `foundations/math/` is a separate research layer over that vendor tree. Template, Refrigeration, Robotics and Film under `foundations/` are local sibling domains with their own bridges and manifests; they are not Foundation Engine runtime modules.
+
+The vendored distribution is v0.14, as recorded in `NOTICE.md`. Its `SOURCE-MANIFEST.json` SHA-256 is `23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2`; the adapter checks all 561 listed files. The canonical tool catalog SHA-256 is `7df9574ee6788e55bb51aec8ebf858e958c252808ec3f4c217e43f598c961ba9` (adapter encoding, not raw schema-file bytes). These bind bytes, not authentic provenance or mathematical truth.
+
+[Foundation Engine](https://github.com/Akilleez-QA/foundation-engine) is linked, not included (`NOTICE.md`). Vendored Math's `docs/PROVENANCE.md` credits its reusable-core/optional-capability pattern and states that engine runtime code is not incorporated. Cstack has no registered `foundation_engine` domain or engine commit pin; the extension lists that sibling contract as unimplemented.
+
+To update a Foundation, identify the candidate commit or artifact, compare its source manifest, catalog, schemas and receipt semantics, then change the source and corresponding adapter pins together in a reviewed branch. Local sibling manifest builders are under each domain's `tools/build_manifest.py`. Run the root and domain unittest suites and review byte changes before accepting new pins. The current upstream Math README describes a selected extraction of v0.14, not the full historical distribution; upstream main is not a demonstrated drop-in replacement. No automatic upgrade command is provided here.
+
 ## Measured
 
 CI: local only. GitHub Actions billing is blocked on this account, so there is no CI badge; the results below come from `python -B -m unittest discover -s tests` run locally on Linux with Python 3.14.8 at the release commit.
@@ -74,3 +84,5 @@ No business data, no customer or site data, and no engineering, safety or compli
 ## Licence
 
 GPL-3.0-only. See `LICENSE` and `NOTICE.md`.
+
+Commercial licenses under different terms are available from Refrigeration.AI. Contact craig@nh3.biz.
