@@ -6,33 +6,6 @@ Cstack: template for a bot fleet under one human approver (GPL-3.0-only)
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000)](LICENSE)
 
-## Family
-
-| Repository | Role | Relation |
-|---|---|---|
-| [cstack](https://github.com/Akilleez-QA/cstack) | Runs Foundations behind pinned adapters under one human approver | Host |
-| [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | TypeScript and three.js framework for browser games | Foundation |
-| [foundation-math](https://github.com/Akilleez-QA/foundation-math) | Exact mathematical kernels and physics research tools | Foundation |
-| [foundation-film](https://github.com/Akilleez-QA/foundation-film) | Film-production acceptance checks | Foundation |
-| [foundation-refrigeration](https://github.com/Akilleez-QA/foundation-refrigeration) | Refrigeration data and checks | Foundation |
-| [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | Physics checks for motion | Foundation |
-| [foundation-template](https://github.com/Akilleez-QA/foundation-template) | Minimal Foundation to copy for a new domain | Foundation |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Core engine for coding agents, checks, caching and evidence receipts | Intended execution substrate |
-| [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
-
-## Map
-
-The intended design places Endoforge at the engine layer: it runs coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters.
-
-That is the target architecture. Today POODO uses its existing Foundation adapters directly. `EndoforgePort` is reserved and unimplemented, exposes no callable synthesis method, and Endoforge is not wired into Cstack. POODO does not run on Endoforge today. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
-
-```mermaid
-flowchart TB
-    E[Endoforge: core engine] -. "intended substrate; EndoforgePort unwired" .-> P[POODO: control and reasoning]
-    P --> A[Domain extensions and adapters]
-    A --> F[Foundations]
-```
-
 ## Status
 
 Cstack is a template for running a fleet of AI bots under one human approver. Copy it, name your bots, plug in your own domains, and every action a bot takes goes through a control core that records goals, scoped authority and evidence.
@@ -105,12 +78,47 @@ Copy `foundations/template`, rename it, add tools and their pins, and register i
 
 No business data, no user or site data, and no engineering, safety or compliance determination. The example domains are references to learn from, not certified tools.
 
+## Measured
+
+Measured by the self-hosted GitHub Actions runner on main-rig, CI run 41058654409 (pull request #17, merged as commit 1e935c7):
+
+| Check | Command | Result |
+|---|---|---|
+| Core test suite | `python -B -m unittest discover -s tests` | 506 tests, OK, 2 skipped |
+| Secret scans | `bash ci/scan-secrets.sh` (gitleaks and TruffleHog) | No findings |
+| Documentation links | `bash ci/run-local.sh python links` | 17 paths checked, 0 broken |
+
 ## Documentation
 
 - [Project documents](https://github.com/Akilleez-QA/cstack/tree/main/docs): requirements, architecture, Foundation interfaces, verification and configuration management.
 - [Code comment rule](docs/rules/no-comments.md).
 - [Control contracts](contracts/DECISION.md) and [capability contract](contracts/INTERFACES.md).
 
+
+## Related projects
+
+| Repository | Role | Relation |
+|---|---|---|
+| [cstack](https://github.com/Akilleez-QA/cstack) | Runs Foundations behind pinned adapters under one human approver | Host |
+| [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | TypeScript and three.js framework for browser games | Foundation |
+| [foundation-math](https://github.com/Akilleez-QA/foundation-math) | Exact mathematical kernels and physics research tools | Foundation |
+| [foundation-film](https://github.com/Akilleez-QA/foundation-film) | Film-production acceptance checks | Foundation |
+| [foundation-refrigeration](https://github.com/Akilleez-QA/foundation-refrigeration) | Refrigeration data and checks | Foundation |
+| [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | Physics checks for motion | Foundation |
+| [foundation-template](https://github.com/Akilleez-QA/foundation-template) | Minimal Foundation to copy for a new domain | Foundation |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | Core engine for coding agents, checks, caching and evidence receipts | Intended execution substrate |
+| [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
+
+The intended design places Endoforge at the engine layer: it runs coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters.
+
+That is the target architecture. Today POODO uses its existing Foundation adapters directly. `EndoforgePort` is reserved and unimplemented, exposes no callable synthesis method, and Endoforge is not wired into Cstack. POODO does not run on Endoforge today. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
+
+```mermaid
+flowchart TB
+    E[Endoforge: core engine] -. "intended substrate; EndoforgePort unwired" .-> P[POODO: control and reasoning]
+    P --> A[Domain extensions and adapters]
+    A --> F[Foundations]
+```
 
 ## Layout
 
