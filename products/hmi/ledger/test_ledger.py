@@ -250,7 +250,11 @@ class Hardening(Base):
     def test_bind_policy_refuses_wildcard_lan_and_hostnames(self):
         for bad in ("0.0.0.0", "::", "", "192.168.1.20", "10.0.0.5", "localhost", "host-a", "127.0.0.1"):
             with self.assertRaises(L.LedgerError, msg=bad): L.check_bind(bad)
-        for ok in ("100.101.102.103", "fd7a:115c:a1e0::1"): self.assertEqual(L.check_bind(ok), ok)
+        from unittest.mock import patch
+        with patch.object(L, "TAILNET", (L.ipaddress.ip_network("192.0.2.0/24"), L.TAILNET[1])):
+            for ok in ("192.0.2.103", "fd7a:115c:a1e0::1"):
+                self.assertEqual(L.check_bind(ok), ok)
+        with self.assertRaises(L.LedgerError): L.check_bind("192.0.2.103")
         self.assertEqual(L.check_bind("127.0.0.1", allow_loopback=True), "127.0.0.1")
         with self.assertRaises(L.LedgerError): L.check_bind("0.0.0.0", allow_loopback=True)
         kp = self.p("w.key"); L.save_key(self.k["pi"], kp)

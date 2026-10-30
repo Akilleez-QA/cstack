@@ -34,6 +34,10 @@
    "sha256": "7119399c9a531c4a9f61a4194cad8ac680e5c27eb4fdcebf4f1b9a6390ecab66",
    "bytes": 103
   },
+  ".trufflehog-exclude-paths.txt": {
+   "sha256": "af6e26971758be2b342bf7649ab021b81c9c2074cb41f5440c1effd12c31bde1",
+   "bytes": 277
+  },
   "CHANGELOG.md": {
    "sha256": "832a77adcc5b025d501af50c58cdc6d9fd73cff65283678932a918ac1038659b",
    "bytes": 185
@@ -55,12 +59,12 @@
    "bytes": 515
   },
   "README.md": {
-   "sha256": "e9c58030ca6b53d0f1a672ee6136dce19cee703e6c592a15c6edbf6bd6b8a73d",
-   "bytes": 4076
+   "sha256": "648a4e82d0d0ebc2c35373cf2f7ef2c328d2e2b37f01dd72ebe1d79524f92417",
+   "bytes": 4340
   },
   "SECURITY.md": {
-   "sha256": "e9c957bd6c5ff2497056b8d840e2b552d899db3e7bffeb14523c33e66a0af012",
-   "bytes": 267
+   "sha256": "20e142904090dd907016abb8c2c54b63f4781c3c25c9ccaa270320eb6fc2b18a",
+   "bytes": 581
   },
   "SUPPORT.md": {
    "sha256": "ba37d7d99316e5bb951dbcbcf4fdee3b09742c52dd7ed431440cb68c7f4d3d2e",
@@ -171,7 +175,7 @@
    "bytes": 11889
   },
   "adapters/refrigeration_stdio.py": {
-   "sha256": "3a1dadfa6119476187865445183c6c08f29c6951f89042c30994a5ec77c5d520",
+   "sha256": "5dfe0f31a2b7bbea66226679a82a901db7b75f106d011899ea5ddb0b2f74209d",
    "bytes": 5477
   },
   "adapters/relay_outbox.py": {
@@ -227,8 +231,8 @@
    "bytes": 372
   },
   "ci/run-local.sh": {
-   "sha256": "b7aaf4acddd54a12000a8165f990368c56253b22c653153f4c2ebe83312c169f",
-   "bytes": 5246
+   "sha256": "6c6bfa3db6a317cb015edc0aa4e26b3e3afb5681505b3c46769bf49b461303e7",
+   "bytes": 5528
   },
   "cli.py": {
    "sha256": "88bd3d3a9cca6787daab9fb20e011cd36ba7b4c7067448e34ce05d26da679566",
@@ -279,7 +283,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "12e1ce01f291ec865cdbe8a93b81dd21059423cb3fd6a0ad76066c496d53c256",
+   "sha256": "83fd9fd9fd8c1d43e8d6104fc04463fef6abe8ac674d1b8b5f1f5aaae51ef276",
    "bytes": 1704
   },
   "contracts/adapters.schema.json": {
@@ -487,7 +491,7 @@
    "bytes": 4427
   },
   "foundations/refrigeration/SOURCE-MANIFEST.json": {
-   "sha256": "d07eb4c0255416ecce5beff9654c73597ca41fbd35754ce111af7a6e19a70b75",
+   "sha256": "f37209939210bdb25d2a70e680a42bd629953afc2024378551f23d4367695705",
    "bytes": 5076
   },
   "foundations/refrigeration/foundation_refrigeration/__init__.py": {
@@ -623,8 +627,8 @@
    "bytes": 12619
   },
   "foundations/refrigeration/tests/test_domain_data.py": {
-   "sha256": "1e750069a2bbf34cd18f28c50b756979bd1d9ccc5ec35ce5959fb42e7c681a31",
-   "bytes": 9243
+   "sha256": "34e2ee3fbde2fc76ac52ee6b980c17dcc213816240fa169e07a91db2ea73198c",
+   "bytes": 10163
   },
   "foundations/refrigeration/tests/test_evidence_units.py": {
    "sha256": "cc4957e133cd222e1709d434d370ff1a6c6b9ee178c6fabe1c8a9ecf6b364302",
@@ -999,8 +1003,8 @@
    "bytes": 338
   },
   "products/hmi/ledger/test_ledger.py": {
-   "sha256": "70cc91dec512a7c8cff1ff280fa8955ef84a91abf6654b7bba5159dc350b883c",
-   "bytes": 22415
+   "sha256": "76a0e8d51949288119e0e2cb53f77de4d62ddafaccd5daae8785fd6220320939",
+   "bytes": 22643
   },
   "products/hmi/plant-room/PLANT-CONNECT.md": {
    "sha256": "8c7e13904be057adb88977e3f2595f10e392c8e6ae90aeecb5c977c71518e2bd",
@@ -1439,8 +1443,8 @@
    "bytes": 17112
   },
   "tests/test_check_links.py": {
-   "sha256": "c5487bb5ac93bfe1da92c5d3f4c354310c77d1935d172f70f01d7160b7e25086",
-   "bytes": 2464
+   "sha256": "22144c8a62defab94dc127f02c6a517c37d1f80eae0928681ba6f0d7f7216eba",
+   "bytes": 3508
   },
   "tests/test_claim_gate.py": {
    "sha256": "a10e1a1e02df03c65f60da2fb29e3c424525fd650b245b3463b522e4764266ac",
@@ -1463,8 +1467,8 @@
    "bytes": 5535
   },
   "tests/test_e2e_grok_ledger.py": {
-   "sha256": "20f6e59774ada7f269628fe8b3408d78153bb77ac7fd2d4ab6acd8016b60d836",
-   "bytes": 1742
+   "sha256": "0ee0fa5c968b3d16c2ba648aa29cd8d29e03b17b3daee007b9e4badcbb50394c",
+   "bytes": 2631
   },
   "tests/test_film_conformance.py": {
    "sha256": "4df1b1f827f15d7ed42034e9f33e00e979fe1873a8e1d232a7d251ca47be5ec3",

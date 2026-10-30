@@ -44,3 +44,26 @@ class CheckLinksTests(unittest.TestCase):
         self.allow.write_text('rounds/rNN/*\n')
         with self.assertRaises(SystemExit):
             links.check(self.root, self.allow)
+
+    def test_the_repo_maps_are_clean(self):
+        root = TOOL.parent.parent
+        targets = []
+        docs = ([root / "AGENTS.md"] if (root / "AGENTS.md").is_file() else [])
+        docs += list((root / "contracts").glob("*.md"))
+        docs += list((root / "workshop").rglob("README.md"))
+        docs += list((root / "forge/endoforge/docs").glob("*.md"))
+        for doc in docs:
+            bases = links.roots_for(doc, root)
+            for line in doc.read_text(encoding="utf-8").splitlines():
+                for kind, raw in links.candidates(line):
+                    token = links.clean(raw)
+                    if token and not links.external(token) and not links.templated(token) and links.is_path(token, kind, bases):
+                        targets.append(token)
+        self.assertTrue(targets)
+        result = links.check()
+        self.assertGreaterEqual(result["checked"], len(targets))
+        self.assertEqual((result["broken"], result["unused_allowlist"]), ([], []))
+
+
+if __name__ == '__main__':
+    unittest.main()

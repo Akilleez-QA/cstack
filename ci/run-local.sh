@@ -15,7 +15,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 ROOT=$PWD
 VENV=${CI_VENV:-${HOME}/.cache/cstack-ci/venv}
-ALL=(python throttle node links gitleaks)
+ALL=(python throttle node links gitleaks trufflehog)
 
 if [ "${1:-}" = --setup ]; then
   python3 -m venv "$VENV" && "$VENV/bin/pip" install -q -r ci/requirements.txt && echo "venv ready: $VENV"; exit
@@ -58,6 +58,11 @@ suite_node() {
     else echo "FAIL $f"; sed 's/^/    /' "$SANDBOX/node.log" | grep -v -E '^    (PASS|ok|✔)' | tail -40; fails=$((fails+1)); fi
   done
   echo "node: $((n-fails))/$n files passed"; [ "$fails" -eq 0 ]
+}
+
+suite_trufflehog() {
+  trufflehog filesystem . --no-update --json --fail --exclude-paths .trufflehog-exclude-paths.txt &&
+    trufflehog git "file://$ROOT" --branch "$(git branch --show-current)" --no-update --json --fail --exclude-paths .trufflehog-exclude-paths.txt
 }
 
 suite_links() { "$PY" tools/check_links.py; }

@@ -26,6 +26,19 @@ class VerifyLedgerTests(SessionCase):
         s.start_goal("foundation_math", "Add two numbers.", ["A scoped tool observation."])
         s.close()
 
+    def test_verdict_follows_the_refrigeration_stream_and_checks_every_anchored_stream(self):
+        self.run_goal()
+        verdict = e2e_grok.verify_ledger(self.state, "alpha")
+        self.assertTrue(verdict["ok"], verdict)
+        self.assertEqual((verdict["stream"], verdict["anchor_matches_head"]), (f"alpha.{DOMAIN}", True))
+        self.assertEqual(verdict["kinds"][-2:], ["action", "outcome"])
+        expected = {f"alpha.{domain}": (0, True) for domain in
+                    ("foundation_math", "foundation_template", "foundation_refrigeration", "foundation_film", "foundation_robotics")}
+        expected[f"alpha.{DOMAIN}"] = (verdict["events"], True)
+        expected["alpha.foundation_math"] = (1, True)
+        self.assertGreater(verdict["events"], 1)
+        self.assertEqual({k: (v["events"], v["anchor_matches_head"]) for k, v in verdict["streams"].items()}, expected)
+
     def test_a_stream_anchor_moved_to_another_stream_or_keyed_by_domain_is_refused(self):
         self.run_goal()
         path = self.state / "alpha/anchors.json"
