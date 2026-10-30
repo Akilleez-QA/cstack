@@ -1,8 +1,27 @@
 # Cstack
 
+Cstack: template for a bot fleet under one human approver (GPL-3.0-only)
+
+[![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000)](LICENSE)
+
+## Status
+
 Cstack is a template for running a fleet of AI bots under one human approver. Copy it, name your bots, plug in your own domains, and every action a bot takes goes through a control core that records goals, scoped authority and evidence.
 
-Status: early template. The numbers below were measured on the release commit; anything not listed here is not claimed.
+early template. The numbers below were measured on the release commit; anything not listed here is not claimed.
+
+## Quickstart
+
+Python 3.11 or newer on Linux or macOS.
+
+```sh
+python3 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt -r ci/requirements.txt
+cp cstack.config.example.json cstack.config.json
+python -B cli.py < examples/scalar-and-negative.json
+python -B -m unittest discover -s tests
+bash ci/run-local.sh python links
+```
 
 ## What is inside
 
@@ -17,12 +36,6 @@ Status: early template. The numbers below were measured on the release commit; a
 | `reasoning/poodo` | The POODO reasoning method the core enforces |
 | `vendor/foundation-math-v014` | Foundation Math, byte-pinned |
 | `ci/`, `.github/` | The local CI script and the GitHub workflow that calls it |
-
-Related projects:
-- EndoForge, software creation as a runtime operation: https://github.com/Akilleez-QA/endoforge
-- Foundation Engine, the GPL-3.0-only engine: https://github.com/Akilleez-QA/foundation-engine
-- Foundation Math: https://github.com/Akilleez-QA/foundation-math
-- POODO: https://github.com/Akilleez-QA/poodo
 
 ## Foundations
 
@@ -50,19 +63,6 @@ CI: local only. GitHub Actions billing is blocked on this account, so there is n
 | gitleaks 8.30.1 | whole tree | 0 findings |
 | trufflehog | whole tree | 0 verified |
 
-## Quickstart
-
-Python 3.11 or newer on Linux or macOS.
-
-```sh
-python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt -r ci/requirements.txt
-cp cstack.config.example.json cstack.config.json
-python -B cli.py < examples/scalar-and-negative.json
-python -B -m unittest discover -s tests
-bash ci/run-local.sh python links
-```
-
 ## Define your bots
 
 1. Edit `aors/fleet.json`. Each bot has a `slug`, the `slices` of the repo it owns, what it does not own, and `effects`. Anything that sends, pays, posts, files or deletes is `ask`, which routes to the one human approver.
@@ -80,6 +80,39 @@ Copy `foundations/template`, rename it, add tools and their pins, and register i
 ## Not included
 
 No business data, no customer or site data, and no engineering, safety or compliance determination. The example domains are references to learn from, not certified tools.
+
+## Documentation
+
+- [Project documents](https://github.com/Akilleez-QA/cstack/tree/main/docs): requirements, architecture, Foundation interfaces, verification and configuration management.
+- [Code comment rule](docs/rules/no-comments.md).
+- [Control contracts](contracts/DECISION.md) and [capability contract](contracts/INTERFACES.md).
+
+## Related projects
+
+- EndoForge, software creation as a runtime operation: https://github.com/Akilleez-QA/endoforge
+- Foundation Engine, the GPL-3.0-only engine: https://github.com/Akilleez-QA/foundation-engine
+- Foundation Math: https://github.com/Akilleez-QA/foundation-math
+- POODO: https://github.com/Akilleez-QA/poodo
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `README.md` | Status, setup and entry points |
+| `docs/` | Requirements, architecture, interfaces, verification, configuration management and rules |
+| `examples/` | CLI input examples |
+| `tests/` | Root unittest suite |
+| `cli.py`, `bootstrap.py`, `__init__.py`, `__main__.py` | Python entry points and composition kept at the repository root |
+
+The root Python files are retained as a layout exception; this documentation change does not relocate runtime modules.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and local checks.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for the security contact and reporting guidance.
 
 ## License
 
