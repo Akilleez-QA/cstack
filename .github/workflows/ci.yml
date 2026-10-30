@@ -7,17 +7,15 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, main-rig]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: pip install -r requirements.txt -r ci/requirements.txt
+      - run: uv venv --python 3.12 .venv && echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - run: uv pip install --python .venv -r requirements.txt -r ci/requirements.txt
       - run: python -B -m unittest discover -s tests
       - run: bash ci/run-local.sh python links
   secrets:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, main-rig]
     steps:
       - uses: actions/checkout@v4
         with:
