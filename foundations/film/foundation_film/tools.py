@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 
 from . import __version__
 from .audio import audio_gate
@@ -11,8 +12,8 @@ from .measures import ToolInputError
 
 TOOL_NAMES = ("cinematic_gate", "reference_bands", "audio_gate", "drift_verdict", "cue_vocabulary_check", "look_gate")
 BOUNDARY = {"observation_only": True, "acceptance_decision": False, "control_action": False}
-PLAYBOOK = "forge/endoforge/docs/PLAYBOOK-film.md"
-PRODUCERS = "forge/endoforge/tools/film/"
+PLAYBOOK = os.environ.get("FOUNDATION_FILM_PLAYBOOK", "docs/PLAYBOOK-film.md")
+PRODUCERS = os.environ.get("FOUNDATION_FILM_PRODUCERS", "tools/film").rstrip("/") + "/"
 
 
 def input_sha256(arguments):

@@ -52,6 +52,12 @@ python -B tools/build_manifest.py
 
 See [docs/README.md](docs/README.md): requirements, architecture, interface control, verification matrix, configuration management.
 
+Evidence citations default to the relative locations `docs/PLAYBOOK-film.md` and
+`tools/film/`. Set `FOUNDATION_FILM_PLAYBOOK` and `FOUNDATION_FILM_PRODUCERS` before
+starting the bridge or importing `foundation_film.tools` to cite other locations.
+The producer directory may include a trailing slash. These are citation locations;
+the tools do not open these files or require them to exist in this repository.
+
 
 ## Layout
 

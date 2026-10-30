@@ -53,7 +53,7 @@ def _scale(arguments):
         cited("result.factors", "alexander_jayes_1983", "Dynamic similarity: at equal Froude number, times scale with "
               "sqrt(L / g), speeds with sqrt(g L), accelerations not at all."),
         cited("result.walk", "alexander_1976", "Stride = 2.3 L Froude^0.3, fitted across animals with scatter. On "
-              "the approved alex walk the measured stride was 1.23 times this prediction, so read it as the centre "
+              "the approved walk the measured stride was 1.23 times this prediction, so read it as the centre "
               "of a band (gait_check judges the band).", "CHECK"),
         cited("result.limits", "kram_1997", "People change from walking to running near Froude 0.5; an inverted-"
               "pendulum walk cannot exceed Froude 1 (the body would leave the ground)."),
@@ -85,7 +85,7 @@ def _gait(arguments):
               "is the calibrated human limit scaled by sqrt(leg / reference leg) (dynamic similarity)."),
     ]
     return assessment, result, entries + threshold_evidence(
-        "gait", result, "Calibrated on the approved alex walk loop (pass) and four rejected walks (fail): two "
+        "gait", result, "Calibrated on the approved walk loop (pass) and four rejected walks (fail): two "
         "slow-motion generated walks and two raw retargets with foot slide. Not yet calibrated on quadrupeds, runs or "
         "giants judged by a person (I3).")
 

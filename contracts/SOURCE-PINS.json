@@ -2,26 +2,26 @@
  "schema": "cstack.source-pins/0.1",
  "foundation_refrigeration": {
   "root": "foundations/refrigeration",
-  "source_manifest_sha256": "be9799b6753b60f03851348525cd774db6e480d0483bd8141238236aa7e8eef9",
+  "source_manifest_sha256": "9e06bdff615aa14c72593ec91a3bac723260aa47e9c1fa8856ce77da95500990",
   "source_manifest_entry_count": 62,
   "inventory_sha256": "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b"
  },
  "foundation_film": {
   "root": "foundations/film",
-  "source_manifest_sha256": "83130de85d2b7a52a32591c205a76735b0048e364ec1f92394c33f51b77eea6a",
-  "source_manifest_entry_count": 40,
+  "source_manifest_sha256": "17d99d48ff3853ef12018f4ee294731dcf23fbcbe3b6a35d1079b1520a92b177",
+  "source_manifest_entry_count": 41,
   "inventory_sha256": "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558"
  },
  "foundation_robotics": {
   "root": "foundations/robotics",
-  "source_manifest_sha256": "0eef13a6ff1dd52c1b301491f065d72cba2a10db3304fdb647cf29b3e2763575",
+  "source_manifest_sha256": "7f7c4b76c986f0bba09362c3a65974cce0cc4dbb53cc2f4505dcab43f3b2f903",
   "source_manifest_entry_count": 44,
   "inventory_sha256": "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599"
  },
  "foundation_template": {
   "root": "foundations/template",
-  "source_manifest_sha256": "259316e6768ce551e8427e860620b588e010ce847933a2cd1106bd1ab4d1625c",
-  "source_manifest_entry_count": 33,
+  "source_manifest_sha256": "11fadb42e49d0366daebad982a5334b763b0f0f050ff8ca911bdb25f5db92a93",
+  "source_manifest_entry_count": 34,
   "inventory_sha256": "2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f"
  },
  "poodo_core_export": {

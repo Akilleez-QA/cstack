@@ -24,10 +24,10 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 |---|---|
 | `EXPORT-MANIFEST.json` | Regenerate with the export builder after changes |
 | `vendor/foundation-math-v014/SOURCE-MANIFEST.json` | `23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2` |
-| `foundations/template/SOURCE-MANIFEST.json` | `259316e6768ce551e8427e860620b588e010ce847933a2cd1106bd1ab4d1625c` |
-| `foundations/refrigeration/SOURCE-MANIFEST.json` | `be9799b6753b60f03851348525cd774db6e480d0483bd8141238236aa7e8eef9` |
-| `foundations/robotics/SOURCE-MANIFEST.json` | `0eef13a6ff1dd52c1b301491f065d72cba2a10db3304fdb647cf29b3e2763575` |
-| `foundations/film/SOURCE-MANIFEST.json` | `83130de85d2b7a52a32591c205a76735b0048e364ec1f92394c33f51b77eea6a` |
+| `foundations/template/SOURCE-MANIFEST.json` | `11fadb42e49d0366daebad982a5334b763b0f0f050ff8ca911bdb25f5db92a93` |
+| `foundations/refrigeration/SOURCE-MANIFEST.json` | `9e06bdff615aa14c72593ec91a3bac723260aa47e9c1fa8856ce77da95500990` |
+| `foundations/robotics/SOURCE-MANIFEST.json` | `7f7c4b76c986f0bba09362c3a65974cce0cc4dbb53cc2f4505dcab43f3b2f903` |
+| `foundations/film/SOURCE-MANIFEST.json` | `17d99d48ff3853ef12018f4ee294731dcf23fbcbe3b6a35d1079b1520a92b177` |
 
 ## Upstream sources
 

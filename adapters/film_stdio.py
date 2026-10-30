@@ -9,8 +9,8 @@ from extensions.foundation_film import FILM_CAPABILITY
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure  # noqa: F401
 from .wire import decode
 
-SOURCE_SHA256 = "83130de85d2b7a52a32591c205a76735b0048e364ec1f92394c33f51b77eea6a"
-SOURCE_FILE_COUNT = 40
+SOURCE_SHA256 = "17d99d48ff3853ef12018f4ee294731dcf23fbcbe3b6a35d1079b1520a92b177"
+SOURCE_FILE_COUNT = 41
 INVENTORY_SHA256 = "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558"
 BRIDGE_PROTOCOL = "foundation-film-jsonrpc/1"
 BRIDGE_MODULE = "foundation_film_bridge"

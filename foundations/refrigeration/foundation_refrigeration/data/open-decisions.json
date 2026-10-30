@@ -25,7 +25,7 @@
             "summary": "Orange body reading AMMONIA; yellow liquid band; blue vapour band; red above 70 psig, green at or below 70 psig."
           },
           {
-            "source": "an internal application --nh3-marker",
+            "source": "a downstream application",
             "summary": "Marker plates #ff8200; HIGH/LOW from the service's side; intermediate pressure shown as LOW (CHECK)."
           }
         ],

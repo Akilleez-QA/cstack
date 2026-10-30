@@ -26,7 +26,7 @@
     "docs/verification/verification-matrix.md": "0e6dc0a3578cee72bc29dede8080693cc390fe1abdc28d526673317675760470",
     "foundation_refrigeration/__init__.py": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
     "foundation_refrigeration/data/exposure-limits.json": "bedd13ecec18a588c31292d539397ec67f5781ca06e52f55e5d86286ad0602b2",
-    "foundation_refrigeration/data/open-decisions.json": "cefa9abf35517425ef1fe15d346dc9dac17147705b8312bfc7bb37cd1ce76203",
+    "foundation_refrigeration/data/open-decisions.json": "4b3951cf039640cbf386acfa4465c260f5b28128ed8e97950073940ebea9c49d",
     "foundation_refrigeration/data/plant-taxonomy.json": "4bbbeb9ae718ff55be6d188ed7eed4e9f61f8626418228cd91bdf498c9c73ae6",
     "foundation_refrigeration/data/psm-thresholds.json": "8c061553077d8ea6897033dc536a13f6aa6e677a37d380135c793c78490b6424",
     "foundation_refrigeration/data/refrigerant-saturation.co2.json": "a2b37ab2f3305c462738bfb749f8a6c100b9bf6d5b9bb320b79825815be5cb28",

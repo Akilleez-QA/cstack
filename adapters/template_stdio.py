@@ -10,8 +10,8 @@ from extensions.foundation_template import TEMPLATE_CAPABILITY
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure  # noqa: F401
 from .wire import decode
 
-SOURCE_SHA256 = "259316e6768ce551e8427e860620b588e010ce847933a2cd1106bd1ab4d1625c"
-SOURCE_FILE_COUNT = 33
+SOURCE_SHA256 = "11fadb42e49d0366daebad982a5334b763b0f0f050ff8ca911bdb25f5db92a93"
+SOURCE_FILE_COUNT = 34
 INVENTORY_SHA256 = "2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f"
 BRIDGE_PROTOCOL = "foundation-template-jsonrpc/1"
 BRIDGE_MODULE = "foundation_template_bridge"

@@ -15,7 +15,7 @@ from .foundation_stdio import (BridgeProfile, PinnedSource, PinnedStdioCapabilit
                                arguments_sha256)
 from .wire import WireFailure
 
-SOURCE_SHA256 = "be9799b6753b60f03851348525cd774db6e480d0483bd8141238236aa7e8eef9"
+SOURCE_SHA256 = "9e06bdff615aa14c72593ec91a3bac723260aa47e9c1fa8856ce77da95500990"
 SOURCE_FILE_COUNT = 62
 INVENTORY_SHA256 = "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b"
 BRIDGE_PROTOCOL = "foundation-refrigeration-jsonrpc/1"
