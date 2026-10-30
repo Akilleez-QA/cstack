@@ -1,0 +1,7 @@
+ledger.jsonl
+shields.log
+local-state/
+snapshots/
+dry-runs/
+CODEX_BLOCKED
+__pycache__/

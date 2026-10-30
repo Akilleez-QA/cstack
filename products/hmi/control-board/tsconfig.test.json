@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "commonjs", "moduleResolution": "node", "strict": true,
+    "esModuleInterop": true, "skipLibCheck": true, "outDir": ".test-out", "rootDir": ".", "types": ["node"]
+  },
+  "include": ["lib/checkin.ts", "lib/csp.ts", "lib/ledger.ts", "lib/cosign.ts", "tests/*.test.ts"]
+}

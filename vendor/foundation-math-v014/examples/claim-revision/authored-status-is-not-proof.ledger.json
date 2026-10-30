@@ -1,0 +1,25 @@
+{
+  "events": [],
+  "records": [
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "claimed_established",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement authored_status_only."
+      },
+      "content_sha256": "d9360e2fb136b6f395aa6a61efd13a567fbf225d0d01c0831cbf3efe7628e990",
+      "dependencies": [],
+      "id": "authored_status_only",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "c1ba4ebfdd2012a9c32622805a9743d11ab8d0ca247e6dea4bca3c68130f4d2c"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1"
+}

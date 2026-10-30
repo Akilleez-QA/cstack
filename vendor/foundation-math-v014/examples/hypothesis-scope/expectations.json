@@ -1,0 +1,50 @@
+{
+  "A-not-V": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "W-not-Wp": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "abstract-not-embedded": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "exact-full-kernel": {
+    "all_requirements_matched": true,
+    "status": "exact_match"
+  },
+  "generic-not-coherent": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "original-not-induced-torsion": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "same-endpoints-not-same-map": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "saturated-not-coherent-image": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "selected-not-full-kernel": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "stale-fact-pin": {
+    "all_requirements_matched": false,
+    "status": "fact_pin_not_current"
+  },
+  "two-step-not-one-step": {
+    "all_requirements_matched": false,
+    "status": "predicate_mismatch"
+  },
+  "withdrawn-fact": {
+    "all_requirements_matched": false,
+    "status": "fact_withdrawn"
+  }
+}

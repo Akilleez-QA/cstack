@@ -1,0 +1,356 @@
+"""Restricted JSON-RPC 2.0 envelope over stdio. This is deliberately NOT MCP.
+
+Only fixed math APIs are reachable. No request-controlled file reads, commands,
+imports, source execution, network, model or credential interfaces are present.
+The inherited backends read their own fixed source files to bind receipt hashes.
+"""
+from __future__ import annotations
+
+import json
+import sys
+from typing import BinaryIO
+
+from foundation_math.calculator import calculate
+from foundation_math.polynomial import calculate_polynomial
+from foundation_math.counterexample import search_counterexample, check_witness
+from foundation_math.linear_algebra import certify_matrix, check_matrix_certificate
+from foundation_math.polynomial_witness import construct_polynomial_witness, check_polynomial_witness
+from foundation_math.linear_systems import solve_system, check_system_certificate
+from foundation_math.character_ring import calculate_character, check_character_certificate
+from foundation_math.split_bundle import calculate_split_bundle, check_split_bundle_certificate
+from foundation_math.claim_ledger import replay_claim_ledger
+from foundation_math.hypothesis_scope import check_hypothesis_scope
+from foundation_math.exterior import calculate_exterior, check_exterior_certificate
+from foundation_math.validation_evidence import plan_validation_evidence
+from . import __version__
+from .schemas import tool_definitions
+
+PROTOCOL = "foundation-math-jsonrpc/1"
+MAX_FRAME_BYTES = 65536
+MAX_OUTPUT_BYTES = 1048576
+MAX_JSON_DEPTH = 80
+MAX_JSON_NODES = 16384
+MAX_STRING_CHARS = 4096
+MAX_INTEGER_BITS = 4096
+MAX_ID_CHARS = 128
+MAX_ID_INTEGER = 9007199254740991
+TOOL_NAMES = frozenset(("exact_scalar", "polynomial_identity", "finite_box_search", "check_finite_box_witness",
+                        "certify_rational_matrix", "check_rational_matrix_certificate",
+                        "construct_polynomial_witness", "check_polynomial_witness",
+                        "solve_rational_linear_system", "check_rational_linear_system_certificate",
+                        "calculate_fixed_character", "check_fixed_character_certificate",
+                        "calculate_formal_split_bundle", "check_formal_split_bundle_certificate",
+                        "replay_claim_applicability", "match_hypothesis_scope",
+                        "calculate_formal_exterior", "check_formal_exterior_certificate", "plan_validation_evidence"))
+
+
+class WireError(ValueError):
+    def __init__(self, code: int, message: str):
+        super().__init__(message)
+        self.code = code
+
+
+def _error(identifier: object, code: int, message: str) -> dict:
+    return {"jsonrpc": "2.0", "id": identifier, "error": {"code": code, "message": message}}
+
+
+def _scan_depth(text: str) -> None:
+    # Bound parser recursion BEFORE json.loads; ignore delimiters inside strings.
+    depth, quoted, escaped = 0, False, False
+    for char in text:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+        elif char == '"':
+            quoted = True
+        elif char in "[{":
+            depth += 1
+            if depth > MAX_JSON_DEPTH:
+                raise WireError(-32002, "JSON nesting exceeds bridge limit")
+        elif char in "]}":
+            depth -= 1
+    # Matching delimiter types and all remaining syntax are json.loads' job.
+
+
+def _unique(pairs: list) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise WireError(-32700, "Duplicate JSON object keys are rejected")
+        result[key] = value
+    return result
+
+
+def _integer(token: str) -> int:
+    if len(token.lstrip("-")) > 1234:
+        raise WireError(-32002, "JSON integer exceeds bridge limit")
+    value = int(token)
+    if value.bit_length() > MAX_INTEGER_BITS:
+        raise WireError(-32002, "JSON integer exceeds bridge limit")
+    return value
+
+
+def _no_float(token: str) -> None:
+    raise WireError(-32700, "Decimal and nonfinite JSON numbers are outside this exact bridge profile")
+
+
+def decode_frame(data: bytes) -> object:
+    if len(data) > MAX_FRAME_BYTES:
+        raise WireError(-32002, "Input frame exceeds bridge byte limit")
+    try:
+        text = data.decode("utf-8", errors="strict")
+        _scan_depth(text)
+        value = json.loads(text, object_pairs_hook=_unique, parse_int=_integer,
+                           parse_float=_no_float, parse_constant=_no_float)
+    except WireError:
+        raise
+    except (ValueError, RecursionError, OverflowError):
+        raise WireError(-32700, "Malformed UTF-8 JSON frame") from None
+    stack, nodes = [value], 0
+    while stack:
+        item = stack.pop()
+        nodes += 1
+        if nodes > MAX_JSON_NODES:
+            raise WireError(-32002, "JSON node count exceeds bridge limit")
+        if type(item) is dict:
+            stack.extend(item.keys())
+            stack.extend(item.values())
+        elif type(item) is list:
+            stack.extend(item)
+        elif type(item) is str and len(item) > MAX_STRING_CHARS:
+            raise WireError(-32002, "JSON string exceeds bridge limit")
+    return value
+
+
+def _exact_object(value: object, fields: set[str]) -> dict:
+    if type(value) is not dict or set(value) != fields:
+        raise WireError(-32602, "Invalid parameter fields")
+    return value
+
+
+def _exterior_roundtrip(request, certificate):
+    """Check the exact future verifier envelope against ALL unchanged wire guards.
+
+    Reserve a maximally escaped legal 128-character id, so every legal id fits.
+    Compact ASCII encoding is the supported round-trip serialization profile.
+    No certificate or frame is truncated, and no bridge limit is increased.
+    """
+    frame = {'jsonrpc': '2.0', 'id': '\U0010ffff' * MAX_ID_CHARS, 'method': 'tools/call',
+             'params': {'name': 'check_formal_exterior_certificate',
+                        'arguments': {'request': request, 'certificate': certificate}}}
+    raw = json.dumps(frame, ensure_ascii=True, allow_nan=False, sort_keys=True,
+                     separators=(',', ':')).encode('ascii')
+    decode_frame(raw)
+
+
+def _tool_result(name: str, arguments: dict) -> dict:
+    if name == "exact_scalar":
+        receipt = calculate(arguments)
+        assessment = "exact_scalar_result"
+    elif name == "polynomial_identity":
+        if arguments.get("operation") != "verify_identity":
+            raise WireError(-32602, "polynomial_identity requires operation verify_identity")
+        receipt = calculate_polynomial(arguments)
+        assessment = ("formal_polynomial_identity_equal" if (receipt.get("result") or {}).get("equal") is True
+                      else "formal_polynomial_identity_not_equal")
+    elif name == "finite_box_search":
+        receipt = search_counterexample(arguments)
+        assessment = (receipt.get("result") or {}).get("outcome", "tool_error")
+    elif name == "check_finite_box_witness":
+        fields = _exact_object(arguments, {"request", "assignment"})
+        receipt = check_witness(fields["request"], fields["assignment"])
+        assessment = "witness_valid" if (receipt.get("result") or {}).get("valid") is True else "witness_rejected"
+    elif name == "certify_rational_matrix":
+        fields = _exact_object(arguments, {"matrix"})
+        receipt = certify_matrix(fields["matrix"])
+        assessment = "rational_matrix_certified"
+    elif name == "check_rational_matrix_certificate":
+        fields = _exact_object(arguments, {"matrix", "certificate"})
+        receipt = check_matrix_certificate(fields["matrix"], fields["certificate"])
+        assessment = "rational_matrix_certificate_valid"
+    elif name == "solve_rational_linear_system":
+        fields = _exact_object(arguments, {"system"})
+        receipt = solve_system(fields["system"])
+        assessment = "rational_linear_system_solved"
+    elif name == "check_rational_linear_system_certificate":
+        fields = _exact_object(arguments, {"system", "certificate"})
+        receipt = check_system_certificate(fields["system"], fields["certificate"])
+        assessment = "rational_linear_system_certificate_valid"
+    elif name == "construct_polynomial_witness":
+        fields = _exact_object(arguments, {"request"})
+        receipt = construct_polynomial_witness(fields["request"])
+        kind = ((receipt.get("result") or {}).get("result") or {}).get("kind")
+        assessment = "polynomial_coefficient_identity" if kind == "coefficient_identity" else "polynomial_counterexample_constructed"
+    elif name == "check_polynomial_witness":
+        fields = _exact_object(arguments, {"request", "witness"})
+        receipt = check_polynomial_witness(fields["request"], fields["witness"])
+        assessment = "polynomial_witness_rejected" if receipt.get("status") == "rejected" else "polynomial_witness_valid"
+    elif name == "calculate_fixed_character":
+        fields = _exact_object(arguments, {"request"})
+        receipt = calculate_character(fields["request"])
+        assessment = "fixed_character_arithmetic_checked"
+    elif name == "check_fixed_character_certificate":
+        fields = _exact_object(arguments, {"request", "certificate"})
+        receipt = check_character_certificate(fields["request"], fields["certificate"])
+        assessment = "fixed_character_certificate_valid"
+    elif name == "calculate_formal_split_bundle":
+        fields = _exact_object(arguments, {"request"})
+        receipt = calculate_split_bundle(fields["request"])
+        assessment = "formal_split_bundle_arithmetic_checked"
+    elif name == "check_formal_split_bundle_certificate":
+        fields = _exact_object(arguments, {"request", "certificate"})
+        receipt = check_split_bundle_certificate(fields["request"], fields["certificate"])
+        assessment = "formal_split_bundle_certificate_valid"
+    elif name == "replay_claim_applicability":
+        fields = _exact_object(arguments, {"ledger"})
+        receipt = replay_claim_ledger(fields["ledger"])
+        assessment = "claim_dependency_applicability_replayed"
+    elif name == "match_hypothesis_scope":
+        fields = _exact_object(arguments, {"document"})
+        receipt = check_hypothesis_scope(fields["document"])
+        assessment = "authored_premise_scope_compared"
+    elif name == "calculate_formal_exterior":
+        fields = _exact_object(arguments, {"request"})
+        receipt = calculate_exterior(fields["request"])
+        if receipt.get("status") == "success":
+            _exterior_roundtrip(fields["request"], receipt["result"]["certificate"])
+        assessment = "formal_exterior_arithmetic_checked"
+    elif name == "check_formal_exterior_certificate":
+        fields = _exact_object(arguments, {"request", "certificate"})
+        _exterior_roundtrip(fields["request"], fields["certificate"])
+        receipt = check_exterior_certificate(fields["request"], fields["certificate"])
+        assessment = "formal_exterior_certificate_valid"
+    elif name == "plan_validation_evidence":
+        fields = _exact_object(arguments, {"document"})
+        receipt = plan_validation_evidence(fields["document"])
+        assessment = "declared_validation_evidence_classified"
+    else:
+        raise WireError(-32602, "Unknown math tool")
+    failed = (receipt.get("status") == "error" if name in ("construct_polynomial_witness", "check_polynomial_witness")
+              else receipt.get("status") != "success")
+    if failed:
+        assessment = "tool_error"
+    structured = {"tool": name, "assessment": assessment, "formal_proof": False,
+                  "runtime_goal_acceptance": False, "receipt": receipt}
+    return {"isError": failed, "structuredContent": structured}
+
+
+class Bridge:
+    """One sequential process session. Notifications never execute math work."""
+
+    def __init__(self) -> None:
+        self.initialized = False
+
+    def dispatch(self, message: object) -> dict | None:
+        if type(message) is not dict or set(message) - {"jsonrpc", "id", "method", "params"}:
+            return _error(None, -32600, "Expected a single request object; batches and extra fields are unsupported")
+        if message.get("jsonrpc") != "2.0" or type(message.get("method")) is not str or not message["method"]:
+            return _error(None, -32600, "Invalid JSON-RPC request envelope")
+        identifier = message.get("id")
+        if "id" in message and not ((type(identifier) is str and len(identifier) <= MAX_ID_CHARS) or
+                                     (type(identifier) is int and abs(identifier) <= MAX_ID_INTEGER)):
+            return _error(None, -32600, "Request id must be a bounded string or safe integer; null is unsupported")
+        # Valid notification envelopes are ignored, even if their params or
+        # method would be rejected as a request. No response or work is produced.
+        if "id" not in message:
+            return None
+        try:
+            method, params = message["method"], message.get("params", {})
+            if method == "ping":
+                _exact_object(params, set())
+                result = {}
+            elif method == "initialize":
+                fields = _exact_object(params, {"protocolVersion"})
+                if fields["protocolVersion"] != PROTOCOL:
+                    raise WireError(-32001, "Unsupported bridge protocol; expected foundation-math-jsonrpc/1 (not MCP)")
+                if self.initialized:
+                    raise WireError(-32000, "Bridge already initialized")
+                self.initialized = True
+                result = {"protocolVersion": PROTOCOL, "serverInfo": {"name": "foundation-math-jsonrpc-bridge", "version": __version__},
+                          "capabilities": {"tools": True}, "mcpCompatible": False,
+                          "limits": {"inputFrameBytes": MAX_FRAME_BYTES, "outputFrameBytes": MAX_OUTPUT_BYTES,
+                                     "jsonDepth": MAX_JSON_DEPTH, "jsonNodes": MAX_JSON_NODES,
+                                     "stringCharacters": MAX_STRING_CHARS, "idCharacters": MAX_ID_CHARS,
+                                     "idIntegerAbsoluteValue": MAX_ID_INTEGER, "integerBits": MAX_INTEGER_BITS},
+                          "methods": ["initialize", "ping", "tools/list", "tools/call"],
+                          "execution": "sequential, request-only; close stdin to stop; no cancellation, batches, MCP or formal proof"}
+            elif method not in ("tools/list", "tools/call"):
+                raise WireError(-32601, "Method not found")
+            elif not self.initialized:
+                raise WireError(-32000, "Initialize the bridge before using tools")
+            elif method == "tools/list":
+                _exact_object(params, set())
+                result = {"tools": tool_definitions()}
+            else:
+                fields = _exact_object(params, {"name", "arguments"})
+                name, arguments = fields["name"], fields["arguments"]
+                if type(name) is not str or name not in TOOL_NAMES:
+                    raise WireError(-32602, "Unknown math tool")
+                if type(arguments) is not dict:
+                    raise WireError(-32602, "Tool arguments must be a JSON object")
+                result = _tool_result(name, arguments)
+            return {"jsonrpc": "2.0", "id": identifier, "result": result}
+        except WireError as error:
+            return _error(identifier, error.code, str(error))
+        except Exception:
+            # Fail closed on unexpected backend/representation errors, without
+            # revealing paths, source text or tracebacks on the protocol stream.
+            return _error(identifier, -32603, "Internal bridge error; no evidence result is available")
+
+    def handle(self, data: bytes) -> dict | None:
+        try:
+            return self.dispatch(decode_frame(data))
+        except WireError as error:
+            return _error(None, error.code, str(error))
+
+
+def encode_response(response: dict) -> bytes:
+    chunks, size = [], 0
+    try:
+        encoder = json.JSONEncoder(ensure_ascii=True, allow_nan=False, sort_keys=True, separators=(",", ":"))
+        for chunk in encoder.iterencode(response):
+            encoded = chunk.encode("ascii")
+            size += len(encoded)
+            if size > MAX_OUTPUT_BYTES:
+                raise WireError(-32002, "Output frame exceeds bridge byte limit; result withheld")
+            chunks.append(encoded)
+        return b"".join(chunks) + b"\n"
+    except (ValueError, OverflowError, RecursionError) as error:
+        code = error.code if isinstance(error, WireError) else -32603
+        message = str(error) if isinstance(error, WireError) else "Result cannot be represented; evidence withheld"
+        fallback = _error(response.get("id"), code, message)
+        return json.dumps(fallback, ensure_ascii=True, separators=(",", ":")).encode("ascii") + b"\n"
+
+
+def serve(source: BinaryIO, sink: BinaryIO) -> int:
+    bridge = Bridge()
+    try:
+        while True:
+            line = source.readline(MAX_FRAME_BYTES + 2)
+            if not line:
+                return 0
+            if len(line) > MAX_FRAME_BYTES + 1 or (not line.endswith(b"\n") and len(line) > MAX_FRAME_BYTES):
+                sink.write(encode_response(_error(None, -32002, "Input frame exceeds bridge byte limit; session closed")))
+                sink.flush()
+                return 2  # Do not drain an unbounded attacker-controlled stream.
+            if not line.endswith(b"\n"):
+                sink.write(encode_response(_error(None, -32700, "Final input frame lacks newline; session closed")))
+                sink.flush()
+                return 2
+            response = bridge.handle(line[:-1])
+            if response is not None:
+                sink.write(encode_response(response))
+                sink.flush()
+    except (BrokenPipeError, OSError):
+        return 2
+
+
+def main() -> int:
+    if len(sys.argv) != 1:
+        sys.stderr.write("This bridge accepts no command-line options or paths; send bounded JSON-RPC on stdin.\n")
+        return 2
+    return serve(sys.stdin.buffer, sys.stdout.buffer)

@@ -1,0 +1,82 @@
+{
+  "schema": "poodo.implementation-contract/0.1",
+  "revision": "0.1.0",
+  "status": "prototype_implementation_contract",
+  "decision": "POODO is the extensible core; Foundation Math is the first sibling domain extension and outbound capability.",
+  "first_slice": {
+    "target": ".",
+    "transport": "foundation-math-jsonrpc/1 trusted local stdio harness",
+    "mcp_compatible": false,
+    "automatic_goal_closure": false,
+    "model_calls": false,
+    "math_source_mutation": false,
+    "publication_scope": "Project repository access is managed separately from runtime authority."
+  },
+  "core_owns": [
+    "goals and revisions",
+    "POODO phase transitions",
+    "epistemic state and evidence ceilings",
+    "decisions and authorization enforcement",
+    "capability routing",
+    "attempt identity and authoritative append-only ledger"
+  ],
+  "extension_contract": {
+    "schema": "poodo.domain-extension/0.1",
+    "base": "PoodoCore",
+    "math_class": "FoundationMath(PoodoCore)",
+    "hooks": [
+      "descriptor",
+      "admit_goal",
+      "validate_call",
+      "interpret"
+    ],
+    "domains_own": [
+      "domain meaning",
+      "domain-specific evidence and acceptance criteria"
+    ],
+    "guard": "Hooks return data; no mutable core, grant or ledger reference. Core cannot widen a domain acceptance policy.",
+    "versioning": "Unknown major version rejects. Conformance/migration fixtures required for core/extension changes."
+  },
+  "ports": {
+    "CapabilityPort": [
+      "describe",
+      "invoke"
+    ],
+    "LedgerPort": "optional storage seam; bounded in-memory v0.1",
+    "EndoforgePort": "Future generative UI/disposable software produce, qualify, preview, revise, activate, dispose lifecycle governed by POODO; lower execution backends remain separate. Foundations power generated artifacts; host-owned UI state and exact source/action/revision bindings retained. Not implemented by this first slice."
+  },
+  "endoforge_boundary": "POODO governs goals, authority, budgets, evidence and acceptance; Endoforge proposes/generates task-specific tools and UI, builds/runs/evaluates/disposes or retains under explicit policy; Foundations supply domain requirements and verifiers. Intended architecture is distinct from currently verified precursor capability.",
+  "runtime": "Concrete Math adapter may use replaceable process/execution backend; no process or runtime imports in core.",
+  "prospective_acceptance": "ACCEPTANCE.md",
+  "interfaces": "INTERFACES.md",
+  "request_schema": "capability-request.schema.json",
+  "outcome_schema": "capability-result.schema.json",
+  "source_pins": "SOURCE-PINS.json",
+  "minimal_acceptance": [
+    "fake unrelated domain exercises inherited lifecycle without Math imports",
+    "real pinned bridge 1/2+1/3 returns exact 5/6",
+    "false identity is completed negative observation not proof",
+    "authority/capability/phase/revision/source/version failure controls fail closed",
+    "proof_complete instructions do not promote evidence",
+    "normal and -O tests; source unchanged"
+  ],
+  "stop_conditions": [
+    "source drift",
+    "authority expansion",
+    "evidence escalation",
+    "unbounded resource behavior",
+    "unapproved install/network/model call",
+    "missing required runtime observation"
+  ],
+  "foundations_role": "Domain capability packs power Endoforge-generated UI and disposable software with domain knowledge, exact primitives, constraints and checks; they remain reusable through ports outside Endoforge as well.",
+  "illustrative_flow": [
+    "user goal enters POODO",
+    "POODO chooses domain capability contracts and authorized plan",
+    "Endoforge synthesizes task UI/software using Foundation capabilities",
+    "domain verifiers/evaluators return scoped evidence",
+    "POODO accepts, rejects, disposes or explicitly retains within policy"
+  ],
+  "flow_constraint": "Illustrative composable flow, not a rigid linear stack or transfer of acceptance authority to generated code.",
+  "platform_name": "Cstack",
+  "scope_limit": "This contract specifies a bounded local prototype, not full autonomous reasoning, current MCP interoperability, formal theorem proving, or hostile-code isolation."
+}

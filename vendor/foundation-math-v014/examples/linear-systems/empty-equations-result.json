@@ -1,0 +1,114 @@
+{
+  "certificate": {
+    "matrix_certificate": {
+      "determinant": null,
+      "free_columns": [
+        0,
+        1,
+        2
+      ],
+      "matrix": {
+        "cols": 3,
+        "domain": "Q",
+        "entries": [],
+        "rows": 0
+      },
+      "nullspace": {
+        "cols": 3,
+        "domain": "Q",
+        "entries": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "rows": 3
+      },
+      "operations": [],
+      "pivots": [],
+      "rank": 0,
+      "rref": {
+        "cols": 3,
+        "domain": "Q",
+        "entries": [],
+        "rows": 0
+      },
+      "schema": "foundation-math-rational-matrix/1",
+      "transform": {
+        "cols": 0,
+        "domain": "Q",
+        "entries": [],
+        "rows": 0
+      }
+    },
+    "outcome": "consistent",
+    "particular": [
+      0,
+      0,
+      0
+    ],
+    "schema": "foundation-math-rational-linear-system/1",
+    "system": {
+      "matrix": {
+        "cols": 3,
+        "domain": "Q",
+        "entries": [],
+        "rows": 0
+      },
+      "rhs": []
+    }
+  },
+  "ok": true,
+  "verification": {
+    "accepted": true,
+    "cols": 3,
+    "computational_field": "Q",
+    "family_or_generic_claim": false,
+    "formal_proof": false,
+    "input_domain": "Q",
+    "nullity": 3,
+    "nullspace": {
+      "cols": 3,
+      "domain": "Q",
+      "entries": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "rows": 3
+    },
+    "outcome": "consistent",
+    "particular": [
+      0,
+      0,
+      0
+    ],
+    "rank": 0,
+    "rows": 0,
+    "runtime_goal_acceptance": false,
+    "scope": "one_explicit_linear_system"
+  }
+}

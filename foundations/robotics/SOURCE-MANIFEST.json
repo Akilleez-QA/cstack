@@ -1,0 +1,27 @@
+{
+  "files": {
+    "README.md": "1ac54ecb1a5f5e566206630b6ddcdc4685ff91ddc36cc164c427f3b08bab19eb",
+    "foundation_robotics/__init__.py": "966bcd3962fe1376432442666f92cbc6fe774b474931ce9e792edd92db3649a3",
+    "foundation_robotics/balance.py": "af2de9abe99f460576f5cb11126bc8832ff5854331b60392c1a668a5bf473dd6",
+    "foundation_robotics/data/calibration.json": "1097b9e3cc05a5edc82fcec22b3e7b7fafdb75afab15b74380e2a4d422938655",
+    "foundation_robotics/data/defaults.json": "f3e02ceb2b146bc5b9e43340df456f0574fbcfae77529af00054d5f46d2bd6da",
+    "foundation_robotics/gait.py": "b80fb05f57aa9d5ce7d456323ef994c0ed6ecc53c9d73671731fe9f666f11b7e",
+    "foundation_robotics/kinematics.py": "439e302ed5bcf15a52d5db35d4d0c4ea36152bd791c704539b8bee4d223adfc4",
+    "foundation_robotics/measures.py": "587dc44fe07ac3ba2f272fc54860cc933ebbdfbc4a395469e2b321958eada53c",
+    "foundation_robotics/mechanisms.py": "6ec7cd8352fde356b7071db588ac1acd57f373b44cac389f830fd924f5a3becd",
+    "foundation_robotics/scale.py": "24b1b254b357fba1d6b3f25a29efaefa79c7c594b5fd18f6759c88aeb538d402",
+    "foundation_robotics/sources.py": "730607b652daf7728459dd025fd73b97d68b7190f2203a4b32645eb0644429f7",
+    "foundation_robotics/squash.py": "2a61be1644b103e5dc14fb3a74d1d8dc9df8b0e142370be3edc91a52776ffb45",
+    "foundation_robotics/tools.py": "c7f67aac4f9a91842ce84f77ab540fc7849ba8af68c666d22c5708e1555e4057",
+    "foundation_robotics_bridge/__init__.py": "35916599c3c46a11622cd140cd43cd3847b8b3c74f94ef148c6e2e291eee8129",
+    "foundation_robotics_bridge/__main__.py": "9a129553109671a267a1343e1aab1e27709756ceec844cf1e3e70c4e49a767c8",
+    "foundation_robotics_bridge/schemas.py": "d997f2aed430747e142d3e3662648819af2d754b4582445e28b5fb9d190e6d68",
+    "foundation_robotics_bridge/server.py": "09cf64f98738bcc3089f6e7eaddc2d234769290fa7e8c90ec05c518bc1734e5b",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_bridge.py": "e23074104312bb8e21336c8c7d0b3777767e141631de683fb2d91b67f34d1732",
+    "tests/test_tools.py": "937587ebfa4c8dd6716b363f8c7decf4ada337dca4edb352bf6d1afcd3af8c32",
+    "tools/build_manifest.py": "6688e912c300222f8069cd965973f4c1f895c4cbe84a1ceffc5600f0245af12c"
+  },
+  "schema": "foundation-robotics-source-manifest/1",
+  "version": "0.1.0"
+}

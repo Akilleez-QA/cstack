@@ -1,0 +1,29 @@
+{
+  "assignment": {
+    "x": 1,
+    "y": 1
+  },
+  "difference_value": {
+    "denominator": 1,
+    "numerator": 2
+  },
+  "input_sha256": "2c833bfb8c35bdd129a4a6ae41120baa170debd0be825789def36ff55ebd288a",
+  "left_value": {
+    "denominator": 1,
+    "numerator": 4
+  },
+  "request_sha256": "2c833bfb8c35bdd129a4a6ae41120baa170debd0be825789def36ff55ebd288a",
+  "right_value": {
+    "denominator": 1,
+    "numerator": 2
+  },
+  "ring": {
+    "coefficient_field": "Q",
+    "kind": "commutative_polynomial_ring",
+    "variables": [
+      "x",
+      "y"
+    ]
+  },
+  "schema_version": "1.0"
+}

@@ -1,0 +1,45 @@
+# Changelog
+
+## Unreleased — tooling and evaluation-rule fixes
+
+- Capsule checker: an oversize capsule now passes the size check only when it declares a non-empty `capsule_overflow`, matching the method's soft ceiling. Add regression tests.
+- Rubric: define N/A via a per-case `not_applicable` manifest field frozen before scoring.
+
+No change to the method text or skill version.
+
+## 3.3 — Proportional depth and answer-first output — 2026-10-12
+
+- Add a Quick / Standard / Deep depth choice before the loop. Claim, evidence, contradiction, authority and continuity invariants apply at every depth; the web-research gate, exactly-20-path divergence and stage fan-out apply in full at Deep, proportionately at Standard, and not at Quick.
+- Add a Respond section: lead with the answer, choose when asked to choose, keep ledgers, path lists, research logs and capsules out of the reply unless asked or required at a handoff, and do not narrate the method.
+- State that order governs presentation, never disclosure.
+- Make goal binding host-neutral and mark the skill user-invoked (`disable-model-invocation: true`) so hosts that ignore `agents/openai.yaml` do not auto-trigger it.
+- Motivation: a single-trial blind comparison of 3.2 against no skill on the 14 base cases scored 3.2 higher on the rubric (91.1% vs 78.6%) but 10/28 vs 28/28 on proportionality, at ~2.7x the length; only 7 of 14 runs performed the mandated research, and runs rarely opened reference files. That comparison had known blinding and independence limits and is not a release claim.
+
+## 3.2 — Conditional software-engineering procedures — 2026-10-08
+
+- Adapt selected system-tracing, historical-constraint, interface-design, defect-investigation, change-partitioning, and release-verification procedures into one technical reference.
+- Load that reference only for an applicable software question. Preserve the domain-independent loop, explicit invocation policy, evidence ledger, authority boundaries, and continuation schema.
+- Add nine prospective development cases covering domain routing, stale verification, repository identity, oracle coupling, and interrupted effects.
+- Clarify exact capsule enum values and final-payload validation after scoped probes produced malformed continuation records; leave evidence and authority semantics unchanged.
+- Preserve exact upstream provenance and the MIT notice; add no package, model, forge, or controller dependency.
+
+Structural and scoped forward checks are reported separately from comparative behavioral evaluation. No measured improvement over the baseline is claimed.
+
+## 3.1 — Optional Mega Observe — 2026-10-01
+
+- Add an explicit expensive research mode targeting 200 distinct categories and 200 distinct evaluations per category.
+- Define provenance, semantic-distinctness review, budget reservations, checkpoints, and incomplete-run reporting.
+- Add a prospective charter, invocation example, and eight unexecuted protocol probes.
+- Preserve the standard loop and the 3.0 continuation schema.
+
+No full Mega Observe run or measured improvement is claimed. The mode is a host-executed protocol; no paid runner or billing enforcement service is bundled.
+
+## 3.0 — Initial public project — 2026-10-01
+
+- Package the existing POODO 3.0 method, references, and Codex metadata.
+- Add installation and concept guides, synthetic examples, contributor guidance, and a roadmap.
+- Document the 14-case behavioral manifest and its unmeasured status; add a run-record template.
+- Declare PyYAML and automate structural checks and checker regressions with GitHub Actions.
+- Harden capsule timestamp and malformed-input handling with targeted regression coverage.
+
+This is a packaging and tooling milestone. It does not assert behavioral improvement over a baseline.

@@ -1,0 +1,42 @@
+{
+  "affected_claims": [],
+  "affected_obligations": [],
+  "events_replayed": 0,
+  "history": [
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "authored_status_only",
+        "revision": 1,
+        "revision_sha256": "c1ba4ebfdd2012a9c32622805a9743d11ab8d0ca247e6dea4bca3c68130f4d2c"
+      }
+    }
+  ],
+  "input_sha256": "00c9b0b7c7e3adad5ae39c2ed61f2b9fc6a7b7eedeab904280942e9bba75257c",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "claimed_established",
+      "kind": "claim",
+      "pin": {
+        "id": "authored_status_only",
+        "revision": 1,
+        "revision_sha256": "c1ba4ebfdd2012a9c32622805a9743d11ab8d0ca247e6dea4bca3c68130f4d2c"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

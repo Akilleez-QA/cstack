@@ -1,0 +1,21 @@
+{
+  "claim_revision/__init__.py": "39510615eee5e8b788cf9a935fcb73b54d8569d7c18ec19673ff940c474941af",
+  "claim_revision/__main__.py": "494463742ed58a29a2846722c04a5d8c68645cc467432bfe8b2981c7dfcfe61a",
+  "claim_revision/core.py": "c6c1f2ef00a64d514a781f281c7318612d644dc6b872690f6de7f16577552294",
+  "foundation_math/claim_ledger.py": "0c7467595300fe6a4231caae162188cbf06c9fc50c535d07264c9d168e00914d",
+  "foundation_math/cli.py": "44d9a70befaeb4389250820e306d62dbdee6270c425c8e3b06bac43da13e01c1",
+  "foundation_math_bridge/__init__.py": "9213a83a4a5b66a8f419b217ec4b76eff9c7891cb21b7bb2ebc2aaf30c6cf108",
+  "foundation_math_bridge/claim_ledger_schemas.py": "3ce736bd139d66bb0357472f166f684090003663d8a73f0e5b36d49681e0e181",
+  "foundation_math_bridge/schemas.py": "30c0bdb106424e6cfc80f7d90ab890c680c44f62c110bf5a2cad10d22da9a043",
+  "foundation_math_bridge/server.py": "77a2b2f3a354da250093cf499dd12ca14e2351205664a3bfec0f529359a9f135",
+  "review/V011-BASELINE.json": "eac02d27524eccd236fa56a118fd5e8a1366f158d03267a33ade5a2eb3faee26",
+  "review/claim-revision-lab/oracle.py": "e43711bc29006e3469a8d9e3b1680a7f7accc01df47373b40c78bad537a1bedd",
+  "review/claim-revision-lab/reproduce_review.py": "94ee0b8839008ed4b6055c7d675796c13bf9a7eb7a5896832fe7ef058a2c7767",
+  "review/claim-revision-lab/review.py": "60ae061320d5a392e199dae1a7bf52065ae2c45fa93dcbf1533c49ba5b884ea4",
+  "review/v011_review.py": "40952c6485693980609b74ead2c6db8ac53426602dccaa42c511d61f089bcf00",
+  "tools/audit_v010_tool_differential.py": "1762b1ac9e5ec7b0afa23cc9b99dd46c0900e4d3eacb029a0a05a69da69bb36e",
+  "tools/build_claim_ledger_release.py": "ac49d350939f7cc9c54fba501dae76abb9a3058c58c43c3c7d2d6b7328084c28",
+  "tools/claim_ledger_release_support.py": "874cf9ec1ab95302fc23aeaaeaebfb56ee2779b6d96eefb2614e1988117302e6",
+  "tools/reproduce_claim_ledger_release.py": "e3626c782ced3317f2839657adb5e7d76c7e78848b4f43fc68494d831f1491f9",
+  "tools/run_claim_ledger_validation.py": "5b24b0600eeb76c78af243d598cab933a82972229b1bada72c9f6685bdb2dd90"
+}

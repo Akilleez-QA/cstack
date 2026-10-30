@@ -1,0 +1,46 @@
+schema: POODO_CONTINUATION/3.0
+capsule_id: PC-demo-0004
+revision: 4
+parent_capsule: PC-demo-0003
+generated_at: 2026-09-03T17:00:00-05:00
+objective: Preserve evidence completeness.
+acceptance: []
+authority: {allowed: Analysis only, prohibited: Mutation}
+constraints: Do not infer missing query output.
+user_directives: Preserve evidence completeness.
+current_head: CL-demo-complete
+claims:
+  - id: CL-demo-complete
+    text: Every record matched.
+    state: observed
+    status: active
+    source_type: tool
+    locator: run://query/99
+    observed_at: 2026-09-03T16:59:00-05:00
+    freshness: captured
+    evidence_family: EF-demo-query
+    rehydration_status: available
+    supports: []
+    limits: none
+evidence_bundles:
+  - id: EB-demo-query
+    request: Compare all records.
+    material_inputs: []
+    result_or_locator: run://query/99
+    completeness: truncated
+    artifacts: []
+    supports_claims: [CL-demo-complete]
+orientations: []
+alternatives: []
+decisions: []
+predictions: []
+outcomes: []
+contradictions: []
+artifacts: []
+rehydration: {status: partial, losses: [query-result]}
+delivery_state: checked
+outcome_state: inconclusive
+highest_justified_claim: The query result is incomplete.
+required_runtime_observation: Retrieve the complete query result.
+who_controls_next_test: agent
+next_step: Retrieve complete results.

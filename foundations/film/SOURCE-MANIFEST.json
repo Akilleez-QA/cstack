@@ -1,0 +1,23 @@
+{
+  "files": {
+    "README.md": "a7f09ad0ef2b1b9b79025cbdd686361084367fdcd9e7d37121dcd00e3ba79cb2",
+    "foundation_film/__init__.py": "d69f340f87cb1a9b517a66f4ea2501e5c4ffa88a3deb53fa32ef494bfd15d96a",
+    "foundation_film/audio.py": "b6559a73222aa2cf8f7a8498c9c4f04700d4d4104922f661ae5caf25323befb1",
+    "foundation_film/cinema.py": "cace163c9b050bba28c25830657f9eafac00ed69c3d197de0edfdb27cf656f5d",
+    "foundation_film/cues.py": "807a1e33f28f8b325151634b31297192babd8d76ed7875cec7aee759ccb6d642",
+    "foundation_film/drift.py": "cce6638219b14be09c858c0b505dc02ebd564cfdc31ee172665f8381615c4344",
+    "foundation_film/look.py": "197f3488edacf19173c1aee419fe4fdba83abc923aef191232ec4b0655bfb344",
+    "foundation_film/measures.py": "405f57381710099fc8d63dbc6638eb589ab942b6356f06bd7ab9d37c21683b0b",
+    "foundation_film/tools.py": "e01d38f19610ff521a2d9006cf2edc8104968cefa6438d6dc66956e143a8fa04",
+    "foundation_film_bridge/__init__.py": "804a7cda7a5498d49678294d0fc8318bdcea6ef45226f26ab6805e74ec610e07",
+    "foundation_film_bridge/__main__.py": "cc7cd08554b62605a7c3b94ca3693fff85277bc25a47aea90edba1eb7aa943fc",
+    "foundation_film_bridge/schemas.py": "3d466b3f2aa0a43a220e572a0f44143d127b3dbce637c764743a2e597087950c",
+    "foundation_film_bridge/server.py": "a987464450db9749cd32b8f29da8ad2ff7294a51cf0029d772fcbd13ba8d8bd2",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_bridge.py": "da01c4a1ce953c4592db552b26428b2d0135f02fab55e339fbd76eb7bd277315",
+    "tests/test_tools.py": "1acb0719ef5e6c63e40c524efd6648d880621e99691c1c0d3a4ae22f6917291c",
+    "tools/build_manifest.py": "c791d644a092f0f58879dc0c6af5198f104f2808e662ba5a2823d8eb18352061"
+  },
+  "schema": "foundation-film-source-manifest/1",
+  "version": "0.1.0"
+}

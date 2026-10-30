@@ -1,0 +1,26 @@
+{
+  "assertion": {
+    "left": {
+      "name": "x",
+      "type": "variable"
+    },
+    "relation": "ge",
+    "right": {
+      "denominator": 2,
+      "numerator": 1,
+      "type": "rational"
+    }
+  },
+  "bounds": {
+    "x": {
+      "lower": -3,
+      "upper": 3
+    }
+  },
+  "coefficient_field": "Q",
+  "constraints": [],
+  "domain": "finite_integer_box",
+  "variables": [
+    "x"
+  ]
+}

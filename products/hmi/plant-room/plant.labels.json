@@ -1,0 +1,248 @@
+{
+ "res": [
+  2560,
+  1440
+ ],
+ "labels": [
+  {
+   "text": "the owner \u00b7 operator",
+   "kind": "person",
+   "x": 49.35,
+   "y": 21.97
+  },
+  {
+   "text": "Shields / kill switch (E-stop)",
+   "kind": "stop",
+   "x": 54.89,
+   "y": 21.28
+  },
+  {
+   "text": "HMI: setpoints \u00b7 live gauges \u00b7 mode",
+   "kind": "title",
+   "x": 40.5,
+   "y": 13.46
+  },
+  {
+   "text": "Witnessed ledger",
+   "kind": "label",
+   "x": 65.62,
+   "y": 34.89
+  },
+  {
+   "text": "POODO: every action passes the interlocks (ALLOW \u00b7 ASK \u00b7 DENY)",
+   "kind": "relay",
+   "x": 38.3,
+   "y": 43.35
+  },
+  {
+   "text": "Grok Bot",
+   "kind": "crew:intake window \u00b7 routing",
+   "x": 34.82,
+   "y": 52.06
+  },
+  {
+   "text": "Chief of Staff",
+   "kind": "crew:master keys",
+   "x": 40.11,
+   "y": 50.85
+  },
+  {
+   "text": "ThermoLogic",
+   "kind": "crew:marketing",
+   "x": 45.41,
+   "y": 49.65
+  },
+  {
+   "text": "Home Lab",
+   "kind": "crew:X99 server",
+   "x": 50.71,
+   "y": 48.44
+  },
+  {
+   "text": "Keymaster",
+   "kind": "crew:accounts",
+   "x": 56.01,
+   "y": 47.24
+  },
+  {
+   "text": "Docs & Learning",
+   "kind": "crew:lessons",
+   "x": 61.31,
+   "y": 46.03
+  },
+  {
+   "text": "+ 29 more",
+   "kind": "crew:fleet roster",
+   "x": 66.61,
+   "y": 44.83
+  },
+  {
+   "text": "Fleet mail (envelopes between the crew)",
+   "kind": "flow:intent",
+   "x": 63.18,
+   "y": 42.93
+  },
+  {
+   "text": "Conductor: orchestrates work across lanes",
+   "kind": "label",
+   "x": 48.88,
+   "y": 63.93
+  },
+  {
+   "text": "Collect gate: checks pass, or revert",
+   "kind": "label",
+   "x": 72.21,
+   "y": 56.75
+  },
+  {
+   "text": "1  Atomize: slice one big job into small labelled blocks",
+   "kind": "stage",
+   "x": 39.54,
+   "y": 75.14
+  },
+  {
+   "text": "2  Parallelize: one writer per file, one lane each",
+   "kind": "stage",
+   "x": 55.33,
+   "y": 75.87
+  },
+  {
+   "text": "3  Recombine: assemble and verify",
+   "kind": "stage",
+   "x": 69.2,
+   "y": 68.97
+  },
+  {
+   "text": "GPU queue: short lane (< 2 min) \u00b7 long lane (> 2 min)",
+   "kind": "label",
+   "x": 39.16,
+   "y": 84.69
+  },
+  {
+   "text": "GPU (RTX 4080) \u00b7 compressor",
+   "kind": "label",
+   "x": 53.4,
+   "y": 74.99
+  },
+  {
+   "text": "Throttle: heavy-run \u00b7 memguard (relief valve + governor)",
+   "kind": "label",
+   "x": 64.2,
+   "y": 73.56
+  },
+  {
+   "text": "Fleet capacity (0 \u2013 100 %)",
+   "kind": "label",
+   "x": 70.21,
+   "y": 71.31
+  },
+  {
+   "text": "Worker registry (running \u00b7 dead \u00b7 unknown)",
+   "kind": "label",
+   "x": 76.2,
+   "y": 68.67
+  },
+  {
+   "text": "Refrigeration (ammonia, R717)",
+   "kind": "label",
+   "x": 23.52,
+   "y": 76.9
+  },
+  {
+   "text": "Engine (three.js)",
+   "kind": "label",
+   "x": 28.71,
+   "y": 69.78
+  },
+  {
+   "text": "Film (cuts, gates)",
+   "kind": "label",
+   "x": 21.26,
+   "y": 65.56
+  },
+  {
+   "text": "Robotics (mechanics)",
+   "kind": "label",
+   "x": 26.45,
+   "y": 58.45
+  },
+  {
+   "text": "Foundations (domain knowledge silos)",
+   "kind": "title",
+   "x": 26.78,
+   "y": 68.74
+  },
+  {
+   "text": "Parts wall: catalogued open-source parts",
+   "kind": "label",
+   "x": 26.44,
+   "y": 40.56
+  },
+  {
+   "text": "Merge train (approved changes)",
+   "kind": "label",
+   "x": 79.33,
+   "y": 47.66
+  },
+  {
+   "text": "Chief of Staff review gate",
+   "kind": "label",
+   "x": 80.49,
+   "y": 40.97
+  },
+  {
+   "text": "main (production branch)",
+   "kind": "title",
+   "x": 81.1,
+   "y": 26.98
+  },
+  {
+   "text": "Shipping: finished products leave the dock",
+   "kind": "title",
+   "x": 91.97,
+   "y": 64.06
+  },
+  {
+   "text": "Intent  (goals, requests, changes)",
+   "kind": "flow:intent",
+   "x": 46.75,
+   "y": 30.72
+  },
+  {
+   "text": "Measured effect \u2192 learning",
+   "kind": "flow:ok",
+   "x": 89.79,
+   "y": 24.62
+  },
+  {
+   "text": "Verified build",
+   "kind": "flow:ok",
+   "x": 74.82,
+   "y": 57.56
+  },
+  {
+   "text": "Grok box (remote, not visible from host-a)",
+   "kind": "title",
+   "x": 4.76,
+   "y": 43.53
+  },
+  {
+   "text": "SSH, outbound only (one way)",
+   "kind": "flow:stale",
+   "x": 12.9,
+   "y": 55.88
+  },
+  {
+   "text": "Hermes (standby)",
+   "kind": "title",
+   "x": 23.56,
+   "y": 18.19
+  },
+  {
+   "text": "failover when rate-limited",
+   "kind": "flow:wip",
+   "x": 27.47,
+   "y": 38.72
+  }
+ ]
+}

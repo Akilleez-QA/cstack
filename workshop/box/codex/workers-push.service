@@ -1,0 +1,9 @@
+[Unit]
+Description=Send this host's worker registry to host-a (workers push)
+Documentation=file:///workspace/cstack/forge/endoforge/tools/throttle/README.md
+
+[Service]
+Type=oneshot
+# WORKERS_PUSH_TO names the rig as ssh knows it (for example host-a); set it in ~/.config/workers/push.env
+EnvironmentFile=%h/.config/workers/push.env
+ExecStart=/usr/local/bin/workers push --ssh ${WORKERS_PUSH_TO}

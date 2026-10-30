@@ -1,0 +1,12 @@
+# What CI does not run, and why. One `<kind> <path>  # reason` per line; ci/run-local.sh reads this file and fails
+# if a listed path no longer exists, so the list cannot rot.
+#   node    a forge/endoforge test file that run-local.sh leaves out (needs this host)
+#   script  a suite run-local.sh does not call at all (needs this host); run it on host-a by hand
+#   skip    a suite that runs in CI but whose host-only part skips itself, printing why
+#
+# The unittest suite has no exclusions: it passes in a clean HOME. The tests that skip themselves say why in the
+# `skipped '...'` lines run-local.sh prints (today: the MCP SDK interop test, which needs CSTACK_MCP_SDK_ESM pointing
+# at an installed @modelcontextprotocol/sdk, and the replaceability no-core-edit rule when a change adds no fake).
+skip forge/endoforge/tools/throttle/test/run.sh  # live heavy-run checks need a systemd user manager and heavy.slice; run.sh prints SKIP. On host-a: bash forge/endoforge/tools/throttle/test/run.sh
+script forge/endoforge/tools/runtime/test/runtime.test.sh  # needs bubblewrap with overlay mounts and the endoforge runtime launcher (host-a only)
+script forge/endoforge/tools/factory_campaign/test.py  # factory-integration: offline Docker/Wasmtime controls (make factory-integration)

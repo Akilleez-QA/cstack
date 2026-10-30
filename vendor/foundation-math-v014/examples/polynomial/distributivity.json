@@ -1,0 +1,105 @@
+{
+  "domain": "polynomial_ring",
+  "coefficient_field": "Q",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "operation": "verify_identity",
+  "operands": [
+    {
+      "type": "multiply",
+      "operands": [
+        {
+          "type": "add",
+          "operands": [
+            {
+              "type": "variable",
+              "name": "x"
+            },
+            {
+              "type": "rational",
+              "numerator": 1,
+              "denominator": 2
+            }
+          ]
+        },
+        {
+          "type": "add",
+          "operands": [
+            {
+              "type": "variable",
+              "name": "y"
+            },
+            {
+              "type": "rational",
+              "numerator": 2,
+              "denominator": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "add",
+      "operands": [
+        {
+          "type": "add",
+          "operands": [
+            {
+              "type": "multiply",
+              "operands": [
+                {
+                  "type": "variable",
+                  "name": "x"
+                },
+                {
+                  "type": "variable",
+                  "name": "y"
+                }
+              ]
+            },
+            {
+              "type": "multiply",
+              "operands": [
+                {
+                  "type": "rational",
+                  "numerator": 2,
+                  "denominator": 3
+                },
+                {
+                  "type": "variable",
+                  "name": "x"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "add",
+          "operands": [
+            {
+              "type": "multiply",
+              "operands": [
+                {
+                  "type": "rational",
+                  "numerator": 1,
+                  "denominator": 2
+                },
+                {
+                  "type": "variable",
+                  "name": "y"
+                }
+              ]
+            },
+            {
+              "type": "rational",
+              "numerator": 1,
+              "denominator": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

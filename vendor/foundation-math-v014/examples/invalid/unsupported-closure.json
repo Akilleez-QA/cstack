@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "title": "Deliberately invalid: unsupported closure and unresolved dependency",
+  "claims": [
+    {
+      "id": "unresolved.premise",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [],
+      "status": "conjecture",
+      "closure": "open",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    },
+    {
+      "id": "unsupported.result",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [
+        "unresolved.premise"
+      ],
+      "status": "reviewed_conditional",
+      "closure": "closed",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    }
+  ]
+}

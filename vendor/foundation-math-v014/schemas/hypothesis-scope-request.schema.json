@@ -1,0 +1,759 @@
+{
+  "$defs": {
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256"
+      ],
+      "type": "object"
+    },
+    "predicate": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "generic_sheaf_equality"
+            },
+            "left": {
+              "$ref": "#/$defs/pin"
+            },
+            "locus": {
+              "$ref": "#/$defs/pin"
+            },
+            "right": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right",
+            "locus"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "coherent_sheaf_equality"
+            },
+            "left": {
+              "$ref": "#/$defs/pin"
+            },
+            "right": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kernel": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "selected_subkernel"
+            },
+            "of_map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "kernel",
+            "inclusion",
+            "of_map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kernel": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "full_kernel"
+            },
+            "of_map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "kernel",
+            "inclusion",
+            "of_map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "abstract_splitting"
+            },
+            "object": {
+              "$ref": "#/$defs/pin"
+            },
+            "splitting": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "object",
+            "splitting"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "embedded_splitting"
+            },
+            "object": {
+              "$ref": "#/$defs/pin"
+            },
+            "splitting": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "object",
+            "splitting",
+            "inclusion"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "image": {
+              "$ref": "#/$defs/pin"
+            },
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "coherent_image"
+            },
+            "of_map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "image",
+            "inclusion",
+            "of_map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "image": {
+              "$ref": "#/$defs/pin"
+            },
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "saturated_image"
+            },
+            "of_map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "image",
+            "inclusion",
+            "of_map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_sha256": {
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "kind": {
+              "const": "physical_representation"
+            },
+            "label": {
+              "enum": [
+                "1",
+                "W",
+                "A",
+                "S4",
+                "D",
+                "T6",
+                "P",
+                "Wp",
+                "V"
+              ]
+            },
+            "object": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "object",
+            "catalog_sha256",
+            "label"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "object_rank"
+            },
+            "object": {
+              "$ref": "#/$defs/pin"
+            },
+            "value": {
+              "maximum": 1000000,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "kind",
+            "object",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "object_dimension"
+            },
+            "object": {
+              "$ref": "#/$defs/pin"
+            },
+            "value": {
+              "maximum": 1000000,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "kind",
+            "object",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "map_rank"
+            },
+            "map": {
+              "$ref": "#/$defs/pin"
+            },
+            "value": {
+              "maximum": 1000000,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "kind",
+            "map",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "map_injective"
+            },
+            "map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "map_zero"
+            },
+            "map": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "map"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "constants": {
+              "$ref": "#/$defs/pin"
+            },
+            "inclusion": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "constant_vanishing"
+            },
+            "path": {
+              "items": {
+                "$ref": "#/$defs/pin"
+              },
+              "maxItems": 4,
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "constants",
+            "inclusion",
+            "path"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "identification": {
+              "$ref": "#/$defs/pin"
+            },
+            "identified_with": {
+              "$ref": "#/$defs/pin"
+            },
+            "kind": {
+              "const": "torsion_identification"
+            },
+            "of_map": {
+              "$ref": "#/$defs/pin"
+            },
+            "role": {
+              "enum": [
+                "original",
+                "induced"
+              ]
+            },
+            "torsion": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "role",
+            "torsion",
+            "of_map",
+            "identified_with",
+            "identification"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "object_identity"
+            },
+            "left": {
+              "$ref": "#/$defs/pin"
+            },
+            "right": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "map_identity"
+            },
+            "left": {
+              "$ref": "#/$defs/pin"
+            },
+            "right": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "$id": "urn:foundation-math:hypothesis-scope:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Structural aid only. The pure checker additionally enforces exact JSON types, integrity, references, contexts, endpoints, uniqueness, chronology-free current snapshot pins, and aggregate budgets.",
+  "properties": {
+    "application": {
+      "additionalProperties": false,
+      "properties": {
+        "bindings": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "fact": {
+                "$ref": "#/$defs/pin"
+              },
+              "requirement_id": {
+                "maxLength": 64,
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "requirement_id",
+              "fact"
+            ],
+            "type": "object"
+          },
+          "maxItems": 32,
+          "type": "array"
+        },
+        "rule": {
+          "$ref": "#/$defs/pin"
+        }
+      },
+      "required": [
+        "rule",
+        "bindings"
+      ],
+      "type": "object"
+    },
+    "facts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "additionalProperties": false,
+            "properties": {
+              "availability": {
+                "enum": [
+                  "supplied",
+                  "withdrawn"
+                ]
+              },
+              "predicate": {
+                "$ref": "#/$defs/predicate"
+              },
+              "provenance": {
+                "additionalProperties": false,
+                "properties": {
+                  "artifact_sha256": {
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  },
+                  "description": {
+                    "maxLength": 1024,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "artifact_sha256",
+                  "description"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "predicate",
+              "availability",
+              "provenance"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "maxLength": 64,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+            "type": "string"
+          },
+          "revision": {
+            "maximum": 1000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "revision_sha256": {
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "revision_sha256",
+          "content"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "maps": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "additionalProperties": false,
+            "properties": {
+              "description": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              },
+              "source": {
+                "$ref": "#/$defs/pin"
+              },
+              "target": {
+                "$ref": "#/$defs/pin"
+              }
+            },
+            "required": [
+              "source",
+              "target",
+              "description"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "maxLength": 64,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+            "type": "string"
+          },
+          "revision": {
+            "maximum": 1000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "revision_sha256": {
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "revision_sha256",
+          "content"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "objects": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "additionalProperties": false,
+            "properties": {
+              "context_sha256": {
+                "maxLength": 64,
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              "description": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              },
+              "object_type": {
+                "enum": [
+                  "coherent_sheaf",
+                  "vector_space",
+                  "representation",
+                  "formal_splitting",
+                  "locus"
+                ]
+              }
+            },
+            "required": [
+              "object_type",
+              "context_sha256",
+              "description"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "maxLength": 64,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+            "type": "string"
+          },
+          "revision": {
+            "maximum": 1000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "revision_sha256": {
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "revision_sha256",
+          "content"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "rule": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "additionalProperties": false,
+          "properties": {
+            "purpose": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "requirements": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "maxLength": 64,
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                    "type": "string"
+                  },
+                  "predicate": {
+                    "$ref": "#/$defs/predicate"
+                  }
+                },
+                "required": [
+                  "id",
+                  "predicate"
+                ],
+                "type": "object"
+              },
+              "maxItems": 32,
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "purpose",
+            "requirements"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256",
+        "content"
+      ],
+      "type": "object"
+    },
+    "schema": {
+      "const": "foundation-math-hypothesis-scope/1"
+    }
+  },
+  "required": [
+    "schema",
+    "objects",
+    "maps",
+    "facts",
+    "rule",
+    "application"
+  ],
+  "type": "object"
+}

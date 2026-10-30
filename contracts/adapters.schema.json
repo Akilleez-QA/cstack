@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cstack.adapters/0.1",
+  "title": "Adapter inventory (ADR 005 decision 3, delivery item 1)",
+  "description": "One row per attachment of an outside tool to a port lane, keyed by adapter_id and lane. Host configuration, never request data. Status: behind_port means the core reaches it only through the named poodo_core/ports.py protocol; hard_wired means no such protocol stands between it and its callers, so the lane's replaceability test cannot swap it yet (it says nothing about the vendor's quality); planned means no code exists yet and the row records where it must attach before it is built.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "attachments", "not_an_adapter"],
+  "properties": {
+    "schema": {"const": "cstack.adapters/0.1"},
+    "attachments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/attachment"}},
+    "not_an_adapter": {
+      "description": "Scanned files that attach nothing to a lane: build and check tools, core seams, shared helpers and host-configuration loaders.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/not_an_adapter"}
+    }
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "maxLength": 600},
+    "lane": {"enum": ["HMIFace", "TruthFace", "RuntimeFace", "EvidenceFace", "SupervisorFace", "ToolFace",
+                      "ReadModelFace", "LearningFace"]},
+    "repo_path": {"type": "string", "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))[A-Za-z0-9_.@/-]+$"},
+    "attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "lane", "port", "vendor", "kind", "fake", "status", "strategic_dependency_adr",
+                   "notes"],
+      "properties": {
+        "adapter_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+        "lane": {"$ref": "#/$defs/lane"},
+        "port": {"type": "string", "pattern": "^(none|[A-Z][A-Za-z0-9]*Port)$",
+                 "description": "A protocol name from poodo_core/ports.py, or none with port_reason."},
+        "port_reason": {"$ref": "#/$defs/text"},
+        "vendor": {"$ref": "#/$defs/text"},
+        "kind": {"enum": ["python_module", "repo_path", "external_command"]},
+        "path": {"$ref": "#/$defs/repo_path"},
+        "command": {"type": "string", "minLength": 1, "maxLength": 200},
+        "fake": {"oneOf": [{"type": "string", "pattern": "^fake(\\.[a-z0-9-]+)+$"},
+                           {"type": "null"}],
+                 "description": "A fake_id from LANE_SUITES in tests/replaceability/compose.py (item 2) for this lane, or null with fake_reason."},
+        "fake_reason": {"$ref": "#/$defs/text"},
+        "status": {"enum": ["behind_port", "hard_wired", "planned"]},
+        "strategic_dependency_adr": {"oneOf": [{"type": "string", "pattern": "^DECISION-[0-9]{3}-[a-z0-9-]+\\.md$"},
+                                               {"type": "null"}]},
+        "notes": {"$ref": "#/$defs/text"}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "external_command"}}},
+         "then": {"required": ["command"], "not": {"required": ["path"]}},
+         "else": {"required": ["path"], "not": {"required": ["command"]}}},
+        {"if": {"properties": {"kind": {"const": "python_module"}}},
+         "then": {"properties": {"path": {"pattern": "\\.py$"}}}},
+        {"if": {"properties": {"port": {"const": "none"}}},
+         "then": {"required": ["port_reason"]}, "else": {"not": {"required": ["port_reason"]}}},
+        {"if": {"properties": {"fake": {"type": "null"}}},
+         "then": {"required": ["fake_reason"]}, "else": {"not": {"required": ["fake_reason"]}}},
+        {"if": {"properties": {"status": {"const": "behind_port"}}},
+         "then": {"properties": {"port": {"not": {"const": "none"}}}}},
+        {"if": {"properties": {"status": {"const": "planned"}}},
+         "then": {"properties": {"port": {"const": "none"}, "fake": {"type": "null"}}}}
+      ]
+    },
+    "not_an_adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "reason"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repo_path"},
+        "role": {"enum": ["build_or_check_tool", "core_seam", "shared_helper", "host_config"]},
+        "reason": {"$ref": "#/$defs/text"}
+      }
+    }
+  }
+}

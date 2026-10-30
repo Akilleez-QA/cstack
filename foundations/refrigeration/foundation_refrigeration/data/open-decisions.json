@@ -1,0 +1,110 @@
+{
+  "data": {
+    "decisions": [
+      {
+        "census": "example",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Example only; read IIAR Bulletin 114 before choosing."
+          },
+          "dispute": "Two example band schemes disagree on body and band colours.",
+          "status": "DISPUTED"
+        },
+        "id": "b114-marker-colour-scheme",
+        "positions": [
+          {
+            "source": "example source A",
+            "summary": "Yellow marker body with an orange liquid band."
+          },
+          {
+            "source": "example source B",
+            "summary": "Orange marker body with a yellow liquid band."
+          }
+        ],
+        "topic": "Pipe-marker colour and band scheme (IIAR Bulletin 114)"
+      },
+      {
+        "census": "example",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Example only; no source for a fixed split was read."
+          },
+          "dispute": "One example uses a fixed pressure; the other classifies by system side.",
+          "status": "DISPUTED"
+        },
+        "id": "b114-70-psig-split",
+        "positions": [
+          {
+            "source": "example source A",
+            "summary": "Split HIGH/LOW at a fixed gauge pressure."
+          },
+          {
+            "source": "example source B",
+            "summary": "Classify HIGH/LOW by the side of the system."
+          }
+        ],
+        "topic": "Where the HIGH/LOW pressure band split sits"
+      },
+      {
+        "census": "example",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Example only; no reference-plant projection exists until one topology is chosen."
+          },
+          "dispute": "Two example topologies with different discharge pressures.",
+          "status": "DISPUTED"
+        },
+        "id": "canonical-northfield",
+        "positions": [
+          {
+            "source": "example source A",
+            "summary": "A single-stage example plant."
+          },
+          {
+            "source": "example source B",
+            "summary": "A two-stage example plant with an intercooler."
+          }
+        ],
+        "topic": "Which example reference plant is canonical"
+      },
+      {
+        "census": "example",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Example only. This Foundation makes no alarm or detection claim."
+          },
+          "dispute": "One example style guide bans the word; another requires it.",
+          "status": "DISPUTED"
+        },
+        "id": "alarm-wording",
+        "positions": [
+          {
+            "source": "example source A",
+            "summary": "Avoid 'alarm' in product text."
+          },
+          {
+            "source": "example source B",
+            "summary": "Use 'alarm' for the safety-system term."
+          }
+        ],
+        "topic": "Whether 'alarm' is allowed wording"
+      }
+    ]
+  },
+  "generatedBy": "Template example data: four generic open questions an R717 (ammonia) plant team might disagree on. Replace with your own.",
+  "owner": "foundation_refrigeration.decisions",
+  "schema": "open-decisions/1",
+  "version": "1.0.0"
+}

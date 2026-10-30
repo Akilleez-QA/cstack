@@ -1,0 +1,159 @@
+{
+  "affected_claims": [],
+  "affected_obligations": [
+    "synthetic_review"
+  ],
+  "events_replayed": 3,
+  "history": [
+    {
+      "current": true,
+      "kind": "evidence",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_counterexample",
+        "revision": 1,
+        "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+      }
+    },
+    {
+      "current": false,
+      "kind": "claim",
+      "lifecycle_events": [
+        {
+          "evidence": {
+            "id": "synthetic_counterexample",
+            "revision": 1,
+            "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+          },
+          "id": "report_old_objection",
+          "kind": "record_refutation_report",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          }
+        },
+        {
+          "id": "withdraw_old_revision",
+          "kind": "withdraw",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          }
+        }
+      ],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      }
+    }
+  ],
+  "input_sha256": "2efaa9ea56624bec9a9e191608b0978dd3817f249b7262e8fc8cce6f49e45a09",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "evidence",
+      "pin": {
+        "id": "synthetic_counterexample",
+        "revision": 1,
+        "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "af04ef4a9fa6d52aa7777010aee8203b7bc502f9b7b43dbf3bfdd325a953d3fe",
+          "code": "dependency_revision_not_current",
+          "current": {
+            "id": "synthetic_lemma",
+            "revision": 2,
+            "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+          },
+          "event_id": "revise_lemma",
+          "expected": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          },
+          "origin": {
+            "id": "synthetic_review",
+            "revision": 1,
+            "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+          },
+          "path": [
+            {
+              "id": "synthetic_review",
+              "revision": 1,
+              "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+            },
+            {
+              "id": "synthetic_lemma",
+              "revision": 1,
+              "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+            }
+          ]
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

@@ -1,0 +1,5 @@
+{
+  "purpose": "Who may name a branch or register a worker: every bot slug in aors/fleet.json, plus these worker lanes and aliases. A name not on this roster (for example `null`, an unset variable) is refused by codex-task, workers run and the merge train.",
+  "lanes": ["claude-code", "codex", "cursor", "field-ops-worker"],
+  "aliases": {"cos": "chief-of-staff", "tlm": "thermologic-marketing", "hl": "home-lab"}
+}

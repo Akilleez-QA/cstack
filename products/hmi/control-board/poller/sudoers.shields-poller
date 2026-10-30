@@ -1,0 +1,2 @@
+# /etc/sudoers.d/shields-poller  (visudo -cf before installing)
+shields-poller ALL=(root) NOPASSWD: /usr/local/sbin/shields

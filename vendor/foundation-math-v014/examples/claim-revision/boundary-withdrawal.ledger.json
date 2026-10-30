@@ -1,0 +1,174 @@
+{
+  "events": [
+    {
+      "id": "withdraw_boundary_argument",
+      "kind": "withdraw",
+      "reason": "Synthetic recorded correction.",
+      "target": {
+        "id": "boundary_kernel_argument",
+        "revision": 1,
+        "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+      }
+    }
+  ],
+  "records": [
+    {
+      "content": {
+        "artifact_sha256": "5a222e66f75bdeeb1a584e10575236440c9d744adeb976e44439a6b084c3d0ee",
+        "authored_status": "claimed_established",
+        "description": "Synthetic evidence boundary_kernel_argument.",
+        "evidence_type": "informal_argument"
+      },
+      "content_sha256": "03b57ac00de8bec1836fdaa2c408625a1e10e9683c2d631d99a32ed1481ff366",
+      "dependencies": [],
+      "id": "boundary_kernel_argument",
+      "kind": "evidence",
+      "revision": 1,
+      "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "claimed_established",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement boundary_kernel_lemma."
+      },
+      "content_sha256": "c2dd013d94e2684b2a25ceb718bf8be873c0251a14aa05b05f7ef266db2d2ae6",
+      "dependencies": [
+        {
+          "id": "boundary_kernel_argument",
+          "revision": 1,
+          "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+        }
+      ],
+      "id": "boundary_kernel_lemma",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+    },
+    {
+      "content": {
+        "authored_status": "draft",
+        "requirement": "Review synthetic obligation draft_exclusion_obligation."
+      },
+      "content_sha256": "0654d4a31d6d26bf91a06f35ef00d9cb76d5718b77819eec8d549723c1a3914b",
+      "dependencies": [
+        {
+          "id": "boundary_kernel_lemma",
+          "revision": 1,
+          "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+        }
+      ],
+      "id": "draft_exclusion_obligation",
+      "kind": "obligation",
+      "revision": 1,
+      "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement draft_exclusion."
+      },
+      "content_sha256": "ded178a5d0184ea5ed8893c2f4bfb220220b4d1d75bd5252d57ca9280acb0a8f",
+      "dependencies": [
+        {
+          "id": "draft_exclusion_obligation",
+          "revision": 1,
+          "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+        }
+      ],
+      "id": "draft_exclusion",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+    },
+    {
+      "content": {
+        "authored_status": "draft",
+        "requirement": "Review synthetic obligation combined_exclusion_obligation."
+      },
+      "content_sha256": "aaa1b57487b68a8f83a01d967c699d80ce8dd189328baf23aef4ee0b59ef95c1",
+      "dependencies": [
+        {
+          "id": "draft_exclusion",
+          "revision": 1,
+          "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+        }
+      ],
+      "id": "combined_exclusion_obligation",
+      "kind": "obligation",
+      "revision": 1,
+      "revision_sha256": "d5e61d1030843d1765be431720ba846a34a5d82fe5cad7bf65b6e10b2c97e091"
+    },
+    {
+      "content": {
+        "artifact_sha256": "6f74ff2c0ed568892878dd61106f6ae0088faeb56fad0b91183666f98a9a73ab",
+        "authored_status": "claimed_established",
+        "description": "Synthetic evidence span_argument.",
+        "evidence_type": "informal_argument"
+      },
+      "content_sha256": "cd5f6b7e66079819b01fa81df8bc833115f7b0bb6e8fd370ca004ab5af9da70e",
+      "dependencies": [],
+      "id": "span_argument",
+      "kind": "evidence",
+      "revision": 1,
+      "revision_sha256": "a539f0271b6b8cebe4f2167dff3d2014e5b4e982f29b60809b609011b922606e"
+    },
+    {
+      "content": {
+        "authored_status": "claimed_established",
+        "requirement": "Review synthetic obligation span_constraint_obligation."
+      },
+      "content_sha256": "d04e875773cf0e4d7d84a652189595eeedd6a38af1aec68f9bef17db4a912138",
+      "dependencies": [
+        {
+          "id": "span_argument",
+          "revision": 1,
+          "revision_sha256": "a539f0271b6b8cebe4f2167dff3d2014e5b4e982f29b60809b609011b922606e"
+        }
+      ],
+      "id": "span_constraint_obligation",
+      "kind": "obligation",
+      "revision": 1,
+      "revision_sha256": "eead3a771109d9f5a81cd0ec4db702b28405ddae0f700519d7d701fb76c26e81"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "claimed_established",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement span_constraints."
+      },
+      "content_sha256": "9e894b594eb273e189f8ebd724ceffc29311622e99aad40f379f9842c97a71c6",
+      "dependencies": [
+        {
+          "id": "span_constraint_obligation",
+          "revision": 1,
+          "revision_sha256": "eead3a771109d9f5a81cd0ec4db702b28405ddae0f700519d7d701fb76c26e81"
+        }
+      ],
+      "id": "span_constraints",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "2920d5ea354a2cd936e56526624543a871de769a978b88afc629cb5e963d66fd"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1"
+}

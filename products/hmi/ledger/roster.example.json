@@ -1,0 +1,12 @@
+{
+  "quorum": 2,
+  "witnesses": {
+    "host-a": "<ed25519 public key hex>",
+    "host-b": "<ed25519 public key hex>",
+    "third-always-on": "<ed25519 public key hex>"
+  },
+  "writers": {
+    "chief-of-staff": {"pub": "<ed25519 public key hex>", "node": "host-a"},
+    "grok-bot": {"pub": "<ed25519 public key hex>", "node": "box"}
+  }
+}

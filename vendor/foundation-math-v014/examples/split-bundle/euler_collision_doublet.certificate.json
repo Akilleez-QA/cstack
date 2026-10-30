@@ -1,0 +1,2128 @@
+{
+  "assumptions": {
+    "base": "P(W) with determinant-one W and standard O(1) linearization",
+    "catalog_identification": "fixed_physical_marking_assumed_not_proved",
+    "geometry": "no_active_research_bundle_identification_or_map_rank_inference",
+    "group": "SL2(F5) over C",
+    "splitting": "supplied_formal_equivariant_direct_sum_assumed"
+  },
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "request": {
+    "bundle": [
+      {
+        "irrep": "W",
+        "multiplicity": 1,
+        "twist": -1
+      }
+    ],
+    "operation": "cohomology",
+    "schema": "fm-split-bundle-request-v1",
+    "twists": [
+      -64,
+      -5,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      5,
+      64
+    ]
+  },
+  "request_sha256": "a0011e12f22cff76ca24e68a14d591fd184e8876fa09ce6d65e9aafa7640d703",
+  "result": {
+    "bundle": {
+      "degree": -2,
+      "rank": 2
+    },
+    "operation": "cohomology",
+    "twists": [
+      {
+        "degree": -130,
+        "euler": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              -128,
+              1,
+              0,
+              1
+            ],
+            [
+              -128,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "proper_virtual",
+          "dimension": -128,
+          "even_dimension": -128,
+          "multiplicities": [
+            -2,
+            0,
+            -7,
+            0,
+            -11,
+            0,
+            -8,
+            0,
+            -6
+          ],
+          "negative_multiplicities": {
+            "1": -2,
+            "A": -7,
+            "D": -11,
+            "P": -8,
+            "V": -6
+          },
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 128,
+          "even_dimension": 128,
+          "multiplicities": [
+            2,
+            0,
+            7,
+            0,
+            11,
+            0,
+            8,
+            0,
+            6
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": -64
+      },
+      {
+        "degree": -12,
+        "euler": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              -10,
+              1,
+              0,
+              1
+            ],
+            [
+              10,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "proper_virtual",
+          "dimension": -10,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {
+            "S4": -1,
+            "T6": -1
+          },
+          "odd_dimension": -10
+        },
+        "h0": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              10,
+              1,
+              0,
+              1
+            ],
+            [
+              -10,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 10,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 10
+        },
+        "rank": 2,
+        "twist": -5
+      },
+      {
+        "degree": -6,
+        "euler": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              -4,
+              1,
+              0,
+              1
+            ],
+            [
+              -4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -3,
+              2,
+              -1,
+              2
+            ],
+            [
+              -3,
+              2,
+              -1,
+              2
+            ],
+            [
+              -3,
+              2,
+              1,
+              2
+            ],
+            [
+              -3,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "proper_virtual",
+          "dimension": -4,
+          "even_dimension": -4,
+          "multiplicities": [
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {
+            "1": -1,
+            "A": -1
+          },
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 4,
+          "even_dimension": 4,
+          "multiplicities": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": -2
+      },
+      {
+        "degree": -4,
+        "euler": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "proper_virtual",
+          "dimension": -2,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {
+            "W": -1
+          },
+          "odd_dimension": -2
+        },
+        "h0": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 2,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 2
+        },
+        "rank": 2,
+        "twist": -1
+      },
+      {
+        "degree": -2,
+        "euler": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": 0
+      },
+      {
+        "degree": 0,
+        "euler": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 2,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 2
+        },
+        "h0": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 2,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 2
+        },
+        "h1": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": 1
+      },
+      {
+        "degree": 2,
+        "euler": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 4,
+          "even_dimension": 4,
+          "multiplicities": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 4,
+          "even_dimension": 4,
+          "multiplicities": [
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": 2
+      },
+      {
+        "degree": 8,
+        "euler": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              10,
+              1,
+              0,
+              1
+            ],
+            [
+              -10,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 10,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 10
+        },
+        "h0": {
+          "center_parity": "odd",
+          "class_values": [
+            [
+              10,
+              1,
+              0,
+              1
+            ],
+            [
+              -10,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 10,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 10
+        },
+        "h1": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": 5
+      },
+      {
+        "degree": 126,
+        "euler": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 128,
+          "even_dimension": 128,
+          "multiplicities": [
+            2,
+            0,
+            7,
+            0,
+            11,
+            0,
+            8,
+            0,
+            6
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              128,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 128,
+          "even_dimension": 128,
+          "multiplicities": [
+            2,
+            0,
+            7,
+            0,
+            11,
+            0,
+            8,
+            0,
+            6
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "zero",
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 0,
+          "even_dimension": 0,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 2,
+        "twist": 64
+      }
+    ]
+  },
+  "schema": "fm-split-bundle-certificate-v1",
+  "scope": "formal_supplied_split_bundle_arithmetic_only"
+}

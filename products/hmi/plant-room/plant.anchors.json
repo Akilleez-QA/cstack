@@ -1,0 +1,362 @@
+[
+ {
+  "text": "the owner \u00b7 operator",
+  "kind": "person",
+  "pos": [
+   0,
+   17.1,
+   -36.4
+  ]
+ },
+ {
+  "text": "Shields / kill switch (E-stop)",
+  "kind": "stop",
+  "pos": [
+   5.6,
+   16.1,
+   -37.2
+  ]
+ },
+ {
+  "text": "HMI: setpoints \u00b7 live gauges \u00b7 mode",
+  "kind": "title",
+  "pos": [
+   -7.5,
+   19.9,
+   -42.0
+  ]
+ },
+ {
+  "text": "Witnessed ledger",
+  "kind": "label",
+  "pos": [
+   14.799999999999999,
+   10.1,
+   -30.9
+  ]
+ },
+ {
+  "text": "POODO: every action passes the interlocks (ALLOW \u00b7 ASK \u00b7 DENY)",
+  "kind": "relay",
+  "pos": [
+   -12.0,
+   8.5,
+   -31.0
+  ]
+ },
+ {
+  "text": "Grok Bot",
+  "kind": "crew:intake window \u00b7 routing",
+  "pos": [
+   -16.2,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "Chief of Staff",
+  "kind": "crew:master keys",
+  "pos": [
+   -10.999999999999998,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "ThermoLogic",
+  "kind": "crew:marketing",
+  "pos": [
+   -5.799999999999999,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "Home Lab",
+  "kind": "crew:X99 server",
+  "pos": [
+   -0.5999999999999982,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "Keymaster",
+  "kind": "crew:accounts",
+  "pos": [
+   4.600000000000001,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "Docs & Learning",
+  "kind": "crew:lessons",
+  "pos": [
+   9.8,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "+ 29 more",
+  "kind": "crew:fleet roster",
+  "pos": [
+   15.000000000000004,
+   6.0,
+   -27.3
+  ]
+ },
+ {
+  "text": "Fleet mail (envelopes between the crew)",
+  "kind": "flow:intent",
+  "pos": [
+   12.0,
+   6.5,
+   -29.0
+  ]
+ },
+ {
+  "text": "Conductor: orchestrates work across lanes",
+  "kind": "label",
+  "pos": [
+   -6.2,
+   9.6,
+   -9.4
+  ]
+ },
+ {
+  "text": "Collect gate: checks pass, or revert",
+  "kind": "label",
+  "pos": [
+   18.2,
+   5.4,
+   -16.5
+  ]
+ },
+ {
+  "text": "1  Atomize: slice one big job into small labelled blocks",
+  "kind": "stage",
+  "pos": [
+   -14.5,
+   0.3,
+   -13.5
+  ]
+ },
+ {
+  "text": "2  Parallelize: one writer per file, one lane each",
+  "kind": "stage",
+  "pos": [
+   0.0,
+   1.0,
+   -8.8
+  ]
+ },
+ {
+  "text": "3  Recombine: assemble and verify",
+  "kind": "stage",
+  "pos": [
+   14.5,
+   0.3,
+   -13.0
+  ]
+ },
+ {
+  "text": "GPU queue: short lane (< 2 min) \u00b7 long lane (> 2 min)",
+  "kind": "label",
+  "pos": [
+   -17,
+   1.6,
+   -3.5
+  ]
+ },
+ {
+  "text": "GPU (RTX 4080) \u00b7 compressor",
+  "kind": "label",
+  "pos": [
+   -3,
+   5.9,
+   -3.6
+  ]
+ },
+ {
+  "text": "Throttle: heavy-run \u00b7 memguard (relief valve + governor)",
+  "kind": "label",
+  "pos": [
+   7.6,
+   5.2,
+   -3.6
+  ]
+ },
+ {
+  "text": "Fleet capacity (0 \u2013 100 %)",
+  "kind": "label",
+  "pos": [
+   13.5,
+   5.8,
+   -3.6
+  ]
+ },
+ {
+  "text": "Worker registry (running \u00b7 dead \u00b7 unknown)",
+  "kind": "label",
+  "pos": [
+   19.5,
+   6.2,
+   -4.2
+  ]
+ },
+ {
+  "text": "Refrigeration (ammonia, R717)",
+  "kind": "label",
+  "pos": [
+   -31.5,
+   6.2,
+   -7.5
+  ]
+ },
+ {
+  "text": "Engine (three.js)",
+  "kind": "label",
+  "pos": [
+   -25.3,
+   6.2,
+   -12.7
+  ]
+ },
+ {
+  "text": "Film (cuts, gates)",
+  "kind": "label",
+  "pos": [
+   -31.5,
+   6.2,
+   -17.9
+  ]
+ },
+ {
+  "text": "Robotics (mechanics)",
+  "kind": "label",
+  "pos": [
+   -25.3,
+   6.2,
+   -23.1
+  ]
+ },
+ {
+  "text": "Foundations (domain knowledge silos)",
+  "kind": "title",
+  "pos": [
+   -28.4,
+   11.6,
+   -7.0
+  ]
+ },
+ {
+  "text": "Parts wall: catalogued open-source parts",
+  "kind": "label",
+  "pos": [
+   -23.0,
+   9.9,
+   -34.0
+  ]
+ },
+ {
+  "text": "Merge train (approved changes)",
+  "kind": "label",
+  "pos": [
+   27.0,
+   3.9,
+   -25.0
+  ]
+ },
+ {
+  "text": "Chief of Staff review gate",
+  "kind": "label",
+  "pos": [
+   29.2,
+   4.4,
+   -30.0
+  ]
+ },
+ {
+  "text": "main (production branch)",
+  "kind": "title",
+  "pos": [
+   31.5,
+   7.6,
+   -38.0
+  ]
+ },
+ {
+  "text": "Shipping: finished products leave the dock",
+  "kind": "title",
+  "pos": [
+   36.0,
+   3.2,
+   -9.0
+  ]
+ },
+ {
+  "text": "Intent  (goals, requests, changes)",
+  "kind": "flow:intent",
+  "pos": [
+   -3.0,
+   13.2,
+   -34.3
+  ]
+ },
+ {
+  "text": "Measured effect \u2192 learning",
+  "kind": "flow:ok",
+  "pos": [
+   39.6,
+   9.4,
+   -36.0
+  ]
+ },
+ {
+  "text": "Verified build",
+  "kind": "flow:ok",
+  "pos": [
+   21.0,
+   3.6,
+   -17.6
+  ]
+ },
+ {
+  "text": "Grok box (remote, not visible from host-a)",
+  "kind": "title",
+  "pos": [
+   -43.0,
+   6.6,
+   -40.0
+  ]
+ },
+ {
+  "text": "SSH, outbound only (one way)",
+  "kind": "flow:stale",
+  "pos": [
+   -36.5,
+   2.4,
+   -33.0
+  ]
+ },
+ {
+  "text": "Hermes (standby)",
+  "kind": "title",
+  "pos": [
+   -22.0,
+   11.600000000000001,
+   -52.0
+  ]
+ },
+ {
+  "text": "failover when rate-limited",
+  "kind": "flow:wip",
+  "pos": [
+   -20.5,
+   5.6,
+   -41.0
+  ]
+ }
+]

@@ -1,0 +1,1440 @@
+{
+  "data": {
+    "alias_notes": {
+      "compressor-skid": "A visual compressor package; packaging is not recorded by this alias.",
+      "inline-valve": "Generic inline valve model; valve type not recorded.",
+      "merge-header": "Visual header for a network merge.",
+      "other": "Legacy catch-all; not a kind.",
+      "rack": "Ambiguous across sources (pipe rack, compressor rack, electrical rack); CHECK.",
+      "remote-controller": "A controller mounted remotely; CHECK.",
+      "sensor": "Generic sensor; the measured quantity is not recorded by this alias.",
+      "splitter-header": "Visual header for a network splitter.",
+      "trap": "The kit model behind this name is a suction trap; equivalence to an accumulator is CHECK.",
+      "twin-pump": "Two pumps in one family model.",
+      "unknown": "Legacy catch-all; not a kind.",
+      "vbank": "Read as a valve bank; CHECK.",
+      "vfd-cabinet": "The cabinet housing a drive."
+    },
+    "aliases": {
+      "accumulator": "accumulator",
+      "actuated-valve": "actuated-valve",
+      "actuator": "actuator",
+      "air-unit": "air-unit",
+      "ammonia-detector": "gas-detector",
+      "assembly": "assembly",
+      "backflow-preventer": "backflow-preventer",
+      "ball-valve": "ball-valve",
+      "brazed-plate-heat-exchanger": "brazed-plate-heat-exchanger",
+      "brazed-plate-hx": "brazed-plate-heat-exchanger",
+      "breaker": "circuit-breaker",
+      "cabinet": "cabinet",
+      "check-valve": "check-valve",
+      "circuit-breaker": "circuit-breaker",
+      "coil": "coil",
+      "communication-adapter": "communication-adapter",
+      "compressor": "compressor",
+      "compressor-skid": "compressor",
+      "condenser": "condenser",
+      "connector": "connector",
+      "contactor": "contactor",
+      "control-device": "control-device",
+      "control-panel": "panel",
+      "controller": "controller",
+      "cycle-closure": "cycle-closure",
+      "disconnect": "disconnect",
+      "display": "display",
+      "electrical-device": "electrical-device",
+      "enclosure": "enclosure",
+      "evap-cond": "evaporative-condenser",
+      "evaporative-condenser": "evaporative-condenser",
+      "evaporator": "evaporator",
+      "expansion-board": "expansion-board",
+      "expansion-valve": "expansion-valve",
+      "fan": "fan",
+      "filter-drier": "filter-drier",
+      "flash-gas-vessel": "flash-gas-vessel",
+      "flow-sensor": "flow-sensor",
+      "fuse": "fuse",
+      "gas-cooler": "gas-cooler",
+      "gas-cooler-1": "gas-cooler",
+      "gas-cooler-1-adiabatic": "gas-cooler",
+      "gas-cooler-2": "gas-cooler",
+      "gas-cooler-2-adiabatic": "gas-cooler",
+      "gas-cooler-3": "gas-cooler",
+      "gas-cooler-3-adiabatic": "gas-cooler",
+      "gas-cooler-4": "gas-cooler",
+      "gas-cooler-4-adiabatic": "gas-cooler",
+      "gas-cooler-5": "gas-cooler",
+      "gas-cooler-5-adiabatic": "gas-cooler",
+      "gas-cooler-6": "gas-cooler",
+      "gas-cooler-6-adiabatic": "gas-cooler",
+      "gas-cooler-7": "gas-cooler",
+      "gas-cooler-7-adiabatic": "gas-cooler",
+      "gas-cooler-8": "gas-cooler",
+      "gas-cooler-8-adiabatic": "gas-cooler",
+      "gas-detector": "gas-detector",
+      "ground-bus": "ground-bus",
+      "hand-valve": "manual-valve",
+      "heat-exchanger": "heat-exchanger",
+      "heat-transfer-equipment": "heat-transfer-equipment",
+      "heater": "heater",
+      "high-pressure-receiver": "high-pressure-receiver",
+      "hmi": "hmi",
+      "hot-gas-valve": "hot-gas-valve",
+      "hpr": "high-pressure-receiver",
+      "inline-component": "inline-component",
+      "inline-valve": "valve",
+      "instrument": "instrument",
+      "intercooler": "intercooler",
+      "io-module": "io-module",
+      "io-rack": "io-rack",
+      "junction": "junction-block",
+      "junction-block": "junction-block",
+      "keypad": "keypad",
+      "level-column": "level-column",
+      "level-sensor": "level-sensor",
+      "liquid-receiver": "receiver",
+      "manual-valve": "manual-valve",
+      "merge": "merge",
+      "merge-header": "merge",
+      "microcontroller": "microcontroller",
+      "model-construct": "model-construct",
+      "motor": "motor",
+      "motorized-valve": "motorized-valve",
+      "oil-pot": "oil-pot",
+      "oil-reservoir": "oil-reservoir",
+      "oil-reservoir-h": "oil-reservoir",
+      "oil-reservoir-v": "oil-reservoir",
+      "oil-sep-h": "oil-separator",
+      "oil-sep-v": "oil-separator",
+      "oil-separator": "oil-separator",
+      "option-boundary": "option-boundary",
+      "other": "unclassified",
+      "overload": "overload",
+      "panel": "panel",
+      "pipe-header": "pipe-header",
+      "plate-heat-exchanger": "plate-heat-exchanger",
+      "plate-hx": "plate-heat-exchanger",
+      "plc": "plc",
+      "pressure-regulator": "regulator",
+      "pressure-transducer": "pressure-transducer",
+      "process-vessel": "vessel",
+      "pump": "pump",
+      "purger": "purger",
+      "rack": "rack",
+      "receiver": "receiver",
+      "receiver-v": "receiver",
+      "recip": "reciprocating-compressor",
+      "recip-package": "reciprocating-compressor",
+      "reciprocating-compressor": "reciprocating-compressor",
+      "recirculator": "recirculator",
+      "regulator": "regulator",
+      "relay": "relay",
+      "relief-valve": "relief-valve",
+      "remote-controller": "controller",
+      "remote-io": "remote-io",
+      "rotating-machine": "rotating-machine",
+      "screw": "screw-compressor",
+      "screw-compressor": "screw-compressor",
+      "screw-package": "screw-compressor",
+      "sensor": "instrument",
+      "service-valve": "service-valve",
+      "shell-and-tube-heat-exchanger": "shell-and-tube-heat-exchanger",
+      "shell-hx": "shell-and-tube-heat-exchanger",
+      "shell-tube": "shell-and-tube-heat-exchanger",
+      "shield-drain": "shield-drain",
+      "shutoff-valve": "shutoff-valve",
+      "sight-glass": "sight-glass",
+      "skid": "skid",
+      "solenoid-valve": "solenoid-valve",
+      "splitter": "splitter",
+      "splitter-header": "splitter",
+      "stepper-valve": "stepper-valve",
+      "strainer": "strainer",
+      "subcooler": "subcooler",
+      "suction-accumulator": "suction-accumulator",
+      "switch": "switch",
+      "system-limit": "system-limit",
+      "system-skid": "skid",
+      "temperature-sensor": "temperature-sensor",
+      "terminal-block": "terminal-block",
+      "termination": "termination",
+      "three-way-valve": "three-way-valve",
+      "timer": "timer",
+      "transformer": "transformer",
+      "trap": "suction-accumulator",
+      "twin-pump": "pump",
+      "unclassified": "unclassified",
+      "unit-cooler": "air-unit",
+      "unknown": "unclassified",
+      "valve": "valve",
+      "valve-station": "valve-station",
+      "vbank": "valve-station",
+      "vessel": "vessel",
+      "vfd": "vfd",
+      "vfd-cabinet": "vfd"
+    },
+    "evidence": {
+      "basis": {
+        "kind": "practice",
+        "note": "example provenance: replace with the source you verified"
+      },
+      "status": "CHECK"
+    },
+    "kinds": [
+      {
+        "id": "rotating-machine",
+        "label": "Rotating machine",
+        "parent": null
+      },
+      {
+        "id": "heat-transfer-equipment",
+        "label": "Heat-transfer equipment",
+        "parent": null
+      },
+      {
+        "id": "vessel",
+        "label": "Pressure vessel",
+        "parent": null
+      },
+      {
+        "id": "inline-component",
+        "label": "Inline piping component",
+        "parent": null
+      },
+      {
+        "id": "valve",
+        "label": "Valve",
+        "parent": null
+      },
+      {
+        "id": "instrument",
+        "label": "Instrument or sensor",
+        "parent": null
+      },
+      {
+        "id": "electrical-device",
+        "label": "Electrical device",
+        "parent": null
+      },
+      {
+        "id": "control-device",
+        "label": "Control device",
+        "parent": null
+      },
+      {
+        "id": "termination",
+        "label": "Electrical termination",
+        "parent": null
+      },
+      {
+        "id": "enclosure",
+        "label": "Enclosure",
+        "parent": null
+      },
+      {
+        "id": "model-construct",
+        "label": "Modelling construct (not physical equipment)",
+        "parent": null
+      },
+      {
+        "id": "unclassified",
+        "label": "Unclassified",
+        "parent": null
+      },
+      {
+        "id": "compressor",
+        "label": "Compressor",
+        "parent": "rotating-machine"
+      },
+      {
+        "id": "screw-compressor",
+        "label": "Screw compressor (package)",
+        "parent": "compressor"
+      },
+      {
+        "id": "reciprocating-compressor",
+        "label": "Reciprocating compressor (package)",
+        "parent": "compressor"
+      },
+      {
+        "id": "pump",
+        "label": "Pump",
+        "parent": "rotating-machine"
+      },
+      {
+        "id": "fan",
+        "label": "Fan",
+        "parent": "rotating-machine"
+      },
+      {
+        "id": "motor",
+        "label": "Motor",
+        "parent": "rotating-machine"
+      },
+      {
+        "id": "condenser",
+        "label": "Condenser",
+        "parent": "heat-transfer-equipment"
+      },
+      {
+        "id": "evaporative-condenser",
+        "label": "Evaporative condenser",
+        "parent": "condenser"
+      },
+      {
+        "id": "gas-cooler",
+        "label": "Gas cooler (transcritical CO2)",
+        "parent": "heat-transfer-equipment"
+      },
+      {
+        "id": "evaporator",
+        "label": "Evaporator",
+        "parent": "heat-transfer-equipment"
+      },
+      {
+        "id": "air-unit",
+        "label": "Air unit / unit cooler",
+        "parent": "evaporator"
+      },
+      {
+        "id": "coil",
+        "label": "Coil",
+        "parent": "heat-transfer-equipment"
+      },
+      {
+        "id": "heat-exchanger",
+        "label": "Heat exchanger",
+        "parent": "heat-transfer-equipment"
+      },
+      {
+        "id": "plate-heat-exchanger",
+        "label": "Plate heat exchanger",
+        "parent": "heat-exchanger"
+      },
+      {
+        "id": "brazed-plate-heat-exchanger",
+        "label": "Brazed-plate heat exchanger",
+        "parent": "plate-heat-exchanger"
+      },
+      {
+        "id": "shell-and-tube-heat-exchanger",
+        "label": "Shell-and-tube heat exchanger",
+        "parent": "heat-exchanger"
+      },
+      {
+        "id": "subcooler",
+        "label": "Subcooler",
+        "parent": "heat-exchanger"
+      },
+      {
+        "id": "receiver",
+        "label": "Receiver",
+        "parent": "vessel"
+      },
+      {
+        "id": "high-pressure-receiver",
+        "label": "High-pressure receiver",
+        "parent": "receiver"
+      },
+      {
+        "id": "accumulator",
+        "label": "Accumulator",
+        "parent": "vessel"
+      },
+      {
+        "id": "suction-accumulator",
+        "label": "Suction accumulator / suction trap",
+        "parent": "accumulator"
+      },
+      {
+        "id": "recirculator",
+        "label": "Recirculator (pumped-liquid vessel)",
+        "parent": "vessel"
+      },
+      {
+        "id": "intercooler",
+        "label": "Intercooler",
+        "parent": "vessel"
+      },
+      {
+        "id": "oil-separator",
+        "label": "Oil separator",
+        "parent": "vessel"
+      },
+      {
+        "id": "flash-gas-vessel",
+        "label": "Flash-gas vessel",
+        "parent": "vessel"
+      },
+      {
+        "id": "oil-pot",
+        "label": "Oil pot",
+        "parent": "vessel"
+      },
+      {
+        "id": "oil-reservoir",
+        "label": "Oil reservoir",
+        "parent": "vessel"
+      },
+      {
+        "id": "level-column",
+        "label": "Level column",
+        "parent": "vessel"
+      },
+      {
+        "id": "purger",
+        "label": "Non-condensable gas purger",
+        "parent": null
+      },
+      {
+        "id": "expansion-valve",
+        "label": "Expansion valve",
+        "parent": "valve"
+      },
+      {
+        "id": "relief-valve",
+        "label": "Pressure relief valve",
+        "parent": "valve"
+      },
+      {
+        "id": "check-valve",
+        "label": "Check valve",
+        "parent": "valve"
+      },
+      {
+        "id": "regulator",
+        "label": "Pressure regulator",
+        "parent": "valve"
+      },
+      {
+        "id": "three-way-valve",
+        "label": "Three-way valve",
+        "parent": "valve"
+      },
+      {
+        "id": "valve-station",
+        "label": "Valve station / valve group",
+        "parent": "valve"
+      },
+      {
+        "id": "actuated-valve",
+        "label": "Actuated valve",
+        "parent": "valve"
+      },
+      {
+        "id": "solenoid-valve",
+        "label": "Solenoid valve",
+        "parent": "actuated-valve"
+      },
+      {
+        "id": "stepper-valve",
+        "label": "Stepper valve",
+        "parent": "actuated-valve"
+      },
+      {
+        "id": "motorized-valve",
+        "label": "Motorized valve",
+        "parent": "actuated-valve"
+      },
+      {
+        "id": "hot-gas-valve",
+        "label": "Hot-gas valve",
+        "parent": "actuated-valve"
+      },
+      {
+        "id": "manual-valve",
+        "label": "Manual (hand) valve",
+        "parent": "valve"
+      },
+      {
+        "id": "ball-valve",
+        "label": "Ball valve",
+        "parent": "manual-valve"
+      },
+      {
+        "id": "shutoff-valve",
+        "label": "Shutoff valve",
+        "parent": "manual-valve"
+      },
+      {
+        "id": "service-valve",
+        "label": "Service valve",
+        "parent": "manual-valve"
+      },
+      {
+        "id": "filter-drier",
+        "label": "Filter drier",
+        "parent": "inline-component"
+      },
+      {
+        "id": "strainer",
+        "label": "Strainer",
+        "parent": "inline-component"
+      },
+      {
+        "id": "sight-glass",
+        "label": "Sight glass",
+        "parent": "inline-component"
+      },
+      {
+        "id": "backflow-preventer",
+        "label": "Backflow preventer",
+        "parent": "inline-component"
+      },
+      {
+        "id": "pipe-header",
+        "label": "Pipe header",
+        "parent": null
+      },
+      {
+        "id": "pressure-transducer",
+        "label": "Pressure transducer",
+        "parent": "instrument"
+      },
+      {
+        "id": "temperature-sensor",
+        "label": "Temperature sensor",
+        "parent": "instrument"
+      },
+      {
+        "id": "level-sensor",
+        "label": "Level sensor",
+        "parent": "instrument"
+      },
+      {
+        "id": "flow-sensor",
+        "label": "Flow sensor",
+        "parent": "instrument"
+      },
+      {
+        "id": "gas-detector",
+        "label": "Gas detector",
+        "parent": "instrument"
+      },
+      {
+        "id": "switch",
+        "label": "Switch",
+        "parent": "instrument"
+      },
+      {
+        "id": "actuator",
+        "label": "Actuator",
+        "parent": null
+      },
+      {
+        "id": "fuse",
+        "label": "Fuse",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "circuit-breaker",
+        "label": "Circuit breaker",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "disconnect",
+        "label": "Disconnect",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "transformer",
+        "label": "Transformer",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "contactor",
+        "label": "Contactor",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "relay",
+        "label": "Relay",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "timer",
+        "label": "Timer",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "overload",
+        "label": "Overload relay",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "heater",
+        "label": "Heater",
+        "parent": "electrical-device"
+      },
+      {
+        "id": "controller",
+        "label": "Controller",
+        "parent": "control-device"
+      },
+      {
+        "id": "plc",
+        "label": "Programmable logic controller",
+        "parent": "control-device"
+      },
+      {
+        "id": "hmi",
+        "label": "Human-machine interface",
+        "parent": "control-device"
+      },
+      {
+        "id": "microcontroller",
+        "label": "Microcontroller",
+        "parent": "control-device"
+      },
+      {
+        "id": "io-module",
+        "label": "I/O module",
+        "parent": "control-device"
+      },
+      {
+        "id": "io-rack",
+        "label": "I/O rack",
+        "parent": "control-device"
+      },
+      {
+        "id": "remote-io",
+        "label": "Remote I/O",
+        "parent": "control-device"
+      },
+      {
+        "id": "expansion-board",
+        "label": "Expansion board",
+        "parent": "control-device"
+      },
+      {
+        "id": "vfd",
+        "label": "Variable-frequency drive",
+        "parent": "control-device"
+      },
+      {
+        "id": "display",
+        "label": "Display",
+        "parent": "control-device"
+      },
+      {
+        "id": "keypad",
+        "label": "Keypad",
+        "parent": "control-device"
+      },
+      {
+        "id": "communication-adapter",
+        "label": "Communication adapter",
+        "parent": "control-device"
+      },
+      {
+        "id": "terminal-block",
+        "label": "Terminal block",
+        "parent": "termination"
+      },
+      {
+        "id": "connector",
+        "label": "Connector",
+        "parent": "termination"
+      },
+      {
+        "id": "junction-block",
+        "label": "Junction block",
+        "parent": "termination"
+      },
+      {
+        "id": "ground-bus",
+        "label": "Ground bus",
+        "parent": "termination"
+      },
+      {
+        "id": "shield-drain",
+        "label": "Shield drain",
+        "parent": "termination"
+      },
+      {
+        "id": "panel",
+        "label": "Panel",
+        "parent": "enclosure"
+      },
+      {
+        "id": "cabinet",
+        "label": "Cabinet",
+        "parent": "enclosure"
+      },
+      {
+        "id": "assembly",
+        "label": "Assembly boundary",
+        "parent": "enclosure"
+      },
+      {
+        "id": "option-boundary",
+        "label": "Option boundary",
+        "parent": "enclosure"
+      },
+      {
+        "id": "system-limit",
+        "label": "System limit",
+        "parent": "enclosure"
+      },
+      {
+        "id": "skid",
+        "label": "Skid",
+        "parent": null
+      },
+      {
+        "id": "rack",
+        "label": "Rack (meaning differs by source)",
+        "parent": null
+      },
+      {
+        "id": "cycle-closure",
+        "label": "Numerical cycle closure",
+        "parent": "model-construct"
+      },
+      {
+        "id": "splitter",
+        "label": "Flow splitter",
+        "parent": "model-construct"
+      },
+      {
+        "id": "merge",
+        "label": "Flow merge",
+        "parent": "model-construct"
+      }
+    ],
+    "legacy_lists": [
+      {
+        "id": "rai.pid-sim-bridge.PLANT_COMPONENT_KINDS",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "compressor",
+          "condenser",
+          "evaporator",
+          "expansion-valve",
+          "vessel",
+          "pump",
+          "valve",
+          "other"
+        ]
+      },
+      {
+        "id": "rai.engineering-assembly.NetworkComponentKind",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "cycle-closure",
+          "compressor",
+          "heat-exchanger",
+          "valve",
+          "splitter",
+          "merge"
+        ]
+      },
+      {
+        "id": "rai.supabase.equipment_class",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "panel",
+          "controller",
+          "pump",
+          "compressor",
+          "valve",
+          "vfd",
+          "motor",
+          "sensor",
+          "junction_block",
+          "rack",
+          "skid",
+          "condenser",
+          "evaporator",
+          "relay",
+          "contactor",
+          "terminal_block",
+          "disconnect",
+          "circuit_breaker",
+          "transformer",
+          "plc",
+          "hmi",
+          "io_module",
+          "unknown",
+          "receiver",
+          "vessel",
+          "expansion_valve",
+          "remote_io",
+          "remote_controller"
+        ]
+      },
+      {
+        "id": "rai.canvas.VisualEquipmentKind",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "compressor-skid",
+          "condenser",
+          "evaporator",
+          "valve",
+          "splitter-header",
+          "merge-header",
+          "cycle-closure",
+          "receiver",
+          "pump",
+          "pipe-header",
+          "process-vessel",
+          "unknown"
+        ]
+      },
+      {
+        "id": "rai.equipmentRegistry.EquipmentType",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "compressor",
+          "motor",
+          "vessel",
+          "panel",
+          "vfd",
+          "pump",
+          "evaporator",
+          "condenser",
+          "sensor"
+        ]
+      },
+      {
+        "id": "rai.compliance.mi-schedule.EquipmentClass",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "relief-valve",
+          "ammonia-detector",
+          "valve",
+          "vessel",
+          "compressor"
+        ]
+      },
+      {
+        "id": "rai.orchestrator.EquipmentClass",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "compressor",
+          "evaporator",
+          "condenser",
+          "pump",
+          "vessel",
+          "heat_exchanger",
+          "valve",
+          "actuator",
+          "panel",
+          "controller",
+          "vfd",
+          "motor",
+          "transformer",
+          "disconnect",
+          "relay",
+          "terminal_block",
+          "circuit_breaker",
+          "contactor",
+          "sensor",
+          "hmi",
+          "plc",
+          "io_module",
+          "rack",
+          "skid",
+          "junction_block",
+          "unknown"
+        ]
+      },
+      {
+        "id": "rai.equipment-library.FamilyId",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "screw-package",
+          "recip-package",
+          "receiver-v",
+          "recirculator",
+          "plate-hx",
+          "shell-tube",
+          "evap-cond",
+          "pump",
+          "oil-sep-h",
+          "oil-sep-v",
+          "twin-pump",
+          "unit-cooler",
+          "vbank",
+          "valve-station",
+          "intercooler",
+          "hpr",
+          "accumulator",
+          "purger",
+          "inline-valve",
+          "oil-pot",
+          "oil-reservoir-v",
+          "oil-reservoir-h",
+          "brazed-plate-hx",
+          "suction-accumulator",
+          "liquid-receiver",
+          "level-column",
+          "filter-drier",
+          "three-way-valve",
+          "vfd-cabinet",
+          "instrument",
+          "system-skid",
+          "gas-cooler-1",
+          "gas-cooler-1-adiabatic",
+          "gas-cooler-2",
+          "gas-cooler-2-adiabatic",
+          "gas-cooler-3",
+          "gas-cooler-3-adiabatic",
+          "gas-cooler-4",
+          "gas-cooler-4-adiabatic",
+          "gas-cooler-5",
+          "gas-cooler-5-adiabatic",
+          "gas-cooler-6",
+          "gas-cooler-6-adiabatic",
+          "gas-cooler-7",
+          "gas-cooler-7-adiabatic",
+          "gas-cooler-8",
+          "gas-cooler-8-adiabatic"
+        ]
+      },
+      {
+        "id": "fos.spatial-industrial-grammar.entity_primitives",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "rotating_machine",
+          "compressor",
+          "pump",
+          "fan",
+          "motor",
+          "heat_transfer_equipment",
+          "condenser",
+          "gas_cooler",
+          "evaporator",
+          "coil",
+          "heat_exchanger",
+          "subcooler",
+          "vessel",
+          "receiver",
+          "accumulator",
+          "oil_separator",
+          "flash_gas_vessel",
+          "inline_component",
+          "filter_drier",
+          "strainer",
+          "sight_glass",
+          "check_valve",
+          "regulator",
+          "backflow_preventer",
+          "actuated_valve",
+          "solenoid_valve",
+          "stepper_valve",
+          "motorized_valve",
+          "hot_gas_valve",
+          "manual_valve",
+          "ball_valve",
+          "shutoff_valve",
+          "service_valve",
+          "instrument",
+          "pressure_transducer",
+          "temperature_sensor",
+          "level_sensor",
+          "flow_sensor",
+          "gas_detector",
+          "switch",
+          "electrical_device",
+          "fuse",
+          "breaker",
+          "disconnect",
+          "transformer",
+          "contactor",
+          "relay",
+          "timer",
+          "overload",
+          "heater",
+          "control_device",
+          "controller",
+          "microcontroller",
+          "io_rack",
+          "io_module",
+          "expansion_board",
+          "vfd",
+          "display",
+          "keypad",
+          "communication_adapter",
+          "termination",
+          "terminal_block",
+          "connector",
+          "junction",
+          "ground_bus",
+          "shield_drain",
+          "enclosure",
+          "panel",
+          "cabinet",
+          "assembly",
+          "option_boundary",
+          "system_limit"
+        ]
+      },
+      {
+        "id": "kit.import-kit.MODELS",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "receiver",
+          "trap",
+          "condenser",
+          "air-unit",
+          "screw",
+          "recip",
+          "hand-valve",
+          "solenoid-valve",
+          "plate-hx",
+          "shell-hx",
+          "pump"
+        ]
+      },
+      {
+        "id": "archive.prototype-facility.EquipmentTypeSchema",
+        "source": "example provenance: replace with the source you verified",
+        "values": [
+          "compressor",
+          "condenser",
+          "evaporator",
+          "expansion_valve",
+          "receiver",
+          "accumulator",
+          "oil_separator",
+          "filter_drier",
+          "sight_glass",
+          "solenoid_valve",
+          "pressure_regulator",
+          "heat_exchanger",
+          "pump",
+          "fan",
+          "control_panel",
+          "sensor",
+          "other"
+        ]
+      }
+    ],
+    "line_service_open_decisions": [
+      "b114-marker-colour-scheme",
+      "b114-70-psig-split"
+    ],
+    "line_services": [
+      {
+        "band": "lp",
+        "code": "LSS",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "suction",
+        "jacketed": true,
+        "name": "Low-stage suction",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "low"
+      },
+      {
+        "band": "intermediate",
+        "code": "ISS",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "suction",
+        "jacketed": true,
+        "name": "Intermediate suction",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "intermediate"
+      },
+      {
+        "band": "intermediate",
+        "code": "HSS",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "suction",
+        "jacketed": true,
+        "name": "High-stage suction",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "intermediate"
+      },
+      {
+        "band": "lp",
+        "code": "LTRS",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "suction",
+        "jacketed": true,
+        "name": "Wet return",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "two-phase",
+        "pressure": "low"
+      },
+      {
+        "band": "intermediate",
+        "code": "BD",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "discharge",
+        "jacketed": false,
+        "name": "Booster discharge",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "intermediate"
+      },
+      {
+        "band": "hp",
+        "code": "HSD",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "discharge",
+        "jacketed": false,
+        "name": "High-stage discharge",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "high"
+      },
+      {
+        "band": "hp",
+        "code": "HG",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "discharge",
+        "jacketed": false,
+        "name": "Hot gas",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "high"
+      },
+      {
+        "band": "hp",
+        "code": "DF",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "discharge",
+        "jacketed": false,
+        "name": "Defrost",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "high"
+      },
+      {
+        "band": "hp",
+        "code": "HPL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": false,
+        "name": "High-pressure liquid",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "high"
+      },
+      {
+        "band": "intermediate",
+        "code": "IL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": true,
+        "name": "Intermediate liquid",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "intermediate"
+      },
+      {
+        "band": "lp",
+        "code": "PL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": true,
+        "name": "Pumped liquid",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "low"
+      },
+      {
+        "band": "utility",
+        "code": "OIL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "oil",
+        "jacketed": false,
+        "name": "Oil",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "utility"
+      },
+      {
+        "band": "relief",
+        "code": "RV",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "relief",
+        "jacketed": false,
+        "name": "Relief",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "utility"
+      },
+      {
+        "band": "utility",
+        "code": "EQ",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "utility",
+        "jacketed": false,
+        "name": "Equalizer",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "utility"
+      },
+      {
+        "band": "utility",
+        "code": "DP",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "utility",
+        "jacketed": false,
+        "name": "Drain / purge",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "two-phase",
+        "pressure": "utility"
+      },
+      {
+        "band": "utility",
+        "code": "GLY",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "secondary",
+        "jacketed": true,
+        "name": "Glycol",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "utility"
+      },
+      {
+        "band": "utility",
+        "code": "CW",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "secondary",
+        "jacketed": false,
+        "name": "Condenser water",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "pressure": "utility"
+      },
+      {
+        "band": "hp",
+        "code": "HR",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "reclaim",
+        "jacketed": false,
+        "name": "Heat reclaim",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "pressure": "high"
+      },
+      {
+        "band": "utility",
+        "code": "?",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "IIAR Bulletin 114 style abbreviation as used by the reference app canvas-services.ts; not checked against the bulletin text."
+          },
+          "status": "CHECK"
+        },
+        "family": "unknown",
+        "jacketed": false,
+        "name": "Unknown service",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "unknown",
+        "pressure": "unknown"
+      },
+      {
+        "band": null,
+        "code": "CD",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "New code registered from a second reference source; not one of the reference app's 18 codes. a second reference source marks a 'drain' phase line CD (liquid, high side); the name is inferred from that use."
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": null,
+        "name": "Condenser drain (name inferred)",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "possible_equivalent": "HPL",
+        "pressure": "high"
+      },
+      {
+        "band": null,
+        "code": "OD",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "New code registered from a second reference source; not one of the reference app's 18 codes. a second reference source marks a low-side liquid line carrying oil OD; the name is inferred from that use."
+          },
+          "status": "CHECK"
+        },
+        "family": "oil",
+        "jacketed": null,
+        "name": "Oil drain (name inferred)",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "possible_equivalent": "OIL",
+        "pressure": "low"
+      },
+      {
+        "band": null,
+        "code": "LTRL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "New code registered from a second reference source; not one of the reference app's 18 codes. a second reference source marks other low-side liquid LTRL; it may be the same service as PL."
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": null,
+        "name": "Low-temperature recirculated liquid (name inferred)",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "liquid",
+        "possible_equivalent": "PL",
+        "pressure": "low"
+      },
+      {
+        "band": null,
+        "code": "LTL",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "example provenance: replace with the source you verified"
+          },
+          "status": "CHECK"
+        },
+        "family": "liquid",
+        "jacketed": null,
+        "name": "Low-temperature liquid (name inferred)",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "two-phase",
+        "possible_equivalent": null,
+        "pressure": "low"
+      },
+      {
+        "band": null,
+        "code": "LTS",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "New code registered from a second reference source; not one of the reference app's 18 codes. a second reference source marks a low-side vapour line LTS; it may be the same service as LSS."
+          },
+          "status": "CHECK"
+        },
+        "family": "suction",
+        "jacketed": null,
+        "name": "Low-temperature suction (name inferred)",
+        "origin": "example provenance: replace with the source you verified",
+        "phase": "vapour",
+        "possible_equivalent": "LSS",
+        "pressure": "low"
+      }
+    ],
+    "normalisation": "lower-case; runs of spaces and underscores become one hyphen"
+  },
+  "generatedBy": "Authored from workshop/CORE-CENSUS.md section 1.2 and the listed source enumerations (read 2026-10-24); edit this file, then run the Foundation tests.",
+  "owner": "foundation_refrigeration.plant_model",
+  "schema": "plant-taxonomy/1",
+  "version": "1.0.0"
+}

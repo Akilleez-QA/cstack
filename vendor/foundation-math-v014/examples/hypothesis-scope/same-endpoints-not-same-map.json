@@ -1,0 +1,397 @@
+{
+  "application": {
+    "bindings": [
+      {
+        "fact": {
+          "id": "Fact",
+          "revision": 1,
+          "revision_sha256": "4e7abe29bb99862b82daa5b0d81868fb7391b484d535103d7c3ec6c73a690705"
+        },
+        "requirement_id": "premise"
+      }
+    ],
+    "rule": {
+      "id": "Rule",
+      "revision": 1,
+      "revision_sha256": "beda5ba3f7f53cc4daab3034da24c6105991c912cb98c06f80ef6d3cd7757faa"
+    }
+  },
+  "facts": [
+    {
+      "content": {
+        "availability": "supplied",
+        "predicate": {
+          "kind": "map_zero",
+          "map": {
+            "id": "fAltST",
+            "revision": 1,
+            "revision_sha256": "6a8786d54bfb1da21c6f5f468cb6bb53fddb914151e594e6d7731ed0e74c84e8"
+          }
+        },
+        "provenance": {
+          "artifact_sha256": "b93d72c359ca12e34005e0eb04162b850791ac07a2d5180752adc97b6d028df5",
+          "description": "Caller-authored, unchecked synthetic assertion"
+        }
+      },
+      "id": "Fact",
+      "revision": 1,
+      "revision_sha256": "4e7abe29bb99862b82daa5b0d81868fb7391b484d535103d7c3ec6c73a690705"
+    }
+  ],
+  "maps": [
+    {
+      "content": {
+        "description": "Authored synthetic map incKS",
+        "source": {
+          "id": "K",
+          "revision": 1,
+          "revision_sha256": "b9eb97c5466fce0a3545cafc188cbea10e61971201e50a11725a6f1f6b958284"
+        },
+        "target": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        }
+      },
+      "id": "incKS",
+      "revision": 1,
+      "revision_sha256": "2f2dbe03e05a2b94fbb31ea66751e885633335198657733e52bee4ea16d339e0"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map fST",
+        "source": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        },
+        "target": {
+          "id": "T",
+          "revision": 1,
+          "revision_sha256": "4ade1d4e92ce48b80dfb5073182aa61f811619df9f485288ae81e0eed0279b16"
+        }
+      },
+      "id": "fST",
+      "revision": 1,
+      "revision_sha256": "2c3f5431dc1cdc577f6432e71aa185870b9becb401b998ed66c3b6f10f31889e"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map fAltST",
+        "source": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        },
+        "target": {
+          "id": "T",
+          "revision": 1,
+          "revision_sha256": "4ade1d4e92ce48b80dfb5073182aa61f811619df9f485288ae81e0eed0279b16"
+        }
+      },
+      "id": "fAltST",
+      "revision": 1,
+      "revision_sha256": "6a8786d54bfb1da21c6f5f468cb6bb53fddb914151e594e6d7731ed0e74c84e8"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map gTZ",
+        "source": {
+          "id": "T",
+          "revision": 1,
+          "revision_sha256": "4ade1d4e92ce48b80dfb5073182aa61f811619df9f485288ae81e0eed0279b16"
+        },
+        "target": {
+          "id": "Z",
+          "revision": 1,
+          "revision_sha256": "bda44cb35c007d3ed888d42d8c7b4e36bb564edce3f4466beb484390130929cd"
+        }
+      },
+      "id": "gTZ",
+      "revision": 1,
+      "revision_sha256": "76b3dbe32105d7b9b365faa8b71dcf20fec8ba970051076418292355be250d53"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map incIT",
+        "source": {
+          "id": "I",
+          "revision": 1,
+          "revision_sha256": "a9f70855460a2c3e18eb3a6668aba09ac7e9366fc384b398d8503eefd2353a1a"
+        },
+        "target": {
+          "id": "T",
+          "revision": 1,
+          "revision_sha256": "4ade1d4e92ce48b80dfb5073182aa61f811619df9f485288ae81e0eed0279b16"
+        }
+      },
+      "id": "incIT",
+      "revision": 1,
+      "revision_sha256": "ea4b338776c07a35b5a37c1e30347c69633a3655c6bf7fa81ef3d47df7d13c24"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map torsionKQ",
+        "source": {
+          "id": "K",
+          "revision": 1,
+          "revision_sha256": "b9eb97c5466fce0a3545cafc188cbea10e61971201e50a11725a6f1f6b958284"
+        },
+        "target": {
+          "id": "Q",
+          "revision": 1,
+          "revision_sha256": "60b623e6147676535d06b1ae9c773a09fa168f1084d3d4329056350233b1c123"
+        }
+      },
+      "id": "torsionKQ",
+      "revision": 1,
+      "revision_sha256": "20613b386c2e61417dbe20f0e074464a7e63aa9322ce6a49fa633c5ee8717096"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map torsionK2Q",
+        "source": {
+          "id": "K2",
+          "revision": 1,
+          "revision_sha256": "c1c3fb2141eb25df0c26a87cdf2fef9f93d671f7ddc78aaa4d750292a92121c1"
+        },
+        "target": {
+          "id": "Q",
+          "revision": 1,
+          "revision_sha256": "60b623e6147676535d06b1ae9c773a09fa168f1084d3d4329056350233b1c123"
+        }
+      },
+      "id": "torsionK2Q",
+      "revision": 1,
+      "revision_sha256": "871ca02311abdf88bc1ff1d3e43b775a17a283900b7dc802d06d8d05505bdb0c"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map loopS",
+        "source": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        },
+        "target": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        }
+      },
+      "id": "loopS",
+      "revision": 1,
+      "revision_sha256": "9cccca6b18576437e183039f1a2c26be7cc972f813f90033a2bd559774043e0c"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map loopAltS",
+        "source": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        },
+        "target": {
+          "id": "S",
+          "revision": 1,
+          "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+        }
+      },
+      "id": "loopAltS",
+      "revision": 1,
+      "revision_sha256": "916821a204c04e901db964e087fdabd33a481cbbd94a438d1d01fe6ea7ed327c"
+    },
+    {
+      "content": {
+        "description": "Authored synthetic map vectorMap",
+        "source": {
+          "id": "V1",
+          "revision": 1,
+          "revision_sha256": "fa2dc68cade37b1b4df1e5d072323cb382ca769688280b753bc2a0bd215da87e"
+        },
+        "target": {
+          "id": "V2",
+          "revision": 1,
+          "revision_sha256": "ad35d02cd0fc2bd1951477a28ba34d46cc80f03ae91925ac3df5b7087c3744c8"
+        }
+      },
+      "id": "vectorMap",
+      "revision": 1,
+      "revision_sha256": "0fbd16dc883f6a98e9f8a89b7b5e9e0d5d8485a546e5ad4ab919d6c23f3f9fdd"
+    }
+  ],
+  "objects": [
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object K",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "K",
+      "revision": 1,
+      "revision_sha256": "b9eb97c5466fce0a3545cafc188cbea10e61971201e50a11725a6f1f6b958284"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object S",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "S",
+      "revision": 1,
+      "revision_sha256": "b15390a7041eb907e530329e2c803d914ea3d3459e37d8f28187fde850a4cd72"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object T",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "T",
+      "revision": 1,
+      "revision_sha256": "4ade1d4e92ce48b80dfb5073182aa61f811619df9f485288ae81e0eed0279b16"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object I",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "I",
+      "revision": 1,
+      "revision_sha256": "a9f70855460a2c3e18eb3a6668aba09ac7e9366fc384b398d8503eefd2353a1a"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object Z",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "Z",
+      "revision": 1,
+      "revision_sha256": "bda44cb35c007d3ed888d42d8c7b4e36bb564edce3f4466beb484390130929cd"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object Q",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "Q",
+      "revision": 1,
+      "revision_sha256": "60b623e6147676535d06b1ae9c773a09fa168f1084d3d4329056350233b1c123"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object K2",
+        "object_type": "coherent_sheaf"
+      },
+      "id": "K2",
+      "revision": 1,
+      "revision_sha256": "c1c3fb2141eb25df0c26a87cdf2fef9f93d671f7ddc78aaa4d750292a92121c1"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object D",
+        "object_type": "formal_splitting"
+      },
+      "id": "D",
+      "revision": 1,
+      "revision_sha256": "48cb26c26e4d503fa132db1ee14c6859bf131ecccb7314c9c29230fe5d144c44"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object D2",
+        "object_type": "formal_splitting"
+      },
+      "id": "D2",
+      "revision": 1,
+      "revision_sha256": "fc5d9da2601fccf7d00c45b9e8335ad078e780b381b6fcca32397c05192fcff6"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object R",
+        "object_type": "representation"
+      },
+      "id": "R",
+      "revision": 1,
+      "revision_sha256": "558da2448949a5b279b86876e3cceb10a4b6000ebe6c82781565ce60dc19d1c7"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object R2",
+        "object_type": "representation"
+      },
+      "id": "R2",
+      "revision": 1,
+      "revision_sha256": "09132566805a40031df64300b0982c0509312799873cedb1c41506f85d0fbc8e"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object V1",
+        "object_type": "vector_space"
+      },
+      "id": "V1",
+      "revision": 1,
+      "revision_sha256": "fa2dc68cade37b1b4df1e5d072323cb382ca769688280b753bc2a0bd215da87e"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object V2",
+        "object_type": "vector_space"
+      },
+      "id": "V2",
+      "revision": 1,
+      "revision_sha256": "ad35d02cd0fc2bd1951477a28ba34d46cc80f03ae91925ac3df5b7087c3744c8"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object U",
+        "object_type": "locus"
+      },
+      "id": "U",
+      "revision": 1,
+      "revision_sha256": "c5a3259d012bc69121a080ed2b4ce0e4261d97d9726b0e07d0860a07fc30ca0b"
+    },
+    {
+      "content": {
+        "context_sha256": "96e83c260625c36fe9b95b3c7a82167743382279ad587f277001b7e8a7eb3910",
+        "description": "Authored synthetic object U2",
+        "object_type": "locus"
+      },
+      "id": "U2",
+      "revision": 1,
+      "revision_sha256": "13989d9ed686ae6e889ee33aa236bbd23659c48f657117a4fc2af2cfeb412872"
+    }
+  ],
+  "rule": {
+    "content": {
+      "purpose": "Check only these supplied premises; no conclusion is proved",
+      "requirements": [
+        {
+          "id": "premise",
+          "predicate": {
+            "kind": "map_zero",
+            "map": {
+              "id": "fST",
+              "revision": 1,
+              "revision_sha256": "2c3f5431dc1cdc577f6432e71aa185870b9becb401b998ed66c3b6f10f31889e"
+            }
+          }
+        }
+      ]
+    },
+    "id": "Rule",
+    "revision": 1,
+    "revision_sha256": "beda5ba3f7f53cc4daab3034da24c6105991c912cb98c06f80ef6d3cd7757faa"
+  },
+  "schema": "foundation-math-hypothesis-scope/1"
+}

@@ -1,0 +1,205 @@
+{
+  "schema": "cstack.run/0.1",
+  "goal": {
+    "goal_id": "synthetic-refrigeration",
+    "revision": 1,
+    "domain_id": "foundation_refrigeration",
+    "objective": "Observe scoped Foundation Refrigeration tool behavior through Cstack.",
+    "assumptions": [
+      "Synthetic supplied readings and terms only; no real plant or sensor."
+    ],
+    "exclusions": [
+      "No diagnosis, engineering, safety or compliance determination, control action or goal acceptance."
+    ],
+    "acceptance_version": "synthetic-v1",
+    "acceptance_criteria": [
+      "Saturation, reading-delta, limit and taxonomy results remain scoped observations with Evidence."
+    ]
+  },
+  "checkpoints": [
+    {
+      "checkpoint_id": "checkpoint-1",
+      "rationale": "Transparent preauthored fixture from ADR 002; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": []
+    },
+    {
+      "checkpoint_id": "checkpoint-2",
+      "rationale": "Transparent preauthored fixture from ADR 002; not autonomous reasoning.",
+      "research_references": [
+        "contracts/DECISION-002-foundation-refrigeration.md",
+        "workshop/CORE-CENSUS.md"
+      ],
+      "option_ids": []
+    },
+    {
+      "checkpoint_id": "checkpoint-3",
+      "rationale": "Transparent preauthored fixture from ADR 002; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": [
+        "bridge-harness",
+        "direct-import",
+        "current-mcp",
+        "legacy-mcp",
+        "projection-only",
+        "ts-port",
+        "coolprop-live",
+        "generated-table",
+        "decimal-profile",
+        "integer-profile",
+        "unit-objects",
+        "bare-numbers",
+        "policy-separate",
+        "policy-merged",
+        "disputed-records",
+        "pick-defaults",
+        "observation-only",
+        "diagnosis-engine",
+        "fake-domain",
+        "stop-boundary"
+      ]
+    },
+    {
+      "checkpoint_id": "checkpoint-4",
+      "rationale": "Transparent preauthored fixture from ADR 002; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": []
+    }
+  ],
+  "calls": [
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-1",
+        "goal_id": "synthetic-refrigeration",
+        "goal_revision": 1,
+        "decision_id": "decision-1",
+        "capability_id": "foundation_refrigeration",
+        "operation": "saturation_pressure",
+        "arguments": {
+          "fluid": "R717",
+          "temperature": {
+            "value": 20,
+            "unit": "degF"
+          }
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "R717 saturation at 20 degF reads 33.49 psig at the standard atmosphere, generated basis, CHECK",
+        "success_boundary": "Only the supplied synthetic reading or term; no plant, diagnosis, determination or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned Refrigeration contract.",
+        "oracle_id": "refrigeration-v01-fixture",
+        "oracle_version": "1"
+      }
+    },
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-2",
+        "goal_id": "synthetic-refrigeration",
+        "goal_revision": 1,
+        "decision_id": "decision-2",
+        "capability_id": "foundation_refrigeration",
+        "operation": "check_reading_against_saturation",
+        "arguments": {
+          "fluid": "R717",
+          "pressure": {
+            "value": 15.69,
+            "unit": "psig"
+          },
+          "temperature": {
+            "value": 10.0,
+            "unit": "degF"
+          },
+          "atmosphere": {
+            "basis": "elevation",
+            "elevation": {
+              "value": 150,
+              "unit": "m"
+            }
+          }
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "Superheat-style delta of roughly 10 degF as an observation; no diagnosis or normal-range call",
+        "success_boundary": "Only the supplied synthetic reading or term; no plant, diagnosis, determination or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned Refrigeration contract.",
+        "oracle_id": "refrigeration-v01-fixture",
+        "oracle_version": "1"
+      }
+    },
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-3",
+        "goal_id": "synthetic-refrigeration",
+        "goal_revision": 1,
+        "decision_id": "decision-3",
+        "capability_id": "foundation_refrigeration",
+        "operation": "exposure_limits",
+        "arguments": {
+          "substance": "ammonia",
+          "issuer": "OSHA"
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "OSHA PEL 50 ppm, cited, CHECK; ERPG reported as a gap",
+        "success_boundary": "Only the supplied synthetic reading or term; no plant, diagnosis, determination or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned Refrigeration contract.",
+        "oracle_id": "refrigeration-v01-fixture",
+        "oracle_version": "1"
+      }
+    },
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-4",
+        "goal_id": "synthetic-refrigeration",
+        "goal_revision": 1,
+        "decision_id": "decision-4",
+        "capability_id": "foundation_refrigeration",
+        "operation": "resolve_equipment_kind",
+        "arguments": {
+          "term": "hpr"
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "Legacy family id hpr resolves to high-pressure-receiver, CHECK",
+        "success_boundary": "Only the supplied synthetic reading or term; no plant, diagnosis, determination or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned Refrigeration contract.",
+        "oracle_id": "refrigeration-v01-fixture",
+        "oracle_version": "1"
+      }
+    },
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-5",
+        "goal_id": "synthetic-refrigeration",
+        "goal_revision": 1,
+        "decision_id": "decision-5",
+        "capability_id": "foundation_refrigeration",
+        "operation": "saturation_temperature",
+        "arguments": {
+          "fluid": "R448A",
+          "pressure": {
+            "value": 30.5,
+            "unit": "psig"
+          }
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "Tool error side_required: the blend lookup refuses to guess bubble or dew",
+        "success_boundary": "Only the supplied synthetic reading or term; no plant, diagnosis, determination or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned Refrigeration contract.",
+        "oracle_id": "refrigeration-v01-fixture",
+        "oracle_version": "1"
+      }
+    }
+  ]
+}

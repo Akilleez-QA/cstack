@@ -1,0 +1,28 @@
+# /etc/systemd/system/shields-poller.service  (NOT installed yet: the owner's instruction, 2026-10-24)
+[Unit]
+Description=Shields control-board poller (pull signed level, apply via /usr/local/sbin/shields)
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=shields-poller
+Group=shields-poller
+Environment=SHIELDS_MACHINE=host-a
+# SHIELDS_BOARD_URL=https://<board host> lives in /etc/shields-poller.env (no default host; unset => HOLD forever)
+EnvironmentFile=/etc/shields-poller.env
+Environment=SHIELDS_POLL_SEC=60
+# DECISION-004 all-clear proof: roster at /etc/shields-ledger-roster.json (public keys). Log-only until the owner/CoS flip this:
+# Environment=SHIELDS_LEDGER_ENFORCE=1
+# key created ON the rig:  openssl rand -hex 32 | sudo systemd-creds encrypt --name=shields-hmac - /etc/credstore.encrypted/shields-hmac
+LoadCredentialEncrypted=shields-hmac:/etc/credstore.encrypted/shields-hmac
+StateDirectory=shields-poller
+ExecStart=/usr/bin/python3 /usr/local/lib/shields/shields-poller.py
+Restart=always
+RestartSec=15
+NoNewPrivileges=no
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

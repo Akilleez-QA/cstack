@@ -1,0 +1,14 @@
+{
+  "bundle": [
+    {
+      "irrep": "V",
+      "multiplicity": 0,
+      "twist": 64
+    }
+  ],
+  "operation": "cohomology",
+  "schema": "fm-split-bundle-request-v1",
+  "twists": [
+    64
+  ]
+}

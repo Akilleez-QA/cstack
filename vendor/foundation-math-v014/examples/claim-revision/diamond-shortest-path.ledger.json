@@ -1,0 +1,109 @@
+{
+  "events": [
+    {
+      "id": "event_one",
+      "kind": "withdraw",
+      "reason": "Synthetic recorded correction.",
+      "target": {
+        "id": "diamond_root",
+        "revision": 1,
+        "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+      }
+    }
+  ],
+  "records": [
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement diamond_root."
+      },
+      "content_sha256": "bb8d9152678766fbfeac0960c33499c7c7844e559a91ce1e3bab0d77d04c9915",
+      "dependencies": [],
+      "id": "diamond_root",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement diamond_left."
+      },
+      "content_sha256": "c32f07cdc94d62bda6216f81bc03fda1006bb1d0f30d0b74c02eb750959b0cef",
+      "dependencies": [
+        {
+          "id": "diamond_root",
+          "revision": 1,
+          "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+        }
+      ],
+      "id": "diamond_left",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement diamond_right."
+      },
+      "content_sha256": "3366e2e3e82146c095da5415be42561ecd25ad1a9262aee5d40833384fce2218",
+      "dependencies": [
+        {
+          "id": "diamond_root",
+          "revision": 1,
+          "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+        }
+      ],
+      "id": "diamond_right",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "9fd1a99aa38f5f0012e3d06363e8a6e484a60b9416673ea4a6380a9358233200"
+    },
+    {
+      "content": {
+        "authored_status": "draft",
+        "requirement": "Review synthetic obligation diamond_tip."
+      },
+      "content_sha256": "c3da21a854ecc3ac334a1aeeaeb9c2dd83bde0ffcab48c4a5cd18dda4f164362",
+      "dependencies": [
+        {
+          "id": "diamond_right",
+          "revision": 1,
+          "revision_sha256": "9fd1a99aa38f5f0012e3d06363e8a6e484a60b9416673ea4a6380a9358233200"
+        },
+        {
+          "id": "diamond_left",
+          "revision": 1,
+          "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+        }
+      ],
+      "id": "diamond_tip",
+      "kind": "obligation",
+      "revision": 1,
+      "revision_sha256": "f8e16c75a167a5cf3fec96434a7b839d2fba6a834b3c42307851f424fda951d7"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1"
+}

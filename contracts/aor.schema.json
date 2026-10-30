@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cstack.fleet/0.1",
+  "title": "Fleet AOR registry (ADR 003)",
+  "description": "Host-owned bot and device areas of responsibility. Host configuration, never request data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "source", "approver", "bots", "devices"],
+  "properties": {
+    "schema": {"const": "cstack.fleet/0.1"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generated_by", "inputs"],
+      "properties": {
+        "generated_by": {"type": "string", "minLength": 1},
+        "inputs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}
+      }
+    },
+    "approver": {"const": "owner-via-approver", "description": "the owner, 2026-10-25: only the owner approves ask-class actions, through Friday (morning brief or urgent)."},
+    "bots": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/bot"}},
+    "devices": {"type": "array", "items": {"$ref": "#/$defs/device"}}
+  },
+  "$defs": {
+    "slug": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "status": {"enum": ["CHECK", "OK", "APPROVED"]},
+    "effect_class": {"enum": ["allow", "ask", "deny"]},
+    "lane": {"enum": ["HMIFace", "TruthFace", "RuntimeFace", "EvidenceFace", "SupervisorFace", "ToolFace", "ReadModelFace", "LearningFace"], "description": "ADR 005 port lane, exact strings; must equal poodo_core LANES."},
+    "routes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "personal": {"oneOf": [{"$ref": "#/$defs/slug"}, {"type": "null"}]},
+        "company": {"type": "array", "items": {"$ref": "#/$defs/slug"}, "maxItems": 2}
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read", "write_slice", "execute", "config", "send", "payment", "post", "filing", "delete"],
+      "properties": {
+        "read": {"$ref": "#/$defs/effect_class"},
+        "write_slice": {"$ref": "#/$defs/effect_class"},
+        "execute": {"$ref": "#/$defs/effect_class"},
+        "config": {"$ref": "#/$defs/effect_class"},
+        "send": {"$ref": "#/$defs/effect_class"},
+        "payment": {"$ref": "#/$defs/effect_class"},
+        "post": {"$ref": "#/$defs/effect_class"},
+        "filing": {"$ref": "#/$defs/effect_class"},
+        "delete": {"$ref": "#/$defs/effect_class"}
+      }
+    },
+    "bot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "slug", "reports_to", "owns", "not", "slices", "effects", "status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[0-9a-f]{8}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 80},
+        "slug": {"$ref": "#/$defs/slug"},
+        "reports_to": {"oneOf": [{"$ref": "#/$defs/slug"}, {"type": "null"}]},
+        "owns": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 400}},
+        "not": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 400}},
+        "slices": {"type": "array", "items": {"type": "string", "pattern": "^/?[^\\s]*$"}},
+        "effects": {"$ref": "#/$defs/effects"},
+        "lane": {"$ref": "#/$defs/lane", "description": "Optional (ADR 005): the lane this bot's effect set acts in. ReadModelFace and LearningFace effect sets deny every effect but read."},
+        "routes": {"$ref": "#/$defs/routes"},
+        "status": {"$ref": "#/$defs/status"},
+        "approved_on": {"type": "string", "format": "date"}
+      }
+    },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hostname", "owner", "guest_effects", "status"],
+      "properties": {
+        "hostname": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"},
+        "owner": {"oneOf": [{"$ref": "#/$defs/slug"}, {"type": "null"}]},
+        "guest_effects": {"$ref": "#/$defs/effects"},
+        "status": {"$ref": "#/$defs/status"},
+        "approved_on": {"type": "string", "format": "date"}
+      }
+    }
+  }
+}

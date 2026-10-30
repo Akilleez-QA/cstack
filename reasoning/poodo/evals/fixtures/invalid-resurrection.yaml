@@ -1,0 +1,33 @@
+schema: POODO_CONTINUATION/3.0
+capsule_id: PC-demo-0003
+revision: 3
+parent_capsule: PC-demo-0002
+generated_at: 2026-09-03T16:00:00-05:00
+objective: Evaluate a prediction without rewriting its history.
+acceptance: []
+authority: {allowed: Analysis only, prohibited: Mutation}
+constraints: Preserve prediction history.
+user_directives: Evaluate without rewriting.
+current_head: PR-demo-visible
+claims: []
+evidence_bundles: []
+orientations: []
+alternatives: []
+decisions: []
+predictions:
+  - id: PR-demo-visible
+    observable: The behavior meets its criterion.
+    oracle: AC-demo-visible
+    environment: ENV-demo-clean
+    status: pending
+    status_history: [pending, failed, pending]
+outcomes: []
+contradictions: []
+artifacts: []
+rehydration: {status: complete, losses: []}
+delivery_state: checked
+outcome_state: failed
+highest_justified_claim: The original prediction failed.
+required_runtime_observation: Create a new prediction before retesting.
+who_controls_next_test: agent
+next_step: Continue.

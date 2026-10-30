@@ -1,0 +1,550 @@
+<title>Plant Control Room</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* One full-screen control room: the plant in 3D, a HUD rail on the left (mode, gauges, sources), a card on click. */
+:root {
+  --bg: #05070b; --panel: rgba(10, 14, 24, .86); --line: #2a2f45; --fg: #e8edf6; --dim: #93a0b8;
+  --violet: #6e61ff; --red: #ff3d3d; --blue: #3d8bff; --orange: #ff9628; --green: #36d66b; --grey: #9aa3ad;
+  --display: "Chakra Petch", "Noto Sans", system-ui, sans-serif; --body: "IBM Plex Sans", "Noto Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace; color-scheme: dark;
+}
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); overflow: hidden; }
+#scene { position: fixed; inset: 0; }
+#rail { position: fixed; top: max(12px, env(safe-area-inset-top, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); width: min(330px, calc(100vw - 32px));
+  max-height: calc(100% - 24px); overflow: auto; display: flex; flex-direction: column; gap: 10px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; backdrop-filter: blur(6px); }
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand svg { width: 40px; height: 44px; flex: none; }
+.brand h1 { font-family: var(--display); font-size: 19px; margin: 0; letter-spacing: .02em; text-wrap: balance; }
+.brand p { margin: 2px 0 0; color: var(--dim); font-size: 12px; }
+.eyebrow { font-family: var(--display); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--violet); margin: 0 0 8px; }
+.modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.mode { font-family: var(--mono); font-size: 11px; text-align: center; padding: 6px 4px; border-radius: 6px; border: 1px solid var(--line); color: var(--dim); }
+.mode.on { background: var(--violet); border-color: var(--violet); color: #fff; }
+.gauges { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.g { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.g b { font-family: var(--mono); font-size: 20px; font-variant-numeric: tabular-nums; }
+.g span { font-size: 11.5px; color: var(--dim); display: flex; gap: 6px; align-items: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey); flex: none; }
+.dot.fresh { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.src { display: grid; grid-template-columns: 10px 1fr auto; gap: 4px 8px; align-items: center; font-size: 12px; }
+.src .age { font-family: var(--mono); color: var(--dim); font-size: 11px; }
+.res { display: grid; gap: 7px; }
+.res .row { display: grid; grid-template-columns: 70px 1fr 132px; gap: 8px; align-items: center; font-size: 11.5px; }
+.res .row span:first-child { color: var(--dim); } .res .row span:last-child { font-family: var(--mono); font-size: 11px; white-space: nowrap; text-align: right; }
+.bar { height: 6px; border-radius: 3px; background: #1a1f30; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--violet); } .bar i.warn { background: var(--orange); } .bar i.hot { background: var(--red); }
+.run { display: grid; gap: 3px; font-size: 11.5px; }
+.run h3 { font-family: var(--display); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 6px 0 1px; font-weight: 500; }
+.run h3:first-child { margin-top: 0; }
+.run div { display: flex; justify-content: space-between; gap: 8px; } .run div span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.run div span:last-child { font-family: var(--mono); font-size: 11px; color: var(--dim); white-space: nowrap; }
+.run .on::before { content: '● '; color: var(--green); } .run .wait::before { content: '○ '; color: var(--orange); }
+#relay select, #relay textarea { width: 100%; box-sizing: border-box; background: #0a0f1a; color: var(--fg); border: 1px solid var(--line);
+  border-radius: 6px; font: 12.5px var(--body); padding: 6px 8px; }
+#relay textarea { resize: vertical; min-height: 58px; margin-top: 6px; }
+#relay select:focus-visible, #relay textarea:focus-visible, #relay button:focus-visible { outline: 2px solid var(--violet); outline-offset: 1px; }
+#relay .row { display: flex; gap: 8px; align-items: center; justify-content: space-between; margin-top: 6px; }
+#relay-send { all: unset; cursor: pointer; background: var(--violet); color: #fff; font-family: var(--mono); font-size: 12px; padding: 6px 14px; border-radius: 6px; }
+#relay-send:disabled { opacity: .45; cursor: default; }
+#relay-agent { font-size: 11.5px; color: var(--dim); display: flex; gap: 6px; align-items: center; margin: 0 0 6px; }
+#relay-err { font-size: 11.5px; color: #ff8a8a; margin: 4px 0 0; min-height: 0; }
+#relay-about { font-size: 11.5px; color: #5ae0ff; margin: 6px 0 0; } #relay-about button { all: unset; cursor: pointer; margin-left: 4px; color: var(--dim); }
+#relay-thread { display: grid; gap: 6px; margin-top: 8px; max-height: 260px; overflow: auto; }
+#relay-thread .msg { border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font-size: 12px; }
+#relay-thread .mh { display: flex; gap: 8px; align-items: center; font-size: 11px; color: var(--dim); } #relay-thread .mh .age { margin-left: auto; font-family: var(--mono); }
+#relay-thread p { margin: 4px 0 0; overflow-wrap: anywhere; } #relay-thread .rep { color: #cfd6e6; border-left: 2px solid var(--green); padding-left: 6px; }
+.chip { font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; border-radius: 4px; border: 1px solid currentColor; }
+.chip.wait { color: var(--orange); } .chip.ok { color: var(--green); } .chip.bad { color: #ff8a8a; }
+#card .ask { all: unset; cursor: pointer; display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 11.5px; color: #5ae0ff;
+  border: 1px solid rgba(90, 224, 255, .5); border-radius: 6px; padding: 4px 10px; }
+.note { font-size: 12px; color: var(--dim); line-height: 1.45; margin: 6px 0 0; }
+.estop { display: flex; align-items: center; gap: 10px; }
+.estop .lamp { width: 18px; height: 18px; border-radius: 50%; background: #5a1414; border: 2px solid #f5c400; }
+.estop.up .lamp { background: var(--red); box-shadow: 0 0 14px var(--red); animation: pulse 0.8s infinite alternate; }
+@keyframes pulse { to { opacity: .45; } }
+#card { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); width: min(380px, calc(100vw - 32px));
+  max-height: 60%; overflow: auto; }
+#card h2 { font-family: var(--display); font-size: 17px; margin: 0 0 4px; }
+#card pre { font-family: var(--mono); font-size: 11.5px; white-space: pre-wrap; color: #cfd6e6; margin: 8px 0 0; }
+#card .cmd { font-family: var(--mono); font-size: 11.5px; border-left: 3px solid var(--grey); padding: 4px 8px; margin: 6px 0 0; color: var(--dim); }
+#card .cmd.op { border-color: var(--orange); } #card .cmd.gate { border-color: var(--red); }
+#feed { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); top: max(12px, env(safe-area-inset-top, 0px)); font-family: var(--mono); font-size: 11.5px; }
+.lbl { font-family: var(--body); font-size: 12px; color: var(--fg); background: rgba(8, 12, 22, .78); border: 1px solid var(--line); border-left: 3px solid var(--violet);
+  border-radius: 5px; padding: 2px 7px; white-space: nowrap; pointer-events: none; }
+.lbl.k-flow { border-left-color: var(--blue); } .lbl.k-stop { border-left-color: var(--red); } .lbl.k-crew { border-left-color: #5ae0ff; }
+button.x { all: unset; cursor: pointer; float: right; color: var(--dim); font-size: 18px; line-height: 1; }
+button.x:focus-visible { outline: 2px solid var(--violet); }
+/* the rendered plant, for browsers without WebGL (the Claude app's pane among them): pan and zoom a Cycles plate of
+   the same plant, with a live marker per section; labels and markers keep their size as the plate zooms (--k) */
+#rail, #feed { z-index: 2; } #card, #zoom { z-index: 3; }
+#flat { position: fixed; inset: 0; z-index: 1; overflow: hidden; cursor: grab; touch-action: none; background: var(--bg); }
+#flat.drag { cursor: grabbing; }
+#plate { position: absolute; left: 0; top: 0; width: 2560px; height: 1440px; transform-origin: 0 0; --k: 1; }
+#hud { position: absolute; left: 0; top: 0; width: 2560px; height: 1440px; transform-origin: 0 0; --k: 1; pointer-events: none; }
+#hud .spot { pointer-events: auto; }
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#flat.over { cursor: pointer; }
+#tip { position: absolute; pointer-events: none; z-index: 2; min-width: 170px; max-width: 280px; padding: 8px 11px; font-size: 12px;
+  background: rgba(6, 12, 22, .9); border: 1px solid rgba(90, 224, 255, .55); border-radius: 4px; box-shadow: 0 0 18px rgba(90, 224, 255, .25);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
+#tip h4 { margin: 0 0 3px; font-family: var(--display); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: #5ae0ff; }
+#tip p { margin: 0; color: #cfd6e6; font-family: var(--mono); font-size: 11px; } #tip small { display: block; margin-top: 5px; color: var(--dim); }
+#hudframe { position: absolute; pointer-events: none; }
+#hudframe i { position: absolute; width: 22px; height: 22px; border: 0 solid rgba(90, 224, 255, .7); }
+#hudframe i:nth-child(1) { left: 0; top: 0; border-width: 2px 0 0 2px; } #hudframe i:nth-child(2) { right: 0; top: 0; border-width: 2px 2px 0 0; }
+#hudframe i:nth-child(3) { left: 0; bottom: 0; border-width: 0 0 2px 2px; } #hudframe i:nth-child(4) { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
+#ticker { position: absolute; left: 30px; right: 30px; top: -2px; margin: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  color: rgba(90, 224, 255, .9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 8px rgba(90, 224, 255, .5); }
+#ticker::after { content: '▌'; animation: blink 1s steps(2) infinite; } @keyframes blink { 50% { opacity: 0; } }
+#plate img { width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+.spot, .flbl { position: absolute; transform: translate(-50%, -50%) scale(var(--k)); }
+.flbl { transform: translate(-50%, -50%) scale(var(--k)); display: none; }
+#flat.near .flbl { display: block; }
+.spot { all: unset; display: block; position: absolute; width: 22px; height: 22px; transform: translate(-11px, -11px) scale(var(--k)); transform-origin: 11px 11px;
+  cursor: pointer; }
+.spot .ring { display: block; width: 14px; height: 14px; border-radius: 50%; border: 4px solid var(--grey); background: rgba(5, 7, 11, .7); flex: none; }
+.spot.ok .ring { border-color: var(--green); } .spot.partial .ring { border-color: var(--orange); } .spot.info .ring { border-color: var(--violet); }
+.spot.busy .ring { animation: ring 1.2s ease-out infinite; }
+@keyframes ring { from { box-shadow: 0 0 0 0 rgba(54, 214, 107, .7); } to { box-shadow: 0 0 0 14px rgba(54, 214, 107, 0); } }
+.spot .tag { position: absolute; font-size: 11.5px; background: rgba(8, 12, 22, .9); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px;
+  white-space: nowrap; }
+.spot.d-r .tag { left: 28px; top: 50%; transform: translateY(-50%); } .spot.d-l .tag { right: 28px; top: 50%; transform: translateY(-50%); }
+.spot.d-b .tag { left: 50%; top: 28px; transform: translateX(-50%); }
+#flat.compact .spot .tag b { display: none; }
+#flat.compact .spot:hover .tag b, #flat.compact .spot:focus-visible .tag b { display: inline; }
+#flat.compact .spot:hover, #flat.compact .spot:focus-visible { z-index: 1; }
+.spot .tag b { font-family: var(--mono); font-weight: 500; color: #cfd6e6; margin-left: 6px; }
+.spot:hover .tag, .spot:focus-visible .tag { border-color: var(--violet); }
+.spot:focus-visible { outline: none; } .spot:focus-visible .ring { outline: 2px solid var(--violet); outline-offset: 2px; }
+#zoom { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; }
+#zoom button { all: unset; cursor: pointer; width: 34px; height: 34px; display: grid; place-items: center; font-family: var(--mono); font-size: 16px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; color: var(--fg); }
+#zoom button:focus-visible { outline: 2px solid var(--violet); }
+#rail { overflow-x: hidden; }
+.g b { overflow-wrap: anywhere; }
+@media (max-width: 640px) { #rail { width: calc(100vw - 32px); max-height: 46%; } #card { max-height: 40%; } .lbl { font-size: 10.5px; } }
+@media (prefers-reduced-motion: reduce) { .estop.up .lamp, .spot.busy .ring, #ticker::after { animation: none; } }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+
+<div id="scene" aria-label="3D plant: drag to orbit, scroll to zoom, click a section"></div>
+<aside id="rail">
+  <div class="panel brand">
+    <svg viewBox="0 0 227 246" fill="none" aria-label="Refrigeration.AI"><circle cx="27.5" cy="27.5" r="27.5" fill="#FE0000"/><circle cx="27.5" cy="129.5" r="27.5" fill="#2401FF"/><path d="M97.879 25.1865L150.163 25.6216C180.108 25.8708 204.181 50.3478 203.931 80.2923V80.2923C203.681 110.26 179.168 134.342 149.2 134.059L109.5 133.684V133.684C105.186 133.684 103.011 138.886 106.04 141.957L185.5 222.5" stroke="url(#g0)" stroke-width="46" stroke-linecap="round" stroke-linejoin="bevel"/><defs><linearGradient id="g0" x1="134.926" y1="24.9233" x2="134.926" y2="238.366" gradientUnits="userSpaceOnUse"><stop stop-color="#FF0000"/><stop offset="0.415" stop-color="#6E61FF"/><stop offset="1" stop-color="#2400FF"/></linearGradient></defs></svg>
+    <div><h1>cstack, operated like a plant</h1><p id="feedmode">connecting to the cstack server…</p></div>
+  </div>
+  <div class="panel" id="relay"><p class="eyebrow">Relay to the teams</p><p id="relay-agent"></p>
+    <label class="sr" for="relay-to" style="font-size:11.5px;color:var(--dim)">Send to</label>
+    <select id="relay-to"><option value="auto">Orchestrator decides</option></select>
+    <textarea id="relay-text" rows="3" maxlength="4000" placeholder="Message to the team (Ctrl+Enter sends). Approvals go in the session itself."></textarea>
+    <p id="relay-about" hidden></p><p id="relay-err" role="alert"></p>
+    <div class="row"><span class="note" style="margin:0">Delivered by the relay agent</span><button id="relay-send" type="button">Send</button></div>
+    <div id="relay-thread" aria-live="polite"></div></div>
+  <div class="panel"><p class="eyebrow">Mode</p><div class="modes" id="modes"></div>
+    <div class="estop" id="estop" style="margin-top:10px"><div class="lamp"></div><span>Shields / kill switch</span></div></div>
+  <div class="panel"><p class="eyebrow">Live gauges (measured state)</p><div class="gauges" id="gauges"></div></div>
+  <div class="panel"><p class="eyebrow">Resources (this machine)</p><div class="res" id="res"></div></div>
+  <div class="panel"><p class="eyebrow">Running now</p><div class="run" id="run"></div></div>
+  <div class="panel"><p class="eyebrow">Sources (fresh / stale)</p><div class="src" id="sources"></div><p class="note" id="poodo"></p></div>
+</aside>
+<div id="flat" hidden><div id="plate"><img src="plant.jpg" alt="The cstack plant, rendered: control room, POODO interlocks, crew stations, the Endoforge hall, machinery, foundations, shipping and the remote site" draggable="false"></div>
+  <canvas id="fx" aria-hidden="true"></canvas><div id="hud"><div id="spots"></div></div>
+  <div id="tip" hidden></div><div id="hudframe" aria-hidden="true"><i></i><i></i><i></i><i></i><p id="ticker"></p></div></div>
+<div id="zoom" hidden><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button><button id="zfit" aria-label="Fit the plant">⤢</button></div>
+<div id="feed" class="panel" hidden></div>
+<section id="card" class="panel" hidden aria-live="polite"></section>
+
+<script>
+// The live data side: no WebGL needed. The 3D view (the module below) reads it through window.PLANT.
+const base = new URL('.', location.href);
+const SECTIONS = [
+  {id: 'hmi', re: /^(hmi_|desk|owner|estop|cr_)/, name: 'Control room (HMI)', what: 'Setpoints, measured state and the mode. Intent leaves here; measured effect comes back.'},
+  {id: 'poodo', re: /^(poodo_|relay_|ledger_)/, name: 'POODO interlocks', what: 'Every action passes authority, evidence, budget, scope and approval: ALLOW, ASK or DENY. Decisions go to the witnessed ledger.'},
+  {id: 'crew', re: /^(pod_|crew_|fleet_|keys_|intake_|mez_)/, name: 'Crew and fleet mail', what: 'The bots, each fenced to its slice, talking over fleet mail (GitHub issues labelled to:<slug>).'},
+  {id: 'hall', re: /^(lane\d|atom_|rec_|gate_|crane_|hall_|zone_)/, name: 'Endoforge hall', what: 'Atomize, parallelize (one writer per file, one lane each), recombine through the collect gate.'},
+  {id: 'machinery', re: /^(gpu_|q_|relief_|gov_|dial_|reg_|mach_)/, name: 'Machinery room', what: 'GPU queue and compressor, throttle and governor, fleet capacity and the worker registry.'},
+  {id: 'foundations', re: /^(silo_|parts_|found_)/, name: 'Foundations and parts wall', what: 'Domain silos and the catalogued open-source parts (T3 Code among them).'},
+  {id: 'shipping', re: /^(train_|rail_|tie_|cp_|main_|truck_|sign_merge)/, name: 'Merge train and shipping', what: 'Chief of Staff reviews; the merge train squash-merges into main; products ship.'},
+  {id: 'remote', re: /^(grok_|hermes_|hill_|ssh_)/, name: 'Remote site', what: 'The Grok box pushes its worker snapshot outbound only; Hermes stands by for failover.'},
+];
+
+// ---------------------------------------------------------------- live state: the cstack server's projection stream
+// (tools/cstack_server.py): a snapshot, then each changed projection with its sequence; on reconnect we resume after the
+// last sequence we saw. Without the server the page plays snapshot.json (a redacted capture) and says so.
+let S = null, live = false, lastSeq = null;
+const proj = {};
+function connect() {
+  const es = new EventSource(new URL('api/stream' + (lastSeq != null ? `?after=${lastSeq}` : ''), base));
+  es.addEventListener('snapshot', e => { const d = JSON.parse(e.data); Object.assign(proj, d.projections); lastSeq = d.sequence; live = true; derive(); });
+  es.addEventListener('projection', e => { const p = JSON.parse(e.data); proj[p.name] = p; lastSeq = +e.lastEventId; live = true; derive(); });
+  es.onerror = () => { es.close(); if (!live) loadSnapshot(); else setTimeout(connect, 3000); };
+}
+function loadSnapshot() {
+  fetch(new URL('snapshot.json', base)).then(r => r.json()).then(d => { Object.assign(proj, d.projections); lastSeq = d.sequence; derive(); }).catch(() => {});
+}
+connect();
+const sum = n => (proj[n] || {}).summary || {};
+function derive() {
+  const ses = sum('agent_sessions'), q = sum('gpu_queue'), cap = sum('capacity'), saf = sum('safety'), po = sum('poodo_state');
+  const jobs = (proj.conductor_jobs || {}).rows || [], pool = sum('codex_pool'), wk = sum('workers');
+  const engines = jobs.flatMap(j => j.engines || []);
+  const lanes = {claude: (ses.live || 0) + engines.filter(e => e === 'claude').length, codex: (pool.live_slots || 0) + engines.filter(e => e === 'codex').length};
+  const mode = po.shields_up ? 'stopped' : (cap.draining || jobs.some(j => j.paused)) ? 'paused'
+    : (lanes.claude + lanes.codex + (q.short || 0) + (q.long || 0)) ? 'running' : 'observe';
+  S = {at: Math.max(0, ...Object.values(proj).map(p => p.as_of || 0)), plant: {mode, estop: !!po.shields_up, lanes,
+    gauges: {workers_running: wk.running ?? 0, workers_dead: wk.dead ?? 0, claude_live: ses.live ?? 0, claude_blocked: ses.blocked ?? 0,
+             queue_short: q.short ?? 0, queue_long: q.long ?? 0, gpu_running: q.running ?? 0, gpu_waiting: q.waiting ?? 0, gpu_guard: GUARD[saf.guard_status] ?? saf.guard_status, capacity: cap.percent ?? 100,
+             codex_cooling: Object.keys(pool.cooling_until || {}).length},
+    poodo: {wired: !!po.state_root, note: (proj.poodo_state || {}).confidence?.reason}}};
+  render();
+}
+
+// ---------------------------------------------------------------- resources and running work (host_resources, running_work)
+const esc = t => String(t).replace(/[&<"]/g, c => ({'&': '&amp;', '<': '&lt;', '"': '&quot;'}[c]));
+function bar(label, used, total, text) {
+  const f = total ? Math.min(1, used / total) : 0;
+  return `<div class="row"><span>${label}</span><div class="bar"><i class="${f >= .9 ? 'hot' : f >= .75 ? 'warn' : ''}" style="width:${(f * 100).toFixed(1)}%"></i></div><span>${text}</span></div>`;
+}
+function renderResources() {
+  const h = sum('host_resources'), w = sum('running_work'), q = sum('gpu_queue'), saf = sum('safety');
+  const g = (h.gpus || [])[0];
+  let r = '';
+  if (h.threads) r += bar('CPU load', h.load[0], h.threads, `${h.load[0]} / ${h.threads}`);
+  if (h.mem_gib) r += bar('Memory', h.mem_gib.used, h.mem_gib.total, `${h.mem_gib.used} / ${Math.round(h.mem_gib.total)} GiB`);
+  if (h.swap_gib && h.swap_gib.total) r += bar('Swap', h.swap_gib.used, h.swap_gib.total, `${h.swap_gib.used} GiB`);
+  if (g) {
+    r += bar('GPU use', g.util, 100, `${g.util} % · ${g.temp_c} °C · ${g.power_w} W`);
+    r += bar('VRAM', g.vram_gib.used, g.vram_gib.total, `${g.vram_gib.used} / ${g.vram_gib.total} GiB`);
+    if (g.bar1_mib) r += bar('BAR1', g.bar1_mib.used, g.bar1_mib.total, `${g.bar1_mib.used} MiB`);
+  }
+  for (const d of h.disks || []) r += bar(d.mount === '/' ? 'Disk /' : 'Disk ' + d.mount.split('/').pop(), d.used_gib, d.total_gib,
+    `${(d.used_gib / 1024).toFixed(1)} / ${(d.total_gib / 1024).toFixed(1)} TiB`);
+  document.getElementById('res').innerHTML = r || '<p class="note">No resource reading yet.</p>';
+  let u = '<h3>GPU queue</h3>';
+  u += (q.jobs || []).map(j => `<div><span class="${j.state === 'running' ? 'on' : 'wait'}">${esc(j.name || '?')}</span><span>${j.state}</span></div>`).join('') || '<div><span>empty</span><span></span></div>';
+  if ((w.gpu_processes || []).length) u += '<h3>On the GPU</h3>' + w.gpu_processes.map(p => `<div><span class="on">${esc(p.command)}</span><span>${p.vram_gib} GiB VRAM</span></div>`).join('');
+  u += `<div><span>guarded browser</span><span>${GUARD[saf.guard_status] ?? saf.guard_status ?? '?'}</span></div>`;
+  u += '<h3>Heavy jobs (heavy-run)</h3>' + ((w.heavy_jobs || []).map(j => `<div><span class="on" title="${esc(j.unit)}">${esc(j.unit.replace(/^heavy-/, '').replace(/-\d+$/, ''))} · ${esc(j.commands.join(', '))}</span><span>${j.mem_gib} GiB</span></div>`).join('') || '<div><span>none</span><span></span></div>');
+  const fam = Object.entries(w.families || {});
+  if (fam.length) u += '<h3>Processes</h3>' + fam.map(([k, v]) => `<div><span>${esc(k)}</span><span>${v.processes} · ${v.rss_gib} GiB</span></div>`).join('');
+  document.getElementById('run').innerHTML = u;
+}
+const GUARD = {idle: 'idle', occupied_or_residual: 'busy', occupied: 'busy', residual: 'busy', faulted: 'FAULT', unsafe: 'unsafe'};
+const MODES = ['observe', 'proposed', 'approved', 'running', 'paused', 'stopped'];
+const fmtAge = s => s < 90 ? Math.round(s) + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : Math.round(s / 3600) + ' h';
+function render() {
+  if (!S) return;
+  const P = S.plant, now = live ? Date.now() / 1000 : S.at;
+  document.getElementById('feedmode').textContent = live ? `Live: cstack server (sequence ${lastSeq})` :
+    'Snapshot of ' + new Date(S.at * 1000).toLocaleString() + ' (start the cstack server for live)';
+  document.getElementById('modes').innerHTML = MODES.map(m => `<div class="mode ${m === P.mode ? 'on' : ''}">${m}</div>`).join('');
+  document.getElementById('estop').classList.toggle('up', !!P.estop);
+  const fresh = n => proj[n] && proj[n].confidence.level !== 'stale' && now - proj[n].as_of < 60;
+  const G = P.gauges;
+  const rows = [
+    ['Fleet bots running', G.workers_running, 'workers'], ['Fleet bots dead', G.workers_dead, 'workers'],
+    ['Agent sessions live', G.claude_live, 'agent_sessions'], ['Sessions blocked', G.claude_blocked, 'agent_sessions'],
+    ['GPU jobs running / waiting', `${G.gpu_running} / ${G.gpu_waiting}`, 'gpu_queue'], ['GPU guard', G.gpu_guard ?? '?', 'safety'],
+    ['Fleet capacity', G.capacity + ' %', 'capacity'], ['Codex accounts cooling', G.codex_cooling, 'codex_pool'],
+  ];
+  document.getElementById('gauges').innerHTML = rows.map(([l, v, k]) =>
+    `<div class="g"><b>${v}</b><span><i class="dot ${fresh(k) ? 'fresh' : ''}"></i>${l}</span></div>`).join('');
+  document.getElementById('sources').innerHTML = Object.values(proj).map(p =>
+    `<i class="dot ${fresh(p.name) ? 'fresh' : ''}"></i><span title="${(p.confidence.reason || '').replace(/"/g, '&quot;')}">${p.name.replace('_', ' ')} · ${p.confidence.level}</span><span class="age">${fmtAge(now - p.as_of)}</span>`).join('');
+  renderResources();
+  document.getElementById('poodo').textContent = P.poodo.wired ? 'POODO state root present.' : 'POODO: ' + (P.poodo.note || 'not wired');
+  if (flatOn) renderSpots();
+  if (window.renderRelay) renderRelay();
+  if (current) showCard(current);
+}
+
+
+let current = null;
+const READS = {hmi: ['safety', 'capacity', 'host_resources'], poodo: ['poodo_state'], crew: ['agent_sessions'], hall: ['conductor_jobs', 'agent_sessions', 'codex_pool'],
+  machinery: ['host_resources', 'running_work', 'gpu_queue', 'throttle', 'capacity', 'safety'], foundations: [], shipping: ['merge_train'], remote: ['workers']};
+// what each section's controls are, by class; the server is read-only, so none is armed here (approvals stay out of band)
+const CMDS = {hmi: [['operator', 'endoforge job pause|resume <job.json>'], ['STOP (the owner)', 'touch ~/.local/state/cstack/SHIELDS_UP']],
+  poodo: [['APPROVE (the owner, out of band)', 'tools/friday_approvals.py answer <id> yes|no --sha256 <hex>']],
+  hall: [['operator', 'endoforge job pause|resume|stop <job.json>']],
+  machinery: [['operator', 'fleet-disconnect ramp <N> | drain | resume']], shipping: [['MERGE (the owner)', 'systemctl --user start cstack-merge-train-lowrisk.service']]};
+function showCard(id) {
+  current = id;
+  const sec = SECTIONS.find(s => s.id === id), card = document.getElementById('card');
+  // each source as readable lines: arrays as a count, nested objects compact, epoch seconds as a clock time
+  const val = (k, v) => Array.isArray(v) ? `${v.length} recent` : v && typeof v === 'object' ? Object.entries(v).map(([a, b]) =>
+    `${a} ${typeof b === 'number' && b > 1.5e9 ? new Date(b * 1000).toLocaleString() : b}`).join(', ') || 'none' : v === null ? 'none' : v;
+  const reads = (READS[id] || []).map(k => !proj[k] ? `${k}: no data` : `${k.replace('_', ' ')} · ${proj[k].confidence.level}\n` +
+    Object.entries(proj[k].summary || {}).map(([a, b]) => `  ${a.replace('_', ' ')}: ${val(a, b)}`).join('\n')).join('\n\n');
+  const cmds = (CMDS[id] || []).map(([cls, cmd]) => `<div class="cmd ${cls === 'operator' ? 'op' : 'gate'}">${cls}: ${cmd}</div>`).join('');
+  card.innerHTML = `<button class="x" aria-label="Close" onclick="document.getElementById('card').hidden=true; current=null">×</button><h2>${sec.name}</h2>
+    <p class="note">${sec.what}</p>${reads ? `<pre>${reads.replace(/</g, '&lt;')}</pre>` : ''}
+    ${cmds ? `<p class="eyebrow" style="margin-top:10px">Controls (listed, not armed: the server is read-only)</p>${cmds}` : ''}
+    <button class="ask" type="button" onclick="relayAbout(${JSON.stringify(sec.name).replace(/"/g, '&quot;')})">Message the team about this</button>`;
+  card.hidden = false;
+}
+
+// ---------------------------------------------------------------- the rendered plant (no WebGL)
+// The Claude app's pane, and any browser with WebGL off, gets a Cycles plate of the same plant (plant-poster
+// build_plant.py, same camera family) with one live marker per section at a hand-placed spot, and the poster's labels
+// (projected anchors, plant.labels.json) once zoomed in. The 3D module calls PLANT.started3d(); without it, this runs.
+const SPOTS = {hmi: [47.7, 13.2, 'r', 'HMI'], poodo: [50, 36.8, 'r', 'POODO'], crew: [50.8, 51.4, 'r', 'Crew'], hall: [46.9, 64.6, 'l', 'Hall'],
+  machinery: [53.1, 79.9, 'r', 'Machinery'], foundations: [24.2, 65.3, 'b', 'Foundations'], shipping: [91, 62, 'l', 'Shipping'],
+  remote: [4.7, 50, 'r', 'Remote']};
+const glProbe = document.createElement('canvas');
+const hasGL = !!(glProbe.getContext('webgl2') || glProbe.getContext('webgl'));
+let flatOn = false, view = {s: 1, x: 0, y: 0}, fitS = 1;
+const PW = 2560, PH = 1440;
+function reading(id) {
+  const ses = sum('agent_sessions'), q = sum('gpu_queue'), cap = sum('capacity'), po = sum('poodo_state'), wk = sum('workers');
+  const jobs = (proj.conductor_jobs || {}).rows || [], mt = sum('merge_train'), P = S ? S.plant : {lanes: {}};
+  return {hmi: [P.mode || '…', P.mode === 'running'], poodo: [po.state_root ? `${po.ledgers} ledgers` : 'in memory only', false],
+    crew: [`${ses.live ?? 0} live · ${ses.blocked ?? 0} blocked`, (ses.live || 0) > 0],
+    hall: [`${jobs.length} jobs · ${(P.lanes.claude || 0) + (P.lanes.codex || 0)} lanes`, jobs.length + (P.lanes.claude || 0) + (P.lanes.codex || 0) > 0],
+    machinery: [`GPU ${q.running ?? 0} running · ${q.waiting ?? 0} waiting · ${(sum('running_work').heavy_jobs || []).length} heavy`,
+      (q.running || 0) + (sum('running_work').heavy_jobs || []).length > 0],
+    foundations: ['silos · parts wall', false], shipping: [`merged ${mt.merged ?? 0} · skipped ${mt.skipped ?? 0}`, false],
+    remote: [`${wk.running ?? 0} remote workers`, (wk.running || 0) > 0]}[id];
+}
+function health(id) {
+  const ks = READS[id] || [];
+  if (!ks.length) return 'info';
+  const now = live ? Date.now() / 1000 : (S ? S.at : 0);
+  const lv = ks.map(k => !proj[k] ? 'stale' : proj[k].confidence.level === 'stale' || now - proj[k].as_of > 60 ? 'stale' : proj[k].confidence.level);
+  return lv.includes('stale') ? 'stale' : lv.includes('partial') ? 'partial' : 'ok';
+}
+function renderTicker() {
+  const h = sum('host_resources'), q = sum('gpu_queue'), w = sum('running_work'), ses = sum('agent_sessions'), g = (h.gpus || [])[0];
+  const bits = [`SYS ${live ? 'LIVE' : 'SNAPSHOT'} · SEQ ${lastSeq ?? '–'}`];
+  if (h.threads) bits.push(`LOAD ${h.load[0]}/${h.threads}`, `MEM ${h.mem_gib.used}/${Math.round(h.mem_gib.total)}G`);
+  if (g) bits.push(`GPU ${g.util}% ${g.temp_c}°C VRAM ${g.vram_gib.used}/${g.vram_gib.total}G`);
+  bits.push(`GPU JOBS ${q.running ?? 0}▸${q.waiting ?? 0}`, `HEAVY ${(w.heavy_jobs || []).length}`, `SESSIONS ${ses.live ?? 0} LIVE ${ses.blocked ?? 0} BLOCKED`);
+  document.getElementById('ticker').textContent = bits.join('  ▪  ') + '  ';
+}
+function renderSpots() {
+  renderTicker();
+  for (const sec of SECTIONS) {
+    const el = document.getElementById('spot-' + sec.id);
+    if (!el) continue;
+    const [txt, busy] = reading(sec.id);
+    el.className = `spot d-${SPOTS[sec.id][2]} ${health(sec.id)} ${busy ? 'busy' : ''}`;
+    el.querySelector('.tag b').textContent = txt;
+  }
+}
+function region() {
+  // the free part of the screen beside the rail or under it, whichever shows the plant bigger
+  const r = document.getElementById('rail').getBoundingClientRect();
+  const side = [r.right + 8, 0, innerWidth - r.right - 8, innerHeight], under = [0, r.bottom + 8, innerWidth, innerHeight - r.bottom - 8];
+  const fit = ([, , w, h]) => Math.min(w / PW, h / PH);
+  return fit(under) > fit(side) ? under : side;
+}
+function applyView() {
+  for (const id of ['plate', 'hud']) document.getElementById(id).style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.s})`;
+  document.getElementById('hud').style.setProperty('--k', 1 / view.s);
+  // the HUD frame: corner brackets round the plant as it sits now, the telemetry ticker along its top
+  const f = document.getElementById('hudframe'), [rx, ry, rw, rh] = region();
+  const x0 = Math.max(rx + 6, view.x), y0 = Math.max(ry + 6, view.y), x1 = Math.min(rx + rw - 6, view.x + PW * view.s), y1 = Math.min(ry + rh - 6, view.y + PH * view.s);
+  Object.assign(f.style, {left: x0 + 'px', top: y0 + 'px', width: Math.max(0, x1 - x0) + 'px', height: Math.max(0, y1 - y0) + 'px'});
+  document.getElementById('flat').classList.toggle('compact', PW * view.s < 900);   // small plate: names only, readings on hover
+  document.getElementById('flat').classList.toggle('near', view.s / fitS >= 2.4);
+}
+function fitFlat() {
+  const [rx, ry, rw, rh] = region();
+  fitS = Math.min(rw / PW, rh / PH);
+  view = {s: fitS, x: rx + (rw - PW * fitS) / 2, y: ry + (rh - PH * fitS) / 2};
+  applyView();
+}
+function zoomAt(f, px, py) {
+  const s2 = Math.min(fitS * 6, Math.max(fitS * 0.8, view.s * f));
+  view.x = px - (px - view.x) * s2 / view.s; view.y = py - (py - view.y) * s2 / view.s; view.s = s2;
+  applyView();
+}
+function startFlat() {
+  if (flatOn) return;
+  flatOn = true;
+  const flat = document.getElementById('flat'), spots = document.getElementById('spots');
+  flat.hidden = false; document.getElementById('zoom').hidden = false; document.getElementById('scene').hidden = true;
+  spots.innerHTML = SECTIONS.map(sec => `<button class="spot info" id="spot-${sec.id}" style="left:${SPOTS[sec.id][0]}%;top:${SPOTS[sec.id][1]}%"
+    aria-label="${sec.name}"><span class="ring"></span><span class="tag">${SPOTS[sec.id][3]}<b></b></span></button>`).join('');
+  spots.addEventListener('click', e => { const b = e.target.closest('.spot'); if (b) showCard(b.id.slice(5)); });
+  fetch(new URL('plant.labels.json', base)).then(r => r.json()).then(d => {
+    spots.insertAdjacentHTML('beforebegin', d.labels.map(l => `<div class="flbl lbl k-${l.kind.split(':')[0]}" style="left:${l.x}%;top:${l.y}%">${
+      l.text.replace(/</g, '&lt;')}</div>`).join(''));
+  }).catch(() => {});
+  let drag = null, downAt = null;
+  const tip = document.getElementById('tip');
+  const plateAt = e => [(e.clientX - view.x) / view.s, (e.clientY - view.y) / view.s];
+  function hoverAt(e) {
+    const spot = e.target.closest && e.target.closest('.spot');
+    const id = spot ? spot.id.slice(5) : window.FX ? FX.sectionAt(...plateAt(e)) : null;
+    PLANT.hover = id;
+    flat.classList.toggle('over', !!id);
+    if (!id) { tip.hidden = true; return; }
+    const sec = SECTIONS.find(s => s.id === id), [txt] = reading(id), r = flat.getBoundingClientRect();
+    tip.innerHTML = `<h4>${sec.name}</h4><p>${esc(txt)}</p><small>${health(id) === 'stale' ? 'stale reading · ' : ''}click for the live card</small>`;
+    tip.hidden = false;
+    const x = Math.min(e.clientX + 18, r.width - tip.offsetWidth - 8), y = Math.min(e.clientY + 18, r.height - tip.offsetHeight - 8);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  flat.addEventListener('pointerdown', e => { if (e.target.closest('.spot')) return; drag = downAt = [e.clientX, e.clientY]; flat.setPointerCapture(e.pointerId); flat.classList.add('drag'); });
+  flat.addEventListener('pointermove', e => {
+    if (!drag) return hoverAt(e);
+    view.x += e.clientX - drag[0]; view.y += e.clientY - drag[1]; drag = [e.clientX, e.clientY]; applyView(); tip.hidden = true;
+  });
+  flat.addEventListener('pointerup', e => {
+    const click = downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) < 5;
+    drag = downAt = null; flat.classList.remove('drag');
+    if (click && window.FX) { const id = FX.sectionAt(...plateAt(e)); if (id) showCard(id); }
+  });
+  flat.addEventListener('pointerleave', () => { PLANT.hover = null; tip.hidden = true; flat.classList.remove('over'); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') { document.getElementById('card').hidden = true; current = null; } });
+  flat.addEventListener('wheel', e => { e.preventDefault(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX, e.clientY); }, {passive: false});
+  flat.addEventListener('dblclick', fitFlat);
+  const mid = () => { const [rx, ry, rw, rh] = region(); return [rx + rw / 2, ry + rh / 2]; };
+  document.getElementById('zin').onclick = () => zoomAt(1.4, ...mid());
+  document.getElementById('zout').onclick = () => zoomAt(1 / 1.4, ...mid());
+  document.getElementById('zfit').onclick = fitFlat;
+  addEventListener('resize', fitFlat);
+  fitFlat();
+  renderSpots();
+}
+let started3d = false;
+if (!hasGL) {
+  startFlat();
+  const n = document.createElement('p'); n.className = 'note';
+  n.textContent = 'This browser has WebGL off, so this is the rendered plant. Open the page in Chrome or Firefox for the 3D view.';
+  document.querySelector('.brand div').appendChild(n);
+} else setTimeout(() => { if (!started3d) startFlat(); }, 8000);   // the 3D module could not load (offline, CDN blocked)
+window.PLANT = {get S() { return S; }, showCard, SECTIONS, hasGL, started3d() { started3d = true; }, hover: null};
+</script>
+<script src="fx.js"></script>
+<script src="relay.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {CSS2DRenderer, CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+
+if (window.PLANT.hasGL) {
+  window.PLANT.started3d();
+  // ---------------------------------------------------------------- scene
+  const host = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.95;
+  host.appendChild(renderer.domElement);
+  const labels = new CSS2DRenderer();
+  labels.domElement.style.cssText = 'position:fixed;inset:0;pointer-events:none';
+  host.appendChild(labels.domElement);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x05070b);
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.5, 900);
+  camera.position.set(-34, 74, 96);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(-2, 5, -22);
+  controls.enableDamping = true;
+  controls.maxPolarAngle = Math.PI * 0.47;
+  controls.minDistance = 25; controls.maxDistance = 260;
+  scene.add(new THREE.HemisphereLight(0xcfd8ff, 0x10131c, 1.4));
+  const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-60, 90, -60); scene.add(key);
+  const rim = new THREE.DirectionalLight(0x7fd0ff, 1.0); rim.position.set(70, 50, 80); scene.add(rim);
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.38, 0.4, 0.9);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h); labels.setSize(w, h); composer.setSize(w, h); bloom.setSize(w, h);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  // ---------------------------------------------------------------- the plant model and its moving parts (by name)
+  const parts = {};
+  const find = re => Object.entries(parts).filter(([n]) => re.test(n)).map(([, o]) => o);
+  const loader = new GLTFLoader();
+  loader.load(new URL('plant.glb', base).href, gltf => {
+    const root = gltf.scene;
+    root.traverse(o => { if (o.name) parts[o.name] = o; if (o.isMesh) o.material.envMapIntensity = 0.6; });
+    scene.add(root);
+    setupMotion();
+  }, undefined, err => { document.getElementById('feedmode').textContent = 'Could not load the plant model: ' + err.message; });
+  const labelObjs = [];
+  fetch(new URL('plant.anchors.json', base)).then(r => r.json()).then(list => {
+    for (const a of list) {
+      const el = document.createElement('div');
+      el.className = 'lbl k-' + a.kind.split(':')[0];
+      el.textContent = a.text;
+      const o = new CSS2DObject(el); o.position.set(...a.pos); o.userData.always = a.kind === 'title'; scene.add(o); labelObjs.push(o);
+    }
+  }).catch(() => {});
+
+  // ---------------------------------------------------------------- motion driven by the live state
+  let lanesOn = [0, 0, 0, 0], gpuOn = 0, capacity = 100;
+  function setupMotion() {
+    // the capacity needle: a thin bar over the dial face
+    const face = parts['dial_face'];
+    if (face) {
+      const needle = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.2, 0.05), new THREE.MeshBasicMaterial({color: 0xffffff}));
+      needle.geometry.translate(0, 0.6, 0);
+      face.add(needle); needle.position.set(0, 0, 0.04); parts.__needle = needle;
+    }
+  }
+  const clock = new THREE.Clock();
+  function animate() {
+    const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    const S = window.PLANT.S;
+  if (S) {
+      const L = S.plant.lanes || {};
+      const claude = L.claude || 0, codex = (L.codex || 0) + Object.entries(L).filter(([k]) => k.startsWith('t3:codex')).reduce((a, [, v]) => a + v, 0);
+      lanesOn = [codex > 0, claude > 0, codex > 1, claude > 1].map(Number);   // lanes 0,2 are Codex workers; 1,3 Claude lanes
+      gpuOn = S.plant.gauges.gpu_running > 0 ? 1 : 0;
+      capacity = S.plant.gauges.capacity ?? 100;
+    }
+    for (let i = 0; i < 4; i++) {
+      for (let k = 0; k < 5; k++) {
+        const b = parts[`lane${i}_blk${k}`];
+        if (b) { b.userData.x0 ??= b.position.x; b.position.x = b.userData.x0 + (lanesOn[i] ? ((t * 2.2 + k * 3) % 15) - k * 3 : 0); }
+      }
+      const arm = parts[`lane${i}_arm`];
+      if (arm) arm.rotation.y = lanesOn[i] ? Math.sin(t * 2.4 + i) * 0.6 : arm.rotation.y * 0.95;
+    }
+    for (let k = 0; k < 13; k++) { const f = parts[`gpu_fin${k}`]; if (f) f.rotation.x += dt * 4 * gpuOn; }
+    if (parts.__needle) { const target = (-120 + 240 * capacity / 100) * Math.PI / 180; parts.__needle.rotation.z += (-target - parts.__needle.rotation.z) * 0.08; }
+    for (let k = 0; k < 10; k++) { const e = parts[`fleet_env${k}`]; if (e) { e.userData.x0 ??= e.position.x; e.position.x = -17 + ((e.userData.x0 + 17 + t * 1.6) % 38); } }
+    const cap = parts['estop_cap'];
+    if (cap && S) cap.material.emissiveIntensity = S.plant.estop ? (Math.sin(t * 10) > 0 ? 4 : 0.5) : 1.2;
+    const near = camera.position.distanceTo(controls.target) < 95;
+    for (const o of labelObjs) o.visible = o.userData.always || near;
+    controls.update();
+    composer.render();
+    labels.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // ---------------------------------------------------------------- click a section for its card
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  let downAt = null;
+  renderer.domElement.addEventListener('pointerdown', e => downAt = [e.clientX, e.clientY]);
+  renderer.domElement.addEventListener('pointerup', e => {
+    if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+    ptr.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    ray.setFromCamera(ptr, camera);
+    const hit = ray.intersectObjects(scene.children, true)[0];
+    if (!hit) return;
+    let o = hit.object, sec = null;
+    while (o && !sec) { sec = window.PLANT.SECTIONS.find(s => s.re.test(o.name || '')); o = o.parent; }
+    if (sec) window.PLANT.showCard(sec.id);
+  });
+}
+</script>

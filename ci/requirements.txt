@@ -1,0 +1,5 @@
+# CI test dependencies: the repo's own requirements plus what the suites need so they run instead of skipping.
+-r ../requirements.txt
+cryptography==50.0.2   # ADR 004 witnessed-ledger tests (about 70 skip without it)
+pillow==13.0.0         # hillclimb prove-split pixel diff (forge/endoforge/tools/hillclimb/scripts/pixel-diff.py)
+numpy==2.5.4           # same pixel diff

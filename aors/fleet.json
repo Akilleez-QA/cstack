@@ -1,0 +1,184 @@
+{
+  "schema": "cstack.fleet/0.1",
+  "approver": "owner-via-approver",
+  "source": {
+    "generated_by": "tools/open_export (example fleet)",
+    "inputs": []
+  },
+  "bots": [
+    {
+      "id": "4e494779",
+      "name": "Chief of Staff",
+      "slug": "chief-of-staff",
+      "reports_to": null,
+      "owns": [
+        "Example area of responsibility for Chief of Staff"
+      ],
+      "not": [
+        "anything outside its own area"
+      ],
+      "slices": [
+        "/",
+        ".github/",
+        "AGENTS.md"
+      ],
+      "effects": {
+        "read": "allow",
+        "write_slice": "allow",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "routes": {
+        "personal": "personal-assistant",
+        "company": [
+          "personal-assistant"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "id": "ef8a8d45",
+      "name": "Grok Bot",
+      "slug": "grok-bot",
+      "reports_to": "chief-of-staff",
+      "owns": [
+        "Example area of responsibility for Grok Bot"
+      ],
+      "not": [
+        "anything outside its own area"
+      ],
+      "slices": [
+        "products/hmi/"
+      ],
+      "effects": {
+        "read": "allow",
+        "write_slice": "allow",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "routes": {
+        "personal": "personal-assistant",
+        "company": [
+          "chief-of-staff",
+          "personal-assistant"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "id": "a5e5dd69",
+      "name": "Friday",
+      "slug": "personal-assistant",
+      "reports_to": null,
+      "owns": [
+        "Example area of responsibility for Friday"
+      ],
+      "not": [
+        "anything outside its own area"
+      ],
+      "slices": [],
+      "effects": {
+        "read": "allow",
+        "write_slice": "deny",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "status": "OK"
+    },
+    {
+      "id": "132415a1",
+      "name": "Training Library",
+      "slug": "training-library",
+      "reports_to": "chief-of-staff",
+      "owns": [
+        "Example area of responsibility for Training Library"
+      ],
+      "not": [
+        "anything outside its own area"
+      ],
+      "slices": [
+        "library/training/"
+      ],
+      "effects": {
+        "read": "allow",
+        "write_slice": "allow",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "routes": {
+        "personal": "personal-assistant",
+        "company": [
+          "chief-of-staff",
+          "personal-assistant"
+        ]
+      },
+      "status": "OK"
+    },
+    {
+      "id": "54f1f94f",
+      "name": "Travel & RV",
+      "slug": "travel-rv",
+      "reports_to": "personal-assistant",
+      "owns": [
+        "Example area of responsibility for Travel & RV"
+      ],
+      "not": [
+        "anything outside its own area"
+      ],
+      "slices": [],
+      "effects": {
+        "read": "allow",
+        "write_slice": "deny",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "routes": {
+        "personal": "personal-assistant"
+      },
+      "status": "CHECK"
+    }
+  ],
+  "devices": [
+    {
+      "hostname": "host-a",
+      "owner": null,
+      "guest_effects": {
+        "read": "allow",
+        "write_slice": "deny",
+        "execute": "deny",
+        "config": "deny",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "status": "CHECK"
+    }
+  ]
+}

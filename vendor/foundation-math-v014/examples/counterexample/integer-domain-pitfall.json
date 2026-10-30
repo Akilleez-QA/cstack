@@ -1,0 +1,54 @@
+{
+  "assertion": {
+    "left": {
+      "operands": [
+        {
+          "operands": [
+            {
+              "name": "x",
+              "type": "variable"
+            },
+            {
+              "name": "x",
+              "type": "variable"
+            }
+          ],
+          "type": "multiply"
+        },
+        {
+          "operands": [
+            {
+              "denominator": 1,
+              "numerator": -1,
+              "type": "rational"
+            },
+            {
+              "name": "x",
+              "type": "variable"
+            }
+          ],
+          "type": "multiply"
+        }
+      ],
+      "type": "add"
+    },
+    "relation": "ge",
+    "right": {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  },
+  "bounds": {
+    "x": {
+      "lower": -3,
+      "upper": 3
+    }
+  },
+  "coefficient_field": "Q",
+  "constraints": [],
+  "domain": "finite_integer_box",
+  "variables": [
+    "x"
+  ]
+}

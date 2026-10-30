@@ -1,0 +1,564 @@
+{
+ "sequence": 10,
+ "projections": {
+  "workers": {
+   "name": "workers",
+   "source": {
+    "command": "workers list --json"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    },
+    {
+     "host": "Host-a",
+     "bot": "unknown",
+     "state": "finished",
+     "heartbeat": null
+    }
+   ],
+   "summary": {
+    "running": 0,
+    "dead": 0,
+    "unknown": 0,
+    "host": 0
+   }
+  },
+  "gpu_queue": {
+   "name": "gpu_queue",
+   "source": {
+    "path": "~/.local/state/gpu-queue"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [
+    {
+     "name": "job",
+     "lane": "long",
+     "est": null,
+     "queued": 1793142395,
+     "alive": true
+    }
+   ],
+   "summary": {
+    "short": 0,
+    "long": 1,
+    "recent": [
+     {
+      "lane": "long",
+      "waited": 0.0,
+      "ran": 57.7,
+      "rc": 0,
+      "ended": 1793138083.8382292
+     },
+     {
+      "lane": "long",
+      "waited": 0.0,
+      "ran": 61.9,
+      "rc": 0,
+      "ended": 1793138221.430027
+     },
+     {
+      "lane": "long",
+      "waited": 0.0,
+      "ran": 73.5,
+      "rc": 0,
+      "ended": 1793138342.366637
+     },
+     {
+      "lane": "long",
+      "waited": 0.0,
+      "ran": 79.4,
+      "rc": 0,
+      "ended": 1793139699.9642615
+     },
+     {
+      "lane": "long",
+      "waited": 60.1,
+      "ran": 1439.7,
+      "rc": null,
+      "ended": 1793141743.7961211
+     },
+     {
+      "lane": "long",
+      "waited": 300.0,
+      "ran": 196.5,
+      "rc": 0,
+      "ended": 1793141961.36053
+     },
+     {
+      "lane": "long",
+      "waited": 120.0,
+      "ran": 169.0,
+      "rc": 0,
+      "ended": 1793142131.421119
+     },
+     {
+      "lane": "long",
+      "waited": 0.0,
+      "ran": 18.7,
+      "rc": 0,
+      "ended": 1793142172.8517075
+     }
+    ]
+   }
+  },
+  "safety": {
+   "name": "safety",
+   "source": {
+    "command": "system-safety-status"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "healthy": true,
+    "fault": false,
+    "gpu_ok": true,
+    "journal_ok": true,
+    "guard_status": "idle",
+    "monitor_status": "ok",
+    "sample_age_seconds": 1.09
+   }
+  },
+  "capacity": {
+   "name": "capacity",
+   "source": {
+    "path": "~/.local/state/fleet"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "percent": 100,
+    "draining": null
+   }
+  },
+  "throttle": {
+   "name": "throttle",
+   "source": {
+    "path": "~/.local/state/heavy-run",
+    "command": "heavy-run --limits"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [
+    {
+     "t": "2026-10-27T18:18:04",
+     "set": {
+      "MemoryLow": 8048813506
+     },
+     "why": "protect codex (7 GB reserved)"
+    },
+    {
+     "t": "2026-10-27T18:18:34",
+     "set": {
+      "MemoryLow": 8048813506
+     },
+     "why": "protect codex (7 GB reserved)"
+    },
+    {
+     "t": "2026-10-27T18:18:34",
+     "set": {
+      "MemoryLow": 1073741824
+     },
+     "why": "protect codex (1 GB reserved)"
+    },
+    {
+     "t": "2026-10-27T18:23:36",
+     "set": {
+      "MemoryLow": 1073741824
+     },
+     "why": "protect codex (1 GB reserved)"
+    },
+    {
+     "t": "2026-10-27T18:23:36",
+     "set": {
+      "MemoryLow": 8048813506
+     },
+     "why": "protect codex (7 GB reserved)"
+    }
+   ],
+   "summary": {
+    "limits": "threads=32 ram=124G max_load=28.0 reserve=14G slots=2 slice_high=55G slice_max=71G cpu_quota=1792%",
+    "slots": 2,
+    "busy": 2
+   }
+  },
+  "agent_sessions": {
+   "name": "agent_sessions",
+   "source": {
+    "path": "~/.config/Claude/claude-code-sessions",
+    "fields": [
+     "lastActivityAt",
+     "completedTurns",
+     "isArchived",
+     "model",
+     "postTurnSummary.status_category"
+    ]
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "total": 74,
+    "live": 6,
+    "blocked": 11,
+    "review_ready": 9
+   }
+  },
+  "codex_pool": {
+   "name": "codex_pool",
+   "source": {
+    "path": "~/.codex-pool"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "cooling_until": {
+     "example-owner": 1793605080,
+     "default": 1793605080
+    },
+    "live_slots": 0
+   }
+  },
+  "conductor_jobs": {
+   "name": "conductor_jobs",
+   "source": {
+    "glob": "$FACTORY_SCRATCH/*/job/conductor/state.json"
+   },
+   "as_of": 1793142576,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "jobs": 0
+   }
+  },
+  "merge_train": {
+   "name": "merge_train",
+   "source": {
+    "command": "journalctl --user -u cstack-merge-train*"
+   },
+   "as_of": 1793142577,
+   "confidence": {
+    "level": "complete",
+    "reason": "all inputs read",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "merged": 0,
+    "skipped": 25
+   }
+  },
+  "poodo_state": {
+   "name": "poodo_state",
+   "source": {
+    "path": "~/.local/state/cstack"
+   },
+   "as_of": 1793142577,
+   "confidence": {
+    "level": "partial",
+    "reason": "no POODO state root: ledgers are in memory only on this device",
+    "counts": {}
+   },
+   "rows": [],
+   "summary": {
+    "state_root": false,
+    "shields_up": false,
+    "ledgers": 0
+   }
+  }
+ },
+ "redacted": "gpu job names removed; session files give counts only"
+}

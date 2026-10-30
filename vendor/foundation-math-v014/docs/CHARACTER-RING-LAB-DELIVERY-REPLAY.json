@@ -1,0 +1,36 @@
+{
+  "archive_entries": 48,
+  "manifest_entries_verified": 86,
+  "results": [
+    {
+      "checks": null,
+      "name": "authored_aggregate",
+      "output_sha256": "c8a33061e06a5e94e54a72a4f307e4be532f4bf732a4753569572e279ab3ca0b",
+      "status": "PASS"
+    },
+    {
+      "checks": 2596,
+      "name": "independent_normal",
+      "output_sha256": "a8bbf38c4f9cdf14fb5763b52554abc899140197eac30bbfc8996d0e97e308ae",
+      "status": "PASS"
+    },
+    {
+      "checks": 2596,
+      "name": "independent_optimized",
+      "output_sha256": "a8bbf38c4f9cdf14fb5763b52554abc899140197eac30bbfc8996d0e97e308ae",
+      "status": "PASS"
+    },
+    {
+      "checks": null,
+      "name": "independent_standalone",
+      "output_sha256": "689682414153d4c365656ccabee305c71698e13a055e263e06402cf5d3260071",
+      "status": "PASS"
+    }
+  ],
+  "review_manifest_sha256": "2fefdc6237952aaff132f8845d3340083ca8ed2bb788827cbbd218e37916eb2f",
+  "scope": "Exact distributed archive reproduced without historical sibling trees, network or installed packages.",
+  "source_manifest_sha256": "fbd2014cd2931db57964142c4af7bba09853a4fa6e191bf8a550fee9f1b2cb37",
+  "status": "PASS",
+  "zip_bytes": 60635,
+  "zip_sha256": "900e5395d6d683a6a6da0c6e48c31ec9ca17892741ad85512fbdb9c0b4936115"
+}

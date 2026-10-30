@@ -1,0 +1,85 @@
+{
+  "schema": "foundation-math-rational-matrix/1",
+  "matrix": {
+    "domain": "Z",
+    "rows": 2,
+    "cols": 3,
+    "entries": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ]
+  },
+  "rref": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 3,
+    "entries": [
+      [
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ]
+  },
+  "transform": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 2,
+    "entries": [
+      [
+        1,
+        -2
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "rank": 2,
+  "pivots": [
+    0,
+    1
+  ],
+  "free_columns": [
+    2
+  ],
+  "nullspace": {
+    "domain": "Q",
+    "rows": 3,
+    "cols": 1,
+    "entries": [
+      [
+        -1
+      ],
+      [
+        -1
+      ],
+      [
+        1
+      ]
+    ]
+  },
+  "operations": [
+    {
+      "op": "add",
+      "target": 0,
+      "source": 1,
+      "factor": -2
+    }
+  ],
+  "determinant": null
+}

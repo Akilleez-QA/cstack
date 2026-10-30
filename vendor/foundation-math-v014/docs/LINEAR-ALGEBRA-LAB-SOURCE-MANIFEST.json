@@ -1,0 +1,116 @@
+{
+  "files": [
+    {
+      "bytes": 621,
+      "path": "AGENTS.md",
+      "sha256": "15a16ab5742584588a5ba792521ae5a94683eeae722f0706c681e8cd93e35f2f"
+    },
+    {
+      "bytes": 2834,
+      "path": "README.md",
+      "sha256": "52c458b921a523757b5d028e4f94534503cf7f0e8ab14231c4e95332630a23da"
+    },
+    {
+      "bytes": 4482,
+      "path": "docs/CERTIFICATE.md",
+      "sha256": "e55b51483ea5f790f592a18758e746102e95558205156e55e7221459e9602535"
+    },
+    {
+      "bytes": 6881,
+      "path": "docs/CONTRACT.md",
+      "sha256": "1307ba0e136da08091e02f896664c58b7e775932108ab0870f34d3bcb546fbb3"
+    },
+    {
+      "bytes": 1555,
+      "path": "docs/SOURCES.md",
+      "sha256": "b30b1df0a4143c767dc8eef7f95ef9a5309fb790fec49465aebf77dca149e572"
+    },
+    {
+      "bytes": 4720,
+      "path": "docs/VALIDATION.md",
+      "sha256": "dcdacba40032e7a3c8c3eb63419ef70c04ffc77def30b793314f9590c82ca0f7"
+    },
+    {
+      "bytes": 423,
+      "path": "exact_linalg/__init__.py",
+      "sha256": "530a86ce31a58b2b4bb821d7f057efa4b6f6fe753e44fd1321e58b470885c19e"
+    },
+    {
+      "bytes": 830,
+      "path": "exact_linalg/__main__.py",
+      "sha256": "da1ebf341fb8d34e1b80349c7fb075269b8841f62ed53661fe3ccd8ea2a8ab6b"
+    },
+    {
+      "bytes": 1799,
+      "path": "exact_linalg/api.py",
+      "sha256": "b790003d90830d7dc9d3fa5c413a4898c0b75a7e8f39d8fa7445a14e307f268f"
+    },
+    {
+      "bytes": 12887,
+      "path": "exact_linalg/contract.py",
+      "sha256": "b706f8caeb8c782a96c7839d8749bcd4085cd73b968b12b8ac64ef72fecd86dd"
+    },
+    {
+      "bytes": 4558,
+      "path": "exact_linalg/producer.py",
+      "sha256": "057d6a1a55449a3e6e1c5119599851f852710cc3658b8ba11848dfbfe3ed14e5"
+    },
+    {
+      "bytes": 12365,
+      "path": "exact_linalg/verifier.py",
+      "sha256": "6aaa420141b2d028c5087ead9a5af83dce51ebac0b10e0ecb54acca9b96fd2b3"
+    },
+    {
+      "bytes": 106,
+      "path": "examples/rational-request.json",
+      "sha256": "d6c889163e9361234abce0991766214a89f92d3073ffa15d42fd7b12f006ee01"
+    },
+    {
+      "bytes": 94,
+      "path": "examples/rectangular-request.json",
+      "sha256": "b58aee4ab89396a5594c5904af08bf3c3f02c3d8d09f7c750404013ccb6b117f"
+    },
+    {
+      "bytes": 11748,
+      "path": "tests/test_contract_and_api.py",
+      "sha256": "8ff413ac559ecb2a95bdc2cde8f2c043b6fcf6f297563f2732e9c44cd6f6a73d"
+    },
+    {
+      "bytes": 11457,
+      "path": "tests/test_independent_audit.py",
+      "sha256": "e99f651f95980b11a24e5c96ad33742c068748fc5bc219121f28181437523d3f"
+    },
+    {
+      "bytes": 5063,
+      "path": "tests/test_producer_oracles.py",
+      "sha256": "91a78c521f3748a5fbc9992a18914b9759a4181dd8d0d0415659e521795f7529"
+    },
+    {
+      "bytes": 2002,
+      "path": "tests/test_runtime_boundary.py",
+      "sha256": "6b3835e87e819ca4a92fb06de4766dc5f16c1c8924620d6645e729e055ea728f"
+    },
+    {
+      "bytes": 15688,
+      "path": "tests/test_verifier_independent.py",
+      "sha256": "49afe28b1cd5201e6d943a9b036bcda3eb7ba8fecdfb42756d9245bec44c5e1b"
+    },
+    {
+      "bytes": 2183,
+      "path": "tools/validate.py",
+      "sha256": "71d03c575a7ba2d5bb2dbabce53f7f946196a916b32cf1a2c4222ac21820538f"
+    },
+    {
+      "bytes": 941,
+      "path": "validation/normal.json",
+      "sha256": "5195e5a7242d46361b4242e3d585b2791467d67b8358e26c4844b4f0d960d218"
+    },
+    {
+      "bytes": 940,
+      "path": "validation/optimized.json",
+      "sha256": "46bc4f403afa247d16b4cd8f9eda09481cd03db4bcbe2dcc102e318ac4644714"
+    }
+  ],
+  "schema": "foundation-math-linear-algebra-source-manifest/1",
+  "scope": "Standalone local explicit rational matrix certificate lab; no integration or external publication."
+}

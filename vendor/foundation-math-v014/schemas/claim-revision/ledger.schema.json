@@ -1,0 +1,360 @@
+{
+  "$comment": "Structural aid only. The stdlib core additionally checks exact types, blank text, IDs, hashes, pins, cycles, chronology and aggregate budgets. Schema validity is not proof.",
+  "$defs": {
+    "claim_content": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "items": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 32,
+          "type": "array"
+        },
+        "authored_status": {
+          "enum": [
+            "open",
+            "draft",
+            "claimed_established",
+            "claimed_refuted"
+          ]
+        },
+        "non_claims": {
+          "items": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 32,
+          "type": "array"
+        },
+        "scope": {
+          "enum": [
+            "universal",
+            "generic",
+            "existential",
+            "instance",
+            "conditional"
+          ]
+        },
+        "statement": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "statement",
+        "scope",
+        "assumptions",
+        "non_claims",
+        "authored_status"
+      ],
+      "type": "object"
+    },
+    "evidence_content": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authored_status": {
+          "enum": [
+            "open",
+            "draft",
+            "claimed_established",
+            "claimed_refuted"
+          ]
+        },
+        "description": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "type": "string"
+        },
+        "evidence_type": {
+          "enum": [
+            "informal_argument",
+            "exact_computation",
+            "independent_review",
+            "formal_proof_report",
+            "counterexample_report"
+          ]
+        }
+      },
+      "required": [
+        "description",
+        "evidence_type",
+        "artifact_sha256",
+        "authored_status"
+      ],
+      "type": "object"
+    },
+    "obligation_content": {
+      "additionalProperties": false,
+      "properties": {
+        "authored_status": {
+          "enum": [
+            "open",
+            "draft",
+            "claimed_established",
+            "claimed_refuted"
+          ]
+        },
+        "requirement": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement",
+        "authored_status"
+      ],
+      "type": "object"
+    },
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256"
+      ],
+      "type": "object"
+    },
+    "record": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "claim"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/$defs/claim_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "obligation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/$defs/obligation_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "evidence"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/$defs/evidence_content"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "content": {},
+        "content_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "dependencies": {
+          "items": {
+            "$ref": "#/$defs/pin"
+          },
+          "maxItems": 64,
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "claim",
+            "obligation",
+            "evidence"
+          ]
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "kind",
+        "content",
+        "content_sha256",
+        "revision_sha256",
+        "dependencies"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:foundation-math:claim-revision:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "events": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                "type": "string"
+              },
+              "kind": {
+                "const": "withdraw"
+              },
+              "reason": {
+                "maxLength": 2048,
+                "minLength": 1,
+                "type": "string"
+              },
+              "target": {
+                "$ref": "#/$defs/pin"
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "target",
+              "reason"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                "type": "string"
+              },
+              "kind": {
+                "const": "revise"
+              },
+              "reason": {
+                "maxLength": 2048,
+                "minLength": 1,
+                "type": "string"
+              },
+              "replacement": {
+                "$ref": "#/$defs/record"
+              },
+              "target": {
+                "$ref": "#/$defs/pin"
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "target",
+              "reason",
+              "replacement"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "evidence": {
+                "$ref": "#/$defs/pin"
+              },
+              "id": {
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                "type": "string"
+              },
+              "kind": {
+                "const": "record_refutation_report"
+              },
+              "reason": {
+                "maxLength": 2048,
+                "minLength": 1,
+                "type": "string"
+              },
+              "target": {
+                "$ref": "#/$defs/pin"
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "target",
+              "reason",
+              "evidence"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/record"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema": {
+      "const": "foundation-math-claim-revision/1"
+    }
+  },
+  "required": [
+    "schema",
+    "records",
+    "events"
+  ],
+  "title": "Bounded all-required claim revision ledger",
+  "type": "object"
+}

@@ -1,0 +1,377 @@
+{
+  "$defs": {
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:foundation-math:claim-revision:report:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_claims": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "affected_obligations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "events_replayed": {
+      "maximum": 64,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "history": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "current": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "claim",
+              "obligation",
+              "evidence"
+            ]
+          },
+          "lifecycle_events": {
+            "items": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                      "type": "string"
+                    },
+                    "kind": {
+                      "const": "withdraw"
+                    },
+                    "reason": {
+                      "maxLength": 2048,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "target": {
+                      "$ref": "#/$defs/pin"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "target",
+                    "reason"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "evidence": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "id": {
+                      "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+                      "type": "string"
+                    },
+                    "kind": {
+                      "const": "record_refutation_report"
+                    },
+                    "reason": {
+                      "maxLength": 2048,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "target": {
+                      "$ref": "#/$defs/pin"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "target",
+                    "reason",
+                    "evidence"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "pin": {
+            "$ref": "#/$defs/pin"
+          }
+        },
+        "required": [
+          "pin",
+          "kind",
+          "current",
+          "lifecycle_events"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "input_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "integrity": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_bytes_checked": {
+          "const": false
+        },
+        "authorship_verified": {
+          "const": false
+        },
+        "record_digests_match": {
+          "const": true
+        }
+      },
+      "required": [
+        "record_digests_match",
+        "artifact_bytes_checked",
+        "authorship_verified"
+      ],
+      "type": "object"
+    },
+    "proof_accepted": {
+      "const": false
+    },
+    "records": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "applicability": {
+            "enum": [
+              "blocked",
+              "no_recorded_dependency_blockers"
+            ]
+          },
+          "authored_status": {
+            "enum": [
+              "open",
+              "draft",
+              "claimed_established",
+              "claimed_refuted"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "claim",
+              "obligation",
+              "evidence"
+            ]
+          },
+          "pin": {
+            "$ref": "#/$defs/pin"
+          },
+          "proof_accepted": {
+            "const": false
+          },
+          "reasons": {
+            "items": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cause_id": {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "revision_withdrawn"
+                    },
+                    "event_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "origin": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "path": {
+                      "items": {
+                        "$ref": "#/$defs/pin"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cause_id",
+                    "code",
+                    "origin",
+                    "event_id",
+                    "path",
+                    "reason"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cause_id": {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "refutation_reported_unchecked"
+                    },
+                    "event_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "origin": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "path": {
+                      "items": {
+                        "$ref": "#/$defs/pin"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "reported_evidence": {
+                      "$ref": "#/$defs/pin"
+                    }
+                  },
+                  "required": [
+                    "cause_id",
+                    "code",
+                    "origin",
+                    "event_id",
+                    "path",
+                    "reason",
+                    "reported_evidence"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cause_id": {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "dependency_revision_not_current"
+                    },
+                    "current": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "event_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "expected": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "origin": {
+                      "$ref": "#/$defs/pin"
+                    },
+                    "path": {
+                      "items": {
+                        "$ref": "#/$defs/pin"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "cause_id",
+                    "code",
+                    "origin",
+                    "event_id",
+                    "path",
+                    "expected",
+                    "current"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "truth_assessment": {
+            "const": "not_assessed"
+          }
+        },
+        "required": [
+          "pin",
+          "kind",
+          "applicability",
+          "authored_status",
+          "truth_assessment",
+          "proof_accepted",
+          "reasons"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "schema": {
+      "const": "foundation-math-claim-revision/1/report"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "truth_assessment": {
+      "const": "not_assessed"
+    }
+  },
+  "required": [
+    "schema",
+    "input_sha256",
+    "integrity",
+    "scope",
+    "truth_assessment",
+    "proof_accepted",
+    "records",
+    "affected_obligations",
+    "affected_claims",
+    "history",
+    "events_replayed"
+  ],
+  "title": "Claim revision applicability report, not proof",
+  "type": "object"
+}

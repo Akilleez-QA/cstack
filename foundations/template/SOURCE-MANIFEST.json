@@ -1,0 +1,16 @@
+{
+  "files": {
+    "README.md": "64a6d03d84360fbbdae32e8ebcdb719dd7cc813f947cf70a14dd6acdbf0ae7e0",
+    "foundation_template/__init__.py": "22e33de01ed02b356a5df88181485fcd02a73970ce1f16391dc96317aabceff1",
+    "foundation_template/tools.py": "ee7afcc1c1c429c145e707f7270f91492c104cc4dc7b631989720bbb7f22823a",
+    "foundation_template_bridge/__init__.py": "3177f2c092a50522e7e747184407559b5a02930553b44aa446aced16590b6c2f",
+    "foundation_template_bridge/__main__.py": "19cbde1160e8c41a5340f22d9e027c436911c3a8034c62a7407532353c800ee2",
+    "foundation_template_bridge/schemas.py": "3a176fbd26510c6bebba52326d19eba1587a08b30f2c4c57b9e31b08218c151c",
+    "foundation_template_bridge/server.py": "a50b14006a57997f3b6f0bcd0afe99670e0c91b24303afb8d86f41004d193912",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_bridge.py": "e29734940f5e62b45246e229ff4cddb3efaf252bd64086ccb51459a695108e34",
+    "tools/build_manifest.py": "5b1de0d0c0df40a0832185dadb3dec3a68b25121b3e067965d9823c1ab184729"
+  },
+  "schema": "foundation-template-source-manifest/1",
+  "version": "0.1.0"
+}

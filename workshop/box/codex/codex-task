@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# codex-task: the one way a Grok bot gets code written. Runs Codex CLI in the target repo through codex-guard,
+# so shields-up (CODEX_BLOCKED) and the ledger gate stop it, and Codex's own subscription quota carries the load.
+# usage: codex-task <repo-dir> "<what to change, and the checks that prove it>"
+# exit:  0 done; 64 usage; 65 not a git checkout; 66 no such dir; 69 guard missing; 70 run without a completed
+#        turn; 73 working tree not clean, or the commit step could not run; 75 Codex usage limit
+#        ("codex-task: quota", reset time if known) or shields up (from codex-guard); otherwise Codex's own status.
+# After Codex exits 0, codex-task (not the bot, not Codex: the sandbox keeps .git read-only) commits the diff on a
+# new branch <bot-slug>/<yyyymmdd>-codex-<shortid> and pushes that branch to origin (never forced, never main;
+# CODEX_TASK_PUSH=0 keeps it local). A failed push leaves the commit and says so; the exit stays 0.
+# CODEX_TASK_BOT names the bot (naming and the worker registry, not authority). It is required and must be on the
+# roster (aors/fleet.json + aors/branch-slugs.json, checked by `workers slug`): an unset or unknown name ('null')
+# exits 64. The run is registered with the worker registry (`workers list` shows it while it runs).
+set -euo pipefail
+# Fixed, never read from the environment: a caller-chosen guard would skip shields-up and the ledger gate.
+readonly GUARD=/workspace/ops/shields/lib/codex-guard.sh
+[ $# -eq 2 ] || { echo "usage: codex-task <repo-dir> \"<task>\" (exactly two arguments)" >&2; exit 64; }
+task=$2
+# The task is passed after `--`, so Codex never parses it as a flag. Refusing a leading `-` is defence in depth
+# (and `-` alone would make codex read the prompt from stdin).
+case $task in ''|-*) echo "codex-task: the task must be non-empty and must not start with '-'" >&2; exit 64 ;; esac
+repo=$(cd -- "$1" 2>/dev/null && pwd) || { echo "codex-task: no such directory: $1" >&2; exit 66; }
+git -C "$repo" rev-parse --show-toplevel >/dev/null 2>&1 || { echo "codex-task: $repo is not a git checkout" >&2; exit 65; }
+[ -x "$GUARD" ] || { echo "codex-task: codex-guard not found at $GUARD; refusing to run Codex unguarded" >&2; exit 69; }
+# The commit must hold Codex's diff and nothing else, so start from a clean tree and remember where we started.
+[ -z "$(git -C "$repo" status --porcelain)" ] || { echo "codex-task: $repo has uncommitted changes; commit or stash them first" >&2; exit 73; }
+base=$(git -C "$repo" rev-parse --verify -q HEAD) || { echo "codex-task: $repo has no commits yet" >&2; exit 73; }
+WORKERS=""; for W in /usr/local/bin/workers "$HOME/.local/bin/workers"; do [ -x "$W" ] && { WORKERS=$W; break; }; done
+[ -n "$WORKERS" ] || { echo "codex-task: the worker registry (workers) is not installed; see workshop/box/codex/install.sh" >&2; exit 69; }
+bot=${CODEX_TASK_BOT:-}
+[ -n "$bot" ] || { echo "codex-task: set CODEX_TASK_BOT to your fleet slug (for example grok-bot)" >&2; exit 64; }
+"$WORKERS" slug "$bot" || { echo "codex-task: CODEX_TASK_BOT=$bot is not a fleet slug; refusing (no fallback name)" >&2; exit 64; }
+
+state=${XDG_STATE_HOME:-$HOME/.local/state}/codex-task
+mkdir -p "$state"
+run=$(mktemp -d "$state/run.XXXXXXXX")
+events=$run/events.jsonl
+# --ignore-user-config / --ignore-rules: a user config (host-a's is danger-full-access) or a user/project
+# `.rules` allow rule (which execpolicy runs OUTSIDE the sandbox) cannot widen this run. approvals_reviewer=user
+# stops an auto_review config from replacing headless "never" with a model approver.
+rc=0
+WORKERS_ALLOW_UNREGISTERED=0 WORKERS_EVIDENCE=$run "$WORKERS" run --bot "$bot" --task "$task" --repo "$repo" -- "$GUARD" codex exec \
+  --cd "$repo" --sandbox workspace-write \
+  --ignore-user-config --ignore-rules --strict-config \
+  -c 'approval_policy="never"' -c 'approvals_reviewer="user"' \
+  --json -o "$run/last-message.md" \
+  -- "$task" </dev/null >"$events" || rc=$?
+
+# One pass over the JSONL evidence: thread id, terminal turn state, and whether a failure was a usage limit.
+{ IFS= read -r thread; IFS= read -r turn; IFS= read -r quota; IFS= read -r resets; } < <(python3 -I - "$events" <<'PY'
+import json, re, sys
+thread, turn, quota, resets = "", "none", "0", ""
+for line in open(sys.argv[1], encoding="utf-8", errors="replace"):
+    try:
+        event = json.loads(line)
+    except ValueError:
+        continue
+    kind = event.get("type") if type(event) is dict else None
+    if kind == "thread.started":
+        thread = re.sub(r"[^A-Za-z0-9-]", "", str(event.get("thread_id", "")))[:64]
+    elif kind in ("turn.completed", "turn.failed"):
+        turn = kind.split(".")[1]
+    if kind in ("turn.failed", "error"):
+        error = event.get("error") if kind == "turn.failed" else event
+        message = str((error or {}).get("message", "")) if type(error) is dict else ""
+        if re.search(r"hit your usage limit|out of credits|spend cap", message, re.I):
+            quota = "1"
+            found = re.search(r"try again at (.+?)\.?\s*$", message, re.I)
+            resets = re.sub(r"[^\w :,.-]", "", found.group(1))[:40] if found else resets
+print(thread, turn, quota, resets, sep="\n")
+PY
+) || true
+echo "codex-task: thread ${thread:-unknown}; evidence $run" >&2
+if [ "$rc" -ne 0 ]; then
+  if [ "$quota" = 1 ]; then echo "codex-task: quota: Codex usage limit reached${resets:+; resets at $resets}" >&2; exit 75; fi
+  exit "$rc"
+fi
+[ "$turn" = completed ] || { echo "codex-task: Codex exited 0 without a completed turn (turn: $turn)" >&2; exit 70; }
+
+# Commit step, outside the sandbox.
+if [ -z "$(git -C "$repo" status --porcelain)" ]; then echo "codex-task: Codex changed nothing; no commit" >&2; exit 0; fi
+fail() { echo "codex-task: not committed: $*; the diff is left in $repo" >&2; exit 73; }
+[ "$(git -C "$repo" rev-parse HEAD)" = "$base" ] || fail "HEAD moved during the run"
+short=$(printf '%s' "$thread" | tr -d '-' | tail -c 8)
+[ ${#short} -eq 8 ] || fail "no Codex thread id in the evidence"
+branch=$bot/$(date +%Y%m%d)-codex-$short
+git check-ref-format --branch "$branch" >/dev/null 2>&1 || fail "invalid branch name $branch"
+! git -C "$repo" show-ref --verify --quiet "refs/heads/$branch" || fail "branch $branch already exists"
+summary=$(printf '%s' "$task" | head -n 1 | cut -c1-60)
+{ printf 'codex: %s\n\nTask:\n%s\n\n' "$summary" "$task"
+  printf 'Codex-Thread: %s\nCodex-Version: %s\nCodex-Base: %s\nCodex-Evidence: %s\nRequested-By: %s\n' \
+    "$thread" "$(codex --version 2>/dev/null || echo unknown)" "$base" "$events" "$bot"; } >"$run/commit-message.txt"
+git -C "$repo" switch -q -c "$branch" || fail "could not create branch $branch"
+git -C "$repo" add -A && git -C "$repo" commit -q -F "$run/commit-message.txt" || fail "git commit failed on $branch"
+echo "codex-task: committed $(git -C "$repo" rev-parse --short HEAD) on $branch" >&2
+# Push the bot's own branch, by exact refspec: no '+', so never forced; never main (the branch is always $bot/...).
+if [ "${CODEX_TASK_PUSH:-1}" = 0 ]; then echo "codex-task: not pushed (CODEX_TASK_PUSH=0)" >&2
+elif out=$(git -C "$repo" push origin "refs/heads/$branch:refs/heads/$branch" 2>&1); then
+  echo "codex-task: pushed $branch to origin" >&2; echo "$branch" >"$run/pushed"
+else echo "codex-task: not pushed: $(printf '%s' "$out" | tail -n 1); the commit is on $branch in $repo" >&2; fi

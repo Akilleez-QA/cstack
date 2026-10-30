@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:poodo:capability-request:0.1",
+  "title": "POODO Capability Request 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request_id",
+    "goal_id",
+    "goal_revision",
+    "decision_id",
+    "capability_id",
+    "operation",
+    "arguments",
+    "required_evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "poodo.capability-request/0.1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "goal_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "arguments": {
+      "type": "object"
+    },
+    "required_evidence": {
+      "enum": [
+        "tool_observation",
+        "formal_proof"
+      ]
+    }
+  }
+}

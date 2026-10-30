@@ -1,0 +1,29 @@
+{
+  "coefficient_field": "Q",
+  "domain": "polynomial_ring",
+  "operands": [
+    {
+      "operands": [
+        {
+          "denominator": -6,
+          "numerator": 2,
+          "type": "rational"
+        },
+        {
+          "name": "x",
+          "type": "variable"
+        }
+      ],
+      "type": "multiply"
+    },
+    {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  ],
+  "operation": "verify_identity",
+  "variables": [
+    "x"
+  ]
+}

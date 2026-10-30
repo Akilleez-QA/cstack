@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "byte_identical": true,
+      "bytes": 16701,
+      "destination": "polynomial_witness/_vendor/polynomial.py",
+      "sha256": "b700a069e0af9609a7b9e63d6a8185d9b430630d6d2f55f5a6ac2e5155022b9b",
+      "source_label": "frozen-polynomial-extension/foundation_math/polynomial.py"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 9112,
+      "destination": "polynomial_witness/_vendor/calculator.py",
+      "sha256": "146ec4fc9fca0c3400331c06595894fd9cb6a23668abae5c7b8d196e06bad54e",
+      "source_label": "frozen-polynomial-extension/foundation_math/calculator.py"
+    }
+  ],
+  "original_source_unchanged": true,
+  "scope": "Source copies only, no dependency tree mutation."
+}

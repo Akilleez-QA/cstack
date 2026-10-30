@@ -1,0 +1,196 @@
+{
+  "algorithm": "sha256",
+  "files": [
+    {
+      "bytes": 23,
+      "path": ".gitignore",
+      "sha256": "6feaded4e28ea86e001a6751b4e3d960e8b7c31b9616ff9936b79297086e809b"
+    },
+    {
+      "bytes": 812,
+      "path": "AGENTS.md",
+      "sha256": "a1dffe52f846b537a4cadf63315d22f36f2ebc0ac574839dfa21dd6ca1cba042"
+    },
+    {
+      "bytes": 3623,
+      "path": "README.md",
+      "sha256": "170491d7709bf354ee2d936efc13f9ca5808a1add8031ff75dd1245a55ea008b"
+    },
+    {
+      "bytes": 711,
+      "path": "VENDOR-PROVENANCE.json",
+      "sha256": "9dc74f7809b4ba686040faba843aecf0dbcf4613166146422cd75f022997c1e6"
+    },
+    {
+      "bytes": 4801,
+      "path": "docs/ALGORITHM.md",
+      "sha256": "3a5c7afb47d0330593bffef9322d9ba5ee583b28d0e892ef9bd411eb72f075d6"
+    },
+    {
+      "bytes": 5910,
+      "path": "docs/CONTRACT.md",
+      "sha256": "875327f63dabdbbc17657f8efc65a81566dfff417fdba3bc0a6da34ffcf1f4a0"
+    },
+    {
+      "bytes": 9678,
+      "path": "docs/INDEPENDENT-REVIEW.md",
+      "sha256": "6e9920d93b9b1fc6db073ebc8a44b260ec776ac87d8ba14652706c08b90dbb5a"
+    },
+    {
+      "bytes": 1535,
+      "path": "docs/SOURCES.md",
+      "sha256": "195d12acb798108f2b111792b066a14659293982231c6484b0f9fa01f4142016"
+    },
+    {
+      "bytes": 4378,
+      "path": "docs/VALIDATION.md",
+      "sha256": "77901a0175ebc5ebf762a67e31ea6828eb074c537e290386839844c1ff601d2b"
+    },
+    {
+      "bytes": 20865,
+      "path": "examples/degree-32-many-roots.json",
+      "sha256": "057a482789de7fb7acd9301335a6f366e08f63054465fd46f7dc35dd7e953229"
+    },
+    {
+      "bytes": 895,
+      "path": "examples/dynamic-degree-drop.json",
+      "sha256": "52beb4a632398ec30f226990112f7890590ac3d91b1a1373b40fd180cf95fcf1"
+    },
+    {
+      "bytes": 1811,
+      "path": "examples/eight-variable-sparse-product.json",
+      "sha256": "24e2225a446391816ad28e6036d48a4f52bca2a5492c77c41bd68beab36fa6c8"
+    },
+    {
+      "bytes": 1328,
+      "path": "examples/false-square.json",
+      "sha256": "3ff7e72b18cedf2f1e884de956b3b9d31227cfa50fa6248d6b155fa72f3589ea"
+    },
+    {
+      "bytes": 6743,
+      "path": "examples/multivariate-root-product.json",
+      "sha256": "18a6733761a903c54cd50d73f6e8cc26c5f90a5e703433616aee6b8f66521883"
+    },
+    {
+      "bytes": 474,
+      "path": "examples/negative-rational.json",
+      "sha256": "86b2af5daad3c22aef11b3cc9141d48cf7647a1acf11f4e4a0832c89fb0492cf"
+    },
+    {
+      "bytes": 308,
+      "path": "examples/rejected-constraints.json",
+      "sha256": "b23d3daa18959bc287b3f05e00fba7b3f9978ec9d3884433483cdd92c595dbc1"
+    },
+    {
+      "bytes": 8955,
+      "path": "examples/rejected-degree-limit.json",
+      "sha256": "afbb55a6d0ff1a670c11f71dd5cde547ada2d258075684646e4bd3183f6a9c48"
+    },
+    {
+      "bytes": 471,
+      "path": "examples/rejected-division.json",
+      "sha256": "fb0d6a84a63064591897a3f4a154556e9b45ba229f2a7d0db2af2f02baac05e4"
+    },
+    {
+      "bytes": 288,
+      "path": "examples/rejected-finite-field.json",
+      "sha256": "412e28ae0f1dc8a50330db88e438658c5cd963be15f01cc1137d11583f03b012"
+    },
+    {
+      "bytes": 285,
+      "path": "examples/rejected-quotient-ring.json",
+      "sha256": "a9e26f7fae6e6e41dbabdbcf852252b05427e4aac14d6e1723b8d41938339494"
+    },
+    {
+      "bytes": 1151,
+      "path": "examples/true-distributivity.json",
+      "sha256": "dacd3ac2ba9ad20b549b7b38f7fccec84003e93e466a776fe558add6ffe553e9"
+    },
+    {
+      "bytes": 301,
+      "path": "examples/unused-variables.json",
+      "sha256": "deecdc55cd9328dd193b058ebcbe73f3cbc6c71b791269b05a2b172496436b00"
+    },
+    {
+      "bytes": 2144,
+      "path": "examples/valid-witness.json",
+      "sha256": "69e42aacebcfeb615ba7888e7bf3ae80620cfac18d1abf18042145ed41c88eba"
+    },
+    {
+      "bytes": 664,
+      "path": "examples/zero-polynomial.json",
+      "sha256": "971729ef837dfd8a0a438bc0f6546ce90d981f851a35d8310d24416223ce789b"
+    },
+    {
+      "bytes": 303,
+      "path": "examples/zero-variable-false-constant.json",
+      "sha256": "0b57a83af93eefa6501edcc49c2d78f5f91d667d907672da3d04948c0502d841"
+    },
+    {
+      "bytes": 303,
+      "path": "examples/zero-variable-zero.json",
+      "sha256": "0f3ec660bde8321b5fb1e8279ed5ff2ed8a7d99b08949a56c1fe659776671658"
+    },
+    {
+      "bytes": 105,
+      "path": "polynomial_witness/__init__.py",
+      "sha256": "5db5c09de73dd544823e8393aa5dfb8500213bea1b459369f4739b3eb3ce2e53"
+    },
+    {
+      "bytes": 817,
+      "path": "polynomial_witness/__main__.py",
+      "sha256": "80aee4cf885ec72caba9a40f5a7c140a30628d57a2c05441000fd8287792d103"
+    },
+    {
+      "bytes": 0,
+      "path": "polynomial_witness/_vendor/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 9112,
+      "path": "polynomial_witness/_vendor/calculator.py",
+      "sha256": "146ec4fc9fca0c3400331c06595894fd9cb6a23668abae5c7b8d196e06bad54e"
+    },
+    {
+      "bytes": 16701,
+      "path": "polynomial_witness/_vendor/polynomial.py",
+      "sha256": "b700a069e0af9609a7b9e63d6a8185d9b430630d6d2f55f5a6ac2e5155022b9b"
+    },
+    {
+      "bytes": 1780,
+      "path": "polynomial_witness/api.py",
+      "sha256": "b5d43b961ea87df91ab65248c53ffb8a6917d6b31c63bb295c0e8d0308ecf01b"
+    },
+    {
+      "bytes": 5610,
+      "path": "polynomial_witness/checker.py",
+      "sha256": "b2c0a826e0769ec3c65f082c3115b455ef9841154229d1a820e19f528a00891c"
+    },
+    {
+      "bytes": 5391,
+      "path": "polynomial_witness/contract.py",
+      "sha256": "d7d3aa19dcb6d1fccff25e3ce94723d4e7fb6ed56802a8986fd7eb2b83ba50dc"
+    },
+    {
+      "bytes": 6953,
+      "path": "polynomial_witness/producer.py",
+      "sha256": "a26f8c10f085bebe3fb42cc3ca0581670067a75007634182336bf4c902da0129"
+    },
+    {
+      "bytes": 18020,
+      "path": "tests/test_witness.py",
+      "sha256": "10cf8a0f2a36fe74b42c8420e385c75a88ac71cdad9a688817e11a96a3bd983c"
+    },
+    {
+      "bytes": 25972,
+      "path": "tools/independent_audit.py",
+      "sha256": "4bf3219310826df6d11a16ed15130ecb8b1f63c0b7566b058cd08dfe31105cbc"
+    },
+    {
+      "bytes": 4511,
+      "path": "tools/run_validation.py",
+      "sha256": "33338f499b3cf03b314d6de3b195cffa4b46305f38e9333af501d38727c9f978"
+    }
+  ],
+  "scope": "Lab sources, documentation and examples; generated evidence excluded to avoid self-reference."
+}

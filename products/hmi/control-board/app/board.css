@@ -1,0 +1,13 @@
+/* Static styles live in a stylesheet (served from 'self') instead of inline style attributes, so CSP needs no 'unsafe-inline'. */
+body { margin: 0; background: #0b0f14; color: #e6edf3; font-family: system-ui, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 22px; }
+h2 { font-size: 18px; }
+.err, .stale { color: #f85149; }
+.machine { border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.machine h2 { margin: 0; }
+.l0 { color: #2ea043; } .l1 { color: #d29922; } .l2 { color: #f85149; } .unknown { color: #8b949e; }
+.buttons { display: flex; gap: 8px; }
+.buttons button { flex: 1; padding: 14px 0; color: #fff; border: 0; border-radius: 6px; font-size: 16px; }
+.buttons .b0 { background: #2ea043; } .buttons .b1 { background: #d29922; } .buttons .b2 { background: #f85149; }
+.audit { font-family: ui-monospace, monospace; font-size: 12px; padding-left: 18px; }

@@ -1,0 +1,13 @@
+{
+  "expectation": {
+    "classification": "genuine",
+    "equals": {
+      "A": 1
+    }
+  },
+  "expression": {
+    "degree": 2,
+    "op": "symmetric_power"
+  },
+  "schema": "fm-character-request-v1"
+}

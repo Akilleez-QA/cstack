@@ -1,0 +1,72 @@
+schema: POODO_CONTINUATION/3.0
+capsule_id: PC-demo-0002
+revision: 2
+parent_capsule: PC-demo-0001
+generated_at: 2026-09-03T15:00:00-05:00
+objective: Determine whether the candidate meets the stated user-visible criterion.
+acceptance:
+  - id: AC-demo-visible
+    criterion: User-visible behavior changes under the recorded end-to-end test.
+authority:
+  allowed: Read-only analysis.
+  prohibited: External mutation.
+constraints: Preserve the original acceptance criterion.
+user_directives: Assess before changing anything.
+current_head: D-demo-retest
+claims:
+  - id: CL-demo-structural
+    text: Structural checks passed for artifact A-demo-candidate.
+    state: observed
+    status: active
+    source_type: tool
+    locator: run://validator/42
+    observed_at: 2026-09-03T14:40:00-05:00
+    freshness: captured
+    evidence_family: EF-demo-validator
+    rehydration_status: available
+    supports: [D-demo-retest]
+    limits: Does not establish user-visible behavior.
+evidence_bundles:
+  - id: EB-demo-validator
+    request: Run structural validator against candidate.
+    material_inputs: [A-demo-candidate]
+    result_or_locator: run://validator/42
+    completeness: complete
+    artifacts: [A-demo-candidate]
+    supports_claims: [CL-demo-structural]
+orientations:
+  - id: OR-demo-uncertain
+    text: Structural conformance is established; intended behavior remains unverified.
+    depends_on: [CL-demo-structural]
+alternatives:
+  - id: H-demo-ineffective
+    text: The implementation is structurally valid but behaviorally ineffective.
+    discriminator: End-to-end test using AC-demo-visible.
+decisions:
+  - id: D-demo-retest
+    text: Run the authorized end-to-end observation before any success claim.
+    depends_on: [CL-demo-structural, H-demo-ineffective]
+    reversible: true
+predictions:
+  - id: PR-demo-visible
+    observable: User-visible behavior meets AC-demo-visible.
+    oracle: AC-demo-visible
+    environment: ENV-demo-clean
+    status: pending
+    status_history: [pending]
+outcomes: []
+contradictions: []
+artifacts:
+  - id: A-demo-candidate
+    locator: artifact://candidate/sha256-012345
+    identity: sha256:012345
+    mutable: false
+rehydration:
+  status: complete
+  losses: []
+delivery_state: checked
+outcome_state: unobserved
+highest_justified_claim: Structural conformance passed; intended behavior is unverified.
+required_runtime_observation: Execute PR-demo-visible.
+who_controls_next_test: agent
+next_step: Execute PR-demo-visible in ENV-demo-clean without modifying the candidate.

@@ -1,0 +1,27 @@
+{
+  "schema": "cstack.historical-baseline-unit-reference/0.1",
+  "vendor_source_manifest_sha256": "23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2",
+  "observed_date_utc": "2026-10-24",
+  "scope": "Previously recorded selected-copy v014 unit suites; not nested archival/release gate.",
+  "not_run_by_cstack_acceptance_invocation": true,
+  "private_receipt_sha256": "e52cc46497962981bb07ca7eb66b7c4794c9c57e463b60a41fd77e7a8f20abf5",
+  "runs": [
+    {
+      "mode": "normal",
+      "tests": 632,
+      "skipped": 1,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a469b1c0534d056b25cfab59e15eae2d2abc78c230197730094edbc4aa12c86a"
+    },
+    {
+      "mode": "optimized",
+      "tests": 632,
+      "skipped": 1,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "17dea909222fca5be4b3656082668873d3b734357e54339892fdcb10aeb14672"
+    }
+  ],
+  "skip_reason": "Real Lean backend unavailable; not a passing proof check."
+}

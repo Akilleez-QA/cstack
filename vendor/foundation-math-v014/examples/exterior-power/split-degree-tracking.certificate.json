@@ -1,0 +1,1376 @@
+{
+  "assumptions": {
+    "base": "P(W) with standard O(1) linearization",
+    "group": "SL2(F5) over C",
+    "maps": "no_actual_map_rank_injectivity_or_existence_claim",
+    "physical_catalog": "fixed_identification_assumed_not_proved",
+    "proof": "not_Lean_or_runtime_acceptance",
+    "splitting": "caller_supplied_formal_equivariant_direct_sum"
+  },
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "request": {
+    "bundle": [
+      {
+        "irrep": "W",
+        "multiplicity": 1,
+        "twist": -2
+      },
+      {
+        "irrep": "Wp",
+        "multiplicity": 1,
+        "twist": 1
+      },
+      {
+        "irrep": "1",
+        "multiplicity": 1,
+        "twist": -1
+      }
+    ],
+    "operation": "bundle",
+    "orders": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "schema": "fm-exterior-request-v1"
+  },
+  "request_sha256": "a388df9015d3506db550581178e4fd8a2f1482c8ff5c8df92c99e3a9e5bc19d2",
+  "result": {
+    "input": {
+      "degree": -3,
+      "determinant": {
+        "line_degree": -3,
+        "module": {
+          "1": 1
+        }
+      },
+      "rank": 5
+    },
+    "operation": "bundle",
+    "powers": [
+      {
+        "bundle": {
+          "bundle_center_parity": "even",
+          "degree": 0,
+          "determinant": {
+            "line_degree": 0,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 1,
+          "terms": [
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": 0
+            }
+          ]
+        },
+        "order": 0
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "mixed",
+          "degree": -3,
+          "determinant": {
+            "line_degree": -3,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 5,
+          "terms": [
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "W": 1
+                }
+              },
+              "line_degree": -2
+            },
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": -1
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "Wp": 1
+                }
+              },
+              "line_degree": 1
+            }
+          ]
+        },
+        "order": 1
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "mixed",
+          "degree": -12,
+          "determinant": {
+            "line_degree": -12,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 10,
+          "terms": [
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": -4
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "W": 1
+                }
+              },
+              "line_degree": -3
+            },
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    4,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    4,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 4,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "P": 1
+                }
+              },
+              "line_degree": -1
+            },
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "Wp": 1
+                }
+              },
+              "line_degree": 0
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": 2
+            }
+          ]
+        },
+        "order": 2
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "mixed",
+          "degree": -18,
+          "determinant": {
+            "line_degree": -18,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 10,
+          "terms": [
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": -5
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "Wp": 1
+                }
+              },
+              "line_degree": -3
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    4,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    4,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 4,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "P": 1
+                }
+              },
+              "line_degree": -2
+            },
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "W": 1
+                }
+              },
+              "line_degree": 0
+            },
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": 1
+            }
+          ]
+        },
+        "order": 3
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "mixed",
+          "degree": -12,
+          "determinant": {
+            "line_degree": -12,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 5,
+          "terms": [
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "Wp": 1
+                }
+              },
+              "line_degree": -4
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": -2
+            },
+            {
+              "bundle_center_parity": "even",
+              "character": {
+                "class_values": [
+                  [
+                    2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -2,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    0,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    -1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2,
+                    1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    1,
+                    2,
+                    -1,
+                    2
+                  ],
+                  [
+                    -1,
+                    2,
+                    1,
+                    2
+                  ]
+                ],
+                "dimension": 2,
+                "module_center_parity": "odd",
+                "multiplicities": {
+                  "W": 1
+                }
+              },
+              "line_degree": -1
+            }
+          ]
+        },
+        "order": 4
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "odd",
+          "degree": -3,
+          "determinant": {
+            "line_degree": -3,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 1,
+          "terms": [
+            {
+              "bundle_center_parity": "odd",
+              "character": {
+                "class_values": [
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    1,
+                    0,
+                    1
+                  ]
+                ],
+                "dimension": 1,
+                "module_center_parity": "even",
+                "multiplicities": {
+                  "1": 1
+                }
+              },
+              "line_degree": -3
+            }
+          ]
+        },
+        "order": 5
+      },
+      {
+        "bundle": {
+          "bundle_center_parity": "zero",
+          "degree": 0,
+          "determinant": {
+            "line_degree": 0,
+            "module": {
+              "1": 1
+            }
+          },
+          "rank": 0,
+          "terms": []
+        },
+        "order": 6
+      }
+    ]
+  },
+  "schema": "fm-exterior-certificate-v1",
+  "scope": "formal_exterior_representation_and_supplied_split_bundle_arithmetic_only"
+}

@@ -1,0 +1,10 @@
+# Grok policy for the fleet: bots route code work through Codex CLI (installed by install.sh as
+# /etc/grok/requirements.toml, root-owned, so Grok enforces these hooks and bots cannot disable them).
+# For Grok only: never wire no_direct_code.py into Codex. The matcher must name every tool the hook handles
+# (EDIT_TOOLS + SHELL_TOOLS in no_direct_code.py); tests/test_no_direct_code_hook.py checks they agree.
+[[hooks.PreToolUse]]
+matcher = "search_replace|Write|Edit|MultiEdit|write_file|edit_file|bash|Bash|run_terminal_cmd|shell"
+  [[hooks.PreToolUse.hooks]]
+  type = "command"
+  command = "/opt/cstack/no_direct_code.py"
+  timeout = 10

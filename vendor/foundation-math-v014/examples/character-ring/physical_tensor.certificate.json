@@ -1,0 +1,102 @@
+{
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "class_values": [
+    [
+      8,
+      1,
+      0,
+      1
+    ],
+    [
+      -8,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      1,
+      1,
+      0,
+      1
+    ],
+    [
+      -1,
+      1,
+      0,
+      1
+    ],
+    [
+      -1,
+      2,
+      -1,
+      2
+    ],
+    [
+      1,
+      2,
+      1,
+      2
+    ],
+    [
+      -1,
+      2,
+      1,
+      2
+    ],
+    [
+      1,
+      2,
+      -1,
+      2
+    ]
+  ],
+  "request": {
+    "expectation": {
+      "classification": "genuine",
+      "equals": {
+        "T6": 1,
+        "Wp": 1
+      }
+    },
+    "expression": {
+      "left": {
+        "label": "P",
+        "op": "irrep"
+      },
+      "op": "tensor",
+      "right": {
+        "label": "W",
+        "op": "irrep"
+      }
+    },
+    "schema": "fm-character-request-v1"
+  },
+  "request_sha256": "39dc611144715ed68b462ef523c77480b48fe83ba23e4af2f46c0c4ed88b200d",
+  "result": {
+    "center_parity": "odd",
+    "classification": "genuine",
+    "dimension": 8,
+    "even_dimension": 0,
+    "multiplicities": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    "negative_multiplicities": {},
+    "odd_dimension": 8
+  },
+  "schema": "fm-character-certificate-v1",
+  "scope": "universal_representation_arithmetic_only"
+}

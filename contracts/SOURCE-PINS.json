@@ -1,0 +1,36 @@
+{
+ "schema": "cstack.source-pins/0.1",
+ "foundation_refrigeration": {
+  "root": "foundations/refrigeration",
+  "source_manifest_sha256": "d07eb4c0255416ecce5beff9654c73597ca41fbd35754ce111af7a6e19a70b75",
+  "source_manifest_entry_count": 43,
+  "inventory_sha256": "86d428e1577afde53c1baff6ffb36c540166bb5ec5ec8c90120c448d3483658d"
+ },
+ "foundation_film": {
+  "root": "foundations/film",
+  "source_manifest_sha256": "0c76023c51630ba74d2326ba02931f404888d4839aaf98728d0fa61f88487f85",
+  "source_manifest_entry_count": 17,
+  "inventory_sha256": "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558"
+ },
+ "foundation_robotics": {
+  "root": "foundations/robotics",
+  "source_manifest_sha256": "9b2b28a25958156160c054477df21b017e77bbd0cb90a360c17c0aa2c685603c",
+  "source_manifest_entry_count": 21,
+  "inventory_sha256": "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599"
+ },
+ "foundation_template": {
+  "root": "foundations/template",
+  "source_manifest_sha256": "c1bd44192f1b3fcbdcde0187f697c7855bafdfdf3ab03928efef40501de5d609",
+  "source_manifest_entry_count": 10,
+  "inventory_sha256": "2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f"
+ },
+ "poodo_core_export": {
+  "files": {
+   "poodo_core/__init__.py": "8e1ac08df106fb3aa2e6c6eaa89008554ee59006ba9d681e2dbfea2d81e75a67",
+   "poodo_core/core.py": "378b83031df68cb2186060b0783cef036c0ced9e6fbf38e0ab40fc23b36d5e0b",
+   "poodo_core/models.py": "45293f7dd3e33896d00eb388ffd9160ad849921f581252ed4e2ca21e8b3d405e",
+   "poodo_core/policy.py": "6a889e8690e01f838fbe2b79a0f5bc291b5b6c6eaa55a536419db074e575121b",
+   "poodo_core/ports.py": "718c25f7942c431102db09a32abe1f4055e03635a0358d6f0dc3b939166ef37c"
+  }
+ }
+}
