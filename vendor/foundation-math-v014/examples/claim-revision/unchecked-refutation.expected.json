@@ -1,0 +1,219 @@
+{
+  "affected_claims": [
+    "synthetic_conclusion",
+    "synthetic_lemma"
+  ],
+  "affected_obligations": [
+    "synthetic_review"
+  ],
+  "events_replayed": 1,
+  "history": [
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_conclusion",
+        "revision": 1,
+        "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+      }
+    },
+    {
+      "current": true,
+      "kind": "evidence",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_counterexample",
+        "revision": 1,
+        "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [
+        {
+          "evidence": {
+            "id": "synthetic_counterexample",
+            "revision": 1,
+            "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+          },
+          "id": "record_objection",
+          "kind": "record_refutation_report",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          }
+        }
+      ],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      }
+    }
+  ],
+  "input_sha256": "c6af4bed60b7a4ac19d4ea705ea0e0ad2173a350abe545c45e667d3f75a9d7e9",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_conclusion",
+        "revision": 1,
+        "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "4c1656c4981a2b511895ef0bc9ee8d56dc28ea32d6ee6002c5e6d31aec928c5c",
+          "code": "refutation_reported_unchecked",
+          "event_id": "record_objection",
+          "origin": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          },
+          "path": [
+            {
+              "id": "synthetic_conclusion",
+              "revision": 1,
+              "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+            },
+            {
+              "id": "synthetic_review",
+              "revision": 1,
+              "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+            },
+            {
+              "id": "synthetic_lemma",
+              "revision": 1,
+              "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+            }
+          ],
+          "reason": "Synthetic recorded correction.",
+          "reported_evidence": {
+            "id": "synthetic_counterexample",
+            "revision": 1,
+            "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+          }
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "evidence",
+      "pin": {
+        "id": "synthetic_counterexample",
+        "revision": 1,
+        "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "4c1656c4981a2b511895ef0bc9ee8d56dc28ea32d6ee6002c5e6d31aec928c5c",
+          "code": "refutation_reported_unchecked",
+          "event_id": "record_objection",
+          "origin": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          },
+          "path": [
+            {
+              "id": "synthetic_lemma",
+              "revision": 1,
+              "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+            }
+          ],
+          "reason": "Synthetic recorded correction.",
+          "reported_evidence": {
+            "id": "synthetic_counterexample",
+            "revision": 1,
+            "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+          }
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "4c1656c4981a2b511895ef0bc9ee8d56dc28ea32d6ee6002c5e6d31aec928c5c",
+          "code": "refutation_reported_unchecked",
+          "event_id": "record_objection",
+          "origin": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          },
+          "path": [
+            {
+              "id": "synthetic_review",
+              "revision": 1,
+              "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+            },
+            {
+              "id": "synthetic_lemma",
+              "revision": 1,
+              "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+            }
+          ],
+          "reason": "Synthetic recorded correction.",
+          "reported_evidence": {
+            "id": "synthetic_counterexample",
+            "revision": 1,
+            "revision_sha256": "ca2e2bf3cd126854779eeede73a1f65544e2bf801f1547e1c3750681e9faf7ba"
+          }
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

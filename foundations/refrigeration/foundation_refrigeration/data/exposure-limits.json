@@ -1,0 +1,236 @@
+{
+  "data": {
+    "citations": {
+      "acgih-ammonia": {
+        "legacyVerification": "VERIFIED",
+        "note": "ACGIH publishes the TLV; the full documentation is paywalled, only this summary page was read. TLVs are guidelines, not law.",
+        "quoted": "TLV-TWA: 25 ppm (17 mg/m3); TLV-STEL: 35 ppm (24 mg/m3)",
+        "retrievedOn": "2026-10-06",
+        "title": "ACGIH: Ammonia (TLV-TWA, TLV-STEL)",
+        "url": "https://www.acgih.org/ammonia/"
+      },
+      "niosh-npg-0028": {
+        "legacyVerification": "VERIFIED",
+        "quoted": "NIOSH REL: TWA 25 ppm (18 mg/m3) ST 35 ppm (27 mg/m3); OSHA PEL: TWA 50 ppm (35 mg/m3); IDLH: 300 ppm",
+        "retrievedOn": "2026-10-06",
+        "title": "NIOSH Pocket Guide to Chemical Hazards: Ammonia",
+        "url": "https://www.cdc.gov/niosh/npg/npgd0028.html"
+      },
+      "osha-table-z1": {
+        "legacyVerification": "VERIFIED",
+        "note": "NIOSH Pocket Guide independently states \"OSHA PEL: TWA 50 ppm (35 mg/m3)\". Cal/OSHA is a state plan, not federal OSHA.",
+        "quoted": "Ammonia (7664-41-7): 50 ppm, 35 mg/m3 (the same row lists Cal/OSHA at 25 ppm (ST) 35 ppm)",
+        "retrievedOn": "2026-10-06",
+        "title": "OSHA Annotated Table Z-1, 29 CFR 1910.1000 (Ammonia, CAS 7664-41-7)",
+        "url": "https://www.osha.gov/annotated-pels/table-z-1"
+      }
+    },
+    "gaps": [
+      {
+        "id": "erpg",
+        "items": [
+          "ERPG-1",
+          "ERPG-2",
+          "ERPG-3"
+        ],
+        "reason": "No primary AIHA ERPG source was read for this release, so no ERPG value is recorded. A value from a secondary source would not meet the citation rule.",
+        "status": "gap"
+      }
+    ],
+    "legacy_status_note": "The source marks each citation VERIFIED (the page was read). That is not approval by a qualified person, so every limit is CHECK.",
+    "limits": [
+      {
+        "averaging": "TWA",
+        "citation": "osha-table-z1",
+        "concentration": {
+          "unit": "ppm",
+          "value": 50
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "Ammonia (7664-41-7): 50 ppm, 35 mg/m3 (the same row lists Cal/OSHA at 25 ppm (ST) 35 ppm)",
+            "retrievedOn": "2026-10-06",
+            "source": "OSHA Annotated Table Z-1, 29 CFR 1910.1000 (Ammonia, CAS 7664-41-7)",
+            "url": "https://www.osha.gov/annotated-pels/table-z-1",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "osha-pel-twa",
+        "issuer": "OSHA",
+        "kind": "PEL-TWA",
+        "label": "OSHA PEL (8-hour TWA)",
+        "legal_status": "enforceable",
+        "mass_concentration": {
+          "unit": "mg/m3",
+          "value": 35
+        },
+        "value_kind": "published_limit"
+      },
+      {
+        "averaging": "TWA",
+        "citation": "niosh-npg-0028",
+        "concentration": {
+          "unit": "ppm",
+          "value": 25
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "NIOSH REL: TWA 25 ppm (18 mg/m3) ST 35 ppm (27 mg/m3); OSHA PEL: TWA 50 ppm (35 mg/m3); IDLH: 300 ppm",
+            "retrievedOn": "2026-10-06",
+            "source": "NIOSH Pocket Guide to Chemical Hazards: Ammonia",
+            "url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "niosh-rel-twa",
+        "issuer": "NIOSH",
+        "kind": "REL-TWA",
+        "label": "NIOSH REL (TWA)",
+        "legal_status": "recommended",
+        "mass_concentration": {
+          "unit": "mg/m3",
+          "value": 18
+        },
+        "value_kind": "published_limit"
+      },
+      {
+        "averaging": "STEL",
+        "citation": "niosh-npg-0028",
+        "concentration": {
+          "unit": "ppm",
+          "value": 35
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "NIOSH REL: TWA 25 ppm (18 mg/m3) ST 35 ppm (27 mg/m3); OSHA PEL: TWA 50 ppm (35 mg/m3); IDLH: 300 ppm",
+            "retrievedOn": "2026-10-06",
+            "source": "NIOSH Pocket Guide to Chemical Hazards: Ammonia",
+            "url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "niosh-rel-stel",
+        "issuer": "NIOSH",
+        "kind": "REL-STEL",
+        "label": "NIOSH REL (15-minute STEL)",
+        "legal_status": "recommended",
+        "mass_concentration": {
+          "unit": "mg/m3",
+          "value": 27
+        },
+        "value_kind": "published_limit"
+      },
+      {
+        "averaging": "TWA",
+        "citation": "acgih-ammonia",
+        "concentration": {
+          "unit": "ppm",
+          "value": 25
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "TLV-TWA: 25 ppm (17 mg/m3); TLV-STEL: 35 ppm (24 mg/m3)",
+            "retrievedOn": "2026-10-06",
+            "source": "ACGIH: Ammonia (TLV-TWA, TLV-STEL)",
+            "url": "https://www.acgih.org/ammonia/",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "acgih-tlv-twa",
+        "issuer": "ACGIH",
+        "kind": "TLV-TWA",
+        "label": "ACGIH TLV-TWA (8-hour)",
+        "legal_status": "guideline",
+        "mass_concentration": {
+          "unit": "mg/m3",
+          "value": 17
+        },
+        "value_kind": "published_limit"
+      },
+      {
+        "averaging": "STEL",
+        "citation": "acgih-ammonia",
+        "concentration": {
+          "unit": "ppm",
+          "value": 35
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "TLV-TWA: 25 ppm (17 mg/m3); TLV-STEL: 35 ppm (24 mg/m3)",
+            "retrievedOn": "2026-10-06",
+            "source": "ACGIH: Ammonia (TLV-TWA, TLV-STEL)",
+            "url": "https://www.acgih.org/ammonia/",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "acgih-tlv-stel",
+        "issuer": "ACGIH",
+        "kind": "TLV-STEL",
+        "label": "ACGIH TLV-STEL (15-minute)",
+        "legal_status": "guideline",
+        "mass_concentration": {
+          "unit": "mg/m3",
+          "value": 24
+        },
+        "value_kind": "published_limit"
+      },
+      {
+        "averaging": "IDLH",
+        "citation": "niosh-npg-0028",
+        "concentration": {
+          "unit": "ppm",
+          "value": 300
+        },
+        "evidence": {
+          "basis": {
+            "clause": null,
+            "kind": "cited",
+            "quoted": "NIOSH REL: TWA 25 ppm (18 mg/m3) ST 35 ppm (27 mg/m3); OSHA PEL: TWA 50 ppm (35 mg/m3); IDLH: 300 ppm",
+            "retrievedOn": "2026-10-06",
+            "source": "NIOSH Pocket Guide to Chemical Hazards: Ammonia",
+            "url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+            "version": "web page as retrieved 2026-10-06"
+          },
+          "status": "CHECK"
+        },
+        "id": "niosh-idlh",
+        "issuer": "NIOSH",
+        "kind": "IDLH",
+        "label": "NIOSH IDLH",
+        "legal_status": "guideline",
+        "mass_concentration": null,
+        "value_kind": "published_limit"
+      }
+    ],
+    "policy_values_note": "Client or plant set points (e.g. alarm levels) are a separate kind with a policy basis. None are stored in this Foundation; callers supply them and they are never presented as legal limits.",
+    "scope": "Reference data for a person. Not an exposure assessment, a respirator selection, an alarm set point or a go/no-go call.",
+    "source_file": {
+      "path": "an internal application",
+      "sha256": "d2bb069d77dc7fd7c5fa3285c3998fa56578f2c44e41acfe22b765cd0f47755c"
+    },
+    "substance": {
+      "cas": "7664-41-7",
+      "formula": "NH3",
+      "name": "Ammonia"
+    }
+  },
+  "generatedBy": "Ported from an internal application (sha256 d2bb069d77dc7fd7c5fa3285c3998fa56578f2c44e41acfe22b765cd0f47755c); values and quotations unchanged; tests/test_safety_limits.py re-reads the source when it is present.",
+  "owner": "foundation_refrigeration.safety_limits",
+  "schema": "exposure-limits/1",
+  "version": "1.0.0"
+}

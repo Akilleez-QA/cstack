@@ -1,0 +1,18 @@
+{
+  "operation": "hom",
+  "schema": "fm-split-bundle-request-v1",
+  "source": [
+    {
+      "irrep": "W",
+      "multiplicity": 1,
+      "twist": -3
+    }
+  ],
+  "target": [
+    {
+      "irrep": "W",
+      "multiplicity": 1,
+      "twist": -3
+    }
+  ]
+}

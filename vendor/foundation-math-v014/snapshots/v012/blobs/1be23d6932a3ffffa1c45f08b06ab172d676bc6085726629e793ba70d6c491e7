@@ -1,0 +1,363 @@
+"""Tiny synthetic matrix certificates through the unchanged bounded bridge profile."""
+from __future__ import annotations
+
+import copy
+import io
+import json
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+from unittest.mock import patch
+
+from exact_linalg.api import handle_request
+from foundation_math_bridge import server
+from foundation_math_bridge.schemas import tool_definitions
+
+
+ROOT = Path(__file__).resolve().parents[1]
+CERTIFY = "certify_rational_matrix"
+CHECK = "check_rational_matrix_certificate"
+MATRIX = {"domain": "Z", "rows": 2, "cols": 3, "entries": [[2, 1, 0], [0, 0, 0]]}
+
+
+def request(method, params=None, identifier=1):
+    result = {"jsonrpc": "2.0", "id": identifier, "method": method}
+    if params is not None:
+        result["params"] = params
+    return result
+
+
+def call(name, arguments, identifier=1):
+    return request("tools/call", {"name": name, "arguments": arguments}, identifier)
+
+
+def wire(value):
+    return json.dumps(value, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+
+
+def initialization():
+    return request("initialize", {"protocolVersion": server.PROTOCOL}, "init")
+
+
+def has_acceptance(value):
+    if type(value) is dict:
+        return value.get("accepted") is True or any(has_acceptance(item) for item in value.values())
+    if type(value) is list:
+        return any(has_acceptance(item) for item in value)
+    return False
+
+
+class MatrixBridgeTests(unittest.TestCase):
+    def setUp(self):
+        self.bridge = server.Bridge()
+        self.bridge.handle(wire(initialization()))
+
+    def tool(self, name, arguments):
+        response = self.bridge.handle(wire(call(name, arguments)))
+        self.assertNotIn("error", response)
+        content = response["result"]["structuredContent"]
+        self.assertIs(content["formal_proof"], False)
+        self.assertIs(content["runtime_goal_acceptance"], False)
+        receipt = content["receipt"]
+        self.assertIs(receipt["formal_proof"], False)
+        self.assertIs(receipt["runtime_goal_acceptance"], False)
+        self.assertEqual(receipt["computational_field"], "Q")
+        self.assertEqual(receipt["scope"], "one_explicit_matrix")
+        self.assertEqual(response["result"]["isError"], receipt["status"] != "success")
+        return content
+
+    def certify(self, matrix=MATRIX):
+        return self.tool(CERTIFY, {"matrix": matrix})
+
+    def certificate(self, matrix=MATRIX):
+        return self.certify(matrix)["receipt"]["result"]["certificate"]
+
+    def assert_rejected(self, content, code=None):
+        self.assertEqual(content["assessment"], "tool_error")
+        receipt = content["receipt"]
+        self.assertEqual(receipt["status"], "error")
+        self.assertNotIn("result", receipt)
+        self.assertNotIn("certificate", receipt)
+        self.assertFalse(has_acceptance(content))
+        self.assertEqual(set(receipt["error"]), {"code", "message", "path"})
+        if code is not None:
+            self.assertEqual(receipt["error"]["code"], code)
+
+    def test_new_tools_append_without_reordering_old_tools(self):
+        definitions = tool_definitions()
+        names = [item["name"] for item in definitions]
+        self.assertEqual(names, ["exact_scalar", "polynomial_identity", "finite_box_search",
+                                 "check_finite_box_witness", CERTIFY, CHECK,
+                                 "construct_polynomial_witness", "check_polynomial_witness",
+                          "solve_rational_linear_system", "check_rational_linear_system_certificate",
+                          "calculate_fixed_character", "check_fixed_character_certificate",
+                          "calculate_formal_split_bundle", "check_formal_split_bundle_certificate",
+                          "replay_claim_applicability"])
+        self.assertEqual(set(names), server.TOOL_NAMES)
+        self.assertEqual(set(definitions[4]["inputSchema"]["properties"]), {"matrix"})
+        self.assertEqual(set(definitions[5]["inputSchema"]["properties"]), {"matrix", "certificate"})
+
+    def test_matrix_schema_shapes_and_unknown_fields(self):
+        for definition in tool_definitions()[4:6]:
+            self.assertTrue(definition["readOnly"])
+            for kind in ("inputSchema", "outputSchema"):
+                schema = definition[kind]
+                self.assertFalse(schema["additionalProperties"])
+                definitions = schema["$defs"]
+                for name in ("matrix", "q_matrix"):
+                    matrix = definitions[name]
+                    self.assertEqual(set(matrix["required"]), {"domain", "rows", "cols", "entries"})
+                    self.assertFalse(matrix["additionalProperties"])
+                    for field in ("rows", "cols"):
+                        self.assertEqual(matrix["properties"][field], {"type": "integer", "minimum": 0, "maximum": 16})
+                self.assertEqual(definitions["q_matrix"]["properties"]["domain"], {"const": "Q"})
+                certificate = definitions["certificate"]
+                self.assertFalse(certificate["additionalProperties"])
+                self.assertEqual(set(certificate["required"]), {"schema", "matrix", "rref", "transform", "rank",
+                                                              "pivots", "free_columns", "nullspace", "operations", "determinant"})
+                operations = certificate["properties"]["operations"]
+                self.assertEqual(operations["maxItems"], 1024)
+                for variant in operations["items"]["oneOf"]:
+                    self.assertFalse(variant["additionalProperties"])
+                    self.assertEqual(set(variant["required"]), set(variant["properties"]))
+                rational = definitions["coefficient"]["oneOf"][1]
+                self.assertFalse(rational["additionalProperties"])
+                self.assertEqual(rational["properties"]["den"]["minimum"], 2)
+                self.assertEqual(rational["properties"]["num"]["not"], {"const": 0})
+            description = definition["description"]
+            for text in ("one explicit matrix", "integer-lattice", "128-bit", "2048-bit", "65536", "No Lean"):
+                self.assertIn(text, description)
+
+    def test_schema_definitions_are_detached(self):
+        first = tool_definitions()
+        first[4]["inputSchema"]["$defs"]["certificate"].clear()
+        first[5]["outputSchema"]["$defs"]["matrix"].clear()
+        second = tool_definitions()
+        self.assertTrue(second[4]["inputSchema"]["$defs"]["certificate"])
+        self.assertTrue(second[5]["outputSchema"]["$defs"]["matrix"])
+
+    def test_certify_and_fresh_check_have_exact_scope(self):
+        content = self.certify()
+        self.assertEqual(content["assessment"], "rational_matrix_certified")
+        result = content["receipt"]["result"]
+        self.assertIs(result["ok"], True)
+        self.assertEqual(result["verification"], {"accepted": True, "scope": "one_explicit_matrix",
+                         "computational_field": "Q", "rows": 2, "cols": 3, "rank": 1,
+                         "pivots": [0], "free_columns": [1, 2], "determinant": None})
+        certificate = result["certificate"]
+        self.assertEqual(certificate["matrix"], MATRIX)
+        self.assertEqual(certificate["nullspace"], {"domain": "Q", "rows": 3, "cols": 2,
+                         "entries": [[{"num": -1, "den": 2}, 0], [1, 0], [0, 1]]})
+        checked = self.tool(CHECK, {"matrix": MATRIX, "certificate": certificate})
+        self.assertEqual(checked["assessment"], "rational_matrix_certificate_valid")
+        self.assertEqual(checked["receipt"]["result"]["verification"], result["verification"])
+        self.assertNotIn("certificate", checked["receipt"]["result"])
+        self.assertEqual(checked["receipt"]["operation"], "verify")
+
+    def test_integer_input_never_claims_integer_nullspace(self):
+        matrix = {"domain": "Z", "rows": 1, "cols": 2, "entries": [[2, 1]]}
+        content = self.certify(matrix)
+        certificate = content["receipt"]["result"]["certificate"]
+        self.assertEqual(certificate["nullspace"]["entries"], [[{"num": -1, "den": 2}], [1]])
+        for name in ("rref", "transform", "nullspace"):
+            self.assertEqual(certificate[name]["domain"], "Q")
+
+    def test_rational_square_determinant(self):
+        matrix = {"domain": "Q", "rows": 2, "cols": 2,
+                  "entries": [[{"num": 1, "den": 2}, 1], [1, 0]]}
+        content = self.certify(matrix)
+        self.assertEqual(content["receipt"]["result"]["verification"]["determinant"], -1)
+
+    def test_explicit_empty_dimensions(self):
+        for rows, cols in ((0, 0), (0, 3), (3, 0)):
+            with self.subTest(rows=rows, cols=cols):
+                matrix = {"domain": "Q", "rows": rows, "cols": cols, "entries": [[] for _ in range(rows)]}
+                content = self.certify(matrix)
+                result = content["receipt"]["result"]
+                self.assertEqual(result["verification"]["rank"], 0)
+                self.assertEqual(result["verification"]["determinant"], 1 if rows == cols else None)
+                certificate = result["certificate"]
+                self.assertEqual((certificate["nullspace"]["rows"], certificate["nullspace"]["cols"]), (cols, cols))
+                self.assertEqual(self.tool(CHECK, {"matrix": matrix, "certificate": certificate})["receipt"]["status"], "success")
+
+    def test_missing_extra_or_wrong_outer_arguments_are_protocol_errors(self):
+        certificate = self.certificate()
+        for name, arguments in ((CERTIFY, MATRIX), (CERTIFY, {}), (CERTIFY, {"matrix": MATRIX, "limits": {}}),
+                                (CERTIFY, {"matrix": MATRIX, "operation": "certify"}), (CHECK, {"certificate": certificate}),
+                                (CHECK, {"matrix": MATRIX}), (CHECK, {"matrix": MATRIX, "certificate": certificate, "accepted": True}),
+                                (CHECK, {"matrix": MATRIX, "certificate": certificate, "path": "/tmp/certificate.json"})):
+            with self.subTest(name=name, arguments=arguments):
+                response = self.bridge.handle(wire(call(name, arguments)))
+                self.assertEqual(response["error"]["code"], -32602)
+                self.assertNotIn("result", response)
+
+    def test_matrix_schema_and_types_are_enforced_without_promotion(self):
+        cases = [None, [], "[[1]]"]
+        for field, value in (("domain", "R"), ("domain", True), ("rows", True), ("cols", -1),
+                             ("rows", 17), ("entries", [[2, 1]]), ("entries", [[True, 1, 0], [0, 0, 0]])):
+            matrix = copy.deepcopy(MATRIX)
+            matrix[field] = value
+            cases.append(matrix)
+        cases.append({**MATRIX, "parameter": "t"})
+        for matrix in cases:
+            with self.subTest(matrix=matrix):
+                self.assert_rejected(self.certify(matrix))
+
+    def test_coefficient_contract_no_float_string_bool_or_noncanonical_fraction(self):
+        for coefficient in (True, "1/2", {"num": 2, "den": 4}, {"num": 0, "den": 2}, {"num": 1, "den": 1},
+                            {"num": 1, "den": -2}, {"num": True, "den": 2}, {"num": 1, "den": 2, "x": 3}):
+            matrix = {"domain": "Q", "rows": 1, "cols": 1, "entries": [[coefficient]]}
+            self.assert_rejected(self.certify(matrix))
+        matrix = {"domain": "Z", "rows": 1, "cols": 1, "entries": [[{"num": 1, "den": 2}]]}
+        self.assert_rejected(self.certify(matrix), "INVALID_COEFFICIENT")
+        matrix["entries"] = [[1.0]]
+        response = self.bridge.handle(wire(call(CERTIFY, {"matrix": matrix})))
+        self.assertEqual(response["error"]["code"], -32700)
+
+    def test_matrix_input_bit_boundary_is_stricter_than_bridge_integer_limit(self):
+        matrix = {"domain": "Z", "rows": 1, "cols": 1, "entries": [[(1 << 128) - 1]]}
+        self.assertEqual(self.certify(matrix)["receipt"]["status"], "success")
+        matrix["entries"] = [[1 << 128]]
+        self.assert_rejected(self.certify(matrix), "BIT_LIMIT")
+
+    def test_certificate_bound_to_original_data_domain_and_shape(self):
+        certificate = self.certificate()
+        for field, value in (("domain", "Q"), ("entries", [[2, 2, 0], [0, 0, 0]]),
+                             ("rows", 0)):
+            matrix = copy.deepcopy(MATRIX)
+            matrix[field] = value
+            if field == "rows":
+                matrix["entries"] = []
+            self.assert_rejected(self.tool(CHECK, {"matrix": matrix, "certificate": certificate}), "INVALID_CERTIFICATE")
+
+    def test_tampered_certificate_fields_all_rejected(self):
+        original = self.certificate()
+        changes = [("rank", 2), ("pivots", [1]), ("free_columns", [2, 1]), ("operations", []),
+                   ("determinant", 0), ("schema", "invented/1"), ("accepted", True)]
+        for field, value in changes:
+            certificate = copy.deepcopy(original)
+            certificate[field] = value
+            self.assert_rejected(self.tool(CHECK, {"matrix": MATRIX, "certificate": certificate}))
+        for field in ("rref", "transform", "nullspace"):
+            certificate = copy.deepcopy(original)
+            certificate[field]["entries"][0][0] = 0
+            self.assert_rejected(self.tool(CHECK, {"matrix": MATRIX, "certificate": certificate}), "INVALID_CERTIFICATE")
+
+    def test_invalid_row_operations_rejected(self):
+        for operation in ({"op": "scale", "i": 0, "factor": 0}, {"op": "swap", "i": 0, "j": 0},
+                          {"op": "add", "target": 0, "source": 0, "factor": 1}, {"op": "scale", "i": True, "factor": 2},
+                          {"op": "scale", "i": 0, "factor": 2, "ignored": 1}, {"op": "run", "source": "print(1)"}):
+            certificate = self.certificate()
+            certificate["operations"] = [operation]
+            self.assert_rejected(self.tool(CHECK, {"matrix": MATRIX, "certificate": certificate}))
+
+    def test_producer_receipt_or_claimed_verdict_is_not_a_certificate(self):
+        content = self.certify()
+        for substitute in (content, content["receipt"], content["receipt"]["result"], {"accepted": True}):
+            self.assert_rejected(self.tool(CHECK, {"matrix": MATRIX, "certificate": substitute}), "INVALID_SCHEMA")
+
+    def test_independent_check_does_not_call_producer(self):
+        certificate = self.certificate()
+        with patch("exact_linalg.api.produce", side_effect=RuntimeError("producer must not run")) as producer:
+            content = self.tool(CHECK, {"matrix": MATRIX, "certificate": certificate})
+        producer.assert_not_called()
+        self.assertEqual(content["receipt"]["status"], "success")
+
+    def test_backend_failure_has_no_evidence_and_is_sanitized(self):
+        for name, attribute, arguments in ((CERTIFY, "certify_matrix", {"matrix": MATRIX}),
+                                          (CHECK, "check_matrix_certificate", {"matrix": MATRIX, "certificate": {}})):
+            with patch.object(server, attribute, side_effect=RuntimeError("private/path secret")):
+                response = self.bridge.handle(wire(call(name, arguments)))
+            self.assertEqual(response["error"]["code"], -32603)
+            self.assertNotIn("result", response)
+            self.assertNotIn("private/path", json.dumps(response))
+
+    def test_notifications_never_execute_matrix_work(self):
+        for name, attribute, arguments in ((CERTIFY, "certify_matrix", {"matrix": MATRIX}),
+                                          (CHECK, "check_matrix_certificate", {"matrix": MATRIX, "certificate": {}})):
+            notice = call(name, arguments)
+            notice.pop("id")
+            with patch.object(server, attribute, side_effect=RuntimeError("must not run")) as backend:
+                self.assertIsNone(self.bridge.handle(wire(notice)))
+                backend.assert_not_called()
+
+    def test_duplicate_keys_and_extra_limit_control_do_not_reach_backend(self):
+        raw = wire(call(CERTIFY, {"matrix": MATRIX})).replace(b'"rows":2', b'"rows":2,"rows":2')
+        with patch.object(server, "certify_matrix") as backend:
+            self.assertEqual(self.bridge.handle(raw)["error"]["code"], -32700)
+            response = self.bridge.handle(wire(call(CERTIFY, {"matrix": MATRIX, "max_work": 999999999})))
+            self.assertEqual(response["error"]["code"], -32602)
+            backend.assert_not_called()
+
+    def test_receipts_are_deterministic_and_have_fixed_source_hashes_not_private_paths(self):
+        content = self.certify()
+        self.assertEqual(content, self.certify())
+        receipt = content["receipt"]
+        self.assertRegex(receipt["request_sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(len(receipt["implementation"]["source_sha256"]), 6)
+        for digest in receipt["implementation"]["source_sha256"].values():
+            self.assertRegex(digest, r"^[0-9a-f]{64}$")
+        self.assertNotIn(str(ROOT), json.dumps(content))
+        self.assertNotIn("/workspace/", json.dumps(content))
+
+    def test_standalone_valid_certificate_can_exceed_bridge_input_cap(self):
+        matrix = {"domain": "Q", "rows": 1, "cols": 1, "entries": [[1]]}
+        certificate = self.certificate(matrix)
+        factor = 1 << 256
+        pair = [{"op": "scale", "i": 0, "factor": factor},
+                {"op": "scale", "i": 0, "factor": {"num": 1, "den": factor}}]
+        certificate["operations"] = pair * 400
+        arguments = {"matrix": matrix, "certificate": certificate}
+        standalone = handle_request({"operation": "verify", **arguments})
+        self.assertIs(standalone["ok"], True)
+        payload = wire(call(CHECK, arguments))
+        self.assertGreater(len(payload), server.MAX_FRAME_BYTES)
+        self.assertLess(len(payload), 1_000_000)
+        response = self.bridge.handle(payload)
+        self.assertEqual(response["error"]["code"], -32002)
+        self.assertNotIn("result", response)
+
+
+class MatrixBridgeProcessTests(unittest.TestCase):
+    def test_stdio_certify_check_and_tamper_match_normal_and_optimized(self):
+        standalone = handle_request({"operation": "certify", "matrix": MATRIX})
+        certificate = standalone["certificate"]
+        tampered = copy.deepcopy(certificate)
+        tampered["rank"] = 2
+        messages = [initialization(), request("tools/list", identifier="list"),
+                    call(CERTIFY, {"matrix": MATRIX}, "certify"),
+                    call(CHECK, {"matrix": MATRIX, "certificate": certificate}, "check"),
+                    call(CHECK, {"matrix": MATRIX, "certificate": tampered}, "tampered"),
+                    request("ping", identifier="done")]
+        payload = b"".join(wire(message) + b"\n" for message in messages)
+        outputs = []
+        for optimized in (False, True):
+            command = [sys.executable, "-B"] + (["-O"] if optimized else []) + ["-m", "foundation_math_bridge"]
+            process = subprocess.run(command, cwd=ROOT, input=payload, capture_output=True, timeout=15)
+            self.assertEqual(process.returncode, 0)
+            self.assertEqual(process.stderr, b"")
+            replies = [json.loads(line) for line in process.stdout.splitlines()]
+            self.assertEqual([reply["id"] for reply in replies], [message["id"] for message in messages])
+            self.assertEqual(len(replies[1]["result"]["tools"]), 15)
+            self.assertEqual(replies[2]["result"]["structuredContent"]["receipt"]["result"]["certificate"], certificate)
+            self.assertFalse(replies[3]["result"]["isError"])
+            self.assertTrue(replies[4]["result"]["isError"])
+            self.assertFalse(has_acceptance(replies[4]))
+            outputs.append(process.stdout)
+        self.assertEqual(*outputs)
+
+    def test_stdio_recovers_after_matrix_error_without_promoting_it(self):
+        invalid = {**MATRIX, "rows": True}
+        payload = b"".join(wire(message) + b"\n" for message in
+                           (initialization(), call(CERTIFY, {"matrix": invalid}), request("ping", identifier="alive")))
+        output = io.BytesIO()
+        self.assertEqual(server.serve(io.BytesIO(payload), output), 0)
+        replies = [json.loads(line) for line in output.getvalue().splitlines()]
+        self.assertTrue(replies[1]["result"]["isError"])
+        self.assertFalse(has_acceptance(replies[1]))
+        self.assertEqual(replies[-1]["id"], "alive")
+
+
+if __name__ == "__main__":
+    unittest.main()

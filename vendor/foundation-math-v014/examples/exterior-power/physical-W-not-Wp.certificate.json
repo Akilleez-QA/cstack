@@ -1,0 +1,1633 @@
+{
+  "assumptions": {
+    "base": "P(W) with standard O(1) linearization",
+    "group": "SL2(F5) over C",
+    "maps": "no_actual_map_rank_injectivity_or_existence_claim",
+    "physical_catalog": "fixed_identification_assumed_not_proved",
+    "proof": "not_Lean_or_runtime_acceptance",
+    "splitting": "caller_supplied_formal_equivariant_direct_sum"
+  },
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "request": {
+    "operation": "wedge_h0_comparison",
+    "orders": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "schema": "fm-exterior-request-v1",
+    "source": [
+      {
+        "irrep": "W",
+        "multiplicity": 1,
+        "twist": -2
+      }
+    ],
+    "target": [
+      {
+        "irrep": "Wp",
+        "multiplicity": 1,
+        "twist": -2
+      }
+    ],
+    "twists": [
+      0,
+      2,
+      3
+    ]
+  },
+  "request_sha256": "5b2d3aa6e5bae2a6f2b7120e5668998f9bf5cfe43db1deeee93a50cc4db9de67",
+  "result": {
+    "comparisons": [
+      {
+        "multiplicity_test": "passes",
+        "order": 0,
+        "source_h0": {
+          "class_values": [
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 1,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "1": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 1,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "1": 1
+          }
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 0,
+        "source_h0": {
+          "class_values": [
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "dimension": 3,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "A": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "dimension": 3,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "A": 1
+          }
+        },
+        "target_minus_source": {},
+        "twist": 2
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 0,
+        "source_h0": {
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              -4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 4,
+          "module_center_parity": "odd",
+          "multiplicities": {
+            "S4": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              -4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 4,
+          "module_center_parity": "odd",
+          "multiplicities": {
+            "S4": 1
+          }
+        },
+        "target_minus_source": {},
+        "twist": 3
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 1,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "obstructed",
+        "order": 1,
+        "source_h0": {
+          "class_values": [
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "dimension": 2,
+          "module_center_parity": "odd",
+          "multiplicities": {
+            "W": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              -2,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              -1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              -1,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "dimension": 2,
+          "module_center_parity": "odd",
+          "multiplicities": {
+            "Wp": 1
+          }
+        },
+        "target_minus_source": {
+          "W": -1,
+          "Wp": 1
+        },
+        "twist": 2
+      },
+      {
+        "multiplicity_test": "obstructed",
+        "order": 1,
+        "source_h0": {
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ]
+          ],
+          "dimension": 4,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "1": 1,
+            "A": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 4,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "P": 1
+          }
+        },
+        "target_minus_source": {
+          "1": -1,
+          "A": -1,
+          "P": 1
+        },
+        "twist": 3
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 2,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 2,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 2
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 2,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 3
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 3,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 3,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 2
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 3,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 3
+      }
+    ],
+    "conclusion": "finite_necessary_tests_only_not_sufficient_for_any_map_or_injection",
+    "operation": "wedge_h0_comparison",
+    "source": {
+      "degree": -4,
+      "determinant": {
+        "line_degree": -4,
+        "module": {
+          "1": 1
+        }
+      },
+      "rank": 2
+    },
+    "target": {
+      "degree": -4,
+      "determinant": {
+        "line_degree": -4,
+        "module": {
+          "1": 1
+        }
+      },
+      "rank": 2
+    }
+  },
+  "schema": "fm-exterior-certificate-v1",
+  "scope": "formal_exterior_representation_and_supplied_split_bundle_arithmetic_only"
+}

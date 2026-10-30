@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+targetRules = ["generic-api-key"]
+description = "SHA-256 digests in pinned manifests and the vendored Foundation Math"
+condition = "AND"
+paths = ['(^|/)vendor/foundation-math-v014/', '(^|/)SOURCE-MANIFEST\.json$']
+regexTarget = "secret"
+regexes = ['^[0-9a-f]{64}$']

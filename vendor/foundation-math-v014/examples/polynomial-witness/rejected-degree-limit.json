@@ -1,0 +1,307 @@
+{
+  "coefficient_field": "Q",
+  "domain": "polynomial_ring",
+  "operands": [
+    {
+      "operands": [
+        {
+          "operands": [
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            },
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            }
+          ],
+          "type": "multiply"
+        },
+        {
+          "operands": [
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            },
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        }
+                      ],
+                      "type": "multiply"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "x",
+                          "type": "variable"
+                        },
+                        {
+                          "operands": [
+                            {
+                              "name": "x",
+                              "type": "variable"
+                            },
+                            {
+                              "name": "x",
+                              "type": "variable"
+                            }
+                          ],
+                          "type": "multiply"
+                        }
+                      ],
+                      "type": "multiply"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            }
+          ],
+          "type": "multiply"
+        }
+      ],
+      "type": "multiply"
+    },
+    {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  ],
+  "operation": "verify_identity",
+  "variables": [
+    "x"
+  ]
+}

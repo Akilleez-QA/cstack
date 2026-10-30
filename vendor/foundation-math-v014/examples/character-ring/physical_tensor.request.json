@@ -1,0 +1,21 @@
+{
+  "expectation": {
+    "classification": "genuine",
+    "equals": {
+      "T6": 1,
+      "Wp": 1
+    }
+  },
+  "expression": {
+    "left": {
+      "label": "P",
+      "op": "irrep"
+    },
+    "op": "tensor",
+    "right": {
+      "label": "W",
+      "op": "irrep"
+    }
+  },
+  "schema": "fm-character-request-v1"
+}

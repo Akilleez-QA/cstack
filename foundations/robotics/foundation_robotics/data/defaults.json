@@ -1,0 +1,50 @@
+{
+  "schema": "foundation-robotics-defaults/1",
+  "about": "Every default number the tools use, in the wire units (milli-SI, per-mille). A threshold is CHECK until it is calibrated on known-good and known-bad cases (calibration.json) and a qualified person approves it; a physical constant or a measured ratio from a cited source is RECORDED. Callers may override any threshold; the receipt says which source each value came from.",
+  "anthropometry": {
+    "hip_height_per_height": {"value": 530, "unit": "per-mille", "status": "RECORDED", "source": "winter"},
+    "reference_height_mm": {"value": 1750, "unit": "mm", "status": "RECORDED", "source": "winter",
+      "note": "A convention for the reference human; scale factors are relative to it."}
+  },
+  "scale": {
+    "walk_froude_table": {"value": [50, 250, 500], "unit": "per-mille", "status": "RECORDED", "source": "alexander_1989",
+      "note": "A stroll, the preferred walk (about 0.25) and the walk-run transition (about 0.5)."},
+    "stride_coefficient": {"value": 2300, "unit": "per-mille", "status": "CHECK", "source": "alexander_1976"},
+    "stride_exponent": {"value": 300, "unit": "per-mille", "status": "CHECK", "source": "alexander_1976"}
+  },
+  "gait": {
+    "froude_min": {"value": 50, "unit": "per-mille", "status": "CHECK", "source": "calibration",
+      "note": "A stroll. Below it a walk reads as slow motion; the rejected generated walks measured 7 and 16."},
+    "froude_max": {"value": 500, "unit": "per-mille", "status": "RECORDED", "source": "kram_1997",
+      "note": "The walk-run transition; a walk above it is not what people do."},
+    "stride_ratio_min": {"value": 700, "unit": "per-mille", "status": "CHECK", "source": "calibration"},
+    "stride_ratio_max": {"value": 1400, "unit": "per-mille", "status": "CHECK", "source": "calibration",
+      "note": "Measured stride over Alexander's predicted stride. Over-striding at a slow cadence is the slow-motion look."},
+    "duty_walk_min": {"value": 500, "unit": "per-mille", "status": "RECORDED", "source": "alexander_1989",
+      "note": "Walking has double support, so each foot is down for at least half the cycle; running is below half."},
+    "slide_mean_mm_s": {"value": 10, "unit": "mm/s", "status": "CHECK", "source": "calibration",
+      "note": "At the reference leg length; scaled by sqrt(leg / reference leg) (dynamic similarity)."},
+    "kinematic_mismatch_max": {"value": 20, "unit": "per-mille", "status": "CHECK", "source": "kinematics"},
+    "step_time_asymmetry_max": {"value": 50, "unit": "per-mille", "status": "CHECK", "source": "calibration"}
+  },
+  "balance": {
+    "margin_mm": {"value": 0, "unit": "mm", "status": "CHECK", "source": "zmp"},
+    "flight_gravity_error_max": {"value": 150, "unit": "per-mille", "status": "CHECK", "source": "newton"},
+    "derivative_window_ms": {"value": 200, "unit": "ms", "status": "CHECK", "source": "savitzky_golay",
+      "note": "The span of the quadratic fit used to differentiate the COM; long enough to beat millimetre rounding, short enough to keep a human sway (under about 3 Hz)."}
+  },
+  "ik": {
+    "tolerance_mm": {"value": 10, "unit": "mm", "status": "CHECK", "source": "calibration"},
+    "singular_ratio_min": {"value": 50, "unit": "per-mille", "status": "CHECK", "source": "yoshikawa"}
+  },
+  "mechanism": {
+    "speed_error_max": {"value": 10, "unit": "per-mille", "status": "CHECK", "source": "norton"},
+    "mesh_phase_max": {"value": 100, "unit": "per-mille of a tooth pitch", "status": "CHECK", "source": "norton"},
+    "slider_error_max_mm": {"value": 2, "unit": "mm", "status": "CHECK", "source": "norton"},
+    "four_bar_error_max_mrad": {"value": 17, "unit": "mrad", "status": "CHECK", "source": "norton"},
+    "strobe_blur_min": {"value": 1000, "unit": "per-mille of a blade pitch", "status": "CHECK", "source": "shannon"}
+  },
+  "squash": {
+    "volume_error_max": {"value": 30, "unit": "per-mille", "status": "CHECK", "source": "thomas_johnston"}
+  }
+}

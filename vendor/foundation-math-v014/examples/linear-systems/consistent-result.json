@@ -1,0 +1,181 @@
+{
+  "certificate": {
+    "matrix_certificate": {
+      "determinant": null,
+      "free_columns": [
+        1,
+        2
+      ],
+      "matrix": {
+        "cols": 3,
+        "domain": "Z",
+        "entries": [
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "rows": 2
+      },
+      "nullspace": {
+        "cols": 2,
+        "domain": "Q",
+        "entries": [
+          [
+            {
+              "den": 2,
+              "num": -1
+            },
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "rows": 3
+      },
+      "operations": [
+        {
+          "factor": {
+            "den": 2,
+            "num": 1
+          },
+          "i": 0,
+          "op": "scale"
+        }
+      ],
+      "pivots": [
+        0
+      ],
+      "rank": 1,
+      "rref": {
+        "cols": 3,
+        "domain": "Q",
+        "entries": [
+          [
+            1,
+            {
+              "den": 2,
+              "num": 1
+            },
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "rows": 2
+      },
+      "schema": "foundation-math-rational-matrix/1",
+      "transform": {
+        "cols": 2,
+        "domain": "Q",
+        "entries": [
+          [
+            {
+              "den": 2,
+              "num": 1
+            },
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "rows": 2
+      }
+    },
+    "outcome": "consistent",
+    "particular": [
+      {
+        "den": 2,
+        "num": 1
+      },
+      0,
+      0
+    ],
+    "schema": "foundation-math-rational-linear-system/1",
+    "system": {
+      "matrix": {
+        "cols": 3,
+        "domain": "Z",
+        "entries": [
+          [
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "rows": 2
+      },
+      "rhs": [
+        1,
+        0
+      ]
+    }
+  },
+  "ok": true,
+  "verification": {
+    "accepted": true,
+    "cols": 3,
+    "computational_field": "Q",
+    "family_or_generic_claim": false,
+    "formal_proof": false,
+    "input_domain": "Z",
+    "nullity": 2,
+    "nullspace": {
+      "cols": 2,
+      "domain": "Q",
+      "entries": [
+        [
+          {
+            "den": 2,
+            "num": -1
+          },
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "rows": 3
+    },
+    "outcome": "consistent",
+    "particular": [
+      {
+        "den": 2,
+        "num": 1
+      },
+      0,
+      0
+    ],
+    "rank": 1,
+    "rows": 2,
+    "runtime_goal_acceptance": false,
+    "scope": "one_explicit_linear_system"
+  }
+}

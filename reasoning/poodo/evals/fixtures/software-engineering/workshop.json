@@ -1,0 +1,49 @@
+{
+  "kind": "synthetic development fixture, not operational data",
+  "maintenance": [
+    "Wednesday 18:00-21:00"
+  ],
+  "attendance": [
+    {
+      "slot": "Tuesday 18:00-21:00",
+      "counts": [
+        14,
+        18,
+        12,
+        20
+      ]
+    },
+    {
+      "slot": "Wednesday 18:00-21:00",
+      "counts": [
+        20,
+        22,
+        21,
+        19
+      ]
+    },
+    {
+      "slot": "Saturday 10:00-13:00",
+      "counts": [
+        10,
+        16,
+        15,
+        11
+      ]
+    }
+  ],
+  "volunteers_available": {
+    "Tuesday 18:00-21:00": 3,
+    "Wednesday 18:00-21:00": 2,
+    "Saturday 10:00-13:00": 4
+  },
+  "schedule_A": [
+    "Tuesday 18:00-21:00",
+    "Saturday 10:00-13:00"
+  ],
+  "schedule_B": [
+    "Tuesday 18:00-21:00",
+    "Wednesday 18:00-21:00"
+  ],
+  "policy": "Class sessions require at least two volunteers; maintenance windows cannot host classes."
+}

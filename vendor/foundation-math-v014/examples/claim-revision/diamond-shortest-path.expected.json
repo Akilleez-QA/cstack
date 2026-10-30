@@ -1,0 +1,224 @@
+{
+  "affected_claims": [
+    "diamond_left",
+    "diamond_right",
+    "diamond_root"
+  ],
+  "affected_obligations": [
+    "diamond_tip"
+  ],
+  "events_replayed": 1,
+  "history": [
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "diamond_left",
+        "revision": 1,
+        "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "diamond_right",
+        "revision": 1,
+        "revision_sha256": "9fd1a99aa38f5f0012e3d06363e8a6e484a60b9416673ea4a6380a9358233200"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [
+        {
+          "id": "event_one",
+          "kind": "withdraw",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "diamond_root",
+            "revision": 1,
+            "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+          }
+        }
+      ],
+      "pin": {
+        "id": "diamond_root",
+        "revision": 1,
+        "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "diamond_tip",
+        "revision": 1,
+        "revision_sha256": "f8e16c75a167a5cf3fec96434a7b839d2fba6a834b3c42307851f424fda951d7"
+      }
+    }
+  ],
+  "input_sha256": "93bd925c64f2cf0cf5e50024e13e5c39812594c5b7965aa7634be1953c9933d4",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "diamond_left",
+        "revision": 1,
+        "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "45005986f803ef97d89cabe41cc965b2c605709a083db8a6daf288f81e2cb924",
+          "code": "revision_withdrawn",
+          "event_id": "event_one",
+          "origin": {
+            "id": "diamond_root",
+            "revision": 1,
+            "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+          },
+          "path": [
+            {
+              "id": "diamond_left",
+              "revision": 1,
+              "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+            },
+            {
+              "id": "diamond_root",
+              "revision": 1,
+              "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "diamond_right",
+        "revision": 1,
+        "revision_sha256": "9fd1a99aa38f5f0012e3d06363e8a6e484a60b9416673ea4a6380a9358233200"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "45005986f803ef97d89cabe41cc965b2c605709a083db8a6daf288f81e2cb924",
+          "code": "revision_withdrawn",
+          "event_id": "event_one",
+          "origin": {
+            "id": "diamond_root",
+            "revision": 1,
+            "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+          },
+          "path": [
+            {
+              "id": "diamond_right",
+              "revision": 1,
+              "revision_sha256": "9fd1a99aa38f5f0012e3d06363e8a6e484a60b9416673ea4a6380a9358233200"
+            },
+            {
+              "id": "diamond_root",
+              "revision": 1,
+              "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "diamond_root",
+        "revision": 1,
+        "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "45005986f803ef97d89cabe41cc965b2c605709a083db8a6daf288f81e2cb924",
+          "code": "revision_withdrawn",
+          "event_id": "event_one",
+          "origin": {
+            "id": "diamond_root",
+            "revision": 1,
+            "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+          },
+          "path": [
+            {
+              "id": "diamond_root",
+              "revision": 1,
+              "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "diamond_tip",
+        "revision": 1,
+        "revision_sha256": "f8e16c75a167a5cf3fec96434a7b839d2fba6a834b3c42307851f424fda951d7"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "45005986f803ef97d89cabe41cc965b2c605709a083db8a6daf288f81e2cb924",
+          "code": "revision_withdrawn",
+          "event_id": "event_one",
+          "origin": {
+            "id": "diamond_root",
+            "revision": 1,
+            "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+          },
+          "path": [
+            {
+              "id": "diamond_tip",
+              "revision": 1,
+              "revision_sha256": "f8e16c75a167a5cf3fec96434a7b839d2fba6a834b3c42307851f424fda951d7"
+            },
+            {
+              "id": "diamond_left",
+              "revision": 1,
+              "revision_sha256": "b832685cbf5a64d4dd08e372712bfe45ee8fdff3fb3fca708ca71baf4faadca1"
+            },
+            {
+              "id": "diamond_root",
+              "revision": 1,
+              "revision_sha256": "906652ddd04e70be9d4cf718555df963430c01a12f9a57acf21d7716c88320a8"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

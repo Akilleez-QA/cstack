@@ -1,0 +1,48 @@
+# Fill prospectively; null values mean unresolved, not unlimited or approved.
+schema: POODO_MEGA_OBSERVE_CHARTER/1
+status: draft
+run_id: null
+problem: null
+intended_decision: null
+scope: null
+exclusions: []
+source_families: []
+languages: []
+date_boundaries: null
+access_limits: []
+privacy_constraints: []
+user_authority: null
+category_target: 200
+evaluations_per_category: 200
+matrix_target: 40000
+quality_contract:
+  categories: Distinct, relevant, bounded, and reviewed leaves; no filler.
+  evaluations: Distinct applicable questions with source-grounded results or documented gaps.
+  unknowns: Count performed evaluations separately from evidence-backed findings.
+  review: Every counted record reviewed; source audits cover each category and all load-bearing claims.
+  completion: Every category individually meets its target; no total-internet claim.
+budget:
+  currency: USD
+  max_spend: null
+  approved_resource_limit_if_unmetered: null
+  wall_clock_limit: null
+  max_parallel_workers: null
+  pilot_allocation: null
+  review_and_retry_reserve: null
+  checkpoint_interval: null
+  cost_estimate_range: null
+  rate_sources_and_dates: []
+  host_enforcement: null
+  authority_locator: null
+  actual_spend: null
+  in_flight_reservations: null
+  stop_rule: Stop before the next batch exceeds authorized resources including outstanding work.
+environment:
+  skill_commit: null
+  host_and_version: null
+  models_and_configuration: []
+  search_tools: []
+  storage_location: null
+acceptance_frozen_at: null
+reviewer_independence: null
+frontier: []

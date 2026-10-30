@@ -1,0 +1,71 @@
+"""Core-owned conversations, independent of transport or Foundation implementations."""
+from typing import Protocol
+from .models import (Admission, CapabilityDescriptor, CapabilityOutcome, CapabilityRequest,
+                     DomainDescriptor, GoalContract, GoalSnapshot, Interpretation)
+from .policy import CapacityLimits
+
+
+class Cancellation(Protocol):
+    def is_set(self) -> bool: ...
+
+
+class CapabilityPort(Protocol):
+    def describe(self) -> CapabilityDescriptor: ...
+    def invoke(self, request: CapabilityRequest, attempt_id: str,
+               cancellation: Cancellation | None = None) -> CapabilityOutcome: ...
+
+
+class DomainExtension(Protocol):
+    def descriptor(self) -> DomainDescriptor: ...
+    def admit_goal(self, goal: GoalContract) -> Admission: ...
+    def validate_call(self, goal: GoalSnapshot, request: CapabilityRequest) -> Admission: ...
+    def interpret(self, goal: GoalSnapshot, request: CapabilityRequest,
+                  outcome: CapabilityOutcome) -> Interpretation: ...
+
+
+class ApprovalPort(Protocol):
+    """Trusted host channel to the one approver (ADR 003). Requests never reach it.
+
+    consume() must return True exactly once per approval_id, durably across processes and restarts.
+    """
+    def lookup(self, decision_id: str) -> object | None: ...
+    def consume(self, approval_id: str) -> bool: ...
+
+
+class CostPort(Protocol):
+    """Trusted host pricing (PR 9). None, a non-integer or a failure means the cost is unknown, never free."""
+    def estimate(self, request: CapabilityRequest) -> int | None: ...
+    def actual(self, request: CapabilityRequest, attempt_id: str, outcome: CapabilityOutcome) -> int | None: ...
+
+
+class AdmissionPort(Protocol):
+    """SupervisorFace (ADR 005 item 5a): trusted host capacity per AOR. Requests, hooks and tool text never reach it.
+
+    Called at construction for every AOR and again at every admission check, always under the core's re-entrancy
+    guard. None, any other type, a record for another AOR or a raise refuses (fail closed).
+    """
+    def capacity(self, aor_id: str) -> CapacityLimits | None: ...
+
+
+class LedgerPort(Protocol):
+    def reserve(self, event_count: int, byte_count: int) -> None: ...
+    def append(self, kind: str, data: dict) -> dict: ...
+    def read(self) -> list[dict]: ...
+
+
+class MemoryPort(Protocol):
+    """Labeled knowledge retrieval; grants no review or execution authority."""
+    def get(self, fact_id: str) -> dict | None: ...
+    def list(self, *, status: str | None = "proposed", limit: int = 100) -> list[dict]: ...
+    def search(self, query: str, *, status: str | None = None,
+               limit: int = 20) -> "list[dict]": ...
+
+
+class EndoforgePort(Protocol):
+    """Reserved, UNIMPLEMENTED synthesis seam; not an execution or proof grant.
+
+    A future version must bind goal, Foundation capabilities, effects, artifacts,
+    qualification, activation, disposal and retention to core-owned policy.
+    This prototype intentionally exposes no callable synthesis method.
+    """
+

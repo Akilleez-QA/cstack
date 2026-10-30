@@ -1,0 +1,14 @@
+{
+  "baseline_archive_bytes": 5524169,
+  "baseline_archive_sha256": "530d9794c083801d6d0acb6273980bdf1d4d7d59aeeb500945d0d5a11a31f741",
+  "baseline_manifest_sha256": "438bc999e2a3577a4c8525a5b990a7346bd4d0dd9f1b400d596661d7a465e6a4",
+  "lab_archive_sha256": "afe15b921ac5049604d9e6255e4acf4e3f2a76eac1d30a4b694be1e078737d4b",
+  "lab_manifest_sha256": "55991f10d519cdcc1e10389f60d178bc12fa82174615a390f059047a34350a1b",
+  "lab_source_pins": {
+    "baseline_snapshot/snapshot.py": "c4960a494ab1d18e0f3d8e4c7a212d097c6cf7a92759785a080d08fad474fe0e",
+    "docs/BASELINE-SNAPSHOT-LAB-CONTRACT.md": "90c6f2a77b13c942f9907026d6c639410da455de8cd6c311d1562803682da59a",
+    "packaging_tests/test_snapshot.py": "a61822291ce5903f55c906aef11a3ee2cbb9f23ea09ab8e040e9c03f49c3f572"
+  },
+  "recipe_sha256": "0d8a5780fbad9df5811021c3b658f57a2aa696779d4a1d256612cb821bf22ef6",
+  "schema": "foundation-math-v012-snapshot-pins-v1"
+}

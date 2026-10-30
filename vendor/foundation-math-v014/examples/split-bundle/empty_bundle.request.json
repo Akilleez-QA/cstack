@@ -1,0 +1,11 @@
+{
+  "bundle": [],
+  "operation": "cohomology",
+  "schema": "fm-split-bundle-request-v1",
+  "twists": [
+    -64,
+    -1,
+    0,
+    64
+  ]
+}

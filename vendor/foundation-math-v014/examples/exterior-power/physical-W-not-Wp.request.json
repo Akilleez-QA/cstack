@@ -1,0 +1,29 @@
+{
+  "operation": "wedge_h0_comparison",
+  "orders": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "schema": "fm-exterior-request-v1",
+  "source": [
+    {
+      "irrep": "W",
+      "multiplicity": 1,
+      "twist": -2
+    }
+  ],
+  "target": [
+    {
+      "irrep": "Wp",
+      "multiplicity": 1,
+      "twist": -2
+    }
+  ],
+  "twists": [
+    0,
+    2,
+    3
+  ]
+}

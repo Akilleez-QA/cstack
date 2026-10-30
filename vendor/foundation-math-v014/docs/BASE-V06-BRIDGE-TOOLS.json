@@ -1,0 +1,2955 @@
+{
+  "tools": [
+    {
+      "description": "Exact bounded Z or Q scalar arithmetic. Z division must be integral; power exponents must be integers; 0^0 is undefined. Input integers <=4096 bits, result <=12000 bits, absolute exponent <=10000; conservative rejection is possible. A successful computation concerns only this request, not an unrestricted theorem. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "operands": {
+                  "maxItems": 2,
+                  "minItems": 2
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "operation": {
+                  "const": "negate"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "operands": {
+                  "maxItems": 1,
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "domain": {
+                  "const": "Z"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "operands": {
+                  "items": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "domain": {
+            "enum": [
+              "Z",
+              "Q"
+            ]
+          },
+          "operands": {
+            "items": {
+              "oneOf": [
+                {
+                  "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                  "type": "integer"
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "denominator": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "not": {
+                        "const": 0
+                      },
+                      "type": "integer"
+                    },
+                    "numerator": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "numerator",
+                    "denominator"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "maxItems": 2,
+            "minItems": 1,
+            "type": "array"
+          },
+          "operation": {
+            "enum": [
+              "add",
+              "subtract",
+              "multiply",
+              "divide",
+              "power",
+              "negate"
+            ]
+          }
+        },
+        "required": [
+          "domain",
+          "operation",
+          "operands"
+        ],
+        "type": "object"
+      },
+      "name": "exact_scalar",
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "enum": [
+              "exact_scalar_result",
+              "formal_polynomial_identity_equal",
+              "formal_polynomial_identity_not_equal",
+              "counterexample_found",
+              "no_counterexample_in_declared_finite_domain",
+              "witness_valid",
+              "witness_rejected",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "description": "Full backend receipt including exact domain, scope, limits and content hashes. See tool contracts.",
+            "type": "object"
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    },
+    {
+      "description": "Decide coefficient equality in the declared formal commutative polynomial ring Q[variables], not a quotient, rational function field, analytic domain or sample test. Ordered distinct variables are algebraically independent. False identities return isError=false with assessment=formal_polynomial_identity_not_equal and an exact nonzero coefficient witness. At most 8 variables, depth 32, 1024 AST nodes, degree 32, 256 terms, 256-bit inputs, 2048-bit coefficients and 100000 arithmetic steps. Only rational literals, variables, binary add and multiply; no source strings. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$defs": {
+          "expression": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "denominator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  },
+                  "numerator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "const": "rational"
+                  }
+                },
+                "required": [
+                  "type",
+                  "numerator",
+                  "denominator"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "variable"
+                  }
+                },
+                "required": [
+                  "type",
+                  "name"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "operands": {
+                    "items": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                  },
+                  "type": {
+                    "enum": [
+                      "add",
+                      "multiply"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "operands"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "predicate": {
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "$ref": "#/$defs/expression"
+              },
+              "relation": {
+                "enum": [
+                  "lt",
+                  "le",
+                  "eq",
+                  "ne",
+                  "ge",
+                  "gt"
+                ]
+              },
+              "right": {
+                "$ref": "#/$defs/expression"
+              }
+            },
+            "required": [
+              "relation",
+              "left",
+              "right"
+            ],
+            "type": "object"
+          },
+          "search": {
+            "additionalProperties": false,
+            "properties": {
+              "assertion": {
+                "$ref": "#/$defs/predicate"
+              },
+              "bounds": {
+                "additionalProperties": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lower": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    },
+                    "upper": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "lower",
+                    "upper"
+                  ],
+                  "type": "object"
+                },
+                "maxProperties": 8,
+                "propertyNames": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "coefficient_field": {
+                "const": "Q"
+              },
+              "constraints": {
+                "items": {
+                  "$ref": "#/$defs/predicate"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "domain": {
+                "const": "finite_integer_box"
+              },
+              "variables": {
+                "items": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "domain",
+              "coefficient_field",
+              "variables",
+              "bounds",
+              "constraints",
+              "assertion"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "coefficient_field": {
+            "const": "Q"
+          },
+          "domain": {
+            "const": "polynomial_ring"
+          },
+          "operands": {
+            "items": {
+              "$ref": "#/$defs/expression"
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array"
+          },
+          "operation": {
+            "const": "verify_identity"
+          },
+          "variables": {
+            "items": {
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+              "type": "string"
+            },
+            "maxItems": 8,
+            "minItems": 0,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "domain",
+          "coefficient_field",
+          "variables",
+          "operation",
+          "operands"
+        ],
+        "type": "object"
+      },
+      "name": "polynomial_identity",
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "enum": [
+              "exact_scalar_result",
+              "formal_polynomial_identity_equal",
+              "formal_polynomial_identity_not_equal",
+              "counterexample_found",
+              "no_counterexample_in_declared_finite_domain",
+              "witness_valid",
+              "witness_rejected",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "description": "Full backend receipt including exact domain, scope, limits and content hashes. See tool contracts.",
+            "type": "object"
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    },
+    {
+      "description": "Search only the declared finite Cartesian box of INTEGER assignments for a point satisfying every constraint and violating the assertion. Coefficients are exact Q, not a rational assignment domain. Exhaustion means no counterexample only in that finite box, never a universal proof. Inclusive bounds must exactly bind variables; lower<=upper. Zero variables means one empty assignment. At most 10000 points, 8 variables, 16 constraints, 1024 AST nodes, depth/degree 32, 256-bit inputs, 4096-bit values and 250000 evaluation steps. Error, resource exhaustion or interruption is never finite exhaustion. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$defs": {
+          "expression": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "denominator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  },
+                  "numerator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "const": "rational"
+                  }
+                },
+                "required": [
+                  "type",
+                  "numerator",
+                  "denominator"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "variable"
+                  }
+                },
+                "required": [
+                  "type",
+                  "name"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "operands": {
+                    "items": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                  },
+                  "type": {
+                    "enum": [
+                      "add",
+                      "multiply"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "operands"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "predicate": {
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "$ref": "#/$defs/expression"
+              },
+              "relation": {
+                "enum": [
+                  "lt",
+                  "le",
+                  "eq",
+                  "ne",
+                  "ge",
+                  "gt"
+                ]
+              },
+              "right": {
+                "$ref": "#/$defs/expression"
+              }
+            },
+            "required": [
+              "relation",
+              "left",
+              "right"
+            ],
+            "type": "object"
+          },
+          "search": {
+            "additionalProperties": false,
+            "properties": {
+              "assertion": {
+                "$ref": "#/$defs/predicate"
+              },
+              "bounds": {
+                "additionalProperties": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lower": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    },
+                    "upper": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "lower",
+                    "upper"
+                  ],
+                  "type": "object"
+                },
+                "maxProperties": 8,
+                "propertyNames": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "coefficient_field": {
+                "const": "Q"
+              },
+              "constraints": {
+                "items": {
+                  "$ref": "#/$defs/predicate"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "domain": {
+                "const": "finite_integer_box"
+              },
+              "variables": {
+                "items": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "domain",
+              "coefficient_field",
+              "variables",
+              "bounds",
+              "constraints",
+              "assertion"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assertion": {
+            "$ref": "#/$defs/predicate"
+          },
+          "bounds": {
+            "additionalProperties": {
+              "additionalProperties": false,
+              "properties": {
+                "lower": {
+                  "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                  "type": "integer"
+                },
+                "upper": {
+                  "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "lower",
+                "upper"
+              ],
+              "type": "object"
+            },
+            "maxProperties": 8,
+            "propertyNames": {
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "coefficient_field": {
+            "const": "Q"
+          },
+          "constraints": {
+            "items": {
+              "$ref": "#/$defs/predicate"
+            },
+            "maxItems": 16,
+            "minItems": 0,
+            "type": "array"
+          },
+          "domain": {
+            "const": "finite_integer_box"
+          },
+          "variables": {
+            "items": {
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+              "type": "string"
+            },
+            "maxItems": 8,
+            "minItems": 0,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "domain",
+          "coefficient_field",
+          "variables",
+          "bounds",
+          "constraints",
+          "assertion"
+        ],
+        "type": "object"
+      },
+      "name": "finite_box_search",
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "enum": [
+              "exact_scalar_result",
+              "formal_polynomial_identity_equal",
+              "formal_polynomial_identity_not_equal",
+              "counterexample_found",
+              "no_counterexample_in_declared_finite_domain",
+              "witness_valid",
+              "witness_rejected",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "description": "Full backend receipt including exact domain, scope, limits and content hashes. See tool contracts.",
+            "type": "object"
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    },
+    {
+      "description": "Fresh exact check from the ORIGINAL finite_integer_box request plus an integer assignment. Reparse bounds, constraints and assertion and recompute values; producer verdicts/receipts are not accepted. The same finite-box search resource bounds apply. The assignment must bind exactly the declared variables and lie inside the box; false checks are not tool errors. Independent of a producer's verdict, NOT an independently implemented checker: search and check share parser and evaluator. Does not establish exhaustive search or a universal theorem. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$defs": {
+          "expression": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "denominator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  },
+                  "numerator": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "const": "rational"
+                  }
+                },
+                "required": [
+                  "type",
+                  "numerator",
+                  "denominator"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "variable"
+                  }
+                },
+                "required": [
+                  "type",
+                  "name"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "operands": {
+                    "items": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                  },
+                  "type": {
+                    "enum": [
+                      "add",
+                      "multiply"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "operands"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "predicate": {
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "$ref": "#/$defs/expression"
+              },
+              "relation": {
+                "enum": [
+                  "lt",
+                  "le",
+                  "eq",
+                  "ne",
+                  "ge",
+                  "gt"
+                ]
+              },
+              "right": {
+                "$ref": "#/$defs/expression"
+              }
+            },
+            "required": [
+              "relation",
+              "left",
+              "right"
+            ],
+            "type": "object"
+          },
+          "search": {
+            "additionalProperties": false,
+            "properties": {
+              "assertion": {
+                "$ref": "#/$defs/predicate"
+              },
+              "bounds": {
+                "additionalProperties": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lower": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    },
+                    "upper": {
+                      "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "lower",
+                    "upper"
+                  ],
+                  "type": "object"
+                },
+                "maxProperties": 8,
+                "propertyNames": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "coefficient_field": {
+                "const": "Q"
+              },
+              "constraints": {
+                "items": {
+                  "$ref": "#/$defs/predicate"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "domain": {
+                "const": "finite_integer_box"
+              },
+              "variables": {
+                "items": {
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "domain",
+              "coefficient_field",
+              "variables",
+              "bounds",
+              "constraints",
+              "assertion"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assignment": {
+            "additionalProperties": {
+              "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+              "type": "integer"
+            },
+            "maxProperties": 8,
+            "propertyNames": {
+              "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}(?![\\s\\S])",
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "request": {
+            "$ref": "#/$defs/search"
+          }
+        },
+        "required": [
+          "request",
+          "assignment"
+        ],
+        "type": "object"
+      },
+      "name": "check_finite_box_witness",
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "assessment": {
+            "enum": [
+              "exact_scalar_result",
+              "formal_polynomial_identity_equal",
+              "formal_polynomial_identity_not_equal",
+              "counterexample_found",
+              "no_counterexample_in_declared_finite_domain",
+              "witness_valid",
+              "witness_rejected",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "description": "Full backend receipt including exact domain, scope, limits and content hashes. See tool contracts.",
+            "type": "object"
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    },
+    {
+      "description": "Produce and independently check a finite exact certificate for the supplied matrix: RREF, rational rank, complete rational nullspace basis and determinant (null for nonsquare matrices). Output includes explicit shapes, invertible row-operation trace and row transform. Acceptance verifies only this matrix, not a formal proof. Input must be canonical exact JSON, never floating-point or source expressions. Only one explicit matrix over Q, including Z-input coefficients; no integer-lattice basis, symbolic parameters, generic rank, geometric identification or family theorem. At most 16 rows/columns, 256 cells per matrix, 128-bit input coefficient components, 2048-bit stored intermediate/certificate components, 1024 row operations and 2000000 charged work units per stage. Exact arithmetic/resource rejection is not a negative mathematical verdict. Bridge frames remain limited to 65536 input bytes, 1048576 output bytes and 16384 JSON nodes; a standalone-valid certificate can be too large to check through this bridge. No caller-specified limits, paths, code or commands. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$defs": {
+          "certificate": {
+            "additionalProperties": false,
+            "description": "Certificate bound to the identical original matrix, including input domain and explicit shape. For m by n input: rref is m by n, transform is m by m, nullspace is n by (n-rank). Runtime replays invertible operations, checks U*A=R, RREF/rank/ordered pivot complement, A*N=0 and free-row identity for a complete Q-kernel basis, and determinant (null iff nonsquare). Schema conformance alone never verifies a certificate.",
+            "properties": {
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "matrix": {
+                "$ref": "#/$defs/matrix"
+              },
+              "nullspace": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "operations": {
+                "items": {
+                  "description": "Invertible elementary row operation. Runtime checks row bounds and distinct rows for swap/add.",
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "j": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "swap"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "j"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "scale"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "factor"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "op": {
+                          "const": "add"
+                        },
+                        "source": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "target": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "target",
+                        "source",
+                        "factor"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "maxItems": 1024,
+                "minItems": 0,
+                "type": "array"
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rref": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "schema": {
+                "const": "foundation-math-rational-matrix/1"
+              },
+              "transform": {
+                "$ref": "#/$defs/q_matrix"
+              }
+            },
+            "required": [
+              "schema",
+              "matrix",
+              "rref",
+              "transform",
+              "rank",
+              "pivots",
+              "free_columns",
+              "nullspace",
+              "operations",
+              "determinant"
+            ],
+            "type": "object"
+          },
+          "coefficient": {
+            "description": "Canonical exact coefficient: integer, or reduced num/den with nonzero num and den>1. Runtime checks gcd=1 and bit limits; integers and zero must use integer tokens.",
+            "oneOf": [
+              {
+                "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                "type": "integer"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "den": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "minimum": 2,
+                    "type": "integer"
+                  },
+                  "num": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "num",
+                  "den"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "matrix": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "domain": {
+                      "const": "Z"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "entries": {
+                      "items": {
+                        "items": {
+                          "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "description": "One explicit matrix, at most 16 rows/columns and 256 cells. Runtime requires exactly rows entry lists of exactly cols coefficients, including empty shapes, and input coefficient components <=128 bits. Z restricts input tokens to integers; all computation and nullspace claims are over Q.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "enum": [
+                  "Z",
+                  "Q"
+                ]
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "q_matrix": {
+            "additionalProperties": false,
+            "description": "Explicit Q matrix with exact declared shape; certificate coefficient components <=2048 bits. Runtime checks canonical fractions and the shape required by the original matrix and rank.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "const": "Q"
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "verification": {
+            "additionalProperties": false,
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "computational_field": {
+                "const": "Q"
+              },
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "scope": {
+                "const": "one_explicit_matrix"
+              }
+            },
+            "required": [
+              "accepted",
+              "scope",
+              "computational_field",
+              "rows",
+              "cols",
+              "rank",
+              "pivots",
+              "free_columns",
+              "determinant"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "matrix": {
+            "$ref": "#/$defs/matrix"
+          }
+        },
+        "required": [
+          "matrix"
+        ],
+        "type": "object"
+      },
+      "name": "certify_rational_matrix",
+      "outputSchema": {
+        "$defs": {
+          "certificate": {
+            "additionalProperties": false,
+            "description": "Certificate bound to the identical original matrix, including input domain and explicit shape. For m by n input: rref is m by n, transform is m by m, nullspace is n by (n-rank). Runtime replays invertible operations, checks U*A=R, RREF/rank/ordered pivot complement, A*N=0 and free-row identity for a complete Q-kernel basis, and determinant (null iff nonsquare). Schema conformance alone never verifies a certificate.",
+            "properties": {
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "matrix": {
+                "$ref": "#/$defs/matrix"
+              },
+              "nullspace": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "operations": {
+                "items": {
+                  "description": "Invertible elementary row operation. Runtime checks row bounds and distinct rows for swap/add.",
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "j": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "swap"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "j"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "scale"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "factor"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "op": {
+                          "const": "add"
+                        },
+                        "source": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "target": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "target",
+                        "source",
+                        "factor"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "maxItems": 1024,
+                "minItems": 0,
+                "type": "array"
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rref": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "schema": {
+                "const": "foundation-math-rational-matrix/1"
+              },
+              "transform": {
+                "$ref": "#/$defs/q_matrix"
+              }
+            },
+            "required": [
+              "schema",
+              "matrix",
+              "rref",
+              "transform",
+              "rank",
+              "pivots",
+              "free_columns",
+              "nullspace",
+              "operations",
+              "determinant"
+            ],
+            "type": "object"
+          },
+          "coefficient": {
+            "description": "Canonical exact coefficient: integer, or reduced num/den with nonzero num and den>1. Runtime checks gcd=1 and bit limits; integers and zero must use integer tokens.",
+            "oneOf": [
+              {
+                "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                "type": "integer"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "den": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "minimum": 2,
+                    "type": "integer"
+                  },
+                  "num": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "num",
+                  "den"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "matrix": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "domain": {
+                      "const": "Z"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "entries": {
+                      "items": {
+                        "items": {
+                          "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "description": "One explicit matrix, at most 16 rows/columns and 256 cells. Runtime requires exactly rows entry lists of exactly cols coefficients, including empty shapes, and input coefficient components <=128 bits. Z restricts input tokens to integers; all computation and nullspace claims are over Q.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "enum": [
+                  "Z",
+                  "Q"
+                ]
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "q_matrix": {
+            "additionalProperties": false,
+            "description": "Explicit Q matrix with exact declared shape; certificate coefficient components <=2048 bits. Runtime checks canonical fractions and the shape required by the original matrix and rank.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "const": "Q"
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "verification": {
+            "additionalProperties": false,
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "computational_field": {
+                "const": "Q"
+              },
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "scope": {
+                "const": "one_explicit_matrix"
+              }
+            },
+            "required": [
+              "accepted",
+              "scope",
+              "computational_field",
+              "rows",
+              "cols",
+              "rank",
+              "pivots",
+              "free_columns",
+              "determinant"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "assessment": {
+                  "const": "tool_error"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "receipt": {
+                  "properties": {
+                    "status": {
+                      "const": "success"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "assessment": {
+                  "const": "rational_matrix_certified"
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "assessment": {
+            "enum": [
+              "rational_matrix_certified",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "computational_field": {
+                    "const": "Q"
+                  },
+                  "formal_proof": {
+                    "const": false
+                  },
+                  "implementation": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "const": "foundation-math-exact-linear-algebra"
+                      },
+                      "source_sha256": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "exact_linalg/__init__.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/api.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/contract.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/producer.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/verifier.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "foundation_math/linear_algebra.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "exact_linalg/__init__.py",
+                          "exact_linalg/contract.py",
+                          "exact_linalg/producer.py",
+                          "exact_linalg/verifier.py",
+                          "exact_linalg/api.py",
+                          "foundation_math/linear_algebra.py"
+                        ],
+                        "type": "object"
+                      },
+                      "version": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "version",
+                      "source_sha256"
+                    ],
+                    "type": "object"
+                  },
+                  "operation": {
+                    "const": "certify"
+                  },
+                  "request_sha256": {
+                    "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "result": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "certificate": {
+                        "$ref": "#/$defs/certificate"
+                      },
+                      "ok": {
+                        "const": true
+                      },
+                      "verification": {
+                        "$ref": "#/$defs/verification"
+                      }
+                    },
+                    "required": [
+                      "ok",
+                      "verification",
+                      "certificate"
+                    ],
+                    "type": "object"
+                  },
+                  "runtime_goal_acceptance": {
+                    "const": false
+                  },
+                  "schema_version": {
+                    "const": 1
+                  },
+                  "scope": {
+                    "const": "one_explicit_matrix"
+                  },
+                  "status": {
+                    "const": "success"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "scope",
+                  "computational_field",
+                  "formal_proof",
+                  "runtime_goal_acceptance",
+                  "status",
+                  "operation",
+                  "request_sha256",
+                  "implementation",
+                  "result"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "computational_field": {
+                    "const": "Q"
+                  },
+                  "error": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "message",
+                      "path"
+                    ],
+                    "type": "object"
+                  },
+                  "formal_proof": {
+                    "const": false
+                  },
+                  "runtime_goal_acceptance": {
+                    "const": false
+                  },
+                  "schema_version": {
+                    "const": 1
+                  },
+                  "scope": {
+                    "const": "one_explicit_matrix"
+                  },
+                  "status": {
+                    "const": "error"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "scope",
+                  "computational_field",
+                  "formal_proof",
+                  "runtime_goal_acceptance",
+                  "status",
+                  "error"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "const": "certify_rational_matrix"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    },
+    {
+      "description": "Freshly check an explicit MatrixCertificate against a separately supplied original matrix, including its input domain and shape. Replay invertible row operations and check RREF, U*A=R, rank/pivots, complete Q-kernel basis and determinant. No producer receipt, success label or hash substitutes for these inputs. Rejected certificates return isError=true with assessment=tool_error and no accepted or partial result. The verifier does not import the producer or perform elimination; they share canonical parsing, bounds and Python Fraction arithmetic, so this is not a diverse proof kernel. Only one explicit matrix over Q, including Z-input coefficients; no integer-lattice basis, symbolic parameters, generic rank, geometric identification or family theorem. At most 16 rows/columns, 256 cells per matrix, 128-bit input coefficient components, 2048-bit stored intermediate/certificate components, 1024 row operations and 2000000 charged work units per stage. Exact arithmetic/resource rejection is not a negative mathematical verdict. Bridge frames remain limited to 65536 input bytes, 1048576 output bytes and 16384 JSON nodes; a standalone-valid certificate can be too large to check through this bridge. No caller-specified limits, paths, code or commands. No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity.",
+      "inputSchema": {
+        "$defs": {
+          "certificate": {
+            "additionalProperties": false,
+            "description": "Certificate bound to the identical original matrix, including input domain and explicit shape. For m by n input: rref is m by n, transform is m by m, nullspace is n by (n-rank). Runtime replays invertible operations, checks U*A=R, RREF/rank/ordered pivot complement, A*N=0 and free-row identity for a complete Q-kernel basis, and determinant (null iff nonsquare). Schema conformance alone never verifies a certificate.",
+            "properties": {
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "matrix": {
+                "$ref": "#/$defs/matrix"
+              },
+              "nullspace": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "operations": {
+                "items": {
+                  "description": "Invertible elementary row operation. Runtime checks row bounds and distinct rows for swap/add.",
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "j": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "swap"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "j"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "scale"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "factor"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "op": {
+                          "const": "add"
+                        },
+                        "source": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "target": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "target",
+                        "source",
+                        "factor"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "maxItems": 1024,
+                "minItems": 0,
+                "type": "array"
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rref": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "schema": {
+                "const": "foundation-math-rational-matrix/1"
+              },
+              "transform": {
+                "$ref": "#/$defs/q_matrix"
+              }
+            },
+            "required": [
+              "schema",
+              "matrix",
+              "rref",
+              "transform",
+              "rank",
+              "pivots",
+              "free_columns",
+              "nullspace",
+              "operations",
+              "determinant"
+            ],
+            "type": "object"
+          },
+          "coefficient": {
+            "description": "Canonical exact coefficient: integer, or reduced num/den with nonzero num and den>1. Runtime checks gcd=1 and bit limits; integers and zero must use integer tokens.",
+            "oneOf": [
+              {
+                "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                "type": "integer"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "den": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "minimum": 2,
+                    "type": "integer"
+                  },
+                  "num": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "num",
+                  "den"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "matrix": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "domain": {
+                      "const": "Z"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "entries": {
+                      "items": {
+                        "items": {
+                          "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "description": "One explicit matrix, at most 16 rows/columns and 256 cells. Runtime requires exactly rows entry lists of exactly cols coefficients, including empty shapes, and input coefficient components <=128 bits. Z restricts input tokens to integers; all computation and nullspace claims are over Q.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "enum": [
+                  "Z",
+                  "Q"
+                ]
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "q_matrix": {
+            "additionalProperties": false,
+            "description": "Explicit Q matrix with exact declared shape; certificate coefficient components <=2048 bits. Runtime checks canonical fractions and the shape required by the original matrix and rank.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "const": "Q"
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "verification": {
+            "additionalProperties": false,
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "computational_field": {
+                "const": "Q"
+              },
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "scope": {
+                "const": "one_explicit_matrix"
+              }
+            },
+            "required": [
+              "accepted",
+              "scope",
+              "computational_field",
+              "rows",
+              "cols",
+              "rank",
+              "pivots",
+              "free_columns",
+              "determinant"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "certificate": {
+            "$ref": "#/$defs/certificate"
+          },
+          "matrix": {
+            "$ref": "#/$defs/matrix"
+          }
+        },
+        "required": [
+          "matrix",
+          "certificate"
+        ],
+        "type": "object"
+      },
+      "name": "check_rational_matrix_certificate",
+      "outputSchema": {
+        "$defs": {
+          "certificate": {
+            "additionalProperties": false,
+            "description": "Certificate bound to the identical original matrix, including input domain and explicit shape. For m by n input: rref is m by n, transform is m by m, nullspace is n by (n-rank). Runtime replays invertible operations, checks U*A=R, RREF/rank/ordered pivot complement, A*N=0 and free-row identity for a complete Q-kernel basis, and determinant (null iff nonsquare). Schema conformance alone never verifies a certificate.",
+            "properties": {
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "matrix": {
+                "$ref": "#/$defs/matrix"
+              },
+              "nullspace": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "operations": {
+                "items": {
+                  "description": "Invertible elementary row operation. Runtime checks row bounds and distinct rows for swap/add.",
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "j": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "swap"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "j"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "i": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "op": {
+                          "const": "scale"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "i",
+                        "factor"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "factor": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/coefficient"
+                            },
+                            {
+                              "not": {
+                                "const": 0
+                              }
+                            }
+                          ]
+                        },
+                        "op": {
+                          "const": "add"
+                        },
+                        "source": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "target": {
+                          "maximum": 15,
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "target",
+                        "source",
+                        "factor"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "maxItems": 1024,
+                "minItems": 0,
+                "type": "array"
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rref": {
+                "$ref": "#/$defs/q_matrix"
+              },
+              "schema": {
+                "const": "foundation-math-rational-matrix/1"
+              },
+              "transform": {
+                "$ref": "#/$defs/q_matrix"
+              }
+            },
+            "required": [
+              "schema",
+              "matrix",
+              "rref",
+              "transform",
+              "rank",
+              "pivots",
+              "free_columns",
+              "nullspace",
+              "operations",
+              "determinant"
+            ],
+            "type": "object"
+          },
+          "coefficient": {
+            "description": "Canonical exact coefficient: integer, or reduced num/den with nonzero num and den>1. Runtime checks gcd=1 and bit limits; integers and zero must use integer tokens.",
+            "oneOf": [
+              {
+                "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                "type": "integer"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "den": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "minimum": 2,
+                    "type": "integer"
+                  },
+                  "num": {
+                    "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                    "not": {
+                      "const": 0
+                    },
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "num",
+                  "den"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "matrix": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "domain": {
+                      "const": "Z"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "entries": {
+                      "items": {
+                        "items": {
+                          "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply.",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "description": "One explicit matrix, at most 16 rows/columns and 256 cells. Runtime requires exactly rows entry lists of exactly cols coefficients, including empty shapes, and input coefficient components <=128 bits. Z restricts input tokens to integers; all computation and nullspace claims are over Q.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "enum": [
+                  "Z",
+                  "Q"
+                ]
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "q_matrix": {
+            "additionalProperties": false,
+            "description": "Explicit Q matrix with exact declared shape; certificate coefficient components <=2048 bits. Runtime checks canonical fractions and the shape required by the original matrix and rank.",
+            "properties": {
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "domain": {
+                "const": "Q"
+              },
+              "entries": {
+                "items": {
+                  "items": {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  "maxItems": 16,
+                  "minItems": 0,
+                  "type": "array"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "domain",
+              "rows",
+              "cols",
+              "entries"
+            ],
+            "type": "object"
+          },
+          "verification": {
+            "additionalProperties": false,
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "cols": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "computational_field": {
+                "const": "Q"
+              },
+              "determinant": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/coefficient"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "free_columns": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "pivots": {
+                "items": {
+                  "maximum": 15,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "maxItems": 16,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "rank": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "rows": {
+                "maximum": 16,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "scope": {
+                "const": "one_explicit_matrix"
+              }
+            },
+            "required": [
+              "accepted",
+              "scope",
+              "computational_field",
+              "rows",
+              "cols",
+              "rank",
+              "pivots",
+              "free_columns",
+              "determinant"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "assessment": {
+                  "const": "tool_error"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "receipt": {
+                  "properties": {
+                    "status": {
+                      "const": "success"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "assessment": {
+                  "const": "rational_matrix_certificate_valid"
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "assessment": {
+            "enum": [
+              "rational_matrix_certificate_valid",
+              "tool_error"
+            ]
+          },
+          "formal_proof": {
+            "const": false
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "computational_field": {
+                    "const": "Q"
+                  },
+                  "formal_proof": {
+                    "const": false
+                  },
+                  "implementation": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "const": "foundation-math-exact-linear-algebra"
+                      },
+                      "source_sha256": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "exact_linalg/__init__.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/api.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/contract.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/producer.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "exact_linalg/verifier.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          },
+                          "foundation_math/linear_algebra.py": {
+                            "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "exact_linalg/__init__.py",
+                          "exact_linalg/contract.py",
+                          "exact_linalg/producer.py",
+                          "exact_linalg/verifier.py",
+                          "exact_linalg/api.py",
+                          "foundation_math/linear_algebra.py"
+                        ],
+                        "type": "object"
+                      },
+                      "version": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "version",
+                      "source_sha256"
+                    ],
+                    "type": "object"
+                  },
+                  "operation": {
+                    "const": "verify"
+                  },
+                  "request_sha256": {
+                    "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                    "type": "string"
+                  },
+                  "result": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "ok": {
+                        "const": true
+                      },
+                      "verification": {
+                        "$ref": "#/$defs/verification"
+                      }
+                    },
+                    "required": [
+                      "ok",
+                      "verification"
+                    ],
+                    "type": "object"
+                  },
+                  "runtime_goal_acceptance": {
+                    "const": false
+                  },
+                  "schema_version": {
+                    "const": 1
+                  },
+                  "scope": {
+                    "const": "one_explicit_matrix"
+                  },
+                  "status": {
+                    "const": "success"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "scope",
+                  "computational_field",
+                  "formal_proof",
+                  "runtime_goal_acceptance",
+                  "status",
+                  "operation",
+                  "request_sha256",
+                  "implementation",
+                  "result"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "computational_field": {
+                    "const": "Q"
+                  },
+                  "error": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "message",
+                      "path"
+                    ],
+                    "type": "object"
+                  },
+                  "formal_proof": {
+                    "const": false
+                  },
+                  "runtime_goal_acceptance": {
+                    "const": false
+                  },
+                  "schema_version": {
+                    "const": 1
+                  },
+                  "scope": {
+                    "const": "one_explicit_matrix"
+                  },
+                  "status": {
+                    "const": "error"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "scope",
+                  "computational_field",
+                  "formal_proof",
+                  "runtime_goal_acceptance",
+                  "status",
+                  "error"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "runtime_goal_acceptance": {
+            "const": false
+          },
+          "tool": {
+            "const": "check_rational_matrix_certificate"
+          }
+        },
+        "required": [
+          "tool",
+          "assessment",
+          "formal_proof",
+          "runtime_goal_acceptance",
+          "receipt"
+        ],
+        "type": "object"
+      },
+      "readOnly": true
+    }
+  ]
+}

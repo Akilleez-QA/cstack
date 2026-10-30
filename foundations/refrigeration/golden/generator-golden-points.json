@@ -1,0 +1,929 @@
+{
+  "atmosphere_psia_used_for_psig": 14.696,
+  "fluids": {
+    "CO2": {
+      "byPressure": [
+        {
+          "bubbleTempF": -56.7899,
+          "dewTempF": -56.7899,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": -33.9096,
+          "dewTempF": -33.9096,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": -23.9363,
+          "dewTempF": -23.9363,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": -8.407,
+          "dewTempF": -8.407,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 1.7236,
+          "dewTempF": 1.7236,
+          "psig": 300.0
+        },
+        {
+          "bubbleTempF": 18.8852,
+          "dewTempF": 18.8852,
+          "psig": 400.0
+        },
+        {
+          "bubbleTempF": 33.2319,
+          "dewTempF": 33.2319,
+          "psig": 500.0
+        },
+        {
+          "bubbleTempF": 45.6457,
+          "dewTempF": 45.6457,
+          "psig": 600.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 100.5381,
+          "dewPsia": 100.5381,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 165.381,
+          "dewPsia": 165.381,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 246.6868,
+          "dewPsia": 246.6868,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 321.9858,
+          "dewPsia": 321.9858,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 407.7639,
+          "dewPsia": 407.7639,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 580.6491,
+          "dewPsia": 580.6491,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 833.0979,
+          "dewPsia": 833.0979,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 1018.7636,
+          "dewPsia": 1018.7636,
+          "tempF": 83.9
+        }
+      ]
+    },
+    "NH3": {
+      "byPressure": [
+        {
+          "bubbleTempF": -23.3393,
+          "dewTempF": -23.3393,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -12.5883,
+          "dewTempF": -12.5883,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": 3.0482,
+          "dewTempF": 3.0482,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": 19.5397,
+          "dewTempF": 19.5397,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 33.8575,
+          "dewTempF": 33.8575,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 56.9596,
+          "dewTempF": 56.9596,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 84.3747,
+          "dewTempF": 84.3747,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 96.2386,
+          "dewTempF": 96.2386,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 114.6176,
+          "dewTempF": 114.6176,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 126.5511,
+          "dewTempF": 126.5511,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 6.0516,
+          "dewPsia": 6.0516,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 12.493,
+          "dewPsia": 12.493,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 22.3039,
+          "dewPsia": 22.3039,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 32.7364,
+          "dewPsia": 32.7364,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 45.8972,
+          "dewPsia": 45.8972,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 75.6749,
+          "dewPsia": 75.6749,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 124.7454,
+          "dewPsia": 124.7454,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 163.4003,
+          "dewPsia": 163.4003,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 203.4028,
+          "dewPsia": 203.4028,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 257.2567,
+          "dewPsia": 257.2567,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R134a": {
+      "byPressure": [
+        {
+          "bubbleTempF": -9.8443,
+          "dewTempF": -9.8443,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": 2.0209,
+          "dewTempF": 2.0209,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": 19.3905,
+          "dewTempF": 19.3905,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": 37.8465,
+          "dewTempF": 37.8465,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 53.9758,
+          "dewTempF": 53.9758,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 80.186,
+          "dewTempF": 80.186,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 111.5301,
+          "dewTempF": 111.5301,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 125.1509,
+          "dewTempF": 125.1509,
+          "psig": 185.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 8.8964,
+          "dewPsia": 8.8964,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 15.6663,
+          "dewPsia": 15.6663,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 22.759,
+          "dewPsia": 22.759,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 31.5995,
+          "dewPsia": 31.5995,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 51.304,
+          "dewPsia": 51.304,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 83.2043,
+          "dewPsia": 83.2043,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 108.0096,
+          "dewPsia": 108.0096,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 133.4715,
+          "dewPsia": 133.4715,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 167.5064,
+          "dewPsia": 167.5064,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R22": {
+      "byPressure": [
+        {
+          "bubbleTempF": -36.4906,
+          "dewTempF": -36.4906,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -24.8985,
+          "dewTempF": -24.8985,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -7.9097,
+          "dewTempF": -7.9097,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": 10.168,
+          "dewTempF": 10.168,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 25.9906,
+          "dewTempF": 25.9906,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 51.7567,
+          "dewTempF": 51.7567,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 82.6761,
+          "dewTempF": 82.6761,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 96.1566,
+          "dewTempF": 96.1566,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 117.1351,
+          "dewTempF": 117.1351,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 130.8022,
+          "dewTempF": 130.8022,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 9.5481,
+          "dewPsia": 9.5481,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 17.9097,
+          "dewPsia": 17.9097,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 29.6102,
+          "dewPsia": 29.6102,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 41.3121,
+          "dewPsia": 41.3121,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 55.406,
+          "dewPsia": 55.406,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 85.6045,
+          "dewPsia": 85.6045,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 132.3973,
+          "dewPsia": 132.3973,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 167.6706,
+          "dewPsia": 167.6706,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 203.1797,
+          "dewPsia": 203.1797,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 249.8142,
+          "dewPsia": 249.8142,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R290": {
+      "byPressure": [
+        {
+          "bubbleTempF": -38.5235,
+          "dewTempF": -38.5235,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -26.1772,
+          "dewTempF": -26.1772,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -8.0247,
+          "dewTempF": -8.0247,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": 11.3637,
+          "dewTempF": 11.3637,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 28.3909,
+          "dewTempF": 28.3909,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 56.2215,
+          "dewTempF": 56.2215,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 89.7609,
+          "dewTempF": 89.7609,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 104.4224,
+          "dewTempF": 104.4224,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 127.2722,
+          "dewTempF": 127.2722,
+          "psig": 250.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 10.4264,
+          "dewPsia": 10.4264,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 18.7016,
+          "dewPsia": 18.7016,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 29.8764,
+          "dewPsia": 29.8764,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 40.7776,
+          "dewPsia": 40.7776,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 53.669,
+          "dewPsia": 53.669,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 80.7185,
+          "dewPsia": 80.7185,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 121.6739,
+          "dewPsia": 121.6739,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 152.0481,
+          "dewPsia": 152.0481,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 182.3165,
+          "dewPsia": 182.3165,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 221.7039,
+          "dewPsia": 221.7039,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R404A": {
+      "byPressure": [
+        {
+          "bubbleTempF": -46.3422,
+          "dewTempF": -45.0209,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -35.0044,
+          "dewTempF": -33.751,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -18.3771,
+          "dewTempF": -17.2153,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": -0.6737,
+          "dewTempF": 0.3987,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 14.825,
+          "dewTempF": 15.8243,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 40.0552,
+          "dewTempF": 40.9423,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 70.279,
+          "dewTempF": 71.036,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 83.4235,
+          "dewTempF": 84.1229,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 103.8196,
+          "dewTempF": 104.4245,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 117.0542,
+          "dewTempF": 117.5916,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 12.4561,
+          "dewPsia": 11.9819,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 22.9095,
+          "dewPsia": 22.2237,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 37.2818,
+          "dewPsia": 36.3739,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 51.4782,
+          "dewPsia": 50.3943,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 68.4242,
+          "dewPsia": 67.1657,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 104.3863,
+          "dewPsia": 102.8399,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 159.6126,
+          "dewPsia": 157.7615,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 201.0613,
+          "dewPsia": 199.0568,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 242.7389,
+          "dewPsia": 240.6323,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 297.5138,
+          "dewPsia": 295.3447,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R410A": {
+      "byPressure": [
+        {
+          "bubbleTempF": -56.0222,
+          "dewTempF": -55.8798,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -45.3618,
+          "dewTempF": -45.2172,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -29.7745,
+          "dewTempF": -29.6245,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": -13.2353,
+          "dewTempF": -13.0774,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 1.2005,
+          "dewTempF": 1.3668,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 24.6259,
+          "dewTempF": 24.8079,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 52.5976,
+          "dewTempF": 52.7985,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 64.7447,
+          "dewTempF": 64.9524,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 83.591,
+          "dewTempF": 83.8055,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 95.833,
+          "dewTempF": 96.048,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 16.1169,
+          "dewPsia": 16.0535,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 29.7476,
+          "dewPsia": 29.6404,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 48.5739,
+          "dewPsia": 48.4066,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 67.2384,
+          "dewPsia": 67.0113,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 89.5844,
+          "dewPsia": 89.2855,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 137.1828,
+          "dewPsia": 136.7318,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 210.6003,
+          "dewPsia": 209.9273,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 265.8792,
+          "dewPsia": 265.0572,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 321.5755,
+          "dewPsia": 320.6259,
+          "tempF": 97.4
+        }
+      ]
+    },
+    "R448A": {
+      "byPressure": [
+        {
+          "bubbleTempF": -46.3299,
+          "dewTempF": -34.6441,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -35.1405,
+          "dewTempF": -23.5537,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -18.7529,
+          "dewTempF": -7.3223,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": -1.3274,
+          "dewTempF": 9.9163,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 13.9156,
+          "dewTempF": 24.9712,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 38.7238,
+          "dewTempF": 49.405,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 68.4809,
+          "dewTempF": 78.5504,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 81.4556,
+          "dewTempF": 91.1807,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 101.6595,
+          "dewTempF": 110.7181,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 114.8385,
+          "dewTempF": 123.3512,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 12.4068,
+          "dewPsia": 8.8014,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 22.9961,
+          "dewPsia": 17.1173,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 37.6661,
+          "dewPsia": 29.067,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 52.2324,
+          "dewPsia": 41.2397,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 69.6814,
+          "dewPsia": 56.1031,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 106.8333,
+          "dewPsia": 88.4782,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 163.9925,
+          "dewPsia": 139.6649,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 206.8574,
+          "dewPsia": 178.8962,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 249.8611,
+          "dewPsia": 218.8806,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 306.1481,
+          "dewPsia": 272.0998,
+          "tempF": 112.7
+        }
+      ]
+    },
+    "R507A": {
+      "byPressure": [
+        {
+          "bubbleTempF": -47.2999,
+          "dewTempF": -47.298,
+          "psig": 2.0
+        },
+        {
+          "bubbleTempF": -36.0139,
+          "dewTempF": -36.0088,
+          "psig": 7.5
+        },
+        {
+          "bubbleTempF": -19.4618,
+          "dewTempF": -19.4501,
+          "psig": 18.0
+        },
+        {
+          "bubbleTempF": -1.8375,
+          "dewTempF": -1.8171,
+          "psig": 33.0
+        },
+        {
+          "bubbleTempF": 13.5926,
+          "dewTempF": 13.6214,
+          "psig": 50.0
+        },
+        {
+          "bubbleTempF": 38.7124,
+          "dewTempF": 38.7548,
+          "psig": 87.0
+        },
+        {
+          "bubbleTempF": 68.8042,
+          "dewTempF": 68.8603,
+          "psig": 150.0
+        },
+        {
+          "bubbleTempF": 81.8906,
+          "dewTempF": 81.9511,
+          "psig": 185.0
+        },
+        {
+          "bubbleTempF": 102.1947,
+          "dewTempF": 102.259,
+          "psig": 250.0
+        },
+        {
+          "bubbleTempF": 115.3674,
+          "dewTempF": 115.4314,
+          "psig": 300.0
+        }
+      ],
+      "byTemp": [
+        {
+          "bubblePsia": 12.7724,
+          "dewPsia": 12.7723,
+          "tempF": -57.3
+        },
+        {
+          "bubblePsia": 23.4798,
+          "dewPsia": 23.4765,
+          "tempF": -33.7
+        },
+        {
+          "bubblePsia": 38.1904,
+          "dewPsia": 38.178,
+          "tempF": -12.4
+        },
+        {
+          "bubblePsia": 52.7126,
+          "dewPsia": 52.6883,
+          "tempF": 3.1
+        },
+        {
+          "bubblePsia": 70.0393,
+          "dewPsia": 69.9987,
+          "tempF": 17.8
+        },
+        {
+          "bubblePsia": 106.7904,
+          "dewPsia": 106.7117,
+          "tempF": 41.6
+        },
+        {
+          "bubblePsia": 163.1999,
+          "dewPsia": 163.062,
+          "tempF": 68.2
+        },
+        {
+          "bubblePsia": 205.5269,
+          "dewPsia": 205.3478,
+          "tempF": 83.9
+        },
+        {
+          "bubblePsia": 248.0871,
+          "dewPsia": 247.8716,
+          "tempF": 97.4
+        },
+        {
+          "bubblePsia": 304.0324,
+          "dewPsia": 303.7789,
+          "tempF": 112.7
+        }
+      ]
+    }
+  },
+  "generatedBy": "an internal application generator pt-golden.test-support.ts, parsed by foundations/refrigeration/tools/project_saturation.py",
+  "generated_on": "2026-10-24",
+  "generator_sha256": "b8b9a5aef72b5e0a9fa4dcc530d07e3a895563db2cbcd1c0bf17fbf82accf3a2",
+  "note": "Every point computed directly by CoolProp 8.0.0 at an off-grid point, by the generator.",
+  "output_sha256": "eadfc31382233ad5f6ddd12baf9a7c6920a2c50a32b814a3460098160dc2dc90",
+  "schema": "refrigerant-saturation-golden/1",
+  "units": {
+    "bubblePsia": "psia",
+    "bubbleTempF": "degF",
+    "dewPsia": "psia",
+    "dewTempF": "degF",
+    "psig": "psig (14.696 psia)",
+    "tempF": "degF"
+  },
+  "version": "1.0.0"
+}

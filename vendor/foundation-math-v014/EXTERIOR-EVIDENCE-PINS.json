@@ -1,0 +1,269 @@
+{
+  "baseline_archive_bytes": 5979419,
+  "baseline_archive_sha256": "2d3098ecc24fc34c9e0e9df740a7fae4a2e10d83f16086b8ab89c1b553113bda",
+  "baseline_manifest_sha256": "e2d034b8703bd1c98c847962627fbfd2f86c695ecc19dab83c596873f2de7de8",
+  "labs": {
+    "exterior": {
+      "archive_sha256": "a6c32c393e7ebc61af34ec50d1793f6905b85c4d0043847152fc22a79c59eb67",
+      "manifest_sha256": "89264e3f2d6dd2391f80bf5a1d07292a3748166bef9c60d9ab9f82c3c34d078e",
+      "source_pins": {
+        "docs/EXTERIOR-LAB-API.md": {
+          "bytes": 4762,
+          "sha256": "2c5f37aca004d1ec5b823f1c4babbcdb76c04ff6a4de7b9f3be139197c0134be"
+        },
+        "docs/EXTERIOR-LAB-MATHEMATICS.md": {
+          "bytes": 6268,
+          "sha256": "bc5591f952d722eaed3a2dab500975a3cac386354627d7552c3aea173e385226"
+        },
+        "docs/EXTERIOR-LAB-PROVENANCE.md": {
+          "bytes": 2860,
+          "sha256": "80abbbb79348c754691d678704e531d91bf0ff922a590ddabfd2f2c260e47304"
+        },
+        "docs/EXTERIOR-LAB-VALIDATION.md": {
+          "bytes": 3650,
+          "sha256": "bfa375ae3b6369742a99d189404e9788a92ec729356aa9a80b1d7d90ec48ac99"
+        },
+        "examples/exterior-power/irrep-1.certificate.json": {
+          "bytes": 9637,
+          "sha256": "8675c1e4458b1440c8e0c4ec83d091350074c198e190ebe0fa0a9d7f37f41729"
+        },
+        "examples/exterior-power/irrep-1.request.json": {
+          "bytes": 186,
+          "sha256": "d32c0bb5fe7f47d707830265e539e72f9761e0a6aacc0bcaa3ef7a57935223dd"
+        },
+        "examples/exterior-power/irrep-A.certificate.json": {
+          "bytes": 9703,
+          "sha256": "b31f1073d9d8fda84e3bf3fa5baf8314984dce126082d7dc37fef1b2f88b735e"
+        },
+        "examples/exterior-power/irrep-A.request.json": {
+          "bytes": 186,
+          "sha256": "d713d53653fbbb832718af7fe29c6da6e5596b0c857bd4c422ea3ed9f6e2d22b"
+        },
+        "examples/exterior-power/irrep-D.certificate.json": {
+          "bytes": 9849,
+          "sha256": "be35ba053a32f9092ccc6cd118b147eea7c08573b28dce1f83070edc345a22f4"
+        },
+        "examples/exterior-power/irrep-D.request.json": {
+          "bytes": 186,
+          "sha256": "932c37dc45374f027c5e92c8ea40ba02c877d1ec10dc20233c3b1ba3ccf2fde4"
+        },
+        "examples/exterior-power/irrep-P.certificate.json": {
+          "bytes": 9756,
+          "sha256": "616650dc832b5a26dc8f8de7a0d0c90b6c497d2b1bdb41dc2581c3a28e8a1a13"
+        },
+        "examples/exterior-power/irrep-P.request.json": {
+          "bytes": 186,
+          "sha256": "e613afe476219ef76e1f3cbb963cf76c9903066356cb573298f8f83a4c374e04"
+        },
+        "examples/exterior-power/irrep-S4.certificate.json": {
+          "bytes": 9756,
+          "sha256": "8bd37d5f372e29836a96bfd7dbeca9dadda2d5b3c505da4ef4fae49861893485"
+        },
+        "examples/exterior-power/irrep-S4.request.json": {
+          "bytes": 187,
+          "sha256": "82c64e54f94bc17cf9f62c76769b06956a7d01ffdf3a193b7ff3f58665f97c5c"
+        },
+        "examples/exterior-power/irrep-T6.certificate.json": {
+          "bytes": 9906,
+          "sha256": "a920c0fc756b471aaabd4f94189a4a2d9d235c912e3cf4abaa36a0d6dff055f6"
+        },
+        "examples/exterior-power/irrep-T6.request.json": {
+          "bytes": 187,
+          "sha256": "8771bcb07bf5c7ec05ef34d9b42cfb66fd490fe3bccdfa3c87327e90482b7d4a"
+        },
+        "examples/exterior-power/irrep-V.certificate.json": {
+          "bytes": 9703,
+          "sha256": "3c2d5ee30db9179db4fb93260ffb7931f2b6352774299edfdced2fc62ae486c2"
+        },
+        "examples/exterior-power/irrep-V.request.json": {
+          "bytes": 186,
+          "sha256": "f947fac49834e1af6ed2039b518088050ea29c1d184022550239c0191fa7c4d8"
+        },
+        "examples/exterior-power/irrep-W.certificate.json": {
+          "bytes": 9672,
+          "sha256": "2d2ec544f3c96674770ba8206411872f1a568681ac5744458ca4f1482d2dafd7"
+        },
+        "examples/exterior-power/irrep-W.request.json": {
+          "bytes": 186,
+          "sha256": "35998c563f1ebf7af55a0ed21b48b751a4416b98de62a24e42e5208ee470be7f"
+        },
+        "examples/exterior-power/irrep-Wp.certificate.json": {
+          "bytes": 9674,
+          "sha256": "15d45bf224c6b4ccd286afdcadbd163233687951416a369802177544995c2b02"
+        },
+        "examples/exterior-power/irrep-Wp.request.json": {
+          "bytes": 187,
+          "sha256": "8d88cbd31b62f7eabf7fe7db16efc4bbbae9483414cccf10c7d8997a1ff5de80"
+        },
+        "examples/exterior-power/passing-is-not-existence.certificate.json": {
+          "bytes": 8231,
+          "sha256": "91b2bc8a95a3d9b2aee1cbe6cf0316a29e2e1637beb4a7513c166be6f209723d"
+        },
+        "examples/exterior-power/passing-is-not-existence.request.json": {
+          "bytes": 331,
+          "sha256": "c620cb2592ca9e98b859d9b75583e0da3254e642cc44a4c0c448fe784bb21494"
+        },
+        "examples/exterior-power/physical-W-not-Wp.certificate.json": {
+          "bytes": 28504,
+          "sha256": "267c0efefd6c02e59d0c5737fd298522d6be64efc655f1d59ae9e0a84e0c0347"
+        },
+        "examples/exterior-power/physical-W-not-Wp.request.json": {
+          "bytes": 353,
+          "sha256": "0ec60013fea8cf650c5937eb841c7a2b805f18395b455f6847df55d0ec6ce73c"
+        },
+        "examples/exterior-power/repeated-doublets.certificate.json": {
+          "bytes": 9994,
+          "sha256": "56bcb8164229500b0a47aeead0655154aab6cbaacf98caed4d7467c24162db90"
+        },
+        "examples/exterior-power/repeated-doublets.request.json": {
+          "bytes": 199,
+          "sha256": "6a2b3356a540202da5feb82ad9a8103683fb3c0c690cc02c2734b815db841e9f"
+        },
+        "examples/exterior-power/split-degree-tracking.certificate.json": {
+          "bytes": 31524,
+          "sha256": "3f8f252ba7877c56cb6f1b0a086099f5713c6a27f93d1e9d2a485eb3c0ae4c8e"
+        },
+        "examples/exterior-power/split-degree-tracking.request.json": {
+          "bytes": 379,
+          "sha256": "cf4abe0ca14525dbf6bdc5f157f1091bb81ef281798d0ab2525767cbd69abe7e"
+        },
+        "examples/exterior-power/stronger-exterior-test.certificate.json": {
+          "bytes": 15804,
+          "sha256": "b8dad6f7fa0247c47c1d483a18ce4bb8a18c7b5a69d6fa7bcef60519957a8580"
+        },
+        "examples/exterior-power/stronger-exterior-test.request.json": {
+          "bytes": 430,
+          "sha256": "0de89b71e4fdcc53017f50a6af15a4dd454e2e45e2ba107ec147e55e7e3b6c11"
+        },
+        "exterior_power/__init__.py": {
+          "bytes": 477,
+          "sha256": "0330880b5c58549ff885ee164a407f7d8f8264706cb8c73245f2b584da7fd84c"
+        },
+        "exterior_power/__main__.py": {
+          "bytes": 1124,
+          "sha256": "d129d6b19a8c11b66532764ddfb66052f3f55378e9ebe97c87ee8aa479a6c024"
+        },
+        "exterior_power/catalog.json": {
+          "bytes": 16182,
+          "sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74"
+        },
+        "exterior_power/class_arithmetic.py": {
+          "bytes": 4666,
+          "sha256": "33bdf6a8fc736834b39a436df0be7dd989525e0e395c9ce2bedab349c211baa8"
+        },
+        "exterior_power/contract.py": {
+          "bytes": 6289,
+          "sha256": "39d3c22597845a7a3725fdf307333543fb1528a3df651639e950908fd2fd1b06"
+        },
+        "exterior_power/fusion.py": {
+          "bytes": 2406,
+          "sha256": "9abb0310fbdf24bede872c2e7d4ee79e0701b51de8590529024c19d58c6971b3"
+        },
+        "exterior_power/producer.py": {
+          "bytes": 3787,
+          "sha256": "70b105a761dd168a0d5af60b25beed0485f7d05b4a9768c1bcbaf7805d43460b"
+        },
+        "exterior_power/seeds.json": {
+          "bytes": 3749,
+          "sha256": "0476eb520e3f8910828b4762fac3e88e16b12ba8f35ebe782c4e357c06ff1656"
+        },
+        "exterior_power/verifier.py": {
+          "bytes": 4226,
+          "sha256": "251d1a9edb81780cf881ba5eed9b15b0b05dc85576e8062ce850e2e5549b4281"
+        }
+      }
+    },
+    "receipt": {
+      "archive_sha256": "5edf69aab764b000aca6b24c8503e277e85abe617cbc17b61b13d74796e575b0",
+      "manifest_sha256": "87e9ebc74819e201513887908b67e8e4b717bf90702e64cab413eb442b094515",
+      "source_pins": {
+        "docs/RECEIPT-LAB-CONTRACT.md": {
+          "bytes": 12161,
+          "sha256": "da459d29801efd2b8a51dd909f99369e6b31ab920e5cabf7c43e9d3a9ad82573"
+        },
+        "docs/RECEIPT-LAB-DESIGN.md": {
+          "bytes": 4550,
+          "sha256": "f6c7c2ba0f33b418bfeb0652098f300d4b0ed1c6d0e40e537e7944076682338d"
+        },
+        "docs/RECEIPT-LAB-VALIDATION.md": {
+          "bytes": 2405,
+          "sha256": "4dd950696032796564c4dbfd068c52c0f899badcd6d42dd01f8b9947fc5d940c"
+        },
+        "examples/validation-evidence/all-pins-match.expected.json": {
+          "bytes": 3793,
+          "sha256": "f695e163fc051e215e8ce2e09ad76afc88a22e82c289b2e10860d1a5ebdc0a04"
+        },
+        "examples/validation-evidence/all-pins-match.input.json": {
+          "bytes": 10826,
+          "sha256": "e2ffa7418fcfcc58163d4c3de825c706993a34e93ec08bb0d8710b596817e32f"
+        },
+        "examples/validation-evidence/input-drift-chain.expected.json": {
+          "bytes": 5275,
+          "sha256": "7866a6bf532e94b6acca7ee752f021b98974f37011ff152104a19a91bd212803"
+        },
+        "examples/validation-evidence/input-drift-chain.input.json": {
+          "bytes": 10851,
+          "sha256": "3cff96cb662fc2c3f50190ab871f8841f83900aad0aba6e5147b7171d9bcb056"
+        },
+        "examples/validation-evidence/mandatory-fresh-policy.expected.json": {
+          "bytes": 8666,
+          "sha256": "1852cba98375da414dfa3533c72752c52ebbdc7bd40f80d185d7fb7302fbab40"
+        },
+        "examples/validation-evidence/mandatory-fresh-policy.input.json": {
+          "bytes": 22647,
+          "sha256": "16777a573d9024a382cadf2b5b7261c328e35fe4a6658d6d9a3b120eeb603291"
+        },
+        "examples/validation-evidence/no-implicit-latest.expected.json": {
+          "bytes": 3604,
+          "sha256": "d01a838a846ece261d292c823b3ea39b2b097fb037509c4f024f5f9460c89251"
+        },
+        "examples/validation-evidence/no-implicit-latest.input.json": {
+          "bytes": 9342,
+          "sha256": "8d9183b42488d892cdef52f04189a0094bc77022306847e5c04833430c25f61a"
+        },
+        "examples/validation-evidence/unestablished-closure-chain.expected.json": {
+          "bytes": 5442,
+          "sha256": "d4cc3b0563d0c947416814f42b3fa6f2bf3ff035bacaed87704c16da0debc369"
+        },
+        "examples/validation-evidence/unestablished-closure-chain.input.json": {
+          "bytes": 10809,
+          "sha256": "fcd3bd406051d8ee0dac1df7f826197300c620f39cbcca1135cea3fbf5e6d996"
+        },
+        "examples/validation-evidence/unknown-environment-chain.expected.json": {
+          "bytes": 5436,
+          "sha256": "0873935790d0674b5c49b52bf21e1540541cdd54f52db6f467eab21c2ff581bc"
+        },
+        "examples/validation-evidence/unknown-environment-chain.input.json": {
+          "bytes": 10764,
+          "sha256": "e740e61ce168acadca88d7e4c62d28cc00ce49fdf53816ff89f6d6f0cb639a2e"
+        },
+        "examples/validation-evidence/withdrawn-receipt-chain.expected.json": {
+          "bytes": 5482,
+          "sha256": "53ed2af4af2bb73a9cd7876628a9b5a05963ef7e0aaf8d4bdeebac0816558f6d"
+        },
+        "examples/validation-evidence/withdrawn-receipt-chain.input.json": {
+          "bytes": 10827,
+          "sha256": "049e36eb6a9e910db1f7aeb47de48a100b7145152f49b5b1871076eff24e5f64"
+        },
+        "schemas/validation-evidence-request.schema.json": {
+          "bytes": 10188,
+          "sha256": "cc32c0def3799df8056a62e3f3177115c8c672ac07a376c1a5b5bad403e2c422"
+        },
+        "validation_receipt/__init__.py": {
+          "bytes": 163,
+          "sha256": "b01e952e0d1e1af6c4cc7865ec4616fe434c1dd9d42773579aba94985e3e7d25"
+        },
+        "validation_receipt/__main__.py": {
+          "bytes": 756,
+          "sha256": "2ffc622b8c9c3b6638354321f6ea49f8e9ae78d11a41fefc372fe028147eecd2"
+        },
+        "validation_receipt/core.py": {
+          "bytes": 18471,
+          "sha256": "9508bc57c57fa79bf31d538df48a08549b720f6a9e83935650f80371639c3305"
+        }
+      }
+    }
+  },
+  "recipe_sha256": "e67eaa66f4f6484ca81ab1fddb313613d170bc0664e51cb315b8a39c5efc5453",
+  "schema": "foundation-math-v014-exterior-evidence-pins-v1"
+}

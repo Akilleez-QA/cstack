@@ -1,0 +1,435 @@
+"""Deterministic bridge protocol, mathematical boundary and process regressions."""
+from __future__ import annotations
+
+import copy
+import io
+import json
+import re
+from pathlib import Path
+import selectors
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+from foundation_math_bridge import server
+from foundation_math_bridge.schemas import tool_definitions
+
+ROOT = Path(__file__).resolve().parents[1]
+ZERO = {"type": "rational", "numerator": 0, "denominator": 1}
+ONE = {"type": "rational", "numerator": 1, "denominator": 1}
+X = {"type": "variable", "name": "x"}
+SCALAR = {"domain": "Q", "operation": "add", "operands": [
+    {"numerator": 1, "denominator": 2}, {"numerator": 1, "denominator": 3}]}
+POLYNOMIAL = {"domain": "polynomial_ring", "coefficient_field": "Q", "variables": ["x"],
+              "operation": "verify_identity", "operands": [X, ONE]}
+SEARCH = {"domain": "finite_integer_box", "coefficient_field": "Q", "variables": ["x"],
+          "bounds": {"x": {"lower": -3, "upper": 3}}, "constraints": [],
+          "assertion": {"relation": "ge", "left": X, "right": ZERO}}
+
+
+def request(method: str, params=None, identifier=1) -> dict:
+    value = {"jsonrpc": "2.0", "id": identifier, "method": method}
+    if params is not None:
+        value["params"] = params
+    return value
+
+
+def wire(value: object) -> bytes:
+    return json.dumps(value, ensure_ascii=True, separators=(",", ":")).encode() + b"\n"
+
+
+def initialization(identifier=0) -> dict:
+    return request("initialize", {"protocolVersion": server.PROTOCOL}, identifier)
+
+
+def call(name: str, arguments: dict, identifier=1) -> dict:
+    return request("tools/call", {"name": name, "arguments": arguments}, identifier)
+
+
+class BridgeTests(unittest.TestCase):
+    def setUp(self):
+        self.bridge = server.Bridge()
+        self.bridge.handle(wire(initialization())[:-1])
+
+    def handle(self, value):
+        return self.bridge.handle(wire(value)[:-1])
+
+    def tool(self, name, arguments):
+        reply = self.handle(call(name, arguments))
+        self.assertNotIn("error", reply)
+        return reply["result"]
+
+    def test_initialization_explicitly_not_mcp(self):
+        reply = server.Bridge().handle(wire(initialization())[:-1])["result"]
+        self.assertEqual(reply["protocolVersion"], "foundation-math-jsonrpc/1")
+        self.assertIs(reply["mcpCompatible"], False)
+        self.assertEqual(reply["methods"], ["initialize", "ping", "tools/list", "tools/call"])
+
+    def test_wrong_version_does_not_initialize(self):
+        bridge = server.Bridge()
+        for version in ["2026-07-28", "2025-11-25", None, {}, 1]:
+            reply = bridge.handle(wire(request("initialize", {"protocolVersion": version}))[:-1])
+            self.assertEqual(reply["error"]["code"], -32001)
+            self.assertFalse(bridge.initialized)
+        self.assertIn("result", bridge.handle(wire(initialization())[:-1]))
+
+    def test_before_initialization(self):
+        bridge = server.Bridge()
+        self.assertEqual(bridge.handle(wire(request("tools/list"))[:-1])["error"]["code"], -32000)
+        self.assertEqual(bridge.handle(wire(request("ping"))[:-1])["result"], {})
+
+    def test_reinitialization_rejected(self):
+        self.assertEqual(self.handle(initialization())["error"]["code"], -32000)
+
+    def test_tool_listing_is_detached_deterministic_and_bounded(self):
+        first = self.handle(request("tools/list"))
+        self.assertEqual(first, self.handle(request("tools/list")))
+        self.assertEqual([tool["name"] for tool in first["result"]["tools"]],
+                         ["exact_scalar", "polynomial_identity", "finite_box_search", "check_finite_box_witness",
+                          "certify_rational_matrix", "check_rational_matrix_certificate",
+                          "construct_polynomial_witness", "check_polynomial_witness",
+                          "solve_rational_linear_system", "check_rational_linear_system_certificate",
+                          "calculate_fixed_character", "check_fixed_character_certificate",
+                          "calculate_formal_split_bundle", "check_formal_split_bundle_certificate",
+                          "replay_claim_applicability"])
+        self.assertLess(len(server.encode_response(first)), server.MAX_OUTPUT_BYTES)
+        for tool in first["result"]["tools"]:
+            self.assertEqual(tool["inputSchema"]["type"], "object")
+            self.assertFalse(tool["inputSchema"]["additionalProperties"])
+            self.assertEqual(tool["outputSchema"]["type"], "object")
+            self.assertTrue(tool["readOnly"])
+        first["result"]["tools"][0]["inputSchema"]["properties"].clear()
+        self.assertTrue(tool_definitions()[0]["inputSchema"]["properties"])
+
+    def test_schema_variable_pattern_has_absolute_end(self):
+        pattern = tool_definitions()[1]["inputSchema"]["properties"]["variables"]["items"]["pattern"]
+        for name in ["x", "X_2", "a" * 32]:
+            self.assertIsNotNone(re.search(pattern, name))
+        for name in ["x\n", "x\r", "x\r\n", "x\u2028", "x!", "x y", "a" * 33, "_x", "1x", ""]:
+            self.assertIsNone(re.search(pattern, name))
+
+    def test_exact_scalar_result_and_evidence(self):
+        result = self.tool("exact_scalar", SCALAR)
+        self.assertFalse(result["isError"])
+        data = result["structuredContent"]
+        self.assertEqual(data["assessment"], "exact_scalar_result")
+        self.assertFalse(data["formal_proof"])
+        self.assertFalse(data["runtime_goal_acceptance"])
+        receipt = data["receipt"]
+        self.assertEqual(receipt["result"], {"domain": "Q", "numerator": 5, "denominator": 6})
+        self.assertEqual(len(receipt["artifacts"]["result_sha256"]), 64)
+        self.assertEqual(result, self.tool("exact_scalar", SCALAR))
+
+    def test_z_no_implicit_rational_promotion(self):
+        result = self.tool("exact_scalar", {"domain": "Z", "operation": "divide", "operands": [1, 2]})
+        self.assertTrue(result["isError"])
+        self.assertEqual(result["structuredContent"]["assessment"], "tool_error")
+        self.assertIsNone(result["structuredContent"]["receipt"]["result"])
+
+    def test_true_identity_narrow_ring_scope(self):
+        case = copy.deepcopy(POLYNOMIAL)
+        case["operands"] = [X, {"type": "add", "operands": [X, ZERO]}]
+        result = self.tool("polynomial_identity", case)
+        self.assertFalse(result["isError"])
+        self.assertEqual(result["structuredContent"]["assessment"], "formal_polynomial_identity_equal")
+        self.assertIs(result["structuredContent"]["receipt"]["result"]["equal"], True)
+        self.assertIs(result["structuredContent"]["formal_proof"], False)
+        self.assertIs(result["structuredContent"]["runtime_goal_acceptance"], False)
+
+    def test_false_identity_is_computation_not_proof_success(self):
+        result = self.tool("polynomial_identity", POLYNOMIAL)
+        self.assertFalse(result["isError"])
+        self.assertEqual(result["structuredContent"]["assessment"], "formal_polynomial_identity_not_equal")
+        self.assertIs(result["structuredContent"]["receipt"]["result"]["equal"], False)
+        self.assertIsNotNone(result["structuredContent"]["receipt"]["result"]["mismatch_witness"])
+        self.assertFalse(result["structuredContent"]["runtime_goal_acceptance"])
+
+    def test_polynomial_nonidentity_operations_not_exposed(self):
+        case = copy.deepcopy(POLYNOMIAL)
+        case["operation"] = "multiply"
+        self.assertEqual(self.handle(call("polynomial_identity", case))["error"]["code"], -32602)
+
+    def test_search_then_fresh_check(self):
+        found = self.tool("finite_box_search", SEARCH)["structuredContent"]
+        self.assertEqual(found["assessment"], "counterexample_found")
+        self.assertEqual(found["receipt"]["result"]["assignment"], {"x": -3})
+        checked = self.tool("check_finite_box_witness", {"request": SEARCH, "assignment": {"x": -3}})["structuredContent"]
+        self.assertEqual(checked["assessment"], "witness_valid")
+        self.assertIs(checked["receipt"]["result"]["valid"], True)
+        self.assertFalse(checked["receipt"]["progress"]["complete"])
+        self.assertEqual(checked["receipt"]["progress"]["checked_assignment_count"], 1)
+        self.assertFalse(checked["formal_proof"])
+
+    def test_check_rejects_receipt_and_spoofed_verdict(self):
+        found = self.tool("finite_box_search", SEARCH)["structuredContent"]["receipt"]
+        for arguments in [found, {"request": SEARCH, "assignment": {"x": -3}, "valid": True}]:
+            self.assertEqual(self.handle(call("check_finite_box_witness", arguments))["error"]["code"], -32602)
+        result = self.tool("check_finite_box_witness", {"request": SEARCH, "assignment": found})
+        self.assertEqual(result["structuredContent"]["assessment"], "witness_rejected")
+
+    def test_changed_constraint_rechecked(self):
+        case = copy.deepcopy(SEARCH)
+        case["constraints"] = [{"relation": "ge", "left": X, "right": ZERO}]
+        result = self.tool("check_finite_box_witness", {"request": case, "assignment": {"x": -3}})
+        self.assertFalse(result["isError"])
+        self.assertEqual(result["structuredContent"]["receipt"]["result"]["reason"], "constraint_not_satisfied")
+
+    def test_invalid_witness_is_not_exhaustion(self):
+        for assignment in [{"x": 0}, {"x": -4}, {"x": {"numerator": -1, "denominator": 2}}, {"x": True}]:
+            result = self.tool("check_finite_box_witness", {"request": SEARCH, "assignment": assignment})
+            self.assertFalse(result["isError"])
+            data = result["structuredContent"]
+            self.assertEqual(data["assessment"], "witness_rejected")
+            self.assertFalse(data["receipt"]["result"]["valid"])
+            self.assertFalse(data["receipt"]["progress"]["complete"])
+
+    def test_finite_exhaustion_not_promoted(self):
+        case = copy.deepcopy(SEARCH)
+        case["assertion"]["left"] = {"type": "multiply", "operands": [X, X]}
+        result = self.tool("finite_box_search", case)["structuredContent"]
+        self.assertEqual(result["assessment"], "no_counterexample_in_declared_finite_domain")
+        self.assertTrue(result["receipt"]["progress"]["complete"])
+        self.assertEqual(result["receipt"]["progress"]["visited_count"], 7)
+        self.assertFalse(result["receipt"]["scope"]["universal_proof"])
+        self.assertFalse(result["formal_proof"])
+        self.assertFalse(result["runtime_goal_acceptance"])
+
+    def test_empty_eligible_domain_visible(self):
+        case = copy.deepcopy(SEARCH)
+        case["constraints"] = [{"relation": "lt", "left": ONE, "right": ZERO}]
+        receipt = self.tool("finite_box_search", case)["structuredContent"]["receipt"]
+        self.assertEqual(receipt["progress"]["eligible_count"], 0)
+        self.assertTrue(receipt["progress"]["complete"])
+
+    def test_zero_variable_box(self):
+        case = copy.deepcopy(SEARCH)
+        case["variables"], case["bounds"] = [], {}
+        case["assertion"] = {"relation": "lt", "left": ONE, "right": ZERO}
+        receipt = self.tool("finite_box_search", case)["structuredContent"]["receipt"]
+        self.assertEqual(receipt["result"]["assignment"], {})
+        self.assertEqual(receipt["progress"]["domain_cardinality"], 1)
+
+    def test_search_resource_error_not_exhaustion(self):
+        case = copy.deepcopy(SEARCH)
+        case["bounds"]["x"]["upper"] = 10000
+        result = self.tool("finite_box_search", case)
+        self.assertTrue(result["isError"])
+        self.assertEqual(result["structuredContent"]["assessment"], "tool_error")
+        self.assertIsNone(result["structuredContent"]["receipt"]["result"])
+        self.assertFalse(result["structuredContent"]["receipt"]["progress"]["complete"])
+
+    def test_unknown_tools_and_commands(self):
+        for name in ["shell", "python", "lean", "read_file", "../../calculator", "__import__", "", [], {}]:
+            with self.subTest(name=name):
+                self.assertEqual(self.handle(call(name, {}))["error"]["code"], -32602)
+
+    def test_source_strings_not_executed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            marker = Path(directory) / "must-not-exist"
+            payload = f"__import__('pathlib').Path({str(marker)!r}).touch()"
+            result = self.tool("exact_scalar", {"domain": "Z", "operation": "add", "operands": [payload, 1]})
+            self.assertTrue(result["isError"])
+            case = copy.deepcopy(POLYNOMIAL)
+            case["operands"][0] = {"type": "python", "source": payload}
+            self.assertTrue(self.tool("polynomial_identity", case)["isError"])
+            self.assertFalse(marker.exists())
+
+    def test_request_ids_round_trip(self):
+        for identifier in [0, -1, server.MAX_ID_INTEGER, -server.MAX_ID_INTEGER, "", "α\n[]", "x" * 128, 1, 1]:
+            self.assertEqual(self.handle(request("ping", identifier=identifier))["id"], identifier)
+
+    def test_invalid_request_ids(self):
+        for identifier in [None, True, [], {}, 2**53, "x" * 129]:
+            result = self.handle(request("ping", identifier=identifier))
+            self.assertEqual(result["error"]["code"], -32600)
+            self.assertIsNone(result["id"])
+
+    def test_notifications_silent_and_do_not_execute(self):
+        bridge = server.Bridge()
+        notice = initialization()
+        notice.pop("id")
+        self.assertIsNone(bridge.handle(wire(notice)[:-1]))
+        self.assertFalse(bridge.initialized)
+        with patch.object(server, "calculate", side_effect=RuntimeError("must not execute")) as calculate:
+            notice = call("exact_scalar", SCALAR)
+            notice.pop("id")
+            self.assertIsNone(self.handle(notice))
+            calculate.assert_not_called()
+        for method in ["notifications/initialized", "notifications/cancelled", "unknown"]:
+            self.assertIsNone(self.handle({"jsonrpc": "2.0", "method": method}))
+
+    def test_unknown_methods_and_unsupported_modes(self):
+        for method in ["server/discover", "shutdown", "resources/read", "sampling/createMessage", "rpc.eval"]:
+            self.assertEqual(self.handle(request(method))["error"]["code"], -32601)
+        for params in [{"cursor": "x"}, [], None, {"_meta": {}}]:
+            message = request("tools/list")
+            message["params"] = params
+            self.assertEqual(self.handle(message)["error"]["code"], -32602)
+
+    def test_invalid_envelopes(self):
+        for message in [[], [request("ping")], 1, None, {}, {"jsonrpc": "1.0", "id": 1, "method": "ping"},
+                        {"jsonrpc": "2.0", "id": 1, "method": ""}, {"jsonrpc": "2.0", "id": 1, "method": 1},
+                        {"jsonrpc": "2.0", "id": 1, "method": "ping", "path": "secret"}]:
+            self.assertEqual(self.handle(message)["error"]["code"], -32600)
+
+    def test_malformed_duplicate_nonfinite_and_decimal_json(self):
+        for data in [b"", b"{", b"{}{}", b"\xff", b'\xef\xbb\xbf{}', b'{"a":1,"a":2}',
+                     b'{"params":{"x":1,"x":2}}', b'NaN', b'Infinity', b'-Infinity', b'1.0', b'1e100000']:
+            with self.subTest(data=data):
+                self.assertEqual(self.bridge.handle(data)["error"]["code"], -32700)
+
+    def test_depth_limit_and_delimiters_in_strings(self):
+        self.assertEqual(self.bridge.handle(b"[" * 81 + b"0" + b"]" * 81)["error"]["code"], -32002)
+        reply = self.handle(request("ping", identifier='[{}]"\\' * 10))
+        self.assertIn("result", reply)
+
+    def test_input_string_node_and_integer_limits(self):
+        for data in [b" " * (server.MAX_FRAME_BYTES + 1), wire({"x": "a" * 4097})[:-1],
+                     b"[" + b"0," * 16384 + b"0]", b"9" * 1235,
+                     str(1 << 4096).encode()]:
+            self.assertEqual(self.bridge.handle(data)["error"]["code"], -32002)
+
+    def test_scalar_4096_bit_boundary_preserved(self):
+        value = (1 << 4096) - 1
+        result = self.tool("exact_scalar", {"domain": "Z", "operation": "add", "operands": [value, 0]})
+        self.assertEqual(result["structuredContent"]["receipt"]["result"]["value"], value)
+
+    def test_backend_failure_is_sanitized_protocol_error(self):
+        with patch.object(server, "calculate", side_effect=RuntimeError("private/path secret")):
+            result = self.handle(call("exact_scalar", SCALAR, "boom"))
+        self.assertEqual(result["id"], "boom")
+        self.assertEqual(result["error"]["code"], -32603)
+        self.assertNotIn("result", result)
+        self.assertNotIn("private", json.dumps(result))
+
+    def test_output_limit_withholds_whole_result(self):
+        response = {"jsonrpc": "2.0", "id": "big", "result": {"large": "x" * (server.MAX_OUTPUT_BYTES + 1)}}
+        encoded = server.encode_response(response)
+        self.assertLess(len(encoded), 1024)
+        result = json.loads(encoded)
+        self.assertEqual(result["id"], "big")
+        self.assertEqual(result["error"]["code"], -32002)
+        self.assertNotIn("result", result)
+
+    def test_output_representation_failure_withholds_result(self):
+        response = {"jsonrpc": "2.0", "id": 1, "result": {"x": float("nan")}}
+        self.assertEqual(json.loads(server.encode_response(response))["error"]["code"], -32603)
+
+    def test_backend_outputs_contain_no_private_source_paths(self):
+        for name, arguments in [("exact_scalar", SCALAR), ("polynomial_identity", POLYNOMIAL),
+                                ("finite_box_search", SEARCH), ("check_finite_box_witness", {"request": SEARCH, "assignment": {"x": -3}})]:
+            data = json.dumps(self.tool(name, arguments))
+            self.assertNotIn(str(ROOT), data)
+            self.assertNotIn("/workspace/", data)
+
+
+class ProcessTests(unittest.TestCase):
+    def run_process(self, data: bytes, optimized: bool = False, args=()):
+        command = [sys.executable, "-B"] + (["-O"] if optimized else []) + ["-m", "foundation_math_bridge", *args]
+        result = subprocess.run(command, input=data, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=ROOT, timeout=15)
+        return result, [json.loads(line) for line in result.stdout.splitlines()]
+
+    def test_full_transcript_identical_normal_and_optimized(self):
+        sequence = [initialization("init"), request("tools/list", identifier=2), call("exact_scalar", SCALAR, "scalar"),
+                    call("polynomial_identity", POLYNOMIAL, "false-identity"), call("finite_box_search", SEARCH, "search"),
+                    call("check_finite_box_witness", {"request": SEARCH, "assignment": {"x": -3}}, "check"),
+                    request("ping", identifier="done")]
+        payload = b"".join(wire(item) for item in sequence)
+        normal, messages = self.run_process(payload)
+        optimized, other = self.run_process(payload, optimized=True)
+        self.assertEqual(normal.returncode, 0)
+        self.assertEqual(optimized.returncode, 0)
+        self.assertEqual(normal.stderr, b"")
+        self.assertEqual(optimized.stderr, b"")
+        self.assertEqual(normal.stdout, optimized.stdout)
+        self.assertEqual([item["id"] for item in messages], [item["id"] for item in sequence])
+        self.assertEqual(messages, other)
+
+    def test_eof_without_input_clean_shutdown(self):
+        result, messages = self.run_process(b"")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(messages, [])
+        self.assertEqual(result.stderr, b"")
+
+    def test_recovers_after_bad_bounded_frame(self):
+        payload = b"{bad json}\n" + wire(initialization()) + wire(request("ping", identifier="still-alive"))
+        result, messages = self.run_process(payload)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(messages[0]["error"]["code"], -32700)
+        self.assertEqual(messages[-1]["id"], "still-alive")
+
+    def test_oversized_frame_closes_without_parsing_following_requests(self):
+        payload = b" " * (server.MAX_FRAME_BYTES + 1) + b"\n" + wire(request("ping"))
+        result, messages = self.run_process(payload)
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0]["error"]["code"], -32002)
+
+    def test_truncated_frame_never_runs(self):
+        result, messages = self.run_process(wire(initialization())[:-1])
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(messages[0]["error"]["code"], -32700)
+        self.assertNotIn("result", messages[0])
+
+    def test_no_stdout_logging_or_notification_responses(self):
+        payload = b'{"jsonrpc":"2.0","method":"initialize","params":{"protocolVersion":"foundation-math-jsonrpc/1"}}\n'
+        result, messages = self.run_process(payload)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, b"")
+        self.assertEqual(result.stderr, b"")
+        self.assertEqual(messages, [])
+
+    def test_maximum_frame_boundary(self):
+        data = wire(request("ping"))[:-1]
+        payload = data + b" " * (server.MAX_FRAME_BYTES - len(data)) + b"\n"
+        result, messages = self.run_process(payload)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(messages[0]["result"], {})
+
+    def test_cli_rejects_options_and_paths(self):
+        for args in [("--help",), ("--command", "echo"), ("file.json",)]:
+            result, messages = self.run_process(b"", args=args)
+            self.assertEqual(result.returncode, 2)
+            self.assertEqual(messages, [])
+            self.assertIn(b"accepts no command-line options", result.stderr)
+
+    def test_live_process_flush_and_input_eof(self):
+        process = subprocess.Popen([sys.executable, "-B", "-m", "foundation_math_bridge"],
+                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=ROOT)
+        try:
+            process.stdin.write(wire(initialization("live")))
+            process.stdin.flush()
+            with selectors.DefaultSelector() as selector:
+                selector.register(process.stdout, selectors.EVENT_READ)
+                self.assertTrue(selector.select(timeout=5), "bridge did not flush its response")
+            self.assertEqual(json.loads(process.stdout.readline())["id"], "live")
+            self.assertIsNone(process.poll())
+            process.stdin.close()
+            self.assertEqual(process.wait(timeout=5), 0)
+            self.assertEqual(process.stdout.read(), b"")
+            self.assertEqual(process.stderr.read(), b"")
+        finally:
+            if process.poll() is None:
+                process.kill()
+                process.wait(timeout=5)
+            for stream in [process.stdin, process.stdout, process.stderr]:
+                stream.close()
+
+    def test_client_can_terminate_idle_process(self):
+        process = subprocess.Popen([sys.executable, "-B", "-m", "foundation_math_bridge"],
+                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=ROOT)
+        try:
+            process.terminate()
+            self.assertNotEqual(process.wait(timeout=5), 0)
+        finally:
+            if process.poll() is None:
+                process.kill()
+                process.wait(timeout=5)
+            for stream in [process.stdin, process.stdout, process.stderr]:
+                stream.close()
+
+
+if __name__ == "__main__":
+    unittest.main()

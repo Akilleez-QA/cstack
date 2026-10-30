@@ -1,0 +1,323 @@
+{
+  "receipts": [
+    {
+      "content": {
+        "availability": "supplied",
+        "dependency_receipts": [],
+        "result": {
+          "exit_code": 0,
+          "outcome": "declared_pass",
+          "output_sha256": "10b584d8a8f3aec9b2a2ca527ba81f9ef073ef18814536ef6a2a0fdea834be96"
+        },
+        "task": {
+          "id": "historical.base",
+          "revision": 1,
+          "revision_sha256": "b793180aed9542deb498b2829ec71aa1a48d3d8a17a85eb9b2f34fa4c0795eea"
+        }
+      },
+      "id": "receipt.historical.base",
+      "revision": 1,
+      "revision_sha256": "70fdafe7fd109d7560528d6ca0bcee9f9a52ed87588c74ab7cab4c463e131259"
+    },
+    {
+      "content": {
+        "availability": "supplied",
+        "dependency_receipts": [
+          {
+            "receipt": {
+              "id": "receipt.historical.base",
+              "revision": 1,
+              "revision_sha256": "70fdafe7fd109d7560528d6ca0bcee9f9a52ed87588c74ab7cab4c463e131259"
+            },
+            "task": {
+              "id": "historical.base",
+              "revision": 1,
+              "revision_sha256": "b793180aed9542deb498b2829ec71aa1a48d3d8a17a85eb9b2f34fa4c0795eea"
+            }
+          }
+        ],
+        "result": {
+          "exit_code": 0,
+          "outcome": "declared_pass",
+          "output_sha256": "9ec3bd028a93e996b4005b20f0b5ae3754af8fa031611112698ccac534de8337"
+        },
+        "task": {
+          "id": "historical.middle",
+          "revision": 1,
+          "revision_sha256": "4f23e11a1fb9f2b90dc832300b32f86eace8751627dc19ec45bb95a2b7ba071b"
+        }
+      },
+      "id": "receipt.historical.middle",
+      "revision": 1,
+      "revision_sha256": "ac539fc6583264e266b714029a87e62911bc02b8446da0aaf88e84d37ceda8d5"
+    },
+    {
+      "content": {
+        "availability": "supplied",
+        "dependency_receipts": [
+          {
+            "receipt": {
+              "id": "receipt.historical.middle",
+              "revision": 1,
+              "revision_sha256": "ac539fc6583264e266b714029a87e62911bc02b8446da0aaf88e84d37ceda8d5"
+            },
+            "task": {
+              "id": "historical.middle",
+              "revision": 1,
+              "revision_sha256": "4f23e11a1fb9f2b90dc832300b32f86eace8751627dc19ec45bb95a2b7ba071b"
+            }
+          }
+        ],
+        "result": {
+          "exit_code": 0,
+          "outcome": "declared_pass",
+          "output_sha256": "4dbb2db3ea653c2e6b72dea5ec4ea7e489b125d5240c48c0717b3d9179d4f6bf"
+        },
+        "task": {
+          "id": "historical.top",
+          "revision": 1,
+          "revision_sha256": "0db3f6de8a57244e644725f28f44e79c8d697ebd5ffd67a2a63467711dba8c02"
+        }
+      },
+      "id": "receipt.historical.top",
+      "revision": 1,
+      "revision_sha256": "f2e8258db1c5e6bb1dcc6367f49082284700aff45313c439b7bb36caafcdca32"
+    },
+    {
+      "content": {
+        "availability": "supplied",
+        "dependency_receipts": [],
+        "result": {
+          "exit_code": 0,
+          "outcome": "declared_pass",
+          "output_sha256": "cccd363770b47b8638a8d2614b7cff8d50b19ee94e56a0be687bd737f3dfc7e5"
+        },
+        "task": {
+          "id": "unrelated",
+          "revision": 1,
+          "revision_sha256": "22c51949dcd1ab1ede01fe559c06edd99de25bf78b08832306ff88af16277999"
+        }
+      },
+      "id": "receipt.unrelated",
+      "revision": 1,
+      "revision_sha256": "39ea3608a3cd499e59e9631d1dbe89d63916f18508274b1c579b2b80f9821211"
+    }
+  ],
+  "schema": "foundation-math-validation-receipt-plan/1",
+  "selections": [
+    {
+      "receipt": {
+        "id": "receipt.historical.base",
+        "revision": 1,
+        "revision_sha256": "70fdafe7fd109d7560528d6ca0bcee9f9a52ed87588c74ab7cab4c463e131259"
+      },
+      "task": {
+        "id": "historical.base",
+        "revision": 1,
+        "revision_sha256": "6b46dcd712c90d3314a890150567350b8cae82c7481cbe77e1afd7253f4c08ea"
+      }
+    },
+    {
+      "receipt": {
+        "id": "receipt.historical.middle",
+        "revision": 1,
+        "revision_sha256": "ac539fc6583264e266b714029a87e62911bc02b8446da0aaf88e84d37ceda8d5"
+      },
+      "task": {
+        "id": "historical.middle",
+        "revision": 1,
+        "revision_sha256": "4f23e11a1fb9f2b90dc832300b32f86eace8751627dc19ec45bb95a2b7ba071b"
+      }
+    },
+    {
+      "receipt": {
+        "id": "receipt.historical.top",
+        "revision": 1,
+        "revision_sha256": "f2e8258db1c5e6bb1dcc6367f49082284700aff45313c439b7bb36caafcdca32"
+      },
+      "task": {
+        "id": "historical.top",
+        "revision": 1,
+        "revision_sha256": "0db3f6de8a57244e644725f28f44e79c8d697ebd5ffd67a2a63467711dba8c02"
+      }
+    },
+    {
+      "receipt": {
+        "id": "receipt.unrelated",
+        "revision": 1,
+        "revision_sha256": "39ea3608a3cd499e59e9631d1dbe89d63916f18508274b1c579b2b80f9821211"
+      },
+      "task": {
+        "id": "unrelated",
+        "revision": 1,
+        "revision_sha256": "22c51949dcd1ab1ede01fe559c06edd99de25bf78b08832306ff88af16277999"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "content": {
+        "closure": {
+          "clock": "none",
+          "declaration": "unknown",
+          "external_state": "none",
+          "files": "exact_selected_manifest",
+          "process_state": "pinned_environment_and_stdin",
+          "randomness": "none"
+        },
+        "dependencies": [],
+        "environment": {
+          "description": "Fictional fixed environment; not a measurement of this machine.",
+          "environment_sha256": "046b11f35357b72b3db01adeb329f54f8759ebcf7b71afc933a76a3ba071ce4d",
+          "runner_sha256": "2eee631bfbccac6331e1ce2de6cc20ba9f39da32508e8a6e633e6e6818ab32c3"
+        },
+        "inputs": [
+          {
+            "bytes": 7,
+            "path": "fixtures/historical.base.txt",
+            "sha256": "60d0d0d9d3682c9bdf9f79beaa93b7ee98396f5d0bfd191b764d5ea7c71cff9b"
+          }
+        ],
+        "invocation": {
+          "argv": [
+            "fixture-runner",
+            "historical.base",
+            "--mode=normal"
+          ],
+          "cwd": ".",
+          "stdin_sha256": "b1eacfb4c167a5878d4fd01ffede865c5facc122f40bf3296dfc59081e32de24"
+        },
+        "role": "historical_component"
+      },
+      "id": "historical.base",
+      "revision": 1,
+      "revision_sha256": "6b46dcd712c90d3314a890150567350b8cae82c7481cbe77e1afd7253f4c08ea"
+    },
+    {
+      "content": {
+        "closure": {
+          "clock": "none",
+          "declaration": "caller_declares_complete",
+          "external_state": "none",
+          "files": "exact_selected_manifest",
+          "process_state": "pinned_environment_and_stdin",
+          "randomness": "none"
+        },
+        "dependencies": [
+          {
+            "id": "historical.base",
+            "revision": 1,
+            "revision_sha256": "b793180aed9542deb498b2829ec71aa1a48d3d8a17a85eb9b2f34fa4c0795eea"
+          }
+        ],
+        "environment": {
+          "description": "Fictional fixed environment; not a measurement of this machine.",
+          "environment_sha256": "046b11f35357b72b3db01adeb329f54f8759ebcf7b71afc933a76a3ba071ce4d",
+          "runner_sha256": "2eee631bfbccac6331e1ce2de6cc20ba9f39da32508e8a6e633e6e6818ab32c3"
+        },
+        "inputs": [
+          {
+            "bytes": 7,
+            "path": "fixtures/historical.middle.txt",
+            "sha256": "0140ea0e1d21a81402e33f78a5722de5363b543952fae8ddffa5642431c0d180"
+          }
+        ],
+        "invocation": {
+          "argv": [
+            "fixture-runner",
+            "historical.middle",
+            "--mode=normal"
+          ],
+          "cwd": ".",
+          "stdin_sha256": "b1eacfb4c167a5878d4fd01ffede865c5facc122f40bf3296dfc59081e32de24"
+        },
+        "role": "historical_component"
+      },
+      "id": "historical.middle",
+      "revision": 1,
+      "revision_sha256": "4f23e11a1fb9f2b90dc832300b32f86eace8751627dc19ec45bb95a2b7ba071b"
+    },
+    {
+      "content": {
+        "closure": {
+          "clock": "none",
+          "declaration": "caller_declares_complete",
+          "external_state": "none",
+          "files": "exact_selected_manifest",
+          "process_state": "pinned_environment_and_stdin",
+          "randomness": "none"
+        },
+        "dependencies": [
+          {
+            "id": "historical.middle",
+            "revision": 1,
+            "revision_sha256": "4f23e11a1fb9f2b90dc832300b32f86eace8751627dc19ec45bb95a2b7ba071b"
+          }
+        ],
+        "environment": {
+          "description": "Fictional fixed environment; not a measurement of this machine.",
+          "environment_sha256": "046b11f35357b72b3db01adeb329f54f8759ebcf7b71afc933a76a3ba071ce4d",
+          "runner_sha256": "2eee631bfbccac6331e1ce2de6cc20ba9f39da32508e8a6e633e6e6818ab32c3"
+        },
+        "inputs": [
+          {
+            "bytes": 7,
+            "path": "fixtures/historical.top.txt",
+            "sha256": "80f9e72762447c7b635eeedc196250a4afc991bffa690ba4595b88783d1044c9"
+          }
+        ],
+        "invocation": {
+          "argv": [
+            "fixture-runner",
+            "historical.top",
+            "--mode=normal"
+          ],
+          "cwd": ".",
+          "stdin_sha256": "b1eacfb4c167a5878d4fd01ffede865c5facc122f40bf3296dfc59081e32de24"
+        },
+        "role": "historical_component"
+      },
+      "id": "historical.top",
+      "revision": 1,
+      "revision_sha256": "0db3f6de8a57244e644725f28f44e79c8d697ebd5ffd67a2a63467711dba8c02"
+    },
+    {
+      "content": {
+        "closure": {
+          "clock": "none",
+          "declaration": "caller_declares_complete",
+          "external_state": "none",
+          "files": "exact_selected_manifest",
+          "process_state": "pinned_environment_and_stdin",
+          "randomness": "none"
+        },
+        "dependencies": [],
+        "environment": {
+          "description": "Fictional fixed environment; not a measurement of this machine.",
+          "environment_sha256": "046b11f35357b72b3db01adeb329f54f8759ebcf7b71afc933a76a3ba071ce4d",
+          "runner_sha256": "2eee631bfbccac6331e1ce2de6cc20ba9f39da32508e8a6e633e6e6818ab32c3"
+        },
+        "inputs": [
+          {
+            "bytes": 7,
+            "path": "fixtures/unrelated.txt",
+            "sha256": "6483be48dba36637828327052fc60b56a369d460736932908f877fc61f490b07"
+          }
+        ],
+        "invocation": {
+          "argv": [
+            "fixture-runner",
+            "unrelated",
+            "--mode=normal"
+          ],
+          "cwd": ".",
+          "stdin_sha256": "b1eacfb4c167a5878d4fd01ffede865c5facc122f40bf3296dfc59081e32de24"
+        },
+        "role": "historical_component"
+      },
+      "id": "unrelated",
+      "revision": 1,
+      "revision_sha256": "22c51949dcd1ab1ede01fe559c06edd99de25bf78b08832306ff88af16277999"
+    }
+  ]
+}

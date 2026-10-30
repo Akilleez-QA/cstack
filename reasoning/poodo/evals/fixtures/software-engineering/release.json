@@ -1,0 +1,14 @@
+{
+  "kind": "synthetic development fixture, not a live forge state",
+  "repository": "studio/bookings",
+  "base": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "tested_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "reviewer": "non-author",
+  "tested_artifact": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "result": "consumer checkout PASS; required checks PASS",
+  "current_head": "cccccccccccccccccccccccccccccccccccccccc",
+  "change": "Production reservation write changes from a unique keyed operation to append without deduplication.",
+  "current_artifact": null,
+  "current_consumer_result": null,
+  "authority": "read-only assessment, no forge mutations"
+}

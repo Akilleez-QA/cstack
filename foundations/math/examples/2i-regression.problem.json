@@ -1,0 +1,25 @@
+{
+  "schema": "fm-research-problem/1",
+  "problem_id": "2i-regression",
+  "title": "Exact labeled 2I regression",
+  "objective": "Check finite representation computations and explicit matrix ranks.",
+  "repo": {"name": "your-org/read-em-and-weep", "commit": "unpinned-example"},
+  "roles": {"builder": "null", "reviewer": "Mr. Slop", "verifier": "High School Diploma"},
+  "assumptions": ["The pinned physical character catalog identifies the intended 2I representations."],
+  "exclusions": ["No surrounding research argument or geometric realization is proved."],
+  "claims": [
+    {"id": "sym10", "statement": "Sym10 W = A+V+D", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.decompose_sym_W", "args": {"n": 10}, "expect": "A+V+D"}},
+    {"id": "sym14", "statement": "Sym14 W = A+V+P+D", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.decompose_sym_W", "args": {"n": 14}, "expect": "A+V+P+D"}},
+    {"id": "tensor", "statement": "W' tensor Sym2 W = T6", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.decompose_tensor", "args": {"factors": ["W'", {"sym_W": 2}]}, "expect": "T6"}},
+    {"id": "inv8", "statement": "Sym8 W has 0 invariant dimensions", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.invariant_count_sym_W", "args": {"degree": 8}, "expect": 0}},
+    {"id": "inv14", "statement": "Sym14 W has 0 invariant dimensions", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.invariant_count_sym_W", "args": {"degree": 14}, "expect": 0}},
+    {"id": "inv12", "statement": "Sym12 W has 1 invariant dimensions", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.invariant_count_sym_W", "args": {"degree": 12}, "expect": 1}},
+    {"id": "inv20", "statement": "Sym20 W has 1 invariant dimensions", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.invariant_count_sym_W", "args": {"degree": 20}, "expect": 1}},
+    {"id": "inv30", "statement": "Sym30 W has 1 invariant dimensions", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.invariant_count_sym_W", "args": {"degree": 30}, "expect": 1}},
+    {"id": "distinct", "statement": "P and S4 are distinct", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.distinct", "args": {"a": "P", "b": "S4"}, "expect": true}},
+    {"id": "rank-q5", "statement": "The matrix [[1,phi],[phi,phi+1]] has rank 1", "kind": "computed", "depends_on": [], "check": {"kernel": "rank", "args": {"field": "Q(sqrt5)", "rows": [[[1, 0], ["1/2", "1/2"]], [["1/2", "1/2"], ["3/2", "1/2"]]]}, "expect": 1}},
+    {"id": "rank-f2", "statement": "The supplied matrix over F_p has rank 1", "kind": "computed", "depends_on": [], "check": {"kernel": "rank", "args": {"field": "F_p", "rows": [[1, 1], [1, -1]], "p": 2}, "expect": 1}},
+    {"id": "rank-q", "statement": "The supplied matrix over Q has rank 2", "kind": "computed", "depends_on": [], "check": {"kernel": "rank", "args": {"field": "Q", "rows": [[1, 1], [1, -1]]}, "expect": 2}},
+    {"id": "research-argument", "statement": "These computations support a surrounding argument requiring human review.", "kind": "argued", "depends_on": ["sym10", "sym14", "tensor", "inv8", "inv14", "inv12", "inv20", "inv30", "distinct", "rank-q5", "rank-f2", "rank-q"], "check": null}
+  ]
+}

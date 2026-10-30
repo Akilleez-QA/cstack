@@ -1,0 +1,108 @@
+{
+  "schema": "foundation-math-rational-matrix/1",
+  "matrix": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 2,
+    "entries": [
+      [
+        0,
+        {
+          "num": 2,
+          "den": 3
+        }
+      ],
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  "rref": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 2,
+    "entries": [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "transform": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 2,
+    "entries": [
+      [
+        {
+          "num": -1,
+          "den": 2
+        },
+        {
+          "num": 1,
+          "den": 3
+        }
+      ],
+      [
+        {
+          "num": 3,
+          "den": 2
+        },
+        0
+      ]
+    ]
+  },
+  "rank": 2,
+  "pivots": [
+    0,
+    1
+  ],
+  "free_columns": [],
+  "nullspace": {
+    "domain": "Q",
+    "rows": 2,
+    "cols": 0,
+    "entries": [
+      [],
+      []
+    ]
+  },
+  "operations": [
+    {
+      "op": "swap",
+      "i": 1,
+      "j": 0
+    },
+    {
+      "op": "scale",
+      "i": 0,
+      "factor": {
+        "num": 1,
+        "den": 3
+      }
+    },
+    {
+      "op": "scale",
+      "i": 1,
+      "factor": {
+        "num": 3,
+        "den": 2
+      }
+    },
+    {
+      "op": "add",
+      "target": 0,
+      "source": 1,
+      "factor": {
+        "num": -1,
+        "den": 3
+      }
+    }
+  ],
+  "determinant": -2
+}

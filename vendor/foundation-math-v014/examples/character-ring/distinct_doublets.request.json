@@ -1,0 +1,21 @@
+{
+  "expectation": {
+    "classification": "proper_virtual",
+    "equals": {
+      "W": 1,
+      "Wp": -1
+    }
+  },
+  "expression": {
+    "left": {
+      "label": "W",
+      "op": "irrep"
+    },
+    "op": "subtract",
+    "right": {
+      "label": "Wp",
+      "op": "irrep"
+    }
+  },
+  "schema": "fm-character-request-v1"
+}

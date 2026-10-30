@@ -1,0 +1,28 @@
+{
+  "accepted_lab_manifest_sha256": "55991f10d519cdcc1e10389f60d178bc12fa82174615a390f059047a34350a1b",
+  "baseline_manifest_sha256": "438bc999e2a3577a4c8525a5b990a7346bd4d0dd9f1b400d596661d7a465e6a4",
+  "files": {
+    "README.md": "de315368b47cb2ffbf6d06bda2df3f91cb55478980a0960ed9b26878072cf28a",
+    "SNAPSHOT-PINS.json": "cb7236993734b2e2e0bbfa9712caff2f9b85916a3032934358fa181134d06f02",
+    "baseline_snapshot/__init__.py": "5ad299a09c6f180ed16a47c47b240f01ed5b5bb0343e61d0564c572a766b6357",
+    "baseline_snapshot/snapshot.py": "c4960a494ab1d18e0f3d8e4c7a212d097c6cf7a92759785a080d08fad474fe0e",
+    "docs/BASE-V011-BRIDGE-TOOLS.json": "2a4d21f133451da623def629efe8adb81da7728fd6c5a561e7dda26db7039f9b",
+    "docs/BASELINE-SNAPSHOT-LAB-CONTRACT.md": "90c6f2a77b13c942f9907026d6c639410da455de8cd6c311d1562803682da59a",
+    "docs/BASELINE-SNAPSHOT-LAB-SOURCE-MANIFEST.json": "55991f10d519cdcc1e10389f60d178bc12fa82174615a390f059047a34350a1b",
+    "docs/BASELINE-SNAPSHOT-VALIDATION.md": "5ae0ca227408b441451b5441bc8d6fe49dd6b0b0515bfbe258dd13b1f8c6aee0",
+    "docs/BASELINE-SNAPSHOT.md": "9639f8627a277aeeec0fe79efa87fb34bbe8826bca2ebc85218b15580c176f52",
+    "packaging_tests/test_integration.py": "0e5abe4ee2f2c5c7f1a8cddb31451903d7b5bbf91ad4c8f83edd397dad76fc9c",
+    "packaging_tests/test_snapshot.py": "a61822291ce5903f55c906aef11a3ee2cbb9f23ea09ab8e040e9c03f49c3f572",
+    "review/v012_review.py": "be43bb039635141b3489c5d3842f64c5ba83f2d29a795ab75e28892f1559b495",
+    "snapshots/v011/baseline-manifest.json": "438bc999e2a3577a4c8525a5b990a7346bd4d0dd9f1b400d596661d7a465e6a4",
+    "snapshots/v011/blobs/62f421a83e92f04b3b1dbc6f539a1096a202abbd6eb451e26fa45138c4e6a05c": "62f421a83e92f04b3b1dbc6f539a1096a202abbd6eb451e26fa45138c4e6a05c",
+    "snapshots/v011/blobs/633dbe98a518172ac31ba83f268d609bc84ac956aa69cf3ec7d24fd86fc65621": "633dbe98a518172ac31ba83f268d609bc84ac956aa69cf3ec7d24fd86fc65621",
+    "snapshots/v011/recipe.json": "0d8a5780fbad9df5811021c3b658f57a2aa696779d4a1d256612cb821bf22ef6",
+    "tools/build_snapshot_release.py": "287b65f988caecd1efaa528a682cd0ef7df440ae061f978c56597f21a4571687",
+    "tools/reproduce_snapshot_release.py": "a345b23516c2f1506178f10d72c3c286273955c858e2d6b74bef577ccf157311",
+    "tools/run_snapshot_validation.py": "4f3956a8846c3e30c8635a051e9f34cdbfb8cbf1833813bac825b2e9c88a052d",
+    "tools/snapshot_release_support.py": "b1805aa24853e3037b89c458e8298f8751136cdcbbfc72c60b0629ed2c27a2df"
+  },
+  "schema": "foundation-math-v012-independent-review-pins-v1",
+  "scope": "Reviewer source receipt before final release freeze. Final selection and manifest bind this receipt, report, harness, and all release files. Hashes establish byte integrity, not origin authentication."
+}

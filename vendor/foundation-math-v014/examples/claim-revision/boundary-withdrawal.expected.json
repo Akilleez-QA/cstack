@@ -1,0 +1,365 @@
+{
+  "affected_claims": [
+    "boundary_kernel_lemma",
+    "draft_exclusion"
+  ],
+  "affected_obligations": [
+    "combined_exclusion_obligation",
+    "draft_exclusion_obligation"
+  ],
+  "events_replayed": 1,
+  "history": [
+    {
+      "current": true,
+      "kind": "evidence",
+      "lifecycle_events": [
+        {
+          "id": "withdraw_boundary_argument",
+          "kind": "withdraw",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          }
+        }
+      ],
+      "pin": {
+        "id": "boundary_kernel_argument",
+        "revision": 1,
+        "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "boundary_kernel_lemma",
+        "revision": 1,
+        "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "combined_exclusion_obligation",
+        "revision": 1,
+        "revision_sha256": "d5e61d1030843d1765be431720ba846a34a5d82fe5cad7bf65b6e10b2c97e091"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "draft_exclusion",
+        "revision": 1,
+        "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "draft_exclusion_obligation",
+        "revision": 1,
+        "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+      }
+    },
+    {
+      "current": true,
+      "kind": "evidence",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "span_argument",
+        "revision": 1,
+        "revision_sha256": "a539f0271b6b8cebe4f2167dff3d2014e5b4e982f29b60809b609011b922606e"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "span_constraint_obligation",
+        "revision": 1,
+        "revision_sha256": "eead3a771109d9f5a81cd0ec4db702b28405ddae0f700519d7d701fb76c26e81"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "span_constraints",
+        "revision": 1,
+        "revision_sha256": "2920d5ea354a2cd936e56526624543a871de769a978b88afc629cb5e963d66fd"
+      }
+    }
+  ],
+  "input_sha256": "9b54ce3f2799b66b3268a4296147e3f7989fa4437e6061ce8ccebd0e1721cda4",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "blocked",
+      "authored_status": "claimed_established",
+      "kind": "evidence",
+      "pin": {
+        "id": "boundary_kernel_argument",
+        "revision": 1,
+        "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "eb2f1eaa3879ec603a3742519069a82c02ba3140ac06128e21a1eda4ce940d2b",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_boundary_argument",
+          "origin": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          },
+          "path": [
+            {
+              "id": "boundary_kernel_argument",
+              "revision": 1,
+              "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "claimed_established",
+      "kind": "claim",
+      "pin": {
+        "id": "boundary_kernel_lemma",
+        "revision": 1,
+        "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "eb2f1eaa3879ec603a3742519069a82c02ba3140ac06128e21a1eda4ce940d2b",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_boundary_argument",
+          "origin": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          },
+          "path": [
+            {
+              "id": "boundary_kernel_lemma",
+              "revision": 1,
+              "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+            },
+            {
+              "id": "boundary_kernel_argument",
+              "revision": 1,
+              "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "combined_exclusion_obligation",
+        "revision": 1,
+        "revision_sha256": "d5e61d1030843d1765be431720ba846a34a5d82fe5cad7bf65b6e10b2c97e091"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "eb2f1eaa3879ec603a3742519069a82c02ba3140ac06128e21a1eda4ce940d2b",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_boundary_argument",
+          "origin": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          },
+          "path": [
+            {
+              "id": "combined_exclusion_obligation",
+              "revision": 1,
+              "revision_sha256": "d5e61d1030843d1765be431720ba846a34a5d82fe5cad7bf65b6e10b2c97e091"
+            },
+            {
+              "id": "draft_exclusion",
+              "revision": 1,
+              "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+            },
+            {
+              "id": "draft_exclusion_obligation",
+              "revision": 1,
+              "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+            },
+            {
+              "id": "boundary_kernel_lemma",
+              "revision": 1,
+              "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+            },
+            {
+              "id": "boundary_kernel_argument",
+              "revision": 1,
+              "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "draft_exclusion",
+        "revision": 1,
+        "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "eb2f1eaa3879ec603a3742519069a82c02ba3140ac06128e21a1eda4ce940d2b",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_boundary_argument",
+          "origin": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          },
+          "path": [
+            {
+              "id": "draft_exclusion",
+              "revision": 1,
+              "revision_sha256": "957c455dc4e18dfb2af950e6f5f636621cb719c51e326ca3f8f414ae61a05d3d"
+            },
+            {
+              "id": "draft_exclusion_obligation",
+              "revision": 1,
+              "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+            },
+            {
+              "id": "boundary_kernel_lemma",
+              "revision": 1,
+              "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+            },
+            {
+              "id": "boundary_kernel_argument",
+              "revision": 1,
+              "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "draft_exclusion_obligation",
+        "revision": 1,
+        "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "eb2f1eaa3879ec603a3742519069a82c02ba3140ac06128e21a1eda4ce940d2b",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_boundary_argument",
+          "origin": {
+            "id": "boundary_kernel_argument",
+            "revision": 1,
+            "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+          },
+          "path": [
+            {
+              "id": "draft_exclusion_obligation",
+              "revision": 1,
+              "revision_sha256": "4811c11b539f804d6116d877f297a6e5e68ba4de16b41ac2dc740da2b3f41373"
+            },
+            {
+              "id": "boundary_kernel_lemma",
+              "revision": 1,
+              "revision_sha256": "b6d6236fc0a40948493c950b3bd9130095707f67d647489d81176544550393fa"
+            },
+            {
+              "id": "boundary_kernel_argument",
+              "revision": 1,
+              "revision_sha256": "8407e16163f3ee74b7913b63ec2aa35e986f88a4ad2d71c1f903b3664e753426"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "claimed_established",
+      "kind": "evidence",
+      "pin": {
+        "id": "span_argument",
+        "revision": 1,
+        "revision_sha256": "a539f0271b6b8cebe4f2167dff3d2014e5b4e982f29b60809b609011b922606e"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "claimed_established",
+      "kind": "obligation",
+      "pin": {
+        "id": "span_constraint_obligation",
+        "revision": 1,
+        "revision_sha256": "eead3a771109d9f5a81cd0ec4db702b28405ddae0f700519d7d701fb76c26e81"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "claimed_established",
+      "kind": "claim",
+      "pin": {
+        "id": "span_constraints",
+        "revision": 1,
+        "revision_sha256": "2920d5ea354a2cd936e56526624543a871de769a978b88afc629cb5e963d66fd"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

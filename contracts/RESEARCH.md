@@ -1,0 +1,12 @@
+# Technical basis and evidence limits
+
+These sources informed the initial architecture. They are specification and design context, not runtime validation of Cstack.
+
+- [Cockburn's original Ports & Adapters article](https://alistair.cockburn.us/hexagonal-architecture) and [Component + Strategy](https://alistaircockburn.com/Component%20plus%20strategy.pdf) support inside/outside separation, purpose-based ports and substitutable external implementations. They do not require six ports, a particular framework or unrestricted inheritance.
+- [MCP 2026-07-28 versioning](https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning), [tools](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [schema](https://modelcontextprotocol.io/specification/2026-07-28/schema) and [stdio](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio) distinguish the current per-request lifecycle from the [legacy 2025-11-25 lifecycle](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle). Similar JSON-RPC method names do not establish MCP compatibility.
+- [Python typing](https://docs.python.org/3.11/library/typing.html), [abstract base classes](https://docs.python.org/3.11/library/abc.html) and [subprocess](https://docs.python.org/3.11/library/subprocess.html) distinguish type contracts from runtime enforcement and process management from security isolation.
+- [Lean proof validation](https://lean-lang.org/doc/reference/latest/ValidatingProofs/), [axioms](https://lean-lang.org/doc/reference/latest/Axioms/) and the [4.35.0 release](https://github.com/leanprover/lean4/releases/tag/v4.35.0) distinguish compilation, axiom auditing and challenge-bound checking. A valid formal proof still requires correspondence to the intended statement and a justified trust model. These capabilities are not implemented or claimed by this prototype.
+
+The immediate artifact-specific authority is the pinned Foundation Math source, its 19-tool inventory, and version-bound Cstack validation receipts. Source inspection, fake-port tests, differential transport replay and mathematical verification are different evidence families. Repetition or shared-source agreement is not independent proof.
+
+The first release is deliberately a local non-MCP harness with explicit trust and missing-capability boundaries. Endoforge and future Foundations are architectural roles, not inferred runtime availability. Later integration must reopen the relevant protocol, isolation, numeric-semantics and acceptance questions.

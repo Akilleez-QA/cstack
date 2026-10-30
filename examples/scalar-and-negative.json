@@ -1,0 +1,141 @@
+{
+  "schema": "cstack.run/0.1",
+  "goal": {
+    "goal_id": "synthetic-math",
+    "revision": 1,
+    "domain_id": "foundation_math",
+    "objective": "Observe exact scoped Math tool behavior through Cstack.",
+    "assumptions": [
+      "Synthetic supplied numbers and formal polynomial variables only."
+    ],
+    "exclusions": [
+      "No general theorem, actual geometry, proof acceptance or Endoforge generation."
+    ],
+    "acceptance_version": "synthetic-v1",
+    "acceptance_criteria": [
+      "Exact scalar 5/6 and negative polynomial result remain scoped observations."
+    ]
+  },
+  "checkpoints": [
+    {
+      "checkpoint_id": "checkpoint-1",
+      "rationale": "Transparent preauthored fixture from the reviewed architecture decision; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": []
+    },
+    {
+      "checkpoint_id": "checkpoint-2",
+      "rationale": "Transparent preauthored fixture from the reviewed architecture decision; not autonomous reasoning.",
+      "research_references": [
+        "contracts/RESEARCH.md"
+      ],
+      "option_ids": []
+    },
+    {
+      "checkpoint_id": "checkpoint-3",
+      "rationale": "Transparent preauthored fixture from the reviewed architecture decision; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": [
+        "bridge-harness",
+        "direct-functions",
+        "current-mcp",
+        "legacy-mcp",
+        "base-class",
+        "declarative-extension",
+        "differential-test",
+        "fake-domain",
+        "durable-ledger",
+        "memory-ledger",
+        "certificate-pair",
+        "negative-result",
+        "authority-denial",
+        "endoforge-study",
+        "isolated-code",
+        "schema-only",
+        "lean-challenge",
+        "full-migration",
+        "second-domain",
+        "stop-boundary"
+      ]
+    },
+    {
+      "checkpoint_id": "checkpoint-4",
+      "rationale": "Transparent preauthored fixture from the reviewed architecture decision; not autonomous reasoning.",
+      "research_references": [],
+      "option_ids": []
+    }
+  ],
+  "calls": [
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-1",
+        "goal_id": "synthetic-math",
+        "goal_revision": 1,
+        "decision_id": "decision-1",
+        "capability_id": "foundation_math",
+        "operation": "exact_scalar",
+        "arguments": {
+          "domain": "Q",
+          "operation": "add",
+          "operands": [
+            {
+              "numerator": 1,
+              "denominator": 2
+            },
+            {
+              "numerator": 1,
+              "denominator": 3
+            }
+          ]
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "Exact 5/6",
+        "success_boundary": "Only the supplied synthetic request; no proof or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned contract.",
+        "oracle_id": "synthetic-exact-check",
+        "oracle_version": "1"
+      }
+    },
+    {
+      "request": {
+        "schema": "poodo.capability-request/0.1",
+        "request_id": "request-2",
+        "goal_id": "synthetic-math",
+        "goal_revision": 1,
+        "decision_id": "decision-2",
+        "capability_id": "foundation_math",
+        "operation": "polynomial_identity",
+        "arguments": {
+          "domain": "polynomial_ring",
+          "coefficient_field": "Q",
+          "variables": [
+            "x"
+          ],
+          "operation": "verify_identity",
+          "operands": [
+            {
+              "type": "variable",
+              "name": "x"
+            },
+            {
+              "type": "rational",
+              "numerator": 1,
+              "denominator": 1
+            }
+          ]
+        },
+        "required_evidence": "tool_observation"
+      },
+      "precommitment": {
+        "expected_observation": "False formal identity; completed negative result",
+        "success_boundary": "Only the supplied synthetic request; no proof or goal closure.",
+        "failure_meaning": "Integration behavior does not match the pinned contract.",
+        "oracle_id": "synthetic-exact-check",
+        "oracle_version": "1"
+      }
+    }
+  ]
+}

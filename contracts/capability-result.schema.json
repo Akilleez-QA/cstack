@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:poodo:capability-result:0.1",
+  "title": "POODO Capability Outcome 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request_id",
+    "attempt_id",
+    "goal_id",
+    "goal_revision",
+    "decision_id",
+    "capability_id",
+    "operation",
+    "execution_status",
+    "assessment",
+    "epistemic_status",
+    "formal_proof",
+    "runtime_goal_acceptance",
+    "raw_result",
+    "request_sha256",
+    "source_manifest_sha256",
+    "inventory_sha256",
+    "scope",
+    "limitations",
+    "execution_certainty"
+  ],
+  "properties": {
+    "schema": {
+      "const": "poodo.capability-result/0.1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "attempt_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "goal_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "execution_status": {
+      "enum": [
+        "completed",
+        "unavailable",
+        "timed_out",
+        "cancelled",
+        "protocol_error",
+        "tool_error",
+        "resource_rejected",
+        "indeterminate"
+      ]
+    },
+    "assessment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "epistemic_status": {
+      "enum": [
+        "unassessed",
+        "observed"
+      ]
+    },
+    "formal_proof": {
+      "const": false
+    },
+    "runtime_goal_acceptance": {
+      "const": false
+    },
+    "raw_result": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_manifest_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inventory_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "maxLength": 4096
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "string",
+        "maxLength": 4096
+      }
+    },
+    "execution_certainty": {
+      "enum": [
+        "not_dispatched",
+        "responded",
+        "unknown"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "epistemic_status": {
+            "const": "observed"
+          },
+          "raw_result": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "epistemic_status": {
+            "const": "unassessed"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "files": [
+    {
+      "bytes": 3437,
+      "path": "README.md",
+      "sha256": "ab84570f9c8640de7090fdcd28ec0f2f4e1aa5092602d3e1e81c776e3b58fab3"
+    },
+    {
+      "bytes": 1414,
+      "path": "RELEASE-FILES.json",
+      "sha256": "0b0e5b1f02affe1eb81c125f4f7fad7bb9a67f11b50e7d8e4c529e708bbaf03f"
+    },
+    {
+      "bytes": 295,
+      "path": "claim_revision/__init__.py",
+      "sha256": "39510615eee5e8b788cf9a935fcb73b54d8569d7c18ec19673ff940c474941af"
+    },
+    {
+      "bytes": 733,
+      "path": "claim_revision/__main__.py",
+      "sha256": "494463742ed58a29a2846722c04a5d8c68645cc467432bfe8b2981c7dfcfe61a"
+    },
+    {
+      "bytes": 18952,
+      "path": "claim_revision/core.py",
+      "sha256": "c6c1f2ef00a64d514a781f281c7318612d644dc6b872690f6de7f16577552294"
+    },
+    {
+      "bytes": 389,
+      "path": "docs/BASELINE-READ-HASHES.json",
+      "sha256": "70cdbe7b64ac13cb236685e21b75edf5a172263f7f1fcb8df63b7961c6517200"
+    },
+    {
+      "bytes": 888,
+      "path": "docs/BASELINE.md",
+      "sha256": "9559c275c0abb96961fc3f9198ba1765c705931df2634a73375b72c5b1399484"
+    },
+    {
+      "bytes": 8496,
+      "path": "docs/CONTRACT.md",
+      "sha256": "f8f196d4d63c753b3d0f2d5834851ea02e7b37b5bf7c6d50247e76e5c9342d60"
+    },
+    {
+      "bytes": 3309,
+      "path": "docs/VALIDATION.md",
+      "sha256": "8622d8aae91eb02789f8065fb9ea8f7b3d6f3c38b90af1e31d059b00487dca49"
+    },
+    {
+      "bytes": 1282,
+      "path": "fixtures/authored-status-is-not-proof.expected.json",
+      "sha256": "ac8ea503db426e991b4243b4a57fa2cf34a0b23149d0b2f02172e38dc1282678"
+    },
+    {
+      "bytes": 719,
+      "path": "fixtures/authored-status-is-not-proof.ledger.json",
+      "sha256": "ecd9fc4bb840e63f85f85a41722e8782cb6d02dcb41cb1a7ebb3f712382b0257"
+    },
+    {
+      "bytes": 12009,
+      "path": "fixtures/boundary-withdrawal.expected.json",
+      "sha256": "875a9f8f803675327cacf45f11ddaf36ef02110fbdc080cc591d23ccfdfb4e62"
+    },
+    {
+      "bytes": 5979,
+      "path": "fixtures/boundary-withdrawal.ledger.json",
+      "sha256": "752b73bc249dd448397f8f005317f4d1351363bcb359715880b939b54a35d07e"
+    },
+    {
+      "bytes": 6972,
+      "path": "fixtures/diamond-shortest-path.expected.json",
+      "sha256": "adf0fb8a2889ca2a61fa43b2e376bd82ea4babd294f9fa7da4db06be6537b736"
+    },
+    {
+      "bytes": 3330,
+      "path": "fixtures/diamond-shortest-path.ledger.json",
+      "sha256": "fb0ce1ac65ea5571d08624ece46873fd151513c1afa784708fb8a9eb1d5b225d"
+    },
+    {
+      "bytes": 3394,
+      "path": "fixtures/explicit-repair.expected.json",
+      "sha256": "b69716e0803ac8fc30ad610baf1f4b1d524cb5bdef11f5a7d75fa20fcfcf23cd"
+    },
+    {
+      "bytes": 5237,
+      "path": "fixtures/explicit-repair.ledger.json",
+      "sha256": "1fbb8a36a60f5001c57a01568bc8c715128d87b80e132a0b9ce527457bae2e6c"
+    },
+    {
+      "bytes": 5015,
+      "path": "fixtures/historical-objection.expected.json",
+      "sha256": "b5a9c4980e914ac3bdde4ba3561923834696a17f39f9e6bad93e40105b667b9a"
+    },
+    {
+      "bytes": 3695,
+      "path": "fixtures/historical-objection.ledger.json",
+      "sha256": "6c45b295e9cbeb0bb70fee718748ddf08313a5537839d30118fb97c5c2868b08"
+    },
+    {
+      "bytes": 5525,
+      "path": "fixtures/revision-change.expected.json",
+      "sha256": "3ab64d707dd3e3a0be1f8fbcb5c93a8f35f8963b49c014ce1254b0955d697f55"
+    },
+    {
+      "bytes": 3102,
+      "path": "fixtures/revision-change.ledger.json",
+      "sha256": "d6fdbebc4d064298f970ef91efe681dd0f9cfcaa18d91b1320e640a17690da42"
+    },
+    {
+      "bytes": 6069,
+      "path": "fixtures/stale-edge-isolation.expected.json",
+      "sha256": "d4b41a1d816915cc887f962492590db200e66b92c00d290985651d4c20b52c08"
+    },
+    {
+      "bytes": 3424,
+      "path": "fixtures/stale-edge-isolation.ledger.json",
+      "sha256": "6964bb9e324bfac698f090caa5fb8670d3f52852f63213c7f1a801367d893f8e"
+    },
+    {
+      "bytes": 2601,
+      "path": "fixtures/stale-stable-id-cycle.input.json",
+      "sha256": "86bac9a0c870383a79279f1912ef9378de7a4827fb8a4e715b797c036b072eec"
+    },
+    {
+      "bytes": 43,
+      "path": "fixtures/stale-stable-id-cycle.rejection.json",
+      "sha256": "2201ff328258393609030467522225fcccd29049c43d1d79f926c15fb2021460"
+    },
+    {
+      "bytes": 7165,
+      "path": "fixtures/unchecked-refutation.expected.json",
+      "sha256": "701341bc65eb033c49544031bafe37d764ae46ef6e83ac0bbbf4d101e0cccc07"
+    },
+    {
+      "bytes": 3212,
+      "path": "fixtures/unchecked-refutation.ledger.json",
+      "sha256": "d8c19e98aa2ef718b9b8aa238d2d6042dbc9f01507e79671243f403a6b2ac22f"
+    },
+    {
+      "bytes": 8359,
+      "path": "schemas/ledger.schema.json",
+      "sha256": "6eb7715dce6baf48efa313cabfdbf8c8f4899196bafc33312df7430ce9c8d99f"
+    },
+    {
+      "bytes": 10043,
+      "path": "schemas/report.schema.json",
+      "sha256": "b7999d82a3a0eb274aeb504c8a6d9bf716877240e15d6f7ef5e94fa0ec64b276"
+    },
+    {
+      "bytes": 0,
+      "path": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2404,
+      "path": "tests/helpers.py",
+      "sha256": "9a335060cea04ae36ba64fb60e37675349b5fbfe23005ba19053e327b1569eff"
+    },
+    {
+      "bytes": 24090,
+      "path": "tests/test_ledger.py",
+      "sha256": "f0407ecacf5bfb37bd9e692a089b355af32e67a5781fd03d8eb146eac64bd85d"
+    },
+    {
+      "bytes": 3563,
+      "path": "tools/build_fixtures.py",
+      "sha256": "170ac4fd7603181373ff1f92eafefc5beb9228ec37bffed757d8ddf8326705e4"
+    },
+    {
+      "bytes": 983,
+      "path": "tools/freeze_manifest.py",
+      "sha256": "e9617d14cd2fe796b17b01994ada27db779a188ab3488f212518c6330155f09f"
+    },
+    {
+      "bytes": 2231,
+      "path": "tools/manifest.py",
+      "sha256": "f258bb385efa50c661ade3693d6ab0a97890edf6b06a0495ea10ab01ab232cf0"
+    },
+    {
+      "bytes": 1020,
+      "path": "tools/package.py",
+      "sha256": "56515832c4f715f0ea6c19ae9e941e2d64a60b199ab217e63d8084a8c021e5cf"
+    },
+    {
+      "bytes": 2444,
+      "path": "tools/reproduce.py",
+      "sha256": "4b138261c52bb7795f026027e4097cdbdef201c0b3812234ae43005e397abd0e"
+    },
+    {
+      "bytes": 4108,
+      "path": "tools/run_mutations.py",
+      "sha256": "018d4433760ba1288dbd7dc615d06e3dd8e068d03de90a084416000cd2fb5baa"
+    },
+    {
+      "bytes": 2792,
+      "path": "tools/validate.py",
+      "sha256": "9fc6770d445bd10ed2b69950409bb64faa650acd310ab33dfd13f37581005511"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/source-manifest/1"
+}

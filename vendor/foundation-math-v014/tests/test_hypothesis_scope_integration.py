@@ -1,0 +1,163 @@
+"""Transport/adapter contract regressions, not a mathematical proof."""
+import copy
+import io
+import json
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+from unittest.mock import patch
+
+from hypothesis_scope import check, loads, seal, pin
+from foundation_math.hypothesis_scope import check_hypothesis_scope, hypothesis_scope_cli
+from foundation_math_bridge.schemas import tool_definitions
+from foundation_math_bridge.server import Bridge, PROTOCOL, MAX_FRAME_BYTES, MAX_OUTPUT_BYTES, encode_response
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def fixture(name='exact-full-kernel'):
+    return json.loads((ROOT / 'examples/hypothesis-scope' / (name + '.json')).read_text())
+
+
+def bridge():
+    b = Bridge(); b.dispatch({'jsonrpc': '2.0', 'id': 0, 'method': 'initialize', 'params': {'protocolVersion': PROTOCOL}})
+    return b
+
+
+def frame(doc, **extra):
+    return {'jsonrpc': '2.0', 'id': 1, 'method': 'tools/call',
+            'params': {'name': 'match_hypothesis_scope', 'arguments': {'document': doc, **extra}}}
+
+
+class ScopeIntegrationTests(unittest.TestCase):
+    def flags(self, receipt):
+        for key in ('formal_proof', 'runtime_goal_acceptance', 'fact_truth_checked', 'rule_soundness_checked', 'geometry_checked'):
+            self.assertIs(receipt[key], False)
+        self.assertEqual(receipt['truth_assessment'], 'not_assessed')
+        if 'result' in receipt:
+            for key in ('fact_truth_checked', 'rule_soundness_checked', 'geometry_checked', 'runtime_acceptance', 'lean_proof'):
+                self.assertIs(receipt['result'][key], False)
+
+    def test_all_fixtures_keep_exact_core_results(self):
+        count = 0
+        for path in sorted((ROOT/'examples/hypothesis-scope').glob('*.json')):
+            if path.stem == 'expectations': continue
+            doc = json.loads(path.read_text()); receipt = check_hypothesis_scope(doc)
+            self.assertEqual(receipt['status'], 'success'); self.flags(receipt)
+            self.assertEqual(receipt['result'], check(doc)); count += 1
+        self.assertEqual(count, 12)
+
+    def test_fifteen_complete_old_contracts_unchanged(self):
+        old = json.loads((ROOT/'docs/BASE-V012-BRIDGE-TOOLS.json').read_text())['tools']
+        current = tool_definitions()
+        self.assertEqual(len(current), 19); self.assertEqual(current[:15], old)
+        self.assertEqual(current[15]['name'], 'match_hypothesis_scope')
+        current[15]['inputSchema']['$defs'].clear()
+        self.assertTrue(tool_definitions()[15]['inputSchema']['$defs'])
+
+    def test_success_and_blocked_are_computation_not_truth(self):
+        for name, matched in [('exact-full-kernel', True), ('selected-not-full-kernel', False)]:
+            doc = fixture(name); result = bridge().dispatch(frame(doc))['result']
+            self.assertFalse(result['isError'])
+            content = result['structuredContent']; self.assertEqual(content['assessment'], 'authored_premise_scope_compared')
+            self.assertEqual(content['receipt'], check_hypothesis_scope(doc)); self.flags(content['receipt'])
+            self.assertIs(content['receipt']['result']['all_requirements_matched'], matched)
+
+    def test_malformed_hash_errors_without_partial_result(self):
+        doc = fixture(); doc['facts'][0]['revision_sha256'] = '0'*64
+        result = bridge().dispatch(frame(doc))['result']; self.assertTrue(result['isError'])
+        c = result['structuredContent']; self.assertEqual(c['assessment'], 'tool_error'); self.flags(c['receipt'])
+        self.assertNotIn('result', c['receipt']); self.assertEqual(c['receipt']['error']['code'], 'record_hash_mismatch')
+
+    def test_no_new_argument_surface(self):
+        for key in ('path', 'code', 'command', 'url', 'network', 'limits', 'accept_proof', 'ledger'):
+            self.assertEqual(bridge().dispatch(frame(fixture(), **{key: 'x'}))['error']['code'], -32602)
+        for args in ({}, None, [], {'document': fixture(), 'document_path': 'x'}):
+            f=frame(fixture());f['params']['arguments']=args
+            self.assertEqual(bridge().dispatch(f)['error']['code'], -32602)
+
+    def test_input_exact_64_kib_and_over_while_cli_cap_unchanged(self):
+        self.assertEqual(MAX_FRAME_BYTES, 65536)
+        raw = json.dumps(frame(fixture()),separators=(',',':')).encode(); raw += b' '*(65536-len(raw))
+        self.assertIn('result',bridge().handle(raw));self.assertEqual(bridge().handle(raw+b' ')['error']['code'],-32002)
+        data=json.dumps(fixture()).encode();data += b' '*(262144-len(data))
+        self.assertTrue(check(loads(data))['all_requirements_matched'])
+
+    def test_duplicate_float_bad_utf8_surrogates_and_depth_reject(self):
+        for raw in (b'{"a":1,"a":2}', b'{"a":1.0}', b'{"a":NaN}', b'\xff', b'['*100+b']'*100):
+            self.assertIn('error',bridge().handle(raw))
+        for doc in ({'x':'\ud800'}, {'\udfff': 1}):
+            r=check_hypothesis_scope(doc);self.assertEqual(r['status'],'error');self.flags(r)
+
+    def test_stateless_detachment(self):
+        doc=fixture();old=copy.deepcopy(doc);a=check_hypothesis_scope(doc);a['result']['requirements'].clear()
+        self.assertEqual(doc,old);self.assertTrue(check_hypothesis_scope(doc)['result']['requirements'])
+
+    def test_notifications_never_execute(self):
+        f=frame(fixture());del f['id']
+        with patch('foundation_math_bridge.server.check_hypothesis_scope',side_effect=RuntimeError('must not execute')) as p:
+            self.assertIsNone(bridge().dispatch(f));p.assert_not_called()
+
+    def test_unexpected_backend_failure_is_closed(self):
+        with patch('foundation_math_bridge.server.check_hypothesis_scope',side_effect=RuntimeError('private data')):
+            result=bridge().dispatch(frame(fixture()))
+        self.assertEqual(result['error']['code'],-32603);self.assertNotIn('private data',json.dumps(result))
+
+    def test_cli_and_paths_options_raw_errors(self):
+        for args,raw,code in [([],json.dumps(fixture()).encode(),0),(['file.json'],b'',2),(['--limit','999999'],b'',2),([],b'{"a":1,"a":2}',2),([],b'\xff',2),([],b'{"a":1.0}',2)]:
+            p=subprocess.run([sys.executable,'-B','-m','foundation_math','hypothesis-scope-check',*args],input=raw,cwd=ROOT,capture_output=True)
+            self.assertEqual(p.returncode,code);self.assertEqual(p.stderr,b'');r=json.loads(p.stdout);self.flags(r)
+            if not code:self.assertEqual(r,check_hypothesis_scope(fixture()))
+            else:self.assertNotIn('result',r)
+
+    def test_cli_exact_and_over_input_cap(self):
+        raw=json.dumps(fixture()).encode()
+        for size,code in [(262144,0),(262145,2)]:
+            p=subprocess.run([sys.executable,'-B','-m','foundation_math','hypothesis-scope-check'],input=raw+b' '*(size-len(raw)),cwd=ROOT,capture_output=True)
+            self.assertEqual(p.returncode,code);self.flags(json.loads(p.stdout))
+
+    def test_output_overflow_withholds_whole_result(self):
+        self.assertEqual(MAX_OUTPUT_BYTES,1048576)
+        self.assertNotIn('result',json.loads(encode_response({'jsonrpc':'2.0','id':1,'result':'x'*MAX_OUTPUT_BYTES})))
+        stdin=type('Input',(),{'buffer':io.BytesIO(json.dumps(fixture()).encode())})()
+        out=io.StringIO()
+        with patch('foundation_math.hypothesis_scope.sys.stdin',stdin),patch('foundation_math.hypothesis_scope.sys.stdout',out),patch('foundation_math.hypothesis_scope.MAX_OUTPUT_BYTES',10):
+            self.assertEqual(hypothesis_scope_cli(['hypothesis-scope-check']),2)
+        self.assertNotIn('result',json.loads(out.getvalue()))
+
+    def test_cli_io_errors_closed(self):
+        failing=type('Broken',(),{'read':lambda *args: (_ for _ in ()).throw(OSError('private'))})()
+        out=io.StringIO()
+        with patch('foundation_math.hypothesis_scope.sys.stdin',type('Input',(),{'buffer':failing})()),patch('foundation_math.hypothesis_scope.sys.stdout',out):
+            self.assertEqual(hypothesis_scope_cli(['hypothesis-scope-check']),2)
+        self.assertEqual(json.loads(out.getvalue())['error']['code'],'input_io')
+
+    def test_closed_schema_and_proof_flag_mutations(self):
+        try:from jsonschema import Draft202012Validator
+        except ImportError:self.skipTest('preinstalled jsonschema unavailable; no installation')
+        definition=tool_definitions()[15]
+        for kind in ('inputSchema','outputSchema'):Draft202012Validator.check_schema(definition[kind])
+        iv=Draft202012Validator(definition['inputSchema']);ov=Draft202012Validator(definition['outputSchema'])
+        iv.validate({'document':fixture()});self.assertTrue(list(iv.iter_errors({'document':fixture(),'path':'x'})))
+        for doc in (fixture(),fixture('selected-not-full-kernel'),{}):
+            c=bridge().dispatch(frame(doc))['result']['structuredContent'];ov.validate(c)
+            for key in ('formal_proof','runtime_goal_acceptance'):
+                bad=copy.deepcopy(c);bad[key]=True;self.assertTrue(list(ov.iter_errors(bad)))
+            for key in ('formal_proof','runtime_goal_acceptance','fact_truth_checked','rule_soundness_checked','geometry_checked'):
+                bad=copy.deepcopy(c);bad['receipt'][key]=True;self.assertTrue(list(ov.iter_errors(bad)))
+            bad=copy.deepcopy(c);bad['assessment']='tool_error' if c['assessment']!='tool_error' else 'authored_premise_scope_compared';self.assertTrue(list(ov.iter_errors(bad)))
+            if 'result' in c['receipt']:
+                for key in ('fact_truth_checked','rule_soundness_checked','geometry_checked','runtime_acceptance','lean_proof'):
+                    bad=copy.deepcopy(c);bad['receipt']['result'][key]=True;self.assertTrue(list(ov.iter_errors(bad)))
+
+    def test_json_and_collection_guard_mutations(self):
+        for doc in (None,[],{},dict(fixture(),extra=True),dict(fixture(),objects=[{}]*65)):
+            r=check_hypothesis_scope(doc);self.assertEqual(r['status'],'error');self.flags(r)
+        class Mapping(dict):pass
+        self.assertEqual(check_hypothesis_scope(Mapping(fixture()))['status'],'error')
+        doc=fixture();doc['objects'][0]['revision']=True
+        self.assertEqual(check_hypothesis_scope(doc)['status'],'error')
+
+
+if __name__=='__main__':unittest.main()

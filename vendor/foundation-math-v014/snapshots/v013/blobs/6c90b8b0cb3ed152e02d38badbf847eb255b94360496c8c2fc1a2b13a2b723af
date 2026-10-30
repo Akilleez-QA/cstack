@@ -1,0 +1,174 @@
+"""Integration checks for bounded applicability, not mathematical verification."""
+import copy
+import io
+import json
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+from unittest.mock import patch
+
+from claim_revision import LedgerError, loads, replay, seal_record, pin
+from foundation_math.claim_ledger import replay_claim_ledger, claim_ledger_cli
+from foundation_math_bridge.server import Bridge, PROTOCOL, MAX_FRAME_BYTES, MAX_OUTPUT_BYTES, encode_response
+from foundation_math_bridge.schemas import tool_definitions
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def read(name):
+    return json.loads((ROOT / 'examples/claim-revision' / name).read_text())
+
+
+def fixture():
+    return read('boundary-withdrawal.ledger.json')
+
+
+def bridge():
+    result = Bridge()
+    result.dispatch({'jsonrpc': '2.0', 'id': 0, 'method': 'initialize', 'params': {'protocolVersion': PROTOCOL}})
+    return result
+
+
+def frame(document, **extra):
+    return {'jsonrpc': '2.0', 'id': 1, 'method': 'tools/call',
+            'params': {'name': 'replay_claim_applicability', 'arguments': {'ledger': document, **extra}}}
+
+
+class ClaimRevisionIntegrationTests(unittest.TestCase):
+    def no_acceptance(self, receipt):
+        for key in ('formal_proof', 'runtime_goal_acceptance', 'proof_accepted'):
+            self.assertIs(receipt[key], False)
+        self.assertEqual(receipt['truth_assessment'], 'not_assessed')
+
+    def test_all_author_fixtures_report_exact_unchanged_semantics(self):
+        for path in sorted((ROOT / 'examples/claim-revision').glob('*.ledger.json')):
+            doc = json.loads(path.read_text())
+            receipt = replay_claim_ledger(doc)
+            self.no_acceptance(receipt)
+            self.assertEqual(receipt['status'], 'success')
+            self.assertEqual(receipt['result'], read(path.name.replace('.ledger.', '.expected.')))
+            self.assertEqual(receipt['result'], replay(doc))  # same algorithm, not independent verification
+
+    def test_input_is_detached_and_repeated_calls_are_stateless(self):
+        doc = fixture(); saved = copy.deepcopy(doc)
+        receipt = replay_claim_ledger(doc)
+        self.assertEqual(doc, saved)
+        receipt['result']['records'].clear()
+        self.assertTrue(replay_claim_ledger(doc)['result']['records'])
+
+    def test_fourteen_prior_contracts_unchanged_and_new_schema_detached(self):
+        old = json.loads((ROOT / 'docs/BASE-V010-BRIDGE-TOOLS.json').read_text())['tools']
+        actual = tool_definitions()
+        self.assertEqual(len(actual), 16)
+        self.assertEqual(actual[:14], old)
+        self.assertEqual(actual[14]['name'], 'replay_claim_applicability')
+        self.assertIs(actual[14]['readOnly'], True)
+        actual[14]['inputSchema']['properties'].clear()
+        self.assertTrue(tool_definitions()[14]['inputSchema']['properties'])
+
+    def test_bridge_preserves_complete_report_and_no_acceptance(self):
+        result = bridge().dispatch(frame(fixture()))['result']
+        self.assertIs(result['isError'], False)
+        content = result['structuredContent']
+        self.assertEqual(content['assessment'], 'claim_dependency_applicability_replayed')
+        self.no_acceptance(content['receipt'])
+        self.assertEqual(content['receipt'], replay_claim_ledger(fixture()))
+
+    def test_invalid_pins_error_without_partial_result(self):
+        doc = fixture(); doc['records'][0]['revision_sha256'] = '0' * 64
+        result = bridge().dispatch(frame(doc))['result']
+        self.assertIs(result['isError'], True)
+        content = result['structuredContent']; self.assertEqual(content['assessment'], 'tool_error')
+        self.no_acceptance(content['receipt']); self.assertNotIn('result', content['receipt'])
+
+    def test_surrogate_keys_and_values_are_typed_rejections(self):
+        for doc in ({'\ud800': 1}, {'nested': {'\udfff': 1}}, {'value': '\ud800'}):
+            receipt = replay_claim_ledger(doc)
+            self.assertEqual(receipt['status'], 'error')
+            self.assertEqual(receipt['error']['code'], 'malformed_type')
+            raw = json.dumps(frame(doc)).encode()
+            result = bridge().handle(raw)['result']
+            self.assertIs(result['isError'], True)
+            self.assertEqual(result['structuredContent']['receipt']['error']['code'], 'malformed_type')
+
+    def test_no_paths_commands_network_or_limit_arguments(self):
+        for key in ('path', 'command', 'url', 'network', 'code', 'limits', 'max_input_bytes', 'accept_proof'):
+            response = bridge().dispatch(frame(fixture(), **{key: 'forbidden'}))
+            self.assertEqual(response['error']['code'], -32602)
+
+    def test_bridge_input_limit_stays_64_kib_including_envelope(self):
+        self.assertEqual(MAX_FRAME_BYTES, 65536)
+        raw = json.dumps(frame(fixture()), separators=(',', ':')).encode()
+        exact = raw + b' ' * (MAX_FRAME_BYTES - len(raw))
+        self.assertIn('result', bridge().handle(exact))
+        self.assertEqual(bridge().handle(exact + b' ')['error']['code'], -32002)
+        # Standalone accepts whitespace to 256 KiB; bridge deliberately does not.
+        doc = json.dumps(fixture()).encode()
+        self.assertEqual(replay(loads(doc + b' ' * (262144 - len(doc)))), replay(fixture()))
+
+    def test_bridge_output_limit_withholds_whole_result(self):
+        self.assertEqual(MAX_OUTPUT_BYTES, 1048576)
+        response = {'jsonrpc': '2.0', 'id': 1, 'result': {'untrusted': 'x' * MAX_OUTPUT_BYTES}}
+        rejected = json.loads(encode_response(response))
+        self.assertEqual(rejected['error']['code'], -32002)
+        self.assertNotIn('result', rejected)
+
+    def test_duplicate_float_invalid_utf8_and_unknown_field_raw_rejections(self):
+        raws = [b'{"schema":1,"schema":2}', b'{"records":1.0}', b'\xff', b'{"extra":1}']
+        for raw in raws:
+            process = subprocess.run([sys.executable, '-B', '-m', 'foundation_math', 'claim-ledger-replay'],
+                                     input=raw, capture_output=True, cwd=ROOT)
+            self.assertEqual(process.returncode, 2)
+            self.assertEqual(process.stderr, b'')
+            receipt = json.loads(process.stdout); self.assertEqual(receipt['status'], 'error')
+            self.no_acceptance(receipt); self.assertNotIn('result', receipt)
+
+    def test_cli_matches_adapter_and_rejects_extra_options(self):
+        raw = json.dumps(fixture()).encode()
+        for extra, code in (([], 0), (['ledger.json'], 2), (['--limit', '999999'], 2)):
+            process = subprocess.run([sys.executable, '-B', '-m', 'foundation_math', 'claim-ledger-replay', *extra],
+                                     input=raw, capture_output=True, cwd=ROOT)
+            self.assertEqual(process.returncode, code); self.assertEqual(process.stderr, b'')
+            receipt = json.loads(process.stdout); self.no_acceptance(receipt)
+            if code == 0:self.assertEqual(receipt, replay_claim_ledger(fixture()))
+            else:self.assertEqual(receipt['error']['code'], 'arguments')
+
+    def test_cli_input_limit_exact_over_and_surrogate_regression(self):
+        raw = json.dumps(fixture()).encode()
+        for data, code in ((raw + b' ' * (262144 - len(raw)), 0),
+                           (raw + b' ' * (262145 - len(raw)), 2), (b'{"\\ud800":1}', 2)):
+            p = subprocess.run([sys.executable, '-B', '-m', 'foundation_math', 'claim-ledger-replay'], input=data,
+                               capture_output=True, cwd=ROOT)
+            self.assertEqual(p.returncode, code); self.assertEqual(p.stderr, b'')
+            self.no_acceptance(json.loads(p.stdout))
+
+    def test_error_and_success_schemas_do_not_promote_truth(self):
+        try:from jsonschema import Draft202012Validator
+        except ImportError:self.skipTest('preinstalled jsonschema unavailable; no install attempted')
+        schema = tool_definitions()[14]
+        for key in ('inputSchema', 'outputSchema'):Draft202012Validator.check_schema(schema[key])
+        inp=Draft202012Validator(schema['inputSchema']);out=Draft202012Validator(schema['outputSchema'])
+        self.assertTrue(inp.is_valid({'ledger':fixture()}))
+        for doc in (fixture(), {}):
+            content=bridge().dispatch(frame(doc))['result']['structuredContent']
+            self.assertTrue(out.is_valid(content), list(out.iter_errors(content)))
+            for flag in ('formal_proof','runtime_goal_acceptance','proof_accepted'):
+                bad=copy.deepcopy(content);bad['receipt'][flag]=True
+                self.assertFalse(out.is_valid(bad))
+            bad=copy.deepcopy(content);bad['assessment']='theorem_proved'
+            self.assertFalse(out.is_valid(bad))
+
+    def test_runtime_registry_remains_unmodified(self):
+        from hashlib import sha256
+        base=json.loads((ROOT/'docs/BASE-V010-SOURCE-MANIFEST.json').read_text())['files']
+        for name in ('foundation_math/orchestrator.py','foundation_math/domains.py'):
+            self.assertEqual(sha256((ROOT/name).read_bytes()).hexdigest(),base[name])
+
+    def test_rejection_does_not_persist_state(self):
+        b=bridge();before=b.dispatch(frame(fixture()))
+        b.dispatch(frame({}))
+        self.assertEqual(b.dispatch(frame(fixture())),before)
+
+
+if __name__ == '__main__':unittest.main()

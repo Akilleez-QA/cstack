@@ -1,0 +1,30 @@
+{
+  "baseline_archive_bytes": 5682102,
+  "baseline_archive_sha256": "8aeadce5e8e343794f7716c7a1fb31e8eeb953191f7e4d52448d6459d2921814",
+  "baseline_manifest_sha256": "dcd1c48e50f3c384b96e7eea4a442286fc669ad71dd10e0704366632e75adf9d",
+  "lab_archive_sha256": "d32bf32ddf6baa1a013425d9775a2e8ddf84a8a8ceedb11615679ff21875bd79",
+  "lab_manifest_sha256": "0d7cb6249f9c94eb073d330bd8c1ae59b0440e7ce703182cc4c2ee5856c079b9",
+  "lab_source_pins": {
+    "docs/HYPOTHESIS-SCOPE-LAB-CONTRACT.md": "ff27743fd534a2939ee19cd97c5c13bbd57150cd6cb37029d018d5536eb7e187",
+    "docs/HYPOTHESIS-SCOPE-LAB-REVIEW.md": "6c5157ed4aa9fe37b245ea281ea7aba376bff3b87c96c50e9afc326234615eef",
+    "examples/hypothesis-scope/A-not-V.json": "2709184d4d3e9242ee040e5be0d0b7c2653ba7d5278023c0fab07ab77b2e87d4",
+    "examples/hypothesis-scope/W-not-Wp.json": "cd28a1f9fc4a042e70b42b28a3d4ff60bb5d3a829e4c3340b0ef838479c050a1",
+    "examples/hypothesis-scope/abstract-not-embedded.json": "ae97fbfb8f2d860cd433687d727d69fadeddf5c9eceaba6ef1ec24ea88218263",
+    "examples/hypothesis-scope/exact-full-kernel.json": "551462e6c5d3a3c7f7988b6845353ef5686c37661378999dd6c7567c66dc236a",
+    "examples/hypothesis-scope/expectations.json": "72ccb727a021fa6cfde464f0f05598a4f7199b0bc108e89a0768f8bddbc6cb85",
+    "examples/hypothesis-scope/generic-not-coherent.json": "65c64019b6cd383654f86e76b2a096ecc049b9c06b0c154abaef9ae9b4baded4",
+    "examples/hypothesis-scope/original-not-induced-torsion.json": "c3302f50bb0b015473d8327f083f539b94a68c1ec998bb0760ca1b3c6e4384f0",
+    "examples/hypothesis-scope/same-endpoints-not-same-map.json": "6f343ef914f56566632a71f458998018d7de4cfc9e0a2fef5a67ee0a7a985e88",
+    "examples/hypothesis-scope/saturated-not-coherent-image.json": "eba070a7983d3fe3ebb512db78d977ff11fb741483262dc63f019151e40d1251",
+    "examples/hypothesis-scope/selected-not-full-kernel.json": "3319749fde17408eb2e0d5951d7f453330620baf04b5790a12b06c5ab79452c7",
+    "examples/hypothesis-scope/stale-fact-pin.json": "e723ec66136805ac328c8847b113ed907f54b33d423867dc2363c036314e95cb",
+    "examples/hypothesis-scope/two-step-not-one-step.json": "f3e0f6be0b08ba62d8ee1b9520a7069537dbe465108478e9df49acd4ba746b58",
+    "examples/hypothesis-scope/withdrawn-fact.json": "9ccb3332e2716e33fa273dd26f984d5e4da5e0a03b6604f6c69dcae6795d8b90",
+    "hypothesis_scope/__init__.py": "3fa60d50ba09b1dff8e392146b1376cf72bc3bfd7724f0d3bcfc81c2de99e233",
+    "hypothesis_scope/__main__.py": "292efbd2bc4eccca2296dc0655febcafc16f89a1865ea28672c7d4d68e375910",
+    "hypothesis_scope/core.py": "88e29466f62e89875735db45a29bb1b99ada88e8aa29810defe963b3c30a62f6",
+    "schemas/hypothesis-scope-request.schema.json": "7d7b6a00aeaca1feb9fdcee4cdd8df898511a553fa3a5eeb21d5a34d57d8cda0"
+  },
+  "recipe_sha256": "3f33b16d89722d45e4c360fade0ae446cd6c58f454534c4b6d05d9a24afa3deb",
+  "schema": "foundation-math-v013-scope-pins-v1"
+}

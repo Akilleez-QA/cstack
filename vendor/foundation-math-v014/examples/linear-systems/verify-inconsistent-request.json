@@ -1,0 +1,54 @@
+{
+  "certificate": {
+    "left_nullvector": [
+      -2,
+      1
+    ],
+    "outcome": "inconsistent",
+    "rhs_pairing": 1,
+    "schema": "foundation-math-rational-linear-system/1",
+    "system": {
+      "matrix": {
+        "cols": 2,
+        "domain": "Z",
+        "entries": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "rows": 2
+      },
+      "rhs": [
+        1,
+        3
+      ]
+    }
+  },
+  "operation": "verify",
+  "system": {
+    "matrix": {
+      "cols": 2,
+      "domain": "Z",
+      "entries": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "rows": 2
+    },
+    "rhs": [
+      1,
+      3
+    ]
+  }
+}

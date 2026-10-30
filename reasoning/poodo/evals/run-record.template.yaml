@@ -1,0 +1,28 @@
+# Experiment metadata template; not a continuation capsule or recorded result.
+schema: POODO_RUN_RECORD/1
+status: planned
+run_id: null
+started_at: null
+baseline_commit: null
+candidate_commit: null
+manifest_sha256: null
+rubric_sha256: null
+protocol_sha256: null
+model_id: null
+model_configuration: {}
+host_and_version: null
+tool_permissions: []
+case_ids: []
+trials_per_case: 3
+randomization_seed: null
+acceptance_criteria_frozen_at: null
+acceptance_criteria: []
+rubric_applicability: {}
+grader_blinding: null
+continuity_cycles: 3
+raw_trace_locations: []
+trial_results: []
+catastrophic_failures: []
+grader_disagreements: []
+limitations: []
+highest_justified_claim: No trials recorded.

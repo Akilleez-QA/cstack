@@ -1,0 +1,240 @@
+{
+  "coefficient_field": "Q",
+  "domain": "polynomial_ring",
+  "operands": [
+    {
+      "operands": [
+        {
+          "operands": [
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "name": "x",
+                      "type": "variable"
+                    },
+                    {
+                      "denominator": 1,
+                      "numerator": 0,
+                      "type": "rational"
+                    }
+                  ],
+                  "type": "add"
+                },
+                {
+                  "operands": [
+                    {
+                      "name": "x",
+                      "type": "variable"
+                    },
+                    {
+                      "denominator": 1,
+                      "numerator": -1,
+                      "type": "rational"
+                    }
+                  ],
+                  "type": "add"
+                }
+              ],
+              "type": "multiply"
+            },
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "name": "x",
+                      "type": "variable"
+                    },
+                    {
+                      "denominator": 1,
+                      "numerator": -2,
+                      "type": "rational"
+                    }
+                  ],
+                  "type": "add"
+                },
+                {
+                  "operands": [
+                    {
+                      "name": "x",
+                      "type": "variable"
+                    },
+                    {
+                      "denominator": 1,
+                      "numerator": -3,
+                      "type": "rational"
+                    }
+                  ],
+                  "type": "add"
+                }
+              ],
+              "type": "multiply"
+            }
+          ],
+          "type": "multiply"
+        },
+        {
+          "operands": [
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "y",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": 0,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "y",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -1,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "y",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -2,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "y",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -3,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            },
+            {
+              "operands": [
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "z",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": 0,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "z",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -1,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    }
+                  ],
+                  "type": "multiply"
+                },
+                {
+                  "operands": [
+                    {
+                      "operands": [
+                        {
+                          "name": "z",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -2,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    },
+                    {
+                      "operands": [
+                        {
+                          "name": "z",
+                          "type": "variable"
+                        },
+                        {
+                          "denominator": 1,
+                          "numerator": -3,
+                          "type": "rational"
+                        }
+                      ],
+                      "type": "add"
+                    }
+                  ],
+                  "type": "multiply"
+                }
+              ],
+              "type": "multiply"
+            }
+          ],
+          "type": "multiply"
+        }
+      ],
+      "type": "multiply"
+    },
+    {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  ],
+  "operation": "verify_identity",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ]
+}

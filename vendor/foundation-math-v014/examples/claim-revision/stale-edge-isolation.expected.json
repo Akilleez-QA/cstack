@@ -1,0 +1,190 @@
+{
+  "affected_claims": [
+    "replacement_only_premise",
+    "synthetic_lemma"
+  ],
+  "affected_obligations": [
+    "synthetic_review"
+  ],
+  "events_replayed": 2,
+  "history": [
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [
+        {
+          "id": "withdraw_new_premise",
+          "kind": "withdraw",
+          "reason": "Synthetic recorded correction.",
+          "target": {
+            "id": "replacement_only_premise",
+            "revision": 1,
+            "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+          }
+        }
+      ],
+      "pin": {
+        "id": "replacement_only_premise",
+        "revision": 1,
+        "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+      }
+    },
+    {
+      "current": false,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "e337373ec03f52b732eba22c5ea891e162ffd4becad244cf0c4833b9e01c8ef4"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      }
+    }
+  ],
+  "input_sha256": "e740c90783a7c5da2c45fc08b45546b0dbc3c6f0cf9b0aec371bd762f96db05a",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "replacement_only_premise",
+        "revision": 1,
+        "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "db532188a5d55e11f7a051b9f12336e2db20730679b83372b87217f1a36a5bb8",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_new_premise",
+          "origin": {
+            "id": "replacement_only_premise",
+            "revision": 1,
+            "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+          },
+          "path": [
+            {
+              "id": "replacement_only_premise",
+              "revision": 1,
+              "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "e337373ec03f52b732eba22c5ea891e162ffd4becad244cf0c4833b9e01c8ef4"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "db532188a5d55e11f7a051b9f12336e2db20730679b83372b87217f1a36a5bb8",
+          "code": "revision_withdrawn",
+          "event_id": "withdraw_new_premise",
+          "origin": {
+            "id": "replacement_only_premise",
+            "revision": 1,
+            "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+          },
+          "path": [
+            {
+              "id": "synthetic_lemma",
+              "revision": 2,
+              "revision_sha256": "e337373ec03f52b732eba22c5ea891e162ffd4becad244cf0c4833b9e01c8ef4"
+            },
+            {
+              "id": "replacement_only_premise",
+              "revision": 1,
+              "revision_sha256": "532e8e52e697189c546cf255e3b1abfd51678e14440aff01b3736f5aac562a4f"
+            }
+          ],
+          "reason": "Synthetic recorded correction."
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "blocked",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      },
+      "proof_accepted": false,
+      "reasons": [
+        {
+          "cause_id": "287c7d8885f84876f7bdadab492f1506448f47837d182b9e73831afe73171954",
+          "code": "dependency_revision_not_current",
+          "current": {
+            "id": "synthetic_lemma",
+            "revision": 2,
+            "revision_sha256": "e337373ec03f52b732eba22c5ea891e162ffd4becad244cf0c4833b9e01c8ef4"
+          },
+          "event_id": "revise_with_new_premise",
+          "expected": {
+            "id": "synthetic_lemma",
+            "revision": 1,
+            "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+          },
+          "origin": {
+            "id": "synthetic_review",
+            "revision": 1,
+            "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+          },
+          "path": [
+            {
+              "id": "synthetic_review",
+              "revision": 1,
+              "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+            },
+            {
+              "id": "synthetic_lemma",
+              "revision": 1,
+              "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+            }
+          ]
+        }
+      ],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

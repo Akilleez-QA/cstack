@@ -1,0 +1,19 @@
+{
+  "coefficient_field": "Q",
+  "domain": "quotient_ring",
+  "operands": [
+    {
+      "name": "x",
+      "type": "variable"
+    },
+    {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  ],
+  "operation": "verify_identity",
+  "variables": [
+    "x"
+  ]
+}
