@@ -32,5 +32,11 @@
    "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
    "poodo_core/ports.py": "718c25f7942c431102db09a32abe1f4055e03635a0358d6f0dc3b939166ef37c"
   }
+ },
+ "endoforge": {
+  "root": "vendor/endoforge",
+  "commit": "cebd463ea9828dfd9bbf09181a631ee604eac8cf",
+  "source_manifest_sha256": "29fada77034402d8898190ecb419b43618f253b72746436c5af05c22535c8b23",
+  "source_manifest_entry_count": 3
  }
 }
