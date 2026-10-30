@@ -81,10 +81,6 @@ Copy `foundations/template`, rename it, add tools and their pins, and register i
 
 No business data, no customer or site data, and no engineering, safety or compliance determination. The example domains are references to learn from, not certified tools.
 
-## Licence
+## License
 
-GPL-3.0-only. See `LICENSE` and `NOTICE.md`.
-
-## Commercial licensing
-
-This project is available under the GNU General Public License v3.0 only (GPL-3.0-only). If you want to use it in a product or service under different terms, commercial licenses are available from Refrigeration.AI. Contact craig@nh3.biz.
+This project is available under the GNU General Public License v3.0 only (GPL-3.0-only). If you want to use it to create a product or service under different terms, commercial licenses are available from Refrigeration AI, Inc. Contact craig@nh3.biz.
