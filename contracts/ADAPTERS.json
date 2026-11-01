@@ -131,6 +131,18 @@
    "notes": "FilmStdioCapability over foundation-film-jsonrpc/1; measured film gates (cinematic bands, mix contract, drift, cue vocabulary, look rejection alarm) as observations; composed in bootstrap.build_film from the domain registry."
   },
   {
+   "adapter_id": "foundation-engine-stdio",
+   "lane": "ToolFace",
+   "port": "CapabilityPort",
+   "vendor": "Foundation Engine v0.2.0 (vendor/foundation-engine-v020: bridge, schema and manifest only)",
+   "kind": "python_module",
+   "path": "adapters/engine_stdio.py",
+   "fake": "fake.capability.scripted",
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "EngineStdioCapability over foundation-engine-jsonrpc/1; read-only render-mask and scene-output validators as observations; results admitted by the engine result path; composed in bootstrap from the domain registry."
+  },
+  {
    "adapter_id": "local-bridge-executor",
    "lane": "RuntimeFace",
    "port": "none",
@@ -568,6 +580,11 @@
    "path": "adapters/foundation_stdio.py",
    "role": "shared_helper",
    "reason": "Pinned stdio bridge machinery (source pins, handshake, receipts, output schemas) shared by the pinned Foundation stdio adapters; each adapter row owns its attachment."
+  },
+  {
+   "path": "extensions/foundation_engine.py",
+   "role": "core_seam",
+   "reason": "Implements DomainExtension, which ADR 005 decision 2 keeps in the core with no lane."
   },
   {
    "path": "extensions/foundation_film.py",

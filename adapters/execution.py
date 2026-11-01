@@ -34,7 +34,7 @@ class LocalBridgeExecutor:
     # Fixed bridge modules a trusted host may select; never request data.
     BRIDGE_MODULES = frozenset({"foundation_math_bridge", "foundation_refrigeration_bridge",
                                 "foundation_template_bridge", "foundation_robotics_bridge",
-                                "foundation_film_bridge"})
+                                "foundation_film_bridge", "foundation_engine_bridge"})
 
     def __init__(self, source_root: Path, *, timeout_seconds=15.0, module="foundation_math_bridge"):
         if not 0 < timeout_seconds <= 60:

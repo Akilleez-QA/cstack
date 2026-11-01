@@ -212,25 +212,7 @@ class PinnedStdioCapability:
                 return outcome_for(request, attempt_id, status, "bridge_error_" + str(abs(reply["error"]["code"])),
                     certainty="responded", **pins,
                     limitations=(f"Complete bridge error, not a {p.label} observation.",))
-            result = reply["result"]
-            if set(result) != {"isError", "structuredContent"} or type(result["isError"]) is not bool:
-                raise WireFailure("Malformed tool envelope")
-            content = result["structuredContent"]
-            receipt = content.get("receipt") if type(content) is dict else None
-            if (type(content) is not dict or content.get("tool") != request.operation
-                    or content.get("formal_proof") is not False or content.get("runtime_goal_acceptance") is not False
-                    or type(receipt) is not dict or receipt.get("tool") != request.operation
-                    or receipt.get("boundary") != p.boundary
-                    or receipt.get("input_sha256") != arguments_sha256(request.arguments)):
-                raise WireFailure("Tool identity, receipt binding or evidence ceiling violation")
-            if not self._validators[request.operation].is_valid(content):
-                raise WireFailure("Structured result violates the exact pinned output schema")
-            if result["isError"] != (content["assessment"] == "tool_error") or \
-                    result["isError"] != (receipt["status"] == "error"):
-                raise WireFailure("Inconsistent tool error assessment")
-            return outcome_for(request, attempt_id, "tool_error" if result["isError"] else "completed",
-                content["assessment"], certainty="responded", raw_result=result, **pins, scope=p.scope,
-                limitations=p.limitations)
+            return self._admit(request, attempt_id, reply["result"], pins)
         except SourceFailure:
             return outcome_for(request, attempt_id, "protocol_error" if dispatched else "unavailable",
                 "source_identity_unavailable", certainty="unknown" if dispatched else "not_dispatched",
@@ -243,3 +225,25 @@ class PinnedStdioCapability:
             return outcome_for(request, attempt_id, "indeterminate", "unexpected_adapter_failure",
                 certainty="unknown" if dispatched else "not_dispatched",
                 limitations=("No accepted result and no automatic retry.",))
+
+    def _admit(self, request, attempt_id, result, pins):
+        """A complete tool envelope as an outcome, or WireFailure. Domains with another result shape override this."""
+        p = self.PROFILE
+        if set(result) != {"isError", "structuredContent"} or type(result["isError"]) is not bool:
+            raise WireFailure("Malformed tool envelope")
+        content = result["structuredContent"]
+        receipt = content.get("receipt") if type(content) is dict else None
+        if (type(content) is not dict or content.get("tool") != request.operation
+                or content.get("formal_proof") is not False or content.get("runtime_goal_acceptance") is not False
+                or type(receipt) is not dict or receipt.get("tool") != request.operation
+                or receipt.get("boundary") != p.boundary
+                or receipt.get("input_sha256") != arguments_sha256(request.arguments)):
+            raise WireFailure("Tool identity, receipt binding or evidence ceiling violation")
+        if not self._validators[request.operation].is_valid(content):
+            raise WireFailure("Structured result violates the exact pinned output schema")
+        if result["isError"] != (content["assessment"] == "tool_error") or \
+                result["isError"] != (receipt["status"] == "error"):
+            raise WireFailure("Inconsistent tool error assessment")
+        return outcome_for(request, attempt_id, "tool_error" if result["isError"] else "completed",
+            content["assessment"], certainty="responded", raw_result=result, **pins, scope=p.scope,
+            limitations=p.limitations)

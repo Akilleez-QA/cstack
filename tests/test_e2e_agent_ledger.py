@@ -33,7 +33,7 @@ class VerifyLedgerTests(SessionCase):
         self.assertEqual((verdict["stream"], verdict["anchor_matches_head"]), (f"alpha.{DOMAIN}", True))
         self.assertEqual(verdict["kinds"][-2:], ["action", "outcome"])
         expected = {f"alpha.{domain}": (0, True) for domain in
-                    ("foundation_math", "foundation_template", "foundation_refrigeration", "foundation_film", "foundation_robotics")}
+                    ("foundation_math", "foundation_template", "foundation_refrigeration", "foundation_film", "foundation_robotics", "foundation_engine")}
         expected[f"alpha.{DOMAIN}"] = (verdict["events"], True)
         expected["alpha.foundation_math"] = (1, True)
         self.assertGreater(verdict["events"], 1)
