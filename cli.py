@@ -6,7 +6,7 @@ import time
 
 from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
-from bootstrap import DOMAINS, build_domain, endoforge_session
+from bootstrap import DOMAINS, build_domain, cli_approval_session, endoforge_session
 from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
                        exact_fields)
 
@@ -14,9 +14,12 @@ CLI_SCHEMA = "cstack.run/0.1"
 MAX_OUTPUT = 33 * 1024 * 1024
 
 
-def run_document(document, approver=None):
-    with endoforge_session() as host:
-        return _run_document(document, host, approver)
+def run_document(document, approver=None, *, config=None):
+    session = endoforge_session() if config is None else endoforge_session(config)
+    with session as host, cli_approval_session(approver) as approval_host:
+        if isinstance(approver, str) and not approval_host:
+            approver = TerminalApprover(approver)
+        return _run_document(document, {**host, **approval_host}, approver)
 
 
 def _run_document(document, host, approver):
@@ -36,7 +39,10 @@ def _run_document(document, host, approver):
             raise ContractError("Call effect must be allow or ask")
         if call.get("effect") == "ask":
             ask_operations.append(CapabilityRequest.from_dict(call["request"]).operation)
-    if ask_operations:
+    if "approvals" in host:
+        ask_operations = list(DOMAINS[goal.domain_id].tool_names)
+        core, _ = build_domain(goal.domain_id, goal.goal_id, ask_operations=tuple(ask_operations), **host)
+    elif ask_operations:
         approver = approver or TerminalApprover()
         core, _ = build_domain(goal.domain_id, goal.goal_id, ask_operations=tuple(ask_operations),
                                approvals=approver, approver=APPROVER, clock=lambda: int(time.time()), **host)
@@ -65,7 +71,7 @@ def _run_document(document, host, approver):
         try:
             if ask_operations:
                 request = CapabilityRequest.from_dict(calls[index]["request"])
-                if request.operation in ask_operations:
+                if request.operation in ask_operations and "approvals" not in host:
                     approver.prepare(request)
             core.execute(decision)
         except (ContractError, OSError, RuntimeError) as error:
@@ -106,12 +112,13 @@ def _decode_for_domain(raw):
 def main():
     parser = argparse.ArgumentParser(description="Supply structured JSON on stdin.")
     parser.add_argument("--approver", nargs="?", const="terminal", default="deny", metavar="deny|file:PATH")
+    parser.add_argument("--config")
     args = parser.parse_args()
     try:
         raw = sys.stdin.buffer.read(65_537)
         if len(raw) > 65_536:
             raise ContractError("Local driver input exceeds 65,536 bytes")
-        result = run_document(_decode_for_domain(raw), TerminalApprover(args.approver))
+        result = run_document(_decode_for_domain(raw), args.approver, config=args.config)
         output = encode(result)
         if len(output) > MAX_OUTPUT:
             raise ContractError("Complete driver output exceeds budget; output withheld")

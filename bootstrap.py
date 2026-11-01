@@ -172,6 +172,26 @@ def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_ro
     return core, capability
 
 
+@contextmanager
+def cli_approval_session(selection):
+    import time
+    from adapters.approval_store import ApprovalReader
+
+    if not isinstance(selection, str) or not selection.startswith("file:"):
+        yield {}
+        return
+    with open(selection[5:], "rb") as source:
+        sqlite_store = source.read(16) == b"SQLite format 3\x00"
+    if not sqlite_store:
+        yield {}
+        return
+    reader = ApprovalReader(selection[5:], clock=lambda: int(time.time()), consumer="local-cli")
+    try:
+        yield {"approvals": reader, "approver": "owner-via-approver", "clock": lambda: int(time.time())}
+    finally:
+        reader.close()
+
+
 def build_math(goal_id, *, operations=TOOL_NAMES, max_calls=64, source_root=DEFAULT_MATH_ROOT, inventory=None):
     return build_domain("foundation_math", goal_id, operations=operations, max_calls=max_calls,
                         source_root=source_root, inventory=inventory)

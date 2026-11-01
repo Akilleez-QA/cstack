@@ -92,3 +92,7 @@ consumes them before capability dispatch. Denial stops the run. Atomic exclusive
 marker creation and directory fsync persist consumption across adapter instances;
 records and the run ledger remain in memory. A new invocation creates new approval
 IDs and requires a fresh answer. File answers are trusted host configuration.
+
+## Refrigeration acceptance composition
+
+The CLI accepts trusted launch options `--config` and `--approver=file:<approval-store>`. Bootstrap distinguishes SQLite stores by their file header, preserving JSON answer files and terminal/deny modes. It opens the existing SQLite approval store through ApprovalReader, fixes the approver identity to `owner-via-approver`, and marks the domain's grant operations as ask. Requests cannot select policy or mint approvals. The reader and Endoforge port close on exit. The acceptance harness records a synthetic host verdict with ApprovalWriter before launching a separate CLI process; Foundation execution and evidence persistence use production adapters.

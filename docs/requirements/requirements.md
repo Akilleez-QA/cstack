@@ -196,6 +196,13 @@ The Endoforge interface shall allocate policy to POODO and witnessed storage to 
 
 Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD inspection and configured CLI tests in `tests/test_endoforge_routing.py`; deployment qualification remains separate.
 
+
+### CS-REQ-031 — Refrigeration acceptance through host approval
+
+The refrigeration acceptance example shall execute through the real CLI with a host-selected file approval store and Endoforge configuration. Selecting the SQLite file approver shall classify all selected domain operations as ask. An approved request shall return the real Foundation outcome, retain a POODO decision, witness precommit before outcome in one verified session, and bind the approval_id to the consumed approval store record. A declined request shall produce neither dispatch nor outcome. The configured CLI shall report `endoforge_implemented: true`.
+
+Verification: `tests/test_refrigeration_e2e.py`; reproduce the approved example with `PYTHON=python3 bash tools/e2e_refrigeration.sh`. This synthetic acceptance establishes integration behavior only.
+
 ## Acceptance and unresolved assurance work
 
 A requirement is accepted only after review of its mapped assertions and a recorded run on the candidate commit. A file-level pass alone does not establish full requirement coverage. Missing tests, skipped tests and disagreements between source and requirement remain open findings; they shall not be counted as verified.
