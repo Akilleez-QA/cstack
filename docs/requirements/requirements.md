@@ -146,9 +146,9 @@ Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: protocol/f
 
 ### CS-REQ-023 — Authority and implementation status
 
-The Endoforge interface shall allocate policy to POODO and witnessed storage to Endoforge, without granting execution, proof or goal acceptance. Runtime integration shall remain reported as unimplemented until adapter and integration evidence are reviewed.
+The Endoforge interface shall allocate policy to POODO and witnessed storage to Endoforge, without granting execution, proof or goal acceptance. Runtime integration status shall distinguish configured evidence routing from agent running and caching.
 
-Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD, protocol and CLI source inspection; fake conformance is not runtime acceptance.
+Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD, protocol and CLI source inspection; fake conformance is not runtime acceptance; configured routing evidence is mapped under CS-REQ-027–030.
 
 ## Endoforge file adapter requirements
 
@@ -169,6 +169,32 @@ Derivation: `docs/icd/icd-endoforge.md` section 5. Verification: tamper tests an
 EndoforgeLedger shall implement CS-REQ-022 with detached append-ordered records, exact goal/session filters and whole-chain verification before filtering, including after closing and reopening the ledger.
 
 Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: shared port conformance and file reopen tests; host serialization and exclusive writer ownership bound snapshot consistency.
+
+## Endoforge configured routing requirements
+
+### CS-REQ-027 — Configured evidence routing
+
+EndoforgePort shall expose typed precommit and outcome appends using DecisionRecord and CapabilityOutcome, returning a record hash as specified by the Endoforge ICD. Configured cores shall witness decisions before dispatch, include ApprovalPort verdicts and approval_id, and append unchanged admitted outcomes after execution. The adapter shall preserve payloads and bind outcomes to prior precommits in the same session.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: protocol/fake and file adapter conformance, reopen and exclusive-writer tests; deployment durability qualification remains pending.
+
+### CS-REQ-028 — Runtime fail-closed storage
+
+EndoforgePort shall expose whole-chain verification. The adapter shall reject corrupted-chain appends/reads and propagate storage failures without successful receipts or partial evidence; callers shall withhold dispatch on failed precommit and retain uncertainty on failed acknowledgement.
+
+Derivation: `docs/icd/icd-endoforge.md` section 5. Verification: fake and file tamper tests, injected write/fsync failures, and runtime dispatch/outcome failure tests in `tests/test_endoforge_routing.py`.
+
+### CS-REQ-029 — Configured evidence retrieval
+
+EndoforgePort shall expose detached append-ordered records filtered by goal id, session id, or their intersection, requiring at least one filter and returning an empty tuple for no matches after chain verification.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: shared conformance assertions against fake and file adapter; file ownership excludes concurrent writers and hosts serialize calls.
+
+### CS-REQ-030 — Trusted routing configuration and status
+
+The Endoforge interface shall allocate policy to POODO and witnessed storage to Endoforge, without granting execution, proof or goal acceptance. Only trusted host configuration shall select storage and session identity. The CLI shall report implementation enabled only when bound to the real adapter; configured storage failure shall never fall back to an unconfigured run.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD inspection and configured CLI tests in `tests/test_endoforge_routing.py`; deployment qualification remains separate.
 
 ## Acceptance and unresolved assurance work
 

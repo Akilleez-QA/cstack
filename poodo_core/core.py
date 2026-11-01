@@ -1,13 +1,14 @@
 """The inherited control loop. Extensions propose data, never core state changes."""
 from __future__ import annotations
+from dataclasses import replace
 
 from .models import (Admission, CapabilityDescriptor, CapabilityOutcome, CapabilityRequest, ContractError,
-                     DecisionRecord, DomainDescriptor, EXTENSION_VERSION, GoalContract, GoalSnapshot,
+                     DecisionRecord, Document, DomainDescriptor, EXTENSION_VERSION, GoalContract, GoalSnapshot,
                      Interpretation, LivenessRecord, Phase, PhaseCheckpoint, Precommitment, READ_ONLY_LANES,
                      canonical, digest, identifier, outcome_for, port_lane, prose)
 from .policy import (MAX_COST, ApprovalDeclined, ApprovalPending, ApprovalRecord, AuthorityGrant, BudgetPaused,
                      CapacityLimits, CapacityRefused, CostBudget)
-from .ports import AdmissionPort, ApprovalPort, CapabilityPort, CostPort, DomainExtension, LedgerPort
+from .ports import AdmissionPort, ApprovalPort, CapabilityPort, CostPort, DomainExtension, EndoforgePort, LedgerPort
 
 
 class ReentryRefused(ContractError):
@@ -87,7 +88,7 @@ class PoodoCore:
                       "_check_denied", "_check_approval", "_asks", "__init_subclass__", "ledger",
                       "record_liveness", "liveness", "goals_without_live_path", "budget", "lift_budget_pause",
                       "_check_budget", "_cost", "_settle", "_check_lane", "_capacity", "_check_capacity",
-                      "_queued",
+                      "_queued", "_witness",
                       # Attribute hooks would let a subclass fake or clear the re-entrancy guard.
                       "__getattribute__", "__getattr__", "__setattr__", "__delattr__"}
     # Core state a subclass must not shadow with a class attribute or property (ADR 003 review, S5).
@@ -96,7 +97,7 @@ class PoodoCore:
                    "_grant_uses", "_ledger", "_goals", "_decisions", "_used_requests", "_consumed",
                    "_attempt_number", "_busy", "_guard", "_interrupted", "_liveness", "_costs", "_budget_units", "_budget_limits",
                    "_spent", "_held", "_paused", "_budget_noted", "_lanes_noted", "MAX_NOTED",
-                   "_capacity_port", "_capacity_noted", "_live"}
+                   "_capacity_port", "_capacity_noted", "_live", "_endoforge", "_session_id", "_witness_failed"}
     MAX_NOTED = 256
 
     def __init_subclass__(cls, **kwargs):
@@ -115,7 +116,8 @@ class PoodoCore:
                  grants: tuple[AuthorityGrant, ...], ledger: LedgerPort, *,
                  approvals: ApprovalPort | None = None, approver: str | None = None, clock=None,
                  budgets: tuple[CostBudget, ...] = (), costs: CostPort | None = None,
-                 admission: AdmissionPort | None = None):
+                 admission: AdmissionPort | None = None, endoforge: EndoforgePort | None = None,
+                 session_id: str | None = None):
         if _state(self, "_guard") is not None:
             raise ReentryRefused("A core is constructed once; re-running __init__ is refused and changed nothing")
         object.__setattr__(self, "_guard", [])  # an empty token: every operation and nested __init__ is refused
@@ -201,6 +203,11 @@ class PoodoCore:
         self._grants = grants
         self._grant_uses = {g.grant_id: 0 for g in grants}
         self._ledger = ledger
+        if (endoforge is None) != (session_id is None):
+            raise ContractError("Endoforge requires a host session and port together")
+        self._endoforge, self._session_id, self._witness_failed = endoforge, session_id, False
+        if endoforge is not None:
+            identifier(session_id)
         self._goals: dict[str, GoalSnapshot] = {}
         self._decisions: dict[str, DecisionRecord] = {}
         self._used_requests: set[str] = set()
@@ -404,6 +411,8 @@ class PoodoCore:
         event = {"action": approval.verdict, "approval_id": approval.approval_id, "decision_id": decision_id,
                  "request_sha256": request.sha256, "approver": approval.approver}
         if approval.verdict == "declined":
+            self._witness("precommit", replace(self._decisions[decision_id],
+                                               approval=Document.capture(vars(approval))))
             # A bound "no" is honoured even if expired or seen before: declining always fails safe.
             self._ledger.reserve(1, 16_384)
             self._ledger.append("decision", event)
@@ -581,6 +590,7 @@ class PoodoCore:
                                                             "request_sha256": request.sha256})
         self._check_budget(grant, request)
         record = DecisionRecord(request, request.sha256, grant.grant_id, precommitment)
+        self._witness("precommit", record)
         self._ledger.append("decision", {"action": "precommit", "request": request.to_dict(),
             "request_sha256": record.request_sha256, "grant_id": grant.grant_id,
             "precommitment": precommitment.to_dict(), "approval_required": needs_approval})
@@ -589,6 +599,19 @@ class PoodoCore:
             self._needs_approval.add(request.decision_id)
         self._used_requests.add(request.request_id)
         return record
+
+    def _witness(self, kind, record):
+        if self._endoforge is None:
+            return
+        if self._witness_failed:
+            raise ContractError("Endoforge acknowledgement failed; host reconciliation required")
+        try:
+            receipt = getattr(self._endoforge, "append_" + kind)(self._session_id, record)
+            if type(receipt) is not str or len(receipt) != 64 or any(c not in "0123456789abcdef" for c in receipt):
+                raise ContractError("Invalid Endoforge receipt")
+        except BaseException:
+            self._witness_failed = True
+            raise
 
     def _admit_outcome(self, request, attempt_id, candidate):
         if type(candidate) is not CapabilityOutcome:
@@ -636,12 +659,15 @@ class PoodoCore:
                 "evidence_kind": interpretation.evidence_kind, "covered_scope": interpretation.covered_scope,
                 "limitations": list(interpretation.limitations), "formal_proof": False,
                 "runtime_goal_acceptance": False}, "goal_closed": False}
+        self._witness("outcome", result)
         self._ledger.append("outcome", terminal)
         return result
 
     @_exclusive
     def execute(self, decision_id: str, cancellation=None) -> CapabilityOutcome:
         identifier(decision_id)
+        if self._witness_failed:
+            raise ContractError("Endoforge acknowledgement failed; host reconciliation required")
         if decision_id not in self._decisions or decision_id in self._consumed:
             raise ContractError("Unknown or consumed decision")
         decision = self._decisions[decision_id]
@@ -660,6 +686,7 @@ class PoodoCore:
         extra = 2 if aor else 0  # settlement and a possible pause must always be recordable
         needs_approval = decision_id in self._needs_approval or self._asks(request)
         approval = self._check_approval(decision_id, request, extra) if needs_approval else None
+        self._witness("precommit", replace(decision, approval=Document.capture(vars(approval)) if approval else None))
         # Reserve space for the action and worst permitted outcome BEFORE dispatch.
         self._ledger.reserve(2 + extra, 2_200_000 + 16_384 * extra)
         self._attempt_number += 1

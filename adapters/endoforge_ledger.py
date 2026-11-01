@@ -6,6 +6,7 @@ from pathlib import Path
 from poodo_core.models import (CapabilityOutcome, CapabilityRequest, ContractError,
                                DecisionRecord, Document, MAX_DOCUMENT_BYTES, Precommitment,
                                canonical, digest, exact_fields, identifier)
+from poodo_core.policy import ApprovalRecord
 
 
 class EndoforgeLedger:
@@ -38,12 +39,18 @@ class EndoforgeLedger:
     @staticmethod
     def _payload_goal(kind, payload):
         if kind == "precommit":
-            exact_fields(payload, {"request", "request_sha256", "grant_id", "precommitment"})
+            exact_fields(payload, {"request", "request_sha256", "grant_id", "precommitment"} |
+                         ({"approval"} if "approval" in payload else set()))
             request = CapabilityRequest.from_dict(payload["request"])
             if request.sha256 != payload["request_sha256"]:
                 raise ContractError("Request hash mismatch")
             identifier(payload["grant_id"])
             Precommitment(**payload["precommitment"])
+            if "approval" in payload:
+                approval = ApprovalRecord(**payload["approval"])
+                if (approval.decision_id != request.decision_id or approval.request_sha256 != request.sha256
+                        or approval.goal_id != request.goal_id or approval.goal_revision != request.goal_revision):
+                    raise ContractError("Approval does not bind the precommit")
             return request.goal_id
         if kind == "outcome":
             return CapabilityOutcome.from_dict(payload).to_dict()["goal_id"]
@@ -66,7 +73,8 @@ class EndoforgeLedger:
                     if line != (canonical(record) + "\n").encode("ascii"):
                         raise ContractError("Invalid record encoding")
                     body = {k: v for k, v in record.items() if k != "record_id"}
-                    if (record["schema"] != "poodo.endoforge-record/0.1" or
+                    schema = "0.2" if record["kind"] == "precommit" and "approval" in record["payload"] else "0.1"
+                    if (record["schema"] != "poodo.endoforge-record/" + schema or
                             record["previous_id"] != previous or digest(body) != record["record_id"]):
                         raise ContractError("Invalid record chain")
                     identifier(record["session_id"])
@@ -101,7 +109,8 @@ class EndoforgeLedger:
         records, bindings = self._snapshot()
         if kind == "outcome" and self._binding(session_id, payload, payload) not in bindings:
             raise ContractError("Outcome has no matching precommit")
-        body = {"schema": "poodo.endoforge-record/0.1", "kind": kind,
+        schema = "0.2" if kind == "precommit" and "approval" in payload else "0.1"
+        body = {"schema": "poodo.endoforge-record/" + schema, "kind": kind,
                 "session_id": session_id, "goal_id": goal_id, "payload": payload,
                 "previous_id": records[-1]["record_id"] if records else None}
         record_id = digest(body)
@@ -119,6 +128,8 @@ class EndoforgeLedger:
         try:
             payload = {"request": decision.request.to_dict(), "request_sha256": decision.request_sha256,
                        "grant_id": decision.grant_id, "precommitment": decision.precommitment.to_dict()}
+            if decision.approval is not None:
+                payload["approval"] = decision.approval.read()
         except (ValueError, TypeError, AttributeError, RecursionError) as exc:
             raise ContractError("Invalid decision") from exc
         return self._append(session_id, "precommit", payload)
