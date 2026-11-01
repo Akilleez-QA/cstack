@@ -555,6 +555,11 @@
    "reason": "Private 0600 WAL SQLite opener used by approval-store and memory-store."
   },
   {
+   "path": "adapters/endoforge_ledger.py",
+   "role": "core_seam",
+   "reason": "Implements EndoforgePort, a core seam with no ADR 005 lane; host-selected file storage, not wired into dispatch."
+  },
+  {
    "path": "adapters/wire.py",
    "role": "shared_helper",
    "reason": "Exact JSON frame profile used by both Foundation stdio adapters and cli.py."

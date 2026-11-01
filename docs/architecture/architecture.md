@@ -19,9 +19,9 @@ flowchart TB
     A --> F[Foundations]
 ```
 
-The dashed edge is intended, not implemented. `poodo_core/ports.py` specifies `EndoforgePort` operations for precommit/outcome append, chain verification and goal/session retrieval; the storage adapter and runtime wiring remain unimplemented; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the source inclusion.
+The dashed edge remains unwired. `poodo_core/ports.py` specifies `EndoforgePort`, implemented by `adapters/endoforge_ledger.py` for host-selected local storage. Runtime wiring remains unimplemented; `cli.py` reports `endoforge_implemented: False`. POODO does not run on Endoforge today. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records storage guarantees and limits.
 
-POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The specified port reuses core records and returns immutable evidence documents. It is separate from the existing `LedgerPort`; no bootstrap or execution path is changed. The in-memory conformance fake does not establish durability or integration.
+POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The adapter validates the entire chain and outcome bindings on each operation, returns detached documents, and acknowledges single-write appends after fsync. A lifetime file lock excludes competing writers; hosts serialize calls and preserve the bound file identity. Local durability provides no external witness or suffix-rollback detection. The pinned lifecycle slice has no applicable storage primitive. `LedgerPort`, bootstrap and dispatch remain separate and unchanged. The local Endoforge file adapter implements CS-REQ-024–026 under the CS-REQ-020–023 port contract; runtime dispatch integration remains pending.
 
 ## Decomposition and allocation
 

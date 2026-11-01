@@ -124,7 +124,7 @@ Derivation: `bootstrap.py; adapters/terminal_approver.py`. Verification: adapter
 
 The mirrored POODO subset shall match the upstream commit and file scope recorded in `contracts/SOURCE-PINS.json`; incomplete synchronization shall remain explicit and retired paths shall be preserved under `TODELETE/`. Verification: byte comparison with the pinned checkout and inspection of deferred lists and rename identities.
 
-## Endoforge contract requirements (adapter acceptance pending)
+## Endoforge contract requirements (runtime acceptance pending)
 
 ### CS-REQ-020 — Witnessed append contract
 
@@ -149,6 +149,26 @@ Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: protocol/f
 The Endoforge interface shall allocate policy to POODO and witnessed storage to Endoforge, without granting execution, proof or goal acceptance. Runtime integration shall remain reported as unimplemented until adapter and integration evidence are reviewed.
 
 Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD, protocol and CLI source inspection; fake conformance is not runtime acceptance.
+
+## Endoforge file adapter requirements
+
+### CS-REQ-024 — Durable append and writer ownership
+
+EndoforgeLedger shall implement CS-REQ-020 using unchanged payloads and same-session outcome bindings, hold exclusive writer ownership across processes and hard-link aliases, and return record hashes only after file fsync. The host shall serialize calls and preserve file identity on a local POSIX filesystem.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: shared port conformance, reopen, binding and exclusive-writer tests; deployment power-loss qualification remains pending.
+
+### CS-REQ-025 — File integrity and uncertain acknowledgement
+
+EndoforgeLedger shall implement CS-REQ-021 by verifying the whole chain before reads/appends, rejecting corruption without repair or truncation, and propagating storage failures without successful receipts. Failed acknowledgement may follow persistence and shall require caller reconciliation before retry.
+
+Derivation: `docs/icd/icd-endoforge.md` section 5. Verification: tamper tests and injected short-write, write, read and fsync failures; external witnessing and caller dispatch gating remain pending.
+
+### CS-REQ-026 — File evidence retrieval
+
+EndoforgeLedger shall implement CS-REQ-022 with detached append-ordered records, exact goal/session filters and whole-chain verification before filtering, including after closing and reopening the ledger.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: shared port conformance and file reopen tests; host serialization and exclusive writer ownership bound snapshot consistency.
 
 ## Acceptance and unresolved assurance work
 
