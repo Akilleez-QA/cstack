@@ -61,6 +61,13 @@ Every CS-REQ in the companion baseline has a mapping above. No independent verif
 
 The 2026-11-01 Foundation refresh retains all requirements and runtime behavior. Verify each copied manifest and listed file against its recorded upstream commit, rebuild each manifest without a byte change, and run `test_pins_match_the_foundation_and_contracts` in each of the four domain conformance suites through root discovery. The local CI wrapper runs root and Foundation suites normally and with optimization, plus documentation links.
 
+The Endoforge repin is checked by `tests/test_endoforge_pin.py`:
+`EndoforgePinTests.test_source_identity_and_exact_membership` verifies commit,
+manifest digest, file count and every exported file hash;
+`test_upstream_import_boundary` runs the selected upstream boundary suite.
+Compare the selected upstream bytes separately before comment-token removal.
+This establishes source identity and isolation for the lifecycle slice only.
+
 ## Reproduction and disposition
 
 From the repository root, use an isolated Python environment with `requirements.txt` and `ci/requirements.txt`, then run:

@@ -287,8 +287,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "c3940c6b63b0ddde53f28aeefcaaf8f8a2e1c7aecf106c6494803cb3027ff74b",
-   "bytes": 1704
+   "sha256": "63dfcb41947bec9427814afcc6a3f87dbaf21064115bd702355be599a219f0b6",
+   "bytes": 5522
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -319,8 +319,8 @@
    "bytes": 6181
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "6eb495b81f9a0996cf5bfe0e218a312d51478bbb88595e061032d999c7a8fd42",
-   "bytes": 5812
+   "sha256": "7ef292d40dfbefa83f1f952691617adc834274951a94ba6d219e4abf709a3507",
+   "bytes": 10417
   },
   "docs/guides/explanation/README.md": {
    "sha256": "c0cb45d116fd5406c7209aae826bbbf605dcd4b92d47fffa5121f51a6743ec3d",
@@ -338,6 +338,10 @@
    "sha256": "421f45293e9a60227e0fbb9358955c9b244eed93db12193ad5357ef12f59bd6f",
    "bytes": 448
   },
+  "docs/icd/icd-endoforge-pin.md": {
+   "sha256": "c87523fe8869de4b752b92b79dd864e0e4c707a82a31ee03d97fe09e065784de",
+   "bytes": 1668
+  },
   "docs/icd/icd-foundations.md": {
    "sha256": "69bbdb2ce9d218af4e38d41bf45185ca4c8499d9a8e2910dc2664c33361e523d",
    "bytes": 7197
@@ -351,8 +355,8 @@
    "bytes": 220
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "dba7db2f9fcd04ba9d2630eef1d03868b841a4aafa15becd0586982ff5ffaf92",
-   "bytes": 6623
+   "sha256": "2e03b817c97279dcb89b443c838369e735e8a2ad0aa2a33e612ab01ee24952e3",
+   "bytes": 12080
   },
   "examples/refrigeration-reading-check.json": {
    "sha256": "6d4d3b7412607968dcfe824c420a3d49530158e090044d1bb3b9a9f497e422cf",
@@ -1706,6 +1710,22 @@
    "sha256": "e48e0027fe96dfc23b3353e95ce4c205d498820565cda065c102f6b1650158dc",
    "bytes": 16851
   },
+  "vendor/endoforge/SOURCE-MANIFEST.json": {
+   "sha256": "1cbda3d9357b44e926666287ba95dc9b5f6035148d5f3be868d8a2d361d26b10",
+   "bytes": 814
+  },
+  "vendor/endoforge/core/__init__.py": {
+   "sha256": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
+   "bytes": 456
+  },
+  "vendor/endoforge/core/lifecycle.py": {
+   "sha256": "42e3c4b3ffa19ddc0c6ce5a583245fb175d9ceac82380dc12e52cc534fd0b330",
+   "bytes": 10121
+  },
+  "vendor/endoforge/tests/test_endoforge_core_boundary.py": {
+   "sha256": "c3cf526f13e0723754ae7bd4f8be1c9bc8394176c011623ea65ec5a76c3df822",
+   "bytes": 2804
+  },
   "vendor/foundation-math-v014/.gitignore": {
    "sha256": "b188801bee5cfce1920cccf1cdff1b134a2467fa0b0e8d7a222f5badba979758",
    "bytes": 77
@@ -2798,26 +2818,6 @@
    "sha256": "f42dd830f30115256fb6046abc15e875e0c4e70bdec77879b970b2a0269e613e",
    "bytes": 142
   },
-  "vendor/foundation-math-v014/examples/polynomial/README.md": {
-   "sha256": "8902be1193eeb128cb5acaa59c2330dc6af4e098598329c5de7c3675f10bf4b6",
-   "bytes": 909
-  },
-  "vendor/foundation-math-v014/examples/polynomial/distributivity.json": {
-   "sha256": "86391246cf24d3088e9ecae18f38f29f9f470451f8a7a3c04dd5ac67f1fe1ee0",
-   "bytes": 2182
-  },
-  "vendor/foundation-math-v014/examples/polynomial/euler-sequence-composite.json": {
-   "sha256": "8f9a856bcfce8dabbe5ff16d565cf9baa6cd78e2cf309cf51a1e7cc04b4437fd",
-   "bytes": 1095
-  },
-  "vendor/foundation-math-v014/examples/polynomial/false-square-identity.json": {
-   "sha256": "f27570ad248751c608e0b8c1e9e72777460e84252c2e2dacf5e1d340c5732d9a",
-   "bytes": 1328
-  },
-  "vendor/foundation-math-v014/examples/polynomial/rejected-division.json": {
-   "sha256": "bde4e2cadeda36875d5475084a73372a87b21f36c98bef36be69f00d92107bf0",
-   "bytes": 449
-  },
   "vendor/foundation-math-v014/examples/polynomial-witness/degree-32-many-roots.json": {
    "sha256": "057a482789de7fb7acd9301335a6f366e08f63054465fd46f7dc35dd7e953229",
    "bytes": 20865
@@ -2897,6 +2897,26 @@
   "vendor/foundation-math-v014/examples/polynomial-witness/zero-variable-zero.json": {
    "sha256": "0f3ec660bde8321b5fb1e8279ed5ff2ed8a7d99b08949a56c1fe659776671658",
    "bytes": 303
+  },
+  "vendor/foundation-math-v014/examples/polynomial/README.md": {
+   "sha256": "8902be1193eeb128cb5acaa59c2330dc6af4e098598329c5de7c3675f10bf4b6",
+   "bytes": 909
+  },
+  "vendor/foundation-math-v014/examples/polynomial/distributivity.json": {
+   "sha256": "86391246cf24d3088e9ecae18f38f29f9f470451f8a7a3c04dd5ac67f1fe1ee0",
+   "bytes": 2182
+  },
+  "vendor/foundation-math-v014/examples/polynomial/euler-sequence-composite.json": {
+   "sha256": "8f9a856bcfce8dabbe5ff16d565cf9baa6cd78e2cf309cf51a1e7cc04b4437fd",
+   "bytes": 1095
+  },
+  "vendor/foundation-math-v014/examples/polynomial/false-square-identity.json": {
+   "sha256": "f27570ad248751c608e0b8c1e9e72777460e84252c2e2dacf5e1d340c5732d9a",
+   "bytes": 1328
+  },
+  "vendor/foundation-math-v014/examples/polynomial/rejected-division.json": {
+   "sha256": "bde4e2cadeda36875d5475084a73372a87b21f36c98bef36be69f00d92107bf0",
+   "bytes": 449
   },
   "vendor/foundation-math-v014/examples/split-bundle/empty_bundle.certificate.json": {
    "sha256": "725081f3fd264ff19903c2398c9d12e672780fc37911c241caab41e0cd0bf157",
