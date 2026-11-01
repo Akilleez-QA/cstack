@@ -27,6 +27,7 @@ The entries below name existing unittest methods inspected at the baseline. They
 | CS-REQ-013 | `tests/test_core.py` | `CoreTests.test_stale_revision_denies_and_keeps_history` | Goal revision; inspect `poodo_core/` for the full stated obligation. |
 | CS-REQ-014 | `tests/test_bootstrap.py` | `LedgerBindingTests.test_distinct_ports_over_same_canonical_path_are_refused_before_construction` | Ledger ownership; inspect `bootstrap.py` for the full stated obligation. |
 | CS-REQ-015 | `tests/test_math_adapter.py` | `MathAdapterTests.test_unknown_or_formal_capability_is_not_dispatched` | Unavailable engine; inspect `extensions/foundation_math.py; adapters/math_stdio.py` for the full stated obligation. |
+| CS-REQ-016 | `tests/test_claim_gate.py` | `Cli.test_unavailable_atom_registry_fails_closed` | Empty and nonempty atom references yield exit status 2, a structured Registry error on stderr and empty stdout. |
 
 ## Additional assertions and gaps
 

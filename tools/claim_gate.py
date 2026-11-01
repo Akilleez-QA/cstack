@@ -254,16 +254,9 @@ def main(argv=None):
     if isinstance(events, dict):
         events = events.get("ledger")
     try:
-        options = {}
         if args.atoms:
-            from pathlib import Path
-            sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-            from forge.endoforge.tools.approved_atoms import Registry
-            with open(args.atom_refs, encoding="utf-8") as f:
-                options = dict(registry=Registry(args.atoms), atom_refs=json.load(f), consumer=args.consumer)
-            if options["atom_refs"] is None:
-                raise ValueError("Atom references must be a list")
-        result = gate(report, events, **options)
+            raise ValueError("Approved-atoms Registry is unavailable in this checkout; cannot validate --atoms")
+        result = gate(report, events)
     except (ValueError, OSError) as exc:
         print(json.dumps({"schema": SCHEMA, "error": str(exc)}), file=sys.stderr)
         return 2

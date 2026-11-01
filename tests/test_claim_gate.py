@@ -115,13 +115,30 @@ class Verdicts(unittest.TestCase):
 
 
 class Cli(unittest.TestCase):
-    def run_cli(self, report, events):
+    def run_cli(self, report, events, *, atom_refs=None):
         with tempfile.TemporaryDirectory() as td:
             r, l = Path(td)/"r.md", Path(td)/"events.json"
             r.write_text(report)
             l.write_text(json.dumps(events))
-            return subprocess.run([sys.executable, "-B", "tools/claim_gate.py", "--report", str(r), "--ledger", str(l)],
+            args = [sys.executable, "-B", "tools/claim_gate.py", "--report", str(r), "--ledger", str(l)]
+            if atom_refs is not None:
+                atoms, refs = Path(td)/"atoms.jsonl", Path(td)/"refs.json"
+                atoms.write_text("")
+                refs.write_text(json.dumps(atom_refs))
+                args.extend(["--atoms", str(atoms), "--atom-refs", str(refs), "--consumer", "test-report"])
+            return subprocess.run(args,
                                   cwd=ROOT, capture_output=True, text=True, timeout=30)
+
+    def test_unavailable_atom_registry_fails_closed(self):
+        for refs in ([], [{"id": "atom-1", "sha256": "0" * 64}]):
+            with self.subTest(refs=refs):
+                result = self.run_cli("Opened the PR for review.", [], atom_refs=refs)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, "")
+                error = json.loads(result.stderr)
+                self.assertEqual(error["schema"], "cstack.claim-gate/0.1")
+                self.assertIn("Approved-atoms Registry is unavailable", error["error"])
+                self.assertIn("cannot validate --atoms", error["error"])
 
     def test_exit_codes(self):
         bad = self.run_cli("All checks verified.", [outcome(1, "typecheck", {"exit_code": 0})])

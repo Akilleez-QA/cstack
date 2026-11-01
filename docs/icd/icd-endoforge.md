@@ -25,6 +25,8 @@ POODO does not run on Endoforge today. No callable Endoforge interface, runtime 
 
 ## Source inclusion and future interface work
 
+The current claim-gate CLI rejects `--atoms`, `--atom-refs` and `--consumer` requests with exit status 2 and a `cstack.claim-gate/0.1` JSON error on stderr stating that the approved-atoms Registry is unavailable. It emits no verdict on stdout. The pinned lifecycle slice does not provide that Registry; the dead optional import has been removed. Calls without atom options retain the ledger-only interface.
+
 [PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice contains data and lifecycle rules plus an import-boundary test. It has no agent runner, caching implementation or runtime wiring. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
 
 A future interface must define callable operations and bind goals, Foundation capabilities, effects, artifacts, qualification, activation, disposal and retention to core-owned policy, as the reserved seam requires. Execution and proof authority must be specified and tested before the seam can be reported as implemented.
