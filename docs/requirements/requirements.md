@@ -124,6 +124,32 @@ Derivation: `bootstrap.py; adapters/terminal_approver.py`. Verification: adapter
 
 The mirrored POODO subset shall match the upstream commit and file scope recorded in `contracts/SOURCE-PINS.json`; incomplete synchronization shall remain explicit and retired paths shall be preserved under `TODELETE/`. Verification: byte comparison with the pinned checkout and inspection of deferred lists and rename identities.
 
+## Endoforge contract requirements (adapter acceptance pending)
+
+### CS-REQ-020 — Witnessed append contract
+
+EndoforgePort shall expose typed precommit and outcome appends using DecisionRecord and CapabilityOutcome, returning a record hash as specified by the Endoforge ICD. A future adapter shall preserve payloads and bind outcomes to prior precommits in the same session.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: protocol/fake test; durable witnessing remains pending adapter qualification.
+
+### CS-REQ-021 — Chain verification and fail-closed storage
+
+EndoforgePort shall expose whole-chain verification. A future adapter shall reject corrupted-chain appends/reads and propagate storage failures without successful receipts or partial evidence; callers shall withhold dispatch on failed precommit and retain uncertainty on failed acknowledgement.
+
+Derivation: `docs/icd/icd-endoforge.md` section 5. Verification: fake tamper test and inspection; storage failure and caller integration tests remain pending.
+
+### CS-REQ-022 — Scoped evidence retrieval
+
+EndoforgePort shall expose detached append-ordered records filtered by goal id, session id, or their intersection, requiring at least one filter and returning an empty tuple for no matches after chain verification.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 3–4. Verification: protocol/fake tests; adapter snapshot isolation remains pending.
+
+### CS-REQ-023 — Authority and implementation status
+
+The Endoforge interface shall allocate policy to POODO and witnessed storage to Endoforge, without granting execution, proof or goal acceptance. Runtime integration shall remain reported as unimplemented until adapter and integration evidence are reviewed.
+
+Derivation: `docs/icd/icd-endoforge.md` sections 2 and 6. Verification: ICD, protocol and CLI source inspection; fake conformance is not runtime acceptance.
+
 ## Acceptance and unresolved assurance work
 
 A requirement is accepted only after review of its mapped assertions and a recorded run on the candidate commit. A file-level pass alone does not establish full requirement coverage. Missing tests, skipped tests and disagreements between source and requirement remain open findings; they shall not be counted as verified.

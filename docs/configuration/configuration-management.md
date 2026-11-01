@@ -58,6 +58,8 @@ The change author identifies affected sources, schemas, inventory, pins, documen
 
 Control the Foundation source directories, their source manifests, per-domain adapters, extension descriptors, `bootstrap.py`, `contracts/ADAPTERS.json`, bridge tool schemas, fixtures and tests together. Runtime source identity checks cover manifest-listed files, not arbitrary extra files elsewhere in a checkout.
 
+Control `EndoforgePort`, its core model types, `icd-endoforge.md` contract 0.1, `poodo.endoforge-record/0.1`, CS-REQ-020–023 and `tests/test_endoforge_port.py` together. This baseline specifies the storage interface only; adapter qualification and runtime acceptance remain pending. The appended `poodo_core_endoforge_port_0_1` entry in `contracts/SOURCE-PINS.json` identifies the changed core bytes and preserves the earlier baseline. Preserve the Endoforge source pin independently; a contract change does not authorize a vendor update. Incompatible record/hash changes require versioning and reviewed migration rules.
+
 ## Change procedure
 
 1. Start a focused branch from an identified main commit. Record the intended behavior and affected interfaces before altering a dependency.

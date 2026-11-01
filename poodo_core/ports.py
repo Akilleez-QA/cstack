@@ -1,7 +1,7 @@
 """Core-owned conversations, independent of transport or Foundation implementations."""
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 from .models import (Admission, CapabilityDescriptor, CapabilityOutcome, CapabilityRequest,
-                     DomainDescriptor, GoalContract, GoalSnapshot, Interpretation)
+                     DecisionRecord, Document, DomainDescriptor, GoalContract, GoalSnapshot, Interpretation)
 from .policy import CapacityLimits
 
 
@@ -61,11 +61,11 @@ class MemoryPort(Protocol):
                limit: int = 20) -> "list[dict]": ...
 
 
+@runtime_checkable
 class EndoforgePort(Protocol):
-    """Reserved, UNIMPLEMENTED synthesis seam; not an execution or proof grant.
-
-    A future version must bind goal, Foundation capabilities, effects, artifacts,
-    qualification, activation, disposal and retention to core-owned policy.
-    This prototype intentionally exposes no callable synthesis method.
-    """
+    def append_precommit(self, session_id: str, decision: DecisionRecord) -> str: ...
+    def append_outcome(self, session_id: str, outcome: CapabilityOutcome) -> str: ...
+    def verify_chain(self) -> bool: ...
+    def read_records(self, *, goal_id: str | None = None,
+                     session_id: str | None = None) -> tuple[Document, ...]: ...
 
