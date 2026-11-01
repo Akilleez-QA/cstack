@@ -28,7 +28,7 @@ def _input_integer(token):
     return value
 
 
-def decode(raw: bytes, *, response=False):
+def decode(raw: bytes, *, response=False, parse_float=_no_float):
     byte_cap, depth_cap, node_cap, string_cap = ((1_048_576, 160, 250_000, 1_048_576) if response
                                                else (65_536, 80, 16_384, 4096))
     if type(raw) is not bytes or len(raw) > byte_cap:
@@ -52,7 +52,7 @@ def decode(raw: bytes, *, response=False):
                     raise WireFailure("JSON depth budget exceeded")
             elif char in "]}":
                 depth -= 1
-        value = json.loads(text, object_pairs_hook=_unique, parse_float=_no_float,
+        value = json.loads(text, object_pairs_hook=_unique, parse_float=parse_float,
                            parse_constant=_no_float, parse_int=int if response else _input_integer)
     except (ValueError, UnicodeError, RecursionError, OverflowError):
         raise WireFailure("Invalid or over-budget exact JSON frame") from None

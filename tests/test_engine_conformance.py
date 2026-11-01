@@ -7,6 +7,8 @@ import shutil
 import tempfile
 import unittest
 
+from adapters.engine_stdio import decode as engine_decode
+from adapters.wire import WireFailure
 from adapters.engine_stdio import (BRIDGE_PROTOCOL, INVENTORY_SHA256, SOURCE_FILE_COUNT, SOURCE_SHA256,
                                    VENDORED_FILES, EngineStdioCapability, PinnedEngineSource)
 from adapters.execution import ProcessResult
@@ -75,6 +77,31 @@ class EngineAdapterTests(unittest.TestCase):
         out = foundation.execute(req.decision_id).to_dict()
         self.assertEqual((out["execution_status"], out["raw_result"]["structuredContent"]), ("completed", 1))
         self.assertFalse(foundation.snapshot("g").closed)
+
+    def test_decimal_exposure_round_trips_through_the_bridge_and_the_core(self):
+        args = {"output": {"toneMapping": "agx", "exposure": 1.25}}
+        out = self.cap.invoke(engine_request("validate_scene_output", args), "attempt-decimal").to_dict()
+        self.assertEqual((out["execution_status"], out["raw_result"]["structuredContent"]),
+                         ("completed", {"toneMapping": "agx", "exposure": 1.25}))
+        foundation, _ = build_domain(ENGINE_DOMAIN_ID, "g")
+        to_decide(foundation, domain=ENGINE_DOMAIN_ID)
+        req = engine_request("validate_scene_output", args)
+        foundation.decide(req, precommit())
+        foundation.advance("g", Phase.ORCHESTRATE, PhaseCheckpoint("go", "Precommitted fixture"))
+        self.assertEqual(foundation.execute(req.decision_id).to_dict()["raw_result"]["structuredContent"]["exposure"], 1.25)
+
+    def test_exponent_and_nonfinite_numbers_never_dispatch(self):
+        fake = FakeExecutor({"isError": False, "structuredContent": 1})
+        cap = EngineStdioCapability(DEFAULT_ENGINE_ROOT, executor=fake)
+        for exposure in (1e-05, 1e20):
+            out = cap.invoke(engine_request("validate_scene_output", {"output": {"exposure": exposure}}), "a").to_dict()
+            self.assertEqual(out["execution_certainty"], "not_dispatched")
+        self.assertEqual(fake.calls, 0)
+
+    def test_nonfinite_or_overlong_reply_numbers_quarantine(self):
+        for token in (b"NaN", b"1e999", b"1." + b"0" * 40):
+            with self.assertRaises(WireFailure):
+                engine_decode(b"{\"x\":" + token + b"}", response=True)
 
     def test_out_of_schema_input_is_a_bridge_error_not_an_observation(self):
         out = self.cap.invoke(engine_request(args={"mask": 4294967296}), "attempt-bad").to_dict()

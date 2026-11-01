@@ -6,13 +6,14 @@ admitted by _admit after exact output-schema validation, with no receipt or asse
 """
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from extensions.foundation_engine import ENGINE_CAPABILITY
 from poodo_core.models import outcome_for
 from .execution import LocalBridgeExecutor
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure
-from .wire import WireFailure, decode
+from .wire import WireFailure, decode as exact_decode
 
 SOURCE_SHA256 = "edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e"
 SOURCE_FILE_COUNT = 2496
@@ -21,6 +22,43 @@ UPSTREAM_COMMIT = "70810ba455bdda1eadfdaab6bd44d43ae88f898c"
 BRIDGE_PROTOCOL = "foundation-engine-jsonrpc/1"
 BRIDGE_MODULE = "foundation_engine_bridge"
 VENDORED_FILES = ("schemas/read-only-tools.json", "tools/foundation_engine_bridge.py")
+
+_INPUT_DECIMAL = re.compile(r"-?(0|[1-9][0-9]*)\.[0-9]+\Z")
+_RESPONSE_FLOAT = re.compile(r"-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][-+]?[0-9]+)?\Z")
+
+
+def _input_decimal(token):
+    if len(token) > 24 or _INPUT_DECIMAL.fullmatch(token) is None:
+        raise WireFailure("Input numbers must be finite decimal literals without exponent")
+    return float(token)
+
+
+def _response_float(token):
+    if len(token) > 32 or _RESPONSE_FLOAT.fullmatch(token) is None:
+        raise WireFailure("Response number outside the Engine profile")
+    value = float(token)
+    if value != value or value in (float("inf"), float("-inf")):
+        raise WireFailure("Nonfinite response number")
+    return value
+
+
+def _declares_number(schema):
+    if type(schema) is dict:
+        return schema.get("type") == "number" or any(_declares_number(v) for v in schema.values())
+    return type(schema) is list and any(_declares_number(v) for v in schema)
+
+
+def _has_float(value):
+    if type(value) is dict:
+        return any(_has_float(v) for v in value.values())
+    if type(value) is list:
+        return any(_has_float(v) for v in value)
+    return type(value) is float
+
+
+def decode(raw: bytes, *, response=False):
+    return exact_decode(raw, response=response, parse_float=_response_float if response else _input_decimal)
+
 
 PROFILE = BridgeProfile(
     ENGINE_CAPABILITY, "Engine", "engine", SOURCE_SHA256, SOURCE_FILE_COUNT, INVENTORY_SHA256,
@@ -64,6 +102,14 @@ class EngineStdioCapability(PinnedStdioCapability):
         super().__init__(root, executor=executor if executor is not None
                          else LocalBridgeExecutor(root / "tools", module=BRIDGE_MODULE))
         self._source = PinnedEngineSource(root)
+        self._decimal_tools = {name for name, tool in self._tools.items() if _declares_number(tool["inputSchema"])}
+
+    def invoke(self, request, attempt_id, cancellation=None):
+        if request.operation not in self._decimal_tools and _has_float(request.arguments):
+            return outcome_for(request, attempt_id, "resource_rejected", "engine_contract_rejected",
+                certainty="not_dispatched",
+                limitations=("Malformed, mismatched, or over-budget data quarantined; no evidence admitted.",))
+        return super().invoke(request, attempt_id, cancellation)
 
     def _admit(self, request, attempt_id, result, pins):
         if set(result) != {"isError", "structuredContent"} or result["isError"] is not False:
