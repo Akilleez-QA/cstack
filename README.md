@@ -102,19 +102,14 @@ No business data, no user or site data, and no engineering, safety or compliance
 ## Measured
 
 Measured on 2026-11-01 with Python 3.14.8 on Linux at main commit
-`0731e9e40842389ad9342f236d8750228012e0f8`, after installing
-`requirements.txt` and `ci/requirements.txt` in `.venv` and activating it.
+`ec416f05fc5a2233899afd3645f64a61ebc3be3d`, with `requirements.txt` and
+`ci/requirements.txt` installed in `.venv`. CI: local only.
 
 | Check | Command | Result |
 |---|---|---|
-| Core test suite | `python -B -m unittest discover -s tests` | Exit 0; 528 tests, OK, 2 skipped |
-| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | Exit 0; no findings |
-| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; root: 528 tests in each mode, 2 skipped per mode; film: 25, refrigeration: 18, robotics: 49, template: 34, math: 10 tests in each mode, all OK; 18 paths checked, 0 broken, 0 stale allowlist entries |
-
-The local CI command runs Python suites normally and with optimization enabled
-before checking documentation links. Initial attempts with the system Python
-failed because `jsonschema` was missing; the table records the reruns with the
-declared dependencies installed.
+| Core test suite | `python -B -m unittest discover -s tests` | 530 tests, OK, 2 skipped |
+| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; root 530 tests in normal and `-O` mode (2 skipped each); film 25, refrigeration 18, robotics 49, template 34, math 10 in each mode, all OK; 18 paths checked, 0 broken |
+| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified placeholder URLs, both in pip's vendored code inside the untracked `.venv` |
 
 ## Documentation
 
