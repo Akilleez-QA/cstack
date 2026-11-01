@@ -238,7 +238,7 @@ class CoreBoundaryTests(unittest.TestCase):
 
     def test_unimplemented_parts_stay_listed(self):
         self.assertNotIn("foundation_refrigeration", UNIMPLEMENTED_FOUNDATIONS)
-        for key in ("foundation_engine", "lean", "endoforge", "foundation_refrigeration.rules",
+        for key in ("lean", "endoforge", "foundation_refrigeration.rules",
                     "foundation_refrigeration.reference_plants", "foundation_refrigeration.determinations"):
             self.assertIn(key, UNIMPLEMENTED_FOUNDATIONS)
 

@@ -128,7 +128,7 @@ class MathAdapterTests(unittest.TestCase):
             self.assertEqual(out["execution_status"], "unavailable")
             self.assertEqual(out["execution_certainty"], "not_dispatched")
         self.assertEqual(fake.calls, 0)
-        self.assertEqual(set(UNIMPLEMENTED_FOUNDATIONS), {"foundation_engine", "foundation_refrigeration.rules",
+        self.assertEqual(set(UNIMPLEMENTED_FOUNDATIONS), {"foundation_refrigeration.rules",
             "foundation_refrigeration.reference_plants", "foundation_refrigeration.determinations", "lean", "endoforge"})
 
     def test_source_missing_or_manifest_changed_fails_closed(self):

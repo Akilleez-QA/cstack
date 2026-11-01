@@ -41,7 +41,6 @@ class FoundationMath(PoodoCore):
 
 
 UNIMPLEMENTED_FOUNDATIONS = {
-    "foundation_engine": "Unimplemented sibling domain contract; not Foundation Math and not Endoforge.",
     # Foundation Refrigeration v0.1 is a sibling extension (extensions/foundation_refrigeration.py, ADR 002).
     # Only the parts it does not implement stay listed here.
     "foundation_refrigeration.rules": "B114 marker rules, P&ID rule packs and claim policy are unimplemented; "

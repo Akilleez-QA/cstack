@@ -68,7 +68,7 @@ class LedgerBindingTests(unittest.TestCase):
         self.assertEqual(list(bootstrap.DOMAINS)[:2], ["foundation_math", "foundation_template"])
         self.assertEqual("foundation_refrigeration" in bootstrap.DOMAINS,
                          bootstrap.DEFAULT_REFRIGERATION_ROOT.is_dir())
-        for domain_id in ("foundation_engine", "foundation_refrigeration.rules", ""):
+        for domain_id in ("foundation_refrigeration.rules", ""):
             with self.assertRaisesRegex(ContractError, "not registered"):
                 bootstrap.build_domain(domain_id, "g")
         with self.assertRaisesRegex(ContractError, "already registered"):

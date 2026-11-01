@@ -4,9 +4,9 @@ ADR 005: every Foundation capability attaches on ToolFace, so every Foundation g
 core is built, each grant is checked against the host adapter inventory (contracts/ADAPTERS.json).
 
 Domains are pluggable. DOMAINS is the one registry of (domain_id -> Foundation, capability adapter, source root,
-tool names, inventory adapter); every composition below derives from it. Math and the empty Template are always
-registered. Refrigeration, Robotics and Film are registered only when foundations/refrigeration, foundations/robotics
-and foundations/film are present, so a checkout without them (the public open-core export) imports and runs cleanly.
+tool names, inventory adapter); every composition below derives from it. Math and the empty Template are always registered. Engine, Refrigeration, Robotics and Film are registered only
+when vendor/foundation-engine-v020, foundations/refrigeration, foundations/robotics and foundations/film are present,
+so a checkout without them (the public open-core export) imports and runs cleanly.
 """
 from dataclasses import dataclass
 from contextlib import contextmanager
@@ -22,13 +22,16 @@ from adapters.math_stdio import MathStdioCapability
 from adapters.memory_ledger import MemoryLedger
 from adapters.endoforge_ledger import EndoforgeLedger
 from adapters.template_stdio import TemplateStdioCapability
+from adapters.engine_stdio import EngineStdioCapability
 from extensions.foundation_math import FoundationMath, TOOL_NAMES
 from extensions.foundation_template import FoundationTemplate, TEMPLATE_TOOL_NAMES
+from extensions.foundation_engine import FoundationEngine, ENGINE_TOOL_NAMES
 from poodo_core import AuthorityGrant, ContractError
 
 _HERE = Path(__file__).resolve().parent
 DEFAULT_MATH_ROOT = _HERE / "vendor/foundation-math-v014"
 DEFAULT_TEMPLATE_ROOT = _HERE / "foundations/template"
+DEFAULT_ENGINE_ROOT = _HERE / "vendor/foundation-engine-v020"
 DEFAULT_REFRIGERATION_ROOT = _HERE / "foundations/refrigeration"
 DEFAULT_ROBOTICS_ROOT = _HERE / "foundations/robotics"
 DEFAULT_FILM_ROOT = _HERE / "foundations/film"
@@ -60,6 +63,9 @@ register(Domain("foundation_math", FoundationMath, MathStdioCapability, DEFAULT_
                 "foundation-math-stdio", "local-synthetic-math"))
 register(Domain("foundation_template", FoundationTemplate, TemplateStdioCapability, DEFAULT_TEMPLATE_ROOT,
                 TEMPLATE_TOOL_NAMES, "foundation-template-stdio", "local-template-observation"))
+if DEFAULT_ENGINE_ROOT.is_dir():
+    register(Domain("foundation_engine", FoundationEngine, EngineStdioCapability, DEFAULT_ENGINE_ROOT,
+                    ENGINE_TOOL_NAMES, "foundation-engine-stdio", "local-engine-observation"))
 if DEFAULT_REFRIGERATION_ROOT.is_dir():
     from adapters.refrigeration_stdio import RefrigerationStdioCapability, decode as _decode_refrigeration
     from extensions.foundation_refrigeration import FoundationRefrigeration, REFRIGERATION_TOOL_NAMES
