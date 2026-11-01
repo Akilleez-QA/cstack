@@ -96,3 +96,7 @@ Consumed approval markers persist under `$XDG_STATE_HOME/cstack/cli-approvals`
 Marker storage failure prevents approval dispatch. This path is separate from AOR
 approvals.db and does not add durability to the CLI ledger. Rolling back the code
 retains existing consumption records; do not reuse or remove them as a reset.
+
+## Refrigeration acceptance baseline
+
+Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, and `tools/e2e_refrigeration.sh` together under CS-REQ-031. The harness creates disposable host configuration, approval SQLite store and Endoforge ledger in a temporary directory; it never modifies repository-local runtime configuration or source pins. Each run records a fresh synthetic approval_id with a five-minute expiry. `PYTHON` selects the runner interpreter. `ci/run-local.sh refrigeration` is the named suite and is included in the default suite list; `python links` also exercises both acceptance cases through unittest discovery.

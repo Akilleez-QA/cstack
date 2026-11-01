@@ -80,3 +80,9 @@ Record command, interpreter, candidate commit, exit status, test count, skips an
 ## Licensing
 
 GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.
+
+## Refrigeration end-to-end acceptance (audit G3)
+
+| Requirement | Evidence | Acceptance boundary |
+|---|---|---|
+| CS-REQ-031; CS-REQ-017; CS-REQ-027 | `tests/test_refrigeration_e2e.py`: `test_approved`, `test_denied`; `tools/e2e_refrigeration.sh` | Real CLI and Foundation, ask decision, exact durable approval identity and consumption, same-session precommit/outcome ordering, verified chain, configured implementation status, decline without dispatch or outcome. Synthetic host verdict; no plant or engineering acceptance. |

@@ -161,3 +161,9 @@ repository review. Incompatible payload/hash changes require a new schema
 version and migration rules; silently reinterpreting stored records is forbidden.
 Independent witnessing, deployment durability qualification and recovery remain
 open acceptance work. Evidence routing does not implement an Endoforge agent runner or cache.
+
+### Refrigeration CLI acceptance interface
+
+`python -B cli.py --config <host.json> --approver=file:<approvals.db>` consumes `examples/refrigeration-e2e.json` on stdin. The explicit config follows the existing `endoforge.path` contract. For CS-REQ-031, the SQLite file approver requires an existing ApprovalWriter SQLite store containing an exact request-bound verdict from `owner-via-approver`; selecting it makes all domain operations ask. No option creates an approval. Missing, expired, mismatched or spent approvals cannot dispatch. The SQLite header selects this reader; JSON file answers retain the existing TerminalApprover behavior, as do terminal and deny modes.
+
+`tools/e2e_refrigeration.sh` runs the approved acceptance and prints JSON fields `endoforge_implemented`, `approval_id`, `ledger_events`, and `verify_chain`. Two precommits represent the prospective decision and the approval-bearing execution gate; the outcome follows both in the same session. The deny acceptance uses a declined approval and retains no action or outcome.
