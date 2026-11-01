@@ -101,13 +101,20 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on Python 3.14 on Linux before the initial public release:
+Measured on 2026-11-01 with Python 3.14.8 on Linux at main commit
+`0731e9e40842389ad9342f236d8750228012e0f8`, after installing
+`requirements.txt` and `ci/requirements.txt` in `.venv` and activating it.
 
 | Check | Command | Result |
 |---|---|---|
-| Core test suite | `python -B -m unittest discover -s tests` | 506 tests, OK, 2 skipped |
-| Secret scans | `bash ci/scan-secrets.sh` (gitleaks and TruffleHog) | No findings |
-| Documentation links | `bash ci/run-local.sh python links` | 17 paths checked, 0 broken |
+| Core test suite | `python -B -m unittest discover -s tests` | Exit 0; 528 tests, OK, 2 skipped |
+| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | Exit 0; no findings |
+| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; root: 528 tests in each mode, 2 skipped per mode; film: 25, refrigeration: 18, robotics: 49, template: 34, math: 10 tests in each mode, all OK; 18 paths checked, 0 broken, 0 stale allowlist entries |
+
+The local CI command runs Python suites normally and with optimization enabled
+before checking documentation links. Initial attempts with the system Python
+failed because `jsonschema` was missing; the table records the reruns with the
+declared dependencies installed.
 
 ## Documentation
 
