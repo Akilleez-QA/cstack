@@ -6,6 +6,10 @@ Organization follows the requirements, design, traceability and configuration-co
 
 Requirements: [requirements.md](../requirements/requirements.md). Review requirements and verification evidence together.
 
+## Reasoning snapshot verification
+
+CS-REQ-019: compare every `poodo_skill.files` entry byte-for-byte with its pinned upstream checkout, require every archived path to be absent upstream and its content unchanged, then run the POODO structural validator, capsule checker regressions, root unittest suite and `bash ci/run-local.sh python links`. Deferred README/license and additional upstream records remain outside the verified subset; structural checks do not establish behavioral improvement.
+
 ## Method and evidence
 
 The entries below name existing unittest methods inspected at the baseline. They are traceability selections, not new tests or a claim of exhaustive coverage. Run results belong to the candidate commit record; this matrix does not embed historical pass counts. Source inspection complements behavioral tests for conditions that a single assertion does not exercise.

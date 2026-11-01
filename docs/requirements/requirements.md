@@ -120,6 +120,10 @@ The terminal adapter shall accept only an explicit approve answer, issue approva
 
 Derivation: `bootstrap.py; adapters/terminal_approver.py`. Verification: adapter consumption and terminal-answer tests, plus source inspection.
 
+### CS-REQ-019 — Reasoning snapshot provenance
+
+The mirrored POODO subset shall match the upstream commit and file scope recorded in `contracts/SOURCE-PINS.json`; incomplete synchronization shall remain explicit and retired paths shall be preserved under `TODELETE/`. Verification: byte comparison with the pinned checkout and inspection of deferred lists and rename identities.
+
 ## Acceptance and unresolved assurance work
 
 A requirement is accepted only after review of its mapped assertions and a recorded run on the candidate commit. A file-level pass alone does not establish full requirement coverage. Missing tests, skipped tests and disagreements between source and requirement remain open findings; they shall not be counted as verified.

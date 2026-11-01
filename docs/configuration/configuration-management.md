@@ -44,6 +44,12 @@ These public main heads were copied on 2026-11-01. Each source manifest and ever
 | `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
 | `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
 
+## POODO skill snapshot
+
+`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `d1cce9e58fe80d8e35419c2d7ad335edd2c69044` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
+
+Ten paths absent upstream were preserved with `git mv` under `TODELETE/reasoning/poodo/`. The under-400-line update defers README, licensing, repository metadata and engineering records; the unchanged export manifest is historical and must be regenerated separately before publishing an export.
+
 ## Controlled items and responsibilities
 
 Approved-atoms CLI validation is unavailable because no Registry provider is included. Any future enablement must control the provider source and dependency identity, update the claim-gate interface and CS-REQ-016 verification, and demonstrate atom validation before removing the explicit rejection. A sibling checkout or installed package does not enable this path.
