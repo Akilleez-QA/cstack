@@ -2,7 +2,7 @@
 
 Use at material state transitions, failures, handoffs, pauses, recovery, and imminent or completed compaction. The capsule is evidence metadata, never evidence. Keep large evidence in stable artifacts and record integrity-bearing locators.
 
-When native Agent goal state exists, bind the capsule to it using [goal-integration.md](goal-integration.md). Keep native goal status, POODO phase, delivery state, and outcome state distinct.
+When native Codex goal state exists, bind the capsule to it using [goal-integration.md](goal-integration.md). Keep native goal status, POODO phase, delivery state, and outcome state distinct.
 
 ## Three memory layers
 
@@ -109,8 +109,6 @@ END_POODO_CONTINUATION_V3_0
 ```
 
 In chat, retain the exact delimiters so compaction can identify a complete capsule. For `scripts/check_capsule.py`, save and lint only the YAML payload between them. Omit unused list records, not required top-level fields. Never copy secrets or sensitive raw data into capsules.
-
-Use the declared enum values exactly; put descriptive qualifiers in text fields. When the checker is available, run it on the final payload and repair structural errors before handoff. If it is unavailable, report that structure was not checked. A parsing-only check is not a pass from the capsule checker.
 
 The checker also accepts legacy `POODA_CONTINUATION/2.1` payloads for rehydration. Treat them as legacy reported state, preserve their provenance, and emit `POODO_CONTINUATION/3.0` on the next material checkpoint; do not rewrite the historical capsule in place.
 

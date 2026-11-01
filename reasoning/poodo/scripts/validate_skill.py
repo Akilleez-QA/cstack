@@ -17,9 +17,6 @@ REQUIRED = (
     "references/epistemic-integrity.md",
     "references/evaluation.md",
     "references/method-selection.md",
-    "references/software-engineering.md",
-    "THIRD_PARTY_NOTICES.md",
-    "evals/software-engineering.yaml",
     "references/mega-observe.md",
     "assets/mega-observe-charter.yaml",
     "evals/mega-observe.yaml",
@@ -57,8 +54,8 @@ def main() -> int:
             meta = frontmatter(skill_path.read_text())
             if meta.get("name") != "poodo":
                 errors.append("frontmatter name must be poodo")
-            if str(meta.get("metadata", {}).get("version")) != "3.3":
-                errors.append("frontmatter metadata.version must be 3.3")
+            if str(meta.get("metadata", {}).get("version")) != "3.1":
+                errors.append("frontmatter metadata.version must be 3.1")
         except (ValueError, yaml.YAMLError) as exc:
             errors.append(str(exc))
 

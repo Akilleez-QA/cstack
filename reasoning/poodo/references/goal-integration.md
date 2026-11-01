@@ -1,6 +1,6 @@
-# Native goal integration
+# Native Codex goal integration
 
-Use the native goal as POODO's durable execution envelope in any host that exposes one (for example Agent CLI or Desktop, or Claude Code). The goal tracks the long-running objective and lifecycle; POODO supplies the epistemic loop, acceptance contract, evidence lineage, phase state, and continuation details. Neither replaces the other.
+Use the native goal as POODO's durable execution envelope in both Codex CLI and Desktop. The goal tracks the long-running objective and lifecycle; POODO supplies the epistemic loop, acceptance contract, evidence lineage, phase state, and continuation details. Neither replaces the other.
 
 ## Entry and binding
 
