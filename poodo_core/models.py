@@ -341,6 +341,7 @@ class DecisionRecord:
     request_sha256: str
     grant_id: str
     precommitment: Precommitment
+    approval: Document | None = None
 
 
 

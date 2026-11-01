@@ -6,7 +6,7 @@ import time
 
 from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
-from bootstrap import DOMAINS, build_domain
+from bootstrap import DOMAINS, build_domain, endoforge_session
 from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
                        exact_fields)
 
@@ -15,6 +15,11 @@ MAX_OUTPUT = 33 * 1024 * 1024
 
 
 def run_document(document, approver=None):
+    with endoforge_session() as host:
+        return _run_document(document, host, approver)
+
+
+def _run_document(document, host, approver):
     exact_fields(document, {"schema", "goal", "checkpoints", "calls"})
     if document["schema"] != CLI_SCHEMA:
         raise ContractError("Unsupported local driver version")
@@ -34,9 +39,9 @@ def run_document(document, approver=None):
     if ask_operations:
         approver = approver or TerminalApprover()
         core, _ = build_domain(goal.domain_id, goal.goal_id, ask_operations=tuple(ask_operations),
-                               approvals=approver, approver=APPROVER, clock=lambda: int(time.time()))
+                               approvals=approver, approver=APPROVER, clock=lambda: int(time.time()), **host)
     else:
-        core, _ = build_domain(goal.domain_id, goal.goal_id)
+        core, _ = build_domain(goal.domain_id, goal.goal_id, **host)
     core.start_goal(goal)
     parsed = []
     for data in checkpoints:
@@ -63,14 +68,15 @@ def run_document(document, approver=None):
                 if request.operation in ask_operations:
                     approver.prepare(request)
             core.execute(decision)
-        except ContractError:
+        except (ContractError, OSError, RuntimeError) as error:
             acted = any(e["kind"] == "action" and e["data"].get("decision_id") == decision for e in core.ledger())
             stopped = {"decision_id": decision, "execution_certainty": "unknown" if acted else "not_dispatched",
-                       "reason": "core_contract_or_retention_gate", "later_not_dispatched": decisions[index+1:]}
+                       "reason": "core_contract_or_retention_gate" if isinstance(error, ContractError)
+                                 else "endoforge_storage_failure", "later_not_dispatched": decisions[index+1:]}
             break
     return {"schema": "cstack.run-result/0.1", "goal": core.snapshot(goal.goal_id).to_dict(),
         "events": core.ledger(), "run_status": "stopped" if stopped else "completed", "stopped": stopped,
-        "mcp_compatible": False, "endoforge_implemented": False,
+        "mcp_compatible": False, "endoforge_implemented": "endoforge" in host,
         "note": "Preauthored checkpoint records were structurally checked, not researched or reasoned by this driver."}
 
 
@@ -113,7 +119,7 @@ def main():
         return 0
     except BrokenPipeError:
         return 2
-    except (ContractError, WireFailure, ValueError, TypeError, KeyError, OSError):
+    except (ContractError, WireFailure, ValueError, TypeError, KeyError, OSError, RuntimeError):
         sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": "invalid_or_unsupported_request",
             "formal_proof": False, "runtime_goal_acceptance": False}) + "\n")
         return 2

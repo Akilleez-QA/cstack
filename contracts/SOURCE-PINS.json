@@ -126,5 +126,14 @@
    "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
    "poodo_core/ports.py": "2bec15ebf8c4ff1713ecb82bc0f7f8db6c25fe7acbfa0355664fea392812b3c2"
   }
+ },
+ "poodo_core_endoforge_routing_0_2": {
+  "files": {
+   "poodo_core/__init__.py": "8e1ac08df106fb3aa2e6c6eaa89008554ee59006ba9d681e2dbfea2d81e75a67",
+   "poodo_core/core.py": "60487c4938d149b172f64636909ada511a8c2c3074a9c2cb6fb5cab337062d64",
+   "poodo_core/models.py": "e767c59e0285341cb318270925cabcbf1eae9f0d94de937c81d49e4b117dcba6",
+   "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
+   "poodo_core/ports.py": "2bec15ebf8c4ff1713ecb82bc0f7f8db6c25fe7acbfa0355664fea392812b3c2"
+  }
  }
 }

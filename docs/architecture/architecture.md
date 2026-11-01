@@ -14,14 +14,16 @@ The target design makes Endoforge the core engine for running coding agents with
 
 ```mermaid
 flowchart TB
-    E[Endoforge: core engine] -. "EndoforgePort: specified, unwired" .-> P[POODO: control and reasoning]
+    P[POODO: control and reasoning] -->|EndoforgePort: witnessed evidence| E[Endoforge local ledger]
     P --> A[Domain extensions and adapters]
     A --> F[Foundations]
 ```
 
-The dashed edge remains unwired. `poodo_core/ports.py` specifies `EndoforgePort`, implemented by `adapters/endoforge_ledger.py` for host-selected local storage. Runtime wiring remains unimplemented; `cli.py` reports `endoforge_implemented: False`. POODO does not run on Endoforge today. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records storage guarantees and limits.
+`poodo_core/ports.py` specifies `EndoforgePort`, implemented by `adapters/endoforge_ledger.py`. Bootstrap binds host-configured local storage and a fresh session for CLI runs; the CLI reports `endoforge_implemented: True` only when bound. Evidence routing is implemented; the intended agent runner and cache remain future work. The [Endoforge ICD](../icd/icd-endoforge.md) records storage guarantees and limits.
 
-POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The adapter validates the entire chain and outcome bindings on each operation, returns detached documents, and acknowledges single-write appends after fsync. A lifetime file lock excludes competing writers; hosts serialize calls and preserve the bound file identity. Local durability provides no external witness or suffix-rollback detection. The pinned lifecycle slice has no applicable storage primitive. `LedgerPort`, bootstrap and dispatch remain separate and unchanged. The local Endoforge file adapter implements CS-REQ-024–026 under the CS-REQ-020–023 port contract; runtime dispatch integration remains pending.
+POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The adapter validates the entire chain and outcome bindings on each operation, returns detached documents, and acknowledges single-write appends after fsync. A lifetime file lock excludes competing writers; hosts serialize calls and preserve the bound file identity. Local durability provides no external witness or suffix-rollback detection. The pinned lifecycle slice has no applicable storage primitive. `LedgerPort` remains separate. The file adapter implements CS-REQ-024–026 under the CS-REQ-020–023 port contract; CS-REQ-027–030 govern configured routing.
+
+Configured cores witness decisions at creation and again before dispatch, including host approval records. Declines are witnessed before refusal. Precommit errors prevent dispatch and latch further witnessed work; outcomes are witnessed before normal completion. Outcome failures leave attempts consumed and budget/capacity holds unsettled for host reconciliation. Bootstrap owns storage lifetime; request data cannot select it. Unconfigured cores and AOR hosts retain their existing composition.
 
 ## Decomposition and allocation
 

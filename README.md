@@ -132,11 +132,11 @@ Measured on Python 3.14 on Linux before the initial public release:
 
 The intended design places Endoforge at the engine layer: it runs coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters.
 
-That is the target architecture. Today POODO uses its existing Foundation adapters directly. `EndoforgePort` is reserved and unimplemented, exposes no callable synthesis method, and Endoforge is not wired into Cstack. POODO does not run on Endoforge today. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
+POODO uses its Foundation adapters for execution and can route witnessed evidence through `EndoforgePort`. Configure `endoforge.path` in repository-local `cstack.config.json` (see `cstack.config.example.json`); its parent directory must exist. Configured CLI runs witness precommits before dispatch and outcomes after execution, fail closed on storage errors, and report `endoforge_implemented: true`. Unconfigured runs report false. Agent running and caching remain future work. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
 
 ```mermaid
 flowchart TB
-    E[Endoforge: core engine] -. "intended substrate; EndoforgePort unwired" .-> P[POODO: control and reasoning]
+    P[POODO: control and reasoning] -->|EndoforgePort: witnessed evidence| E[Endoforge local ledger]
     P --> A[Domain extensions and adapters]
     A --> F[Foundations]
 ```

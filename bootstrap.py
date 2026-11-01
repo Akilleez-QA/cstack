@@ -9,6 +9,9 @@ registered. Refrigeration, Robotics and Film are registered only when foundation
 and foundations/film are present, so a checkout without them (the public open-core export) imports and runs cleanly.
 """
 from dataclasses import dataclass
+from contextlib import contextmanager
+import json
+from uuid import uuid4
 from functools import partial
 from pathlib import Path
 from threading import Lock
@@ -17,6 +20,7 @@ from weakref import WeakValueDictionary
 from adapters.adapter_inventory import load_inventory
 from adapters.math_stdio import MathStdioCapability
 from adapters.memory_ledger import MemoryLedger
+from adapters.endoforge_ledger import EndoforgeLedger
 from adapters.template_stdio import TemplateStdioCapability
 from extensions.foundation_math import FoundationMath, TOOL_NAMES
 from extensions.foundation_template import FoundationTemplate, TEMPLATE_TOOL_NAMES
@@ -130,8 +134,27 @@ def registered(domain_id):
     return DOMAINS[domain_id]
 
 
+@contextmanager
+def endoforge_session(config_path=_HERE / "cstack.config.json"):
+    config_path = Path(config_path)
+    try:
+        config = json.loads(config_path.read_text())
+    except FileNotFoundError:
+        config = {}
+    if type(config) is not dict:
+        raise ContractError("Host configuration must be an object")
+    if "endoforge" not in config:
+        yield {}
+        return
+    path = config["endoforge"]["path"]
+    if type(path) is not str or not path.strip():
+        raise ContractError("Endoforge requires a trusted storage path")
+    with EndoforgeLedger(config_path.parent / path) as port:
+        yield {"endoforge": port, "session_id": uuid4().hex}
+
+
 def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,
-                 ask_operations=(), approvals=None, approver=None, clock=None):
+                 ask_operations=(), approvals=None, approver=None, clock=None, endoforge=None, session_id=None):
     """Trusted HOST configuration only. No external JSON controls source_root/grants/inventory.
 
     Every registered Foundation is read-only observation: the grant names only its fixed tools.
@@ -143,6 +166,8 @@ def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_ro
     grants = check_grants((grant,), inventory)
     capability = d.capability(d.source_root if source_root is None else source_root)
     host = dict(approvals=approvals, approver=approver, clock=clock) if ask_operations else {}
+    if endoforge is not None or session_id is not None:
+        host.update(endoforge=endoforge, session_id=session_id)
     core = build_core(MemoryLedger(), lambda ledger: d.foundation(capability, grants, ledger, **host))
     return core, capability
 
