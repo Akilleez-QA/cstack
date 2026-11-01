@@ -1,0 +1,36 @@
+{
+  "schema": "cstack.fleet/0.1",
+  "approver": "owner-via-approver",
+  "source": {
+    "generated_by": "example",
+    "inputs": []
+  },
+  "bots": [
+    {
+      "id": "00000001",
+      "name": "Example",
+      "slug": "example",
+      "reports_to": null,
+      "owns": [
+        "Example observations"
+      ],
+      "not": [
+        "Actions outside the assigned scope"
+      ],
+      "slices": [],
+      "effects": {
+        "read": "allow",
+        "write_slice": "deny",
+        "execute": "allow",
+        "config": "allow",
+        "send": "ask",
+        "payment": "ask",
+        "post": "ask",
+        "filing": "ask",
+        "delete": "ask"
+      },
+      "status": "CHECK"
+    }
+  ],
+  "devices": []
+}

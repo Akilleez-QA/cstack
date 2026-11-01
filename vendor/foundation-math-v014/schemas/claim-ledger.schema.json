@@ -1,0 +1,353 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Foundation Math claim ledger, version 1",
+  "description": "Shape validation only. Dependency graphs, assumption correspondence, and evidence file hashes require tools/validate_claim_ledger.py. No validation result proves mathematical truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "title",
+    "claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "title": {
+      "$ref": "#/$defs/nonblank"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    }
+  },
+  "$defs": {
+    "nonblank": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "strings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonblank"
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/nonblank"
+            },
+            {
+              "not": {
+                "pattern": "(^/)|(/$)|(//)|(^|/)\\.{1,2}(/|$)|[\\\\:]"
+              }
+            }
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "checker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonblank"
+        },
+        "version": {
+          "$ref": "#/$defs/nonblank"
+        }
+      }
+    },
+    "evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "description",
+            "artifact"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "proof",
+                "test",
+                "counterexample",
+                "source"
+              ]
+            },
+            "description": {
+              "$ref": "#/$defs/nonblank"
+            },
+            "artifact": {
+              "$ref": "#/$defs/artifact"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "description",
+            "artifact",
+            "checker",
+            "encoded_statement",
+            "assumptions",
+            "trust",
+            "result"
+          ],
+          "properties": {
+            "kind": {
+              "const": "formal_check"
+            },
+            "description": {
+              "$ref": "#/$defs/nonblank"
+            },
+            "artifact": {
+              "$ref": "#/$defs/artifact"
+            },
+            "checker": {
+              "$ref": "#/$defs/checker"
+            },
+            "encoded_statement": {
+              "$ref": "#/$defs/nonblank"
+            },
+            "assumptions": {
+              "$ref": "#/$defs/strings"
+            },
+            "trust": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/strings"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "result": {
+              "const": "pass"
+            }
+          }
+        }
+      ]
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "reviewers",
+        "trust"
+      ],
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/nonblank"
+        },
+        "reviewers": {
+          "$ref": "#/$defs/strings"
+        },
+        "trust": {
+          "$ref": "#/$defs/strings"
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "assumptions",
+        "dependencies",
+        "status",
+        "closure",
+        "evidence",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$"
+        },
+        "statement": {
+          "$ref": "#/$defs/nonblank"
+        },
+        "assumptions": {
+          "$ref": "#/$defs/strings"
+        },
+        "dependencies": {
+          "$ref": "#/$defs/strings"
+        },
+        "status": {
+          "enum": [
+            "proof_draft",
+            "reviewed_conditional",
+            "formally_checked",
+            "conjecture",
+            "refuted"
+          ]
+        },
+        "closure": {
+          "enum": [
+            "open",
+            "closed"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "closure": {
+                "const": "closed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "reviewed_conditional",
+                  "formally_checked",
+                  "refuted"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed_conditional"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "contains": {
+                  "properties": {
+                    "kind": {
+                      "const": "proof"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                }
+              },
+              "verification": {
+                "properties": {
+                  "reviewers": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "formally_checked"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "contains": {
+                  "properties": {
+                    "kind": {
+                      "const": "formal_check"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                }
+              },
+              "verification": {
+                "properties": {
+                  "trust": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "refuted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "contains": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "proof",
+                        "counterexample"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                }
+              },
+              "verification": {
+                "properties": {
+                  "reviewers": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

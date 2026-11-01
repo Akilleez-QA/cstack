@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "problem": {
+    "id": "exact-addition",
+    "domain": "Q",
+    "assumptions": [],
+    "goal": "Compute one half plus one third exactly.",
+    "goal_request": {
+      "domain": "Q",
+      "operation": "add",
+      "operands": [
+        {
+          "numerator": 1,
+          "denominator": 2
+        },
+        {
+          "numerator": 1,
+          "denominator": 3
+        }
+      ]
+    },
+    "required_evidence": "formal_proof"
+  },
+  "goal_task_id": "verify-sum",
+  "max_total_attempts": 8,
+  "tasks": [
+    {
+      "id": "propose-sum",
+      "role": "proposer",
+      "dependencies": [],
+      "payload": {
+        "request": {
+          "domain": "Q",
+          "operation": "add",
+          "operands": [
+            {
+              "numerator": 1,
+              "denominator": 2
+            },
+            {
+              "numerator": 1,
+              "denominator": 3
+            }
+          ]
+        },
+        "expected": {
+          "domain": "Q",
+          "numerator": 5,
+          "denominator": 6
+        },
+        "rationale": "An untrusted candidate, accepted only after exact recomputation."
+      }
+    },
+    {
+      "id": "calculate-sum",
+      "role": "calculator",
+      "dependencies": [
+        "propose-sum"
+      ]
+    },
+    {
+      "id": "verify-sum",
+      "role": "verifier",
+      "dependencies": [
+        "propose-sum",
+        "calculate-sum"
+      ]
+    },
+    {
+      "id": "audit-scope",
+      "role": "critic",
+      "dependencies": [
+        "verify-sum"
+      ]
+    },
+    {
+      "id": "formalize-sum",
+      "role": "formalizer",
+      "dependencies": [
+        "verify-sum"
+      ]
+    }
+  ]
+}

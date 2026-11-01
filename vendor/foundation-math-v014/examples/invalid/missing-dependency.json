@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "title": "Deliberately invalid: missing dependency",
+  "claims": [
+    {
+      "id": "invalid.missing",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [
+        "missing.claim"
+      ],
+      "status": "proof_draft",
+      "closure": "open",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    }
+  ]
+}

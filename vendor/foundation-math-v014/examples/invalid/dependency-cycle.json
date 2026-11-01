@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "title": "Deliberately invalid: dependency cycle",
+  "claims": [
+    {
+      "id": "cycle.a",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [
+        "cycle.b"
+      ],
+      "status": "proof_draft",
+      "closure": "open",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    },
+    {
+      "id": "cycle.b",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [
+        "cycle.a"
+      ],
+      "status": "proof_draft",
+      "closure": "open",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "expectation": {
+    "classification": "genuine",
+    "equals": {
+      "1": 1,
+      "W": 1
+    }
+  },
+  "expression": {
+    "left": {
+      "label": "1",
+      "op": "irrep"
+    },
+    "op": "add",
+    "right": {
+      "label": "W",
+      "op": "irrep"
+    }
+  },
+  "schema": "fm-character-request-v1"
+}

@@ -1,0 +1,2 @@
+(^|/)foundations/refrigeration/tests/denylist/confidential-terms\.sha256\.json$
+(^|/)foundations/refrigeration/tests/denylist/maker-terms\.sha256\.json$

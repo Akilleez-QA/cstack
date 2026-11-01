@@ -1,0 +1,3966 @@
+{
+ "schema": "your-org/cstack-export-listing/1",
+ "license": "GPL-3.0-only",
+ "files": {
+  ".github/ISSUE_TEMPLATE/bug_report.md": {
+   "sha256": "41a562eaf203f6b5d4a481584c1a0cf8fd316b5ba58b683c56e5bc9b4a008746",
+   "bytes": 143
+  },
+  ".github/ISSUE_TEMPLATE/feature_request.md": {
+   "sha256": "ba537a220a480223fe6206cada2134cbd31b3d70df4b9fe6ca9a7abd0f4571c2",
+   "bytes": 93
+  },
+  ".github/PULL_REQUEST_TEMPLATE.md": {
+   "sha256": "5a26fd3aa2e9f793229dae82d4f7fb070d75ac1c248540adc0d59b62ae0cee04",
+   "bytes": 140
+  },
+  ".github/assets/social-preview.png": {
+   "sha256": "194f2d76f8193313e2d98bbd8236e7c58a2762dcea4a32956f06cc58a30f9626",
+   "bytes": 47385
+  },
+  ".github/dependabot.yml": {
+   "sha256": "efe35b04741cc513b7fecc935d603508aff876b23c82979b0a3300f299c3ea37",
+   "bytes": 193
+  },
+  ".github/workflows/ci.yml": {
+   "sha256": "3d41dff5a2cdb1010be2f369bd688c0c38309031d36e9f19d9353988c02b0afb",
+   "bytes": 784
+  },
+  ".gitignore": {
+   "sha256": "5eabc8e7d0e7334a98ca674c845368e5ce011e5f64ba42b19be74988848a19d8",
+   "bytes": 57
+  },
+  ".gitleaks.toml": {
+   "sha256": "e44d9f57de1c3f8e70f2c519a8aac7feae5ed4474527411b57df11542dec6a33",
+   "bytes": 309
+  },
+  ".pre-commit-config.yaml": {
+   "sha256": "7119399c9a531c4a9f61a4194cad8ac680e5c27eb4fdcebf4f1b9a6390ecab66",
+   "bytes": 103
+  },
+  ".trufflehog-exclude-paths.txt": {
+   "sha256": "13dea0384082cbe8b3dffbb3d0106725cbed11b93878cc9e7a161b6948ccbbf9",
+   "bytes": 153
+  },
+  "CHANGELOG.md": {
+   "sha256": "832a77adcc5b025d501af50c58cdc6d9fd73cff65283678932a918ac1038659b",
+   "bytes": 185
+  },
+  "CODE_OF_CONDUCT.md": {
+   "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
+   "bytes": 240
+  },
+  "CONTRIBUTING.md": {
+   "sha256": "a4f34ad27e695507b55eebe5ed2869bda0a7fef5ed1f51d2265eac5e12c9d8de",
+   "bytes": 670
+  },
+  "LICENSE": {
+   "sha256": "495c0e48d69a481483776fcd389eb2875d713b205047248f9b2129a6913e64cc",
+   "bytes": 34670
+  },
+  "NOTICE.md": {
+   "sha256": "5a543a6126b7086294b339d686c77ca30427e1f85cde2c1a98fa23ab0f3c5714",
+   "bytes": 515
+  },
+  "README.md": {
+   "sha256": "be810eeaa3c4da8a1fba71a5a0da897bc16d96f8311797bc4a36b3e9377f963b",
+   "bytes": 7933
+  },
+  "SECURITY.md": {
+   "sha256": "3f9c3a83c11a80271cd41705ce11fd1096d225a5f2fb5023d7b1a935a69b922f",
+   "bytes": 626
+  },
+  "SUPPORT.md": {
+   "sha256": "ba37d7d99316e5bb951dbcbcf4fdee3b09742c52dd7ed431440cb68c7f4d3d2e",
+   "bytes": 138
+  },
+  "__init__.py": {
+   "sha256": "b1764b3bbb826bd6a167fc19e881ef15a6f4684c76a5491152e4196cadd8b18d",
+   "bytes": 68
+  },
+  "__main__.py": {
+   "sha256": "6619df5c56c8367ebb3b62fdddeb697ed29864bc565ee69b19cf85ec0d1cd8c2",
+   "bytes": 215
+  },
+  "adapters/__init__.py": {
+   "sha256": "859cdc09283a98ce2bb446770a18b32541fb498569af008804a6df9ec41fb133",
+   "bytes": 67
+  },
+  "adapters/adapter_inventory.py": {
+   "sha256": "770213159b3e1c23028f2952669f44eacd12b67aaf37cac96f564dc92c432d72",
+   "bytes": 5246
+  },
+  "adapters/aor_registry.py": {
+   "sha256": "404d62afd6ec157b0000515369824343b8257de4bdda03266e948d96990bebd5",
+   "bytes": 6137
+  },
+  "adapters/aor_session.py": {
+   "sha256": "c45b530b131a3c592a3abbf4a24da9747e40c9a75e02d7782338450c89eb97ef",
+   "bytes": 12484
+  },
+  "adapters/approval_store.py": {
+   "sha256": "6d31137b5febcf04574ce4d21e57eac8157c03a0ef4823e0277acf0ba34030e0",
+   "bytes": 3945
+  },
+  "adapters/execution.py": {
+   "sha256": "ee15339e79a58e9a4c3254360ad2ae3b28af76c2b73ba43456126a7bcdef0a33",
+   "bytes": 10626
+  },
+  "adapters/film_stdio.py": {
+   "sha256": "b3ef72286713164aa09012f57e660c753a07ebdf45691b009bb3d31fb9d6625d",
+   "bytes": 1705
+  },
+  "adapters/fleet_mail.py": {
+   "sha256": "2e3cc2fc2e7df68efde65ddd07aa7d14b0e5584587aef79ad2d825329c542ee5",
+   "bytes": 36820
+  },
+  "adapters/foundation_stdio.py": {
+   "sha256": "d57e20e1c45402264594af050ca9cef3ad6ed176b7b425c156844e9405769f02",
+   "bytes": 13874
+  },
+  "adapters/host_read_models.py": {
+   "sha256": "554a6149db492d1ebdd5ffa7230ab6128518daea208359002eb8c1d3f1646239",
+   "bytes": 21208
+  },
+  "adapters/ledger.py": {
+   "sha256": "356cf0918fc5fba8752ee11ddd78dee9ce577ef546e80ef319ff2ce074690a3c",
+   "bytes": 23532
+  },
+  "adapters/math_stdio.py": {
+   "sha256": "7332a747fbb96aa2699073ed9f6b6ca7ce88c285b47f7d6fc73cdb07f0ba35e7",
+   "bytes": 11813
+  },
+  "adapters/mcp_stdio_client.py": {
+   "sha256": "7f31082393501e231ae241b5a50b07cb957603e4b8ef782ef499379fa4324ef7",
+   "bytes": 25742
+  },
+  "adapters/mcp_stdio_server.py": {
+   "sha256": "566ed454db6d412209e03db367a0f4a2a2188d9f30012a13e9f1d98f900008cc",
+   "bytes": 12805
+  },
+  "adapters/memory/README.md": {
+   "sha256": "afc0a19d04776a846c2582fe937e9543dfca2a9fbff9b8c1efe14b8b602179a9",
+   "bytes": 1873
+  },
+  "adapters/memory/__init__.py": {
+   "sha256": "4420089377c6f8f3f817040524b8c34824cf8c4a1917d187b154d8fc102faf91",
+   "bytes": 85
+  },
+  "adapters/memory/__main__.py": {
+   "sha256": "814cdef9310106af15f3efed2dcfc2caa79884e2be29b3faccf4150c9e41ef32",
+   "bytes": 2723
+  },
+  "adapters/memory/confidentiality_wall.py": {
+   "sha256": "8a3aa89b428440d946a38a1c14777ac65a797e47b384efd00138848948492b89",
+   "bytes": 2384
+  },
+  "adapters/memory/ingest.py": {
+   "sha256": "843bf4964e3a4086d960569bd6cd2bc0560230cb06edaad0dc71c3f0ead1a728",
+   "bytes": 6618
+  },
+  "adapters/memory/redact.py": {
+   "sha256": "961822a632b41fbd9f4bb192352c228de6a7d01e85cbd62190945f84004121ca",
+   "bytes": 2154
+  },
+  "adapters/memory/store.py": {
+   "sha256": "20a9e3a02c6b57109e19d414813b77188422605ee502c8742a3dc8ed4e8f4e0b",
+   "bytes": 18704
+  },
+  "adapters/memory_ledger.py": {
+   "sha256": "dbf5de8dee167d5aa0ace909b53dedbc780e483d3584ac4819e81019dc3f3547",
+   "bytes": 1516
+  },
+  "adapters/private_sqlite.py": {
+   "sha256": "9010003027c67f77a1a3af6cf35a4f3e67d3a696ac06d84bcb15f1d9e5f8e05a",
+   "bytes": 1452
+  },
+  "adapters/provider_policy.py": {
+   "sha256": "ff6e07e95d9e0de3b11d26f87bd4ce0cd6699028888c59a469ed3961631930e8",
+   "bytes": 16719
+  },
+  "adapters/read_models.py": {
+   "sha256": "ca082b1e7b1031e40e25310a67a864908a0b5f85a11e632ac1c2d89deae87a6e",
+   "bytes": 11889
+  },
+  "adapters/refrigeration_stdio.py": {
+   "sha256": "518ef1d8f5565bcf79e5ff5a6e8d5c0f93d927bf6d03d738dfe157d2012a1493",
+   "bytes": 5477
+  },
+  "adapters/relay_outbox.py": {
+   "sha256": "1d5a66bdf1fe4a15319bb44663d36bce7924fc5c71749a758d2315ffe667f735",
+   "bytes": 5332
+  },
+  "adapters/robotics_stdio.py": {
+   "sha256": "3de1973ca8a75f3aaae8f573228f84a5a0339ac85d3f42f6518df733ef6d38ba",
+   "bytes": 1762
+  },
+  "adapters/template_stdio.py": {
+   "sha256": "774e20deaf74c7895a7f3e612cc6ddf4547ef60b09ea13946b8a2a4e2979cfc2",
+   "bytes": 1795
+  },
+  "adapters/wire.py": {
+   "sha256": "c507e2c21736820356f786ed0674cd430c8982ddbe795cfb564efb8c245fef01",
+   "bytes": 2831
+  },
+  "adapters/witnessed_ledger.py": {
+   "sha256": "254f1dbcba1595a0fd0bca252a05aeff9fc09315f2c00c772542355a945d8dd3",
+   "bytes": 22764
+  },
+  "adapters/workspace_snapshots.py": {
+   "sha256": "2ef8e2752daf5fa703d1ec926435d0378b72b0e9b73347107888912c7563ea4c",
+   "bytes": 10054
+  },
+  "aors/README.md": {
+   "sha256": "675cd246888b39927a25d0ef7d224f2c11a310f8a2fb387467be35a93dfc33dc",
+   "bytes": 250
+  },
+  "aors/fleet.json": {
+   "sha256": "ceb77008b2139e2abbf6ec440159b9511e75a54ca1692435bc789c3902bb0906",
+   "bytes": 713
+  },
+  "bootstrap.py": {
+   "sha256": "d1f3bf8857a1964718661dc225e0da55f01216ca8bc0c74ed627286c33706d5b",
+   "bytes": 15864
+  },
+  "ci/host-only.txt": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "ci/link-allowlist.txt": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "ci/requirements.txt": {
+   "sha256": "1ecce7d0091219627059831f2e48b6c433465defd9702c2c3f741f6f39d58bf7",
+   "bytes": 372
+  },
+  "ci/run-local.sh": {
+   "sha256": "978bf9fe8642e47ef2e773b44e8190f67c474e7f578626c0590b35d39bed347d",
+   "bytes": 822
+  },
+  "ci/scan-secrets.sh": {
+   "sha256": "2b897357b863f0cadc2adf23189f171014b28e8fce725c53e98676fb8eac9ff8",
+   "bytes": 158
+  },
+  "cli.py": {
+   "sha256": "88bd3d3a9cca6787daab9fb20e011cd36ba7b4c7067448e34ce05d26da679566",
+   "bytes": 5119
+  },
+  "contracts/ACCEPTANCE.md": {
+   "sha256": "b5adf8bac020b954bd69ddc99b0dddd06a1c0f296f834fa7b3f0eef33b39d05a",
+   "bytes": 8089
+  },
+  "contracts/ADAPTERS.json": {
+   "sha256": "90889911bc970184fbedd5ec48defa8a69f485fbc497b32f267d653296ff6db7",
+   "bytes": 26786
+  },
+  "contracts/CONTRACT.json": {
+   "sha256": "05848bff545d839bdcc9e30f4c8d2352f768e0298129e4bc57cbb68ed9e0c0c5",
+   "bytes": 4191
+  },
+  "contracts/DECISION-003-agent-aors-and-hmi.md": {
+   "sha256": "88efbf9766a55695f89b3e861505c1956a1936b9043a5d431c9eeb632f300eaf",
+   "bytes": 363
+  },
+  "contracts/DECISION-004-private-witnessed-ledger.md": {
+   "sha256": "19d317e4cbfbc051485704c9d0f4503149c1074b3d8ac511f8512e2673ef9c53",
+   "bytes": 477
+  },
+  "contracts/DECISION-005-control-system-and-replaceable-adapters.md": {
+   "sha256": "4d62e402693daa674c6377dbfd829a9f6957f1c05afefe9e77dc4271d7102729",
+   "bytes": 413
+  },
+  "contracts/DECISION-006-cstack-server.md": {
+   "sha256": "0faf979169e866c4172eb9c83355fd0ba5a25c8c509fa149881038a4735f42c8",
+   "bytes": 337
+  },
+  "contracts/DECISION.md": {
+   "sha256": "886715d5103897eb28c336c02fbb67e0fa00e6d57e0ede36209f7f0daad095a8",
+   "bytes": 2422
+  },
+  "contracts/INTERFACES.md": {
+   "sha256": "7c14931f8731dc86d5f4b49ff55a4cfbb811d2f2a712c41efc6f7dc0f4a657ef",
+   "bytes": 26292
+  },
+  "contracts/RESEARCH.md": {
+   "sha256": "633318d6f72fce2caa8ccfbed7ab34c2f5ff8f1b6e350fe761b27a3a96e8d80d",
+   "bytes": 2565
+  },
+  "contracts/SOURCE-PINS.json": {
+   "sha256": "c3940c6b63b0ddde53f28aeefcaaf8f8a2e1c7aecf106c6494803cb3027ff74b",
+   "bytes": 1704
+  },
+  "contracts/adapters.schema.json": {
+   "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
+   "bytes": 4379
+  },
+  "contracts/aor.schema.json": {
+   "sha256": "5fb5923f4cb603941198ca02091a15a6ec4c227787d36e3891f92f53f38726d4",
+   "bytes": 4112
+  },
+  "contracts/capability-request.schema.json": {
+   "sha256": "de9d6925f5d2787c323249d2dd9470a4928fa09eec39b0aff0adfc3f7d98b17a",
+   "bytes": 1390
+  },
+  "contracts/capability-result.schema.json": {
+   "sha256": "019deaad9c9f0e8a489b117fce5fb28d4f57d6575c5608114b3db1910bde0112",
+   "bytes": 3567
+  },
+  "cstack.config.example.json": {
+   "sha256": "33b5b18ed4bf8a769c4784919bbe1d1372ab17b6ef8d96e96eb150136d337b57",
+   "bytes": 365
+  },
+  "docs/README.md": {
+   "sha256": "dd59c960f85eb2e3e046a22ef473c1094bae26d47e6eef1f57f0678d00346817",
+   "bytes": 1733
+  },
+  "docs/architecture/architecture.md": {
+   "sha256": "17c20d786eb0fbf3860422582d1a5d2957f9f278a1bc278d17a81903b261ea4a",
+   "bytes": 6181
+  },
+  "docs/configuration/configuration-management.md": {
+   "sha256": "6eb495b81f9a0996cf5bfe0e218a312d51478bbb88595e061032d999c7a8fd42",
+   "bytes": 5812
+  },
+  "docs/guides/explanation/README.md": {
+   "sha256": "c0cb45d116fd5406c7209aae826bbbf605dcd4b92d47fffa5121f51a6743ec3d",
+   "bytes": 516
+  },
+  "docs/guides/how-to/README.md": {
+   "sha256": "975a589ab2f896be827f6ae7c837463c86ba17adc63556c305ce8e5ecc36f58b",
+   "bytes": 673
+  },
+  "docs/guides/reference/README.md": {
+   "sha256": "3e6b64a9a3a67a722f9af96e933bbbd71d41afd79ac46c14005b5d9cfa0f32f6",
+   "bytes": 852
+  },
+  "docs/guides/tutorials/README.md": {
+   "sha256": "421f45293e9a60227e0fbb9358955c9b244eed93db12193ad5357ef12f59bd6f",
+   "bytes": 448
+  },
+  "docs/icd/icd-foundations.md": {
+   "sha256": "69bbdb2ce9d218af4e38d41bf45185ca4c8499d9a8e2910dc2664c33361e523d",
+   "bytes": 7197
+  },
+  "docs/requirements/requirements.md": {
+   "sha256": "c8a688e8876ff77ed98c4ffe48aaff0f583d68d9ee99ed1886e94b8daff44e43",
+   "bytes": 6541
+  },
+  "docs/rules/no-comments.md": {
+   "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
+   "bytes": 220
+  },
+  "docs/verification/verification-matrix.md": {
+   "sha256": "dba7db2f9fcd04ba9d2630eef1d03868b841a4aafa15becd0586982ff5ffaf92",
+   "bytes": 6623
+  },
+  "examples/refrigeration-reading-check.json": {
+   "sha256": "6d4d3b7412607968dcfe824c420a3d49530158e090044d1bb3b9a9f497e422cf",
+   "bytes": 7200
+  },
+  "examples/scalar-and-negative.json": {
+   "sha256": "9e5856a8edea53358288a0eb6563f0e50839932d242ec43f43d0e6ab5429815e",
+   "bytes": 4295
+  },
+  "examples/template-echo.json": {
+   "sha256": "98098174df50b4919d3e508253c771e936c68e3aaf7db67c2dec49c3549f4fbe",
+   "bytes": 3667
+  },
+  "examples/tool-cases.json": {
+   "sha256": "c1191e4779f26d375461069b78b0c33381f0932a2349958bf907d0cb950f3386",
+   "bytes": 89146
+  },
+  "extensions/__init__.py": {
+   "sha256": "a7503216ea1cd2fa9f64c09ee3b5fb45393ee7f7879e08cf280ce3fcc0ef93f9",
+   "bytes": 66
+  },
+  "extensions/foundation_film.py": {
+   "sha256": "635c04527c08ff1a7d87b6079ce49596d50ae408134add7c5349861d72f28c86",
+   "bytes": 2915
+  },
+  "extensions/foundation_math.py": {
+   "sha256": "c72f5a374f58a20880cbda35cd92ca7cce64789f211428926ccce11f63d3f70f",
+   "bytes": 3515
+  },
+  "extensions/foundation_refrigeration.py": {
+   "sha256": "61f2e56b4cff8d04a1ca07d17a096972fa331156debbf432ea92ec8ac0fe43d4",
+   "bytes": 3078
+  },
+  "extensions/foundation_robotics.py": {
+   "sha256": "0f4867c137e096e153bb0369143632801fb68fe99b77c93a273b24f28bbd44bc",
+   "bytes": 2932
+  },
+  "extensions/foundation_template.py": {
+   "sha256": "bb6e0d606cee4a582728ec9f26621a55d5e178f3bcac12bf1c8577725bf5a325",
+   "bytes": 2374
+  },
+  "foundations/film/.github/CODEOWNERS": {
+   "sha256": "0b43bdb0202e8770771703bd63dfe8551aaaad356dcac08cdc38f46b2352d242",
+   "bytes": 15
+  },
+  "foundations/film/.github/ISSUE_TEMPLATE/bug.md": {
+   "sha256": "30373862be50eeba5d7b7d94be80b50244b00f6881a23bf676f451ed47836945",
+   "bytes": 135
+  },
+  "foundations/film/.github/assets/social-preview.png": {
+   "sha256": "22d58cebe468291c1c1499e20c4075562ffcd0d58c7fa491b8986fd12a30e8c8",
+   "bytes": 74485
+  },
+  "foundations/film/.github/pull_request_template.md": {
+   "sha256": "6aa4d61712fd297fd703484793c2933fa85ddaaf43ab8cd07e5709db9454c406",
+   "bytes": 188
+  },
+  "foundations/film/.gitignore": {
+   "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
+   "bytes": 36
+  },
+  "foundations/film/.gitleaks.toml": {
+   "sha256": "27630a96d6c55755cc37620f3933d5cab94b1eb78a726a32e11212972525d76e",
+   "bytes": 27
+  },
+  "foundations/film/CHANGELOG.md": {
+   "sha256": "a4551fc855c4830a7e13f17f1221873d0e6999914ae02554fa2231ba25d9c0ca",
+   "bytes": 175
+  },
+  "foundations/film/CODE_OF_CONDUCT.md": {
+   "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
+   "bytes": 188
+  },
+  "foundations/film/CONTRIBUTING.md": {
+   "sha256": "9ed1fe3efc3c3f000b98754c6909fa978112d9f6540952a4e8e0fdddedd3c01e",
+   "bytes": 725
+  },
+  "foundations/film/LICENSE": {
+   "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+   "bytes": 34674
+  },
+  "foundations/film/NOTICE.md": {
+   "sha256": "612fed4775eecf3503432401df1638b8f394d5d4ef3c8aa25195d6360630a289",
+   "bytes": 216
+  },
+  "foundations/film/README.md": {
+   "sha256": "aeea35c81aaef0e22269a497fc1a20455229f8b11f43f147a3cc3f5374e3abfc",
+   "bytes": 4348
+  },
+  "foundations/film/SECURITY.md": {
+   "sha256": "7e14a8a25cb03c7055f8966e9ca2052de5f818bc3fbfe825c9a916c1e9463990",
+   "bytes": 210
+  },
+  "foundations/film/SOURCE-MANIFEST.json": {
+   "sha256": "83130de85d2b7a52a32591c205a76735b0048e364ec1f92394c33f51b77eea6a",
+   "bytes": 4078
+  },
+  "foundations/film/SUPPORT.md": {
+   "sha256": "e3ebb589274d55dc463a69c7ca0843edd2bdf2bda01efa3f88be7c03681c343c",
+   "bytes": 136
+  },
+  "foundations/film/docs/README.md": {
+   "sha256": "a75d462384ee13bd21c1a3fd13fa82c3e909f284d5e664a58cdffa8715ad9a93",
+   "bytes": 602
+  },
+  "foundations/film/docs/architecture/architecture.md": {
+   "sha256": "d0dd3674b0f7d4fdd9389928a28bfd102b1bd04bdad8d4f3942934c910bdd560",
+   "bytes": 2439
+  },
+  "foundations/film/docs/configuration/configuration-management.md": {
+   "sha256": "c34818bf4ca6cc7e0dd6829fcae89aba5ebf831c50189f4a605760a755218fc9",
+   "bytes": 580
+  },
+  "foundations/film/docs/guides/explanation/README.md": {
+   "sha256": "7fa87f0955136ef7792f34f1df3619b8c17daf0217fb535b6b76fd250130d134",
+   "bytes": 214
+  },
+  "foundations/film/docs/guides/how-to/README.md": {
+   "sha256": "9029a5e25987a3f9e36d90fc3e7bad5949e409db7f0a86770aa7bd6e5e1dcc51",
+   "bytes": 204
+  },
+  "foundations/film/docs/guides/reference/README.md": {
+   "sha256": "0b9c443f329ad44b1d28276ddd401d6f668b4cf5bf9dccf322ae1af8e080527c",
+   "bytes": 130
+  },
+  "foundations/film/docs/guides/tutorials/README.md": {
+   "sha256": "cd5926b4f522f2463d4af05e60903424e90cf70c9b21edd37c59aea125281d0d",
+   "bytes": 81
+  },
+  "foundations/film/docs/icd/icd-cstack.md": {
+   "sha256": "e021db302edc732a40d20bc6cb73f888d0b3fffde971afb001b3ca31ec69b952",
+   "bytes": 1113
+  },
+  "foundations/film/docs/requirements/requirements.md": {
+   "sha256": "b1ff3f099b220868a56d5f1353fbb9b85174c910a7e5f1f0e246bb43e000112a",
+   "bytes": 3059
+  },
+  "foundations/film/docs/verification/verification-matrix.md": {
+   "sha256": "f369054b441fa555992f1756f10b8a01d98c4116373480be4828e96ca7b0fd3a",
+   "bytes": 1082
+  },
+  "foundations/film/foundation_film/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/film/foundation_film/audio.py": {
+   "sha256": "fb09fada45b5369379a55e01a41cd1c14910b733ef2cec8fcaca03c712474558",
+   "bytes": 5248
+  },
+  "foundations/film/foundation_film/cinema.py": {
+   "sha256": "cba5a97cbceb41feac1cf69494f9f2f44a3b854408a9d241918a50e6bdab2b25",
+   "bytes": 7678
+  },
+  "foundations/film/foundation_film/cues.py": {
+   "sha256": "c956c6c0fd520b83c7199ca2e8cb0bb7ccdcf256eda5293f2dfce82f022b3783",
+   "bytes": 5092
+  },
+  "foundations/film/foundation_film/drift.py": {
+   "sha256": "d54256c70b3fb6afa6d87ff56a3efb80c8832084a0aef15a59d64fcfe907b8b5",
+   "bytes": 4167
+  },
+  "foundations/film/foundation_film/look.py": {
+   "sha256": "014cdf960d055656fe11ba3e53ee2d816c4c08784da1d1da1c795aff5a14c2c8",
+   "bytes": 3056
+  },
+  "foundations/film/foundation_film/measures.py": {
+   "sha256": "91ade71d262687685d0ab8a70fc3e9d01b0a4ce5cb4e2ff29c8ccf6e2bab4be9",
+   "bytes": 2520
+  },
+  "foundations/film/foundation_film/tools.py": {
+   "sha256": "c345c8fbddbfb41440b88e335ae881292394533d658a9da2ae16838f83ac6f42",
+   "bytes": 9018
+  },
+  "foundations/film/foundation_film_bridge/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/film/foundation_film_bridge/__main__.py": {
+   "sha256": "b2e7cd69efc38bed1ba71f3238b4c028839c75ac65653fcf9c369bdf78bc7554",
+   "bytes": 94
+  },
+  "foundations/film/foundation_film_bridge/schemas.py": {
+   "sha256": "94a2adf2d19d102143f11974a6ffb999bc260c66d557f9743b51347fc0ae8d8b",
+   "bytes": 12945
+  },
+  "foundations/film/foundation_film_bridge/server.py": {
+   "sha256": "482e3f6681f67a49ac11b204d723915ed0e02b884ad60a926eb159530d06ba9f",
+   "bytes": 7757
+  },
+  "foundations/film/tests/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "foundations/film/tests/test_bridge.py": {
+   "sha256": "4e4e4ddca16e75f1348d590c683a880551bb9cc7f70393d4e5d3e8517d4df2eb",
+   "bytes": 4573
+  },
+  "foundations/film/tests/test_tools.py": {
+   "sha256": "e9bd59ce5d048149c1ee4259c2a0850472c839e816b39cda1818fa0c34870e14",
+   "bytes": 22197
+  },
+  "foundations/film/tools/build_manifest.py": {
+   "sha256": "a0c652b916851450f840bea6b621f886739d7950eb4035ad993a4179a437bfe0",
+   "bytes": 1235
+  },
+  "foundations/math/README.md": {
+   "sha256": "9a883c099fb7d2ab4343021ec571b66883e8ea46473847306a2f31b656363905",
+   "bytes": 1642
+  },
+  "foundations/math/examples/2i-regression.problem.json": {
+   "sha256": "2a7e6b0957dc685e1bd684c43eb8c76d1f2b92e7f3afdc4768ffcec69010900c",
+   "bytes": 3289
+  },
+  "foundations/math/fm_research/__init__.py": {
+   "sha256": "7d861056d4031e16005757f5889f781d266ca99b084b072ad6567f76f0bd6026",
+   "bytes": 79
+  },
+  "foundations/math/fm_research/__main__.py": {
+   "sha256": "1d1b97f537eb9dc36f47233d0aee571c52a6d5a8a732b72443a5745945a487da",
+   "bytes": 2039
+  },
+  "foundations/math/fm_research/field.py": {
+   "sha256": "0d2ae8d1ac6e1542c0780f33c713fda9d030955fbe5488116cdacf57205e0971",
+   "bytes": 3301
+  },
+  "foundations/math/fm_research/p1.py": {
+   "sha256": "304cf98b23d48846b3cb15dff1c00bb9df37615a038b924a8d3105f13459e1d8",
+   "bytes": 2029
+  },
+  "foundations/math/fm_research/problem.py": {
+   "sha256": "0e718ddda6122d6570023072eda22abfa82ec8c7c9f5a04bcb5e698222af8129",
+   "bytes": 10462
+  },
+  "foundations/math/fm_research/rank.py": {
+   "sha256": "3dfed6d3ad3e367ea97b1c75f3954728ccc064fa54fd2c4aed2ddb229733506c",
+   "bytes": 6197
+  },
+  "foundations/math/fm_research/twoi.py": {
+   "sha256": "bb6ac5fe84573c95201f1d0e8ad05e52a9402a5375fdfc412f680cce4d76356f",
+   "bytes": 5581
+  },
+  "foundations/math/fm_research/vendor.py": {
+   "sha256": "2bf2634d1a826d2ea8843aacc3b8c466c5c5c4ff7f1b15b12ad3e2199d7bb76f",
+   "bytes": 732
+  },
+  "foundations/math/tests/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "foundations/math/tests/fixtures/false-claim.problem.json": {
+   "sha256": "8f170fa31c417edc9654a5c61f0d66ced9e6b7d2dc3de9b41bd79cb02f41134b",
+   "bytes": 778
+  },
+  "foundations/math/tests/test_kernels.py": {
+   "sha256": "5d81111f724e4bfe17669122cd88f3ece2f29a8f662a4f250000ec7469a8ee8c",
+   "bytes": 4754
+  },
+  "foundations/math/tests/test_problem.py": {
+   "sha256": "fecea353544fd272cb7d95638dafc1f822345e6351da7d2373a45979eaa7021b",
+   "bytes": 4950
+  },
+  "foundations/math/tests/test_twoi.py": {
+   "sha256": "a7ef89b66925fc1b993ad8ad3b124d95110d2d3cf241c1eb79b7a2d8e0ca8261",
+   "bytes": 5273
+  },
+  "foundations/refrigeration/.github/CODEOWNERS": {
+   "sha256": "0b43bdb0202e8770771703bd63dfe8551aaaad356dcac08cdc38f46b2352d242",
+   "bytes": 15
+  },
+  "foundations/refrigeration/.github/ISSUE_TEMPLATE/bug.md": {
+   "sha256": "30373862be50eeba5d7b7d94be80b50244b00f6881a23bf676f451ed47836945",
+   "bytes": 135
+  },
+  "foundations/refrigeration/.github/assets/social-preview.png": {
+   "sha256": "5527a778b7b6b9370ffca6c13568436457f2ca1eb2a68422df60bf7cb78bb875",
+   "bytes": 83391
+  },
+  "foundations/refrigeration/.github/pull_request_template.md": {
+   "sha256": "6aa4d61712fd297fd703484793c2933fa85ddaaf43ab8cd07e5709db9454c406",
+   "bytes": 188
+  },
+  "foundations/refrigeration/.gitignore": {
+   "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
+   "bytes": 36
+  },
+  "foundations/refrigeration/.gitleaks.toml": {
+   "sha256": "27630a96d6c55755cc37620f3933d5cab94b1eb78a726a32e11212972525d76e",
+   "bytes": 27
+  },
+  "foundations/refrigeration/CHANGELOG.md": {
+   "sha256": "a4551fc855c4830a7e13f17f1221873d0e6999914ae02554fa2231ba25d9c0ca",
+   "bytes": 175
+  },
+  "foundations/refrigeration/CODE_OF_CONDUCT.md": {
+   "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
+   "bytes": 188
+  },
+  "foundations/refrigeration/CONTRIBUTING.md": {
+   "sha256": "9ed1fe3efc3c3f000b98754c6909fa978112d9f6540952a4e8e0fdddedd3c01e",
+   "bytes": 725
+  },
+  "foundations/refrigeration/LICENSE": {
+   "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+   "bytes": 34674
+  },
+  "foundations/refrigeration/NOTICE.md": {
+   "sha256": "612fed4775eecf3503432401df1638b8f394d5d4ef3c8aa25195d6360630a289",
+   "bytes": 216
+  },
+  "foundations/refrigeration/README.md": {
+   "sha256": "976dcb22183fa0d09dd00b3c64df70a1e61a15722301000cf5f4f981898f89a9",
+   "bytes": 4187
+  },
+  "foundations/refrigeration/SECURITY.md": {
+   "sha256": "7e14a8a25cb03c7055f8966e9ca2052de5f818bc3fbfe825c9a916c1e9463990",
+   "bytes": 210
+  },
+  "foundations/refrigeration/SOURCE-MANIFEST.json": {
+   "sha256": "be9799b6753b60f03851348525cd774db6e480d0483bd8141238236aa7e8eef9",
+   "bytes": 6929
+  },
+  "foundations/refrigeration/SUPPORT.md": {
+   "sha256": "e3ebb589274d55dc463a69c7ca0843edd2bdf2bda01efa3f88be7c03681c343c",
+   "bytes": 136
+  },
+  "foundations/refrigeration/docs/README.md": {
+   "sha256": "a75d462384ee13bd21c1a3fd13fa82c3e909f284d5e664a58cdffa8715ad9a93",
+   "bytes": 602
+  },
+  "foundations/refrigeration/docs/architecture/architecture.md": {
+   "sha256": "22b418a7e176066be0984fe41f31dd30010a7fc93c0e8344c3f740bce23062f0",
+   "bytes": 2223
+  },
+  "foundations/refrigeration/docs/configuration/configuration-management.md": {
+   "sha256": "c34818bf4ca6cc7e0dd6829fcae89aba5ebf831c50189f4a605760a755218fc9",
+   "bytes": 580
+  },
+  "foundations/refrigeration/docs/guides/explanation/README.md": {
+   "sha256": "7fa87f0955136ef7792f34f1df3619b8c17daf0217fb535b6b76fd250130d134",
+   "bytes": 214
+  },
+  "foundations/refrigeration/docs/guides/how-to/README.md": {
+   "sha256": "9029a5e25987a3f9e36d90fc3e7bad5949e409db7f0a86770aa7bd6e5e1dcc51",
+   "bytes": 204
+  },
+  "foundations/refrigeration/docs/guides/reference/README.md": {
+   "sha256": "480bea15364543e17b9d9cb62c0b4163c5e00fa2220d8adb363164834515769a",
+   "bytes": 139
+  },
+  "foundations/refrigeration/docs/guides/tutorials/README.md": {
+   "sha256": "cd5926b4f522f2463d4af05e60903424e90cf70c9b21edd37c59aea125281d0d",
+   "bytes": 81
+  },
+  "foundations/refrigeration/docs/icd/icd-cstack.md": {
+   "sha256": "265c0fdbc115e62496f7a867e2ebed98ae70f1ce9435187545ae5a19dba1a49b",
+   "bytes": 1217
+  },
+  "foundations/refrigeration/docs/requirements/requirements.md": {
+   "sha256": "236d7dd0de1c2931a099010365c117fc00063f88d62c2a48014c15eb1cd781f3",
+   "bytes": 2892
+  },
+  "foundations/refrigeration/docs/verification/verification-matrix.md": {
+   "sha256": "0e6dc0a3578cee72bc29dede8080693cc390fe1abdc28d526673317675760470",
+   "bytes": 1256
+  },
+  "foundations/refrigeration/foundation_refrigeration/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/exposure-limits.json": {
+   "sha256": "bedd13ecec18a588c31292d539397ec67f5781ca06e52f55e5d86286ad0602b2",
+   "bytes": 8527
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/open-decisions.json": {
+   "sha256": "cefa9abf35517425ef1fe15d346dc9dac17147705b8312bfc7bb37cd1ce76203",
+   "bytes": 5933
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/plant-taxonomy.json": {
+   "sha256": "4bbbeb9ae718ff55be6d188ed7eed4e9f61f8626418228cd91bdf498c9c73ae6",
+   "bytes": 40542
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/psm-thresholds.json": {
+   "sha256": "8c061553077d8ea6897033dc536a13f6aa6e677a37d380135c793c78490b6424",
+   "bytes": 4582
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.co2.json": {
+   "sha256": "a2b37ab2f3305c462738bfb749f8a6c100b9bf6d5b9bb320b79825815be5cb28",
+   "bytes": 10235
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.nh3.json": {
+   "sha256": "0e957e7a9d1d475e993659aa4bb3de6dedb69118c5a038745f1e218e91f6d62c",
+   "bytes": 12950
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r134a.json": {
+   "sha256": "5bae59968ff37a5f01c137b071b05b4f0c7e7f4a72d618e8adc73c723c5a1557",
+   "bytes": 11857
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r22.json": {
+   "sha256": "8ecad3fd6ee3db8e8176f892cb5fc85f320e4b4d2fa24954d14ef9d78d2c68c2",
+   "bytes": 12877
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r290.json": {
+   "sha256": "84bad4e45f970f60cb2f413abee5febe9de51c95e1a8769d84408267af984e25",
+   "bytes": 12875
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r404a.json": {
+   "sha256": "48e93f5933e858c1d23d6a4ebaba6e160a512230f314e398d5cd8d1d74410e0c",
+   "bytes": 12006
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r410a.json": {
+   "sha256": "7a1cdd821a64b1cf83f7c1370e38cf77d66e8c2ec41cd8f9685537c7479bd838",
+   "bytes": 11269
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r448a.json": {
+   "sha256": "f6c9323362ab4e3ef2f07685491e5d24113c0a9abbecaf44a140b23163484754",
+   "bytes": 12988
+  },
+  "foundations/refrigeration/foundation_refrigeration/data/refrigerant-saturation.r507a.json": {
+   "sha256": "62f34f55989f4cc75058af6b5f1789d59ea101cfbc1e5d8f063e20cb7adaa86d",
+   "bytes": 12001
+  },
+  "foundations/refrigeration/foundation_refrigeration/decisions.py": {
+   "sha256": "d22ead385f9d154da02eb52030881fe4b043ca94cabe6e9d09b9aceee68d6908",
+   "bytes": 960
+  },
+  "foundations/refrigeration/foundation_refrigeration/evidence.py": {
+   "sha256": "47c6820e7b9476e6f8879403284e1eaaa713675d7757f6b594c3e46ca6a87519",
+   "bytes": 10491
+  },
+  "foundations/refrigeration/foundation_refrigeration/plant_model.py": {
+   "sha256": "0dde60ff4e1a0892a10181664bfc213375a9371dff5e9d365fd2bfa88ea82170",
+   "bytes": 3808
+  },
+  "foundations/refrigeration/foundation_refrigeration/process_safety.py": {
+   "sha256": "799edc710bdae4cf0bf0eacfc374153d9651b612935df09b56f824cbc941bb16",
+   "bytes": 11790
+  },
+  "foundations/refrigeration/foundation_refrigeration/projection.py": {
+   "sha256": "6526e4cb5bd16c5422feec2cfb34f6052e59668b9af5763cc3a9cdbcef1c6b94",
+   "bytes": 1424
+  },
+  "foundations/refrigeration/foundation_refrigeration/safety_limits.py": {
+   "sha256": "6fca312a01f416c60031d581f874840d7471093527fc3187607a9b3a48aa4838",
+   "bytes": 4817
+  },
+  "foundations/refrigeration/foundation_refrigeration/thermo.py": {
+   "sha256": "f924913a08843bf092a936f7ad3fc8bc04602b1decdecf2971b3d1edf9bc1ad7",
+   "bytes": 5422
+  },
+  "foundations/refrigeration/foundation_refrigeration/tools.py": {
+   "sha256": "eada995d7bd61d2ff92764283c7ad882702c50a2a642d4c6a654429119c45ca4",
+   "bytes": 15486
+  },
+  "foundations/refrigeration/foundation_refrigeration/units.py": {
+   "sha256": "7214b35fb4fe393d64dca101eebd9364cd4dd5e8a5c083ec5b3686e6f31b4de5",
+   "bytes": 6600
+  },
+  "foundations/refrigeration/foundation_refrigeration_bridge/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/refrigeration/foundation_refrigeration_bridge/__main__.py": {
+   "sha256": "b2e7cd69efc38bed1ba71f3238b4c028839c75ac65653fcf9c369bdf78bc7554",
+   "bytes": 94
+  },
+  "foundations/refrigeration/foundation_refrigeration_bridge/schemas.py": {
+   "sha256": "42964050929255f66216fdb8b9ffe777d6de945e3bf848e854f88320c725214f",
+   "bytes": 15169
+  },
+  "foundations/refrigeration/foundation_refrigeration_bridge/server.py": {
+   "sha256": "46a87e03a5b5e7564ac03e75fd8f8558939d0154c4ef0f958cfcdbc3f697a136",
+   "bytes": 9731
+  },
+  "foundations/refrigeration/golden/coolprop-8.0.0-points.json": {
+   "sha256": "ac5577bf5b640d4fa2cff5b10a11393705147a5d89b86769bb38f1a55a24abc4",
+   "bytes": 8021
+  },
+  "foundations/refrigeration/golden/generator-golden-points.json": {
+   "sha256": "b9027c9c7c1294488a432eb633e301a88cf5ce533b125a151f3bf8adaf4ca141",
+   "bytes": 20151
+  },
+  "foundations/refrigeration/tests/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "foundations/refrigeration/tests/test_bridge.py": {
+   "sha256": "48259e9cc90c6d987689faeeede7888946da64c233efcbf1d312df286a2baf49",
+   "bytes": 12393
+  },
+  "foundations/refrigeration/tests/test_domain_data.py": {
+   "sha256": "a8a9d5ce7e27ec5ba9fd2384a72493ebd4b0e1d376cdadf9913f9f88e8d3472a",
+   "bytes": 6743
+  },
+  "foundations/refrigeration/tests/test_evidence_units.py": {
+   "sha256": "f0e39ba4c95ae8fbfc2e7d7bd9c8962dbb1f73ca9fa60f50bf30d1eaf3f73190",
+   "bytes": 8636
+  },
+  "foundations/refrigeration/tests/test_names_and_manifest.py": {
+   "sha256": "5822163541795dda785ecc6e01b6b5abec3a4a5f0c9065691dff3165e77f84fa",
+   "bytes": 806
+  },
+  "foundations/refrigeration/tests/test_process_safety.py": {
+   "sha256": "c36afb1aff6bb17194672c2bb4ca4f6ede4aef9b57c32c42e3ebc6fd08049afc",
+   "bytes": 8669
+  },
+  "foundations/refrigeration/tests/test_thermo.py": {
+   "sha256": "3235d9b2d318bf19dbeaa4fb70a811771a26626f794eab87634592a0a00ad7d6",
+   "bytes": 8890
+  },
+  "foundations/refrigeration/tools/build_manifest.py": {
+   "sha256": "8b0bc9402dc8eee2ecff6a5e81e0d31490657f010b1b7d71af4c17dc598ae352",
+   "bytes": 748
+  },
+  "foundations/refrigeration/tools/compute_golden.py": {
+   "sha256": "203cf8b22c7e272c52c18f9347d1bf52d1bed302b8a37fa60a64cf784a938fc3",
+   "bytes": 3275
+  },
+  "foundations/robotics/.github/CODEOWNERS": {
+   "sha256": "0b43bdb0202e8770771703bd63dfe8551aaaad356dcac08cdc38f46b2352d242",
+   "bytes": 15
+  },
+  "foundations/robotics/.github/ISSUE_TEMPLATE/bug.md": {
+   "sha256": "30373862be50eeba5d7b7d94be80b50244b00f6881a23bf676f451ed47836945",
+   "bytes": 135
+  },
+  "foundations/robotics/.github/assets/social-preview.png": {
+   "sha256": "e50380cc5f346ccd7fcd1bd177b1542c2ef54c0cea6fb316495ae27031cc9f74",
+   "bytes": 79645
+  },
+  "foundations/robotics/.github/pull_request_template.md": {
+   "sha256": "6aa4d61712fd297fd703484793c2933fa85ddaaf43ab8cd07e5709db9454c406",
+   "bytes": 188
+  },
+  "foundations/robotics/.gitignore": {
+   "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
+   "bytes": 36
+  },
+  "foundations/robotics/.gitleaks.toml": {
+   "sha256": "27630a96d6c55755cc37620f3933d5cab94b1eb78a726a32e11212972525d76e",
+   "bytes": 27
+  },
+  "foundations/robotics/CHANGELOG.md": {
+   "sha256": "a4551fc855c4830a7e13f17f1221873d0e6999914ae02554fa2231ba25d9c0ca",
+   "bytes": 175
+  },
+  "foundations/robotics/CODE_OF_CONDUCT.md": {
+   "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
+   "bytes": 188
+  },
+  "foundations/robotics/CONTRIBUTING.md": {
+   "sha256": "9ed1fe3efc3c3f000b98754c6909fa978112d9f6540952a4e8e0fdddedd3c01e",
+   "bytes": 725
+  },
+  "foundations/robotics/LICENSE": {
+   "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+   "bytes": 34674
+  },
+  "foundations/robotics/NOTICE.md": {
+   "sha256": "612fed4775eecf3503432401df1638b8f394d5d4ef3c8aa25195d6360630a289",
+   "bytes": 216
+  },
+  "foundations/robotics/README.md": {
+   "sha256": "3f0a2fe9062ee18005702f66456026e6a6e10963f35876fe10b41f3f48006add",
+   "bytes": 4270
+  },
+  "foundations/robotics/SECURITY.md": {
+   "sha256": "7e14a8a25cb03c7055f8966e9ca2052de5f818bc3fbfe825c9a916c1e9463990",
+   "bytes": 210
+  },
+  "foundations/robotics/SOURCE-MANIFEST.json": {
+   "sha256": "0eef13a6ff1dd52c1b301491f065d72cba2a10db3304fdb647cf29b3e2763575",
+   "bytes": 4584
+  },
+  "foundations/robotics/SUPPORT.md": {
+   "sha256": "e3ebb589274d55dc463a69c7ca0843edd2bdf2bda01efa3f88be7c03681c343c",
+   "bytes": 136
+  },
+  "foundations/robotics/docs/README.md": {
+   "sha256": "a75d462384ee13bd21c1a3fd13fa82c3e909f284d5e664a58cdffa8715ad9a93",
+   "bytes": 602
+  },
+  "foundations/robotics/docs/architecture/architecture.md": {
+   "sha256": "14f793a1d5e45d4493b0a87f7bfec68f3b4a3bb9df8d0d17bebac22ef9177501",
+   "bytes": 2355
+  },
+  "foundations/robotics/docs/configuration/configuration-management.md": {
+   "sha256": "c34818bf4ca6cc7e0dd6829fcae89aba5ebf831c50189f4a605760a755218fc9",
+   "bytes": 580
+  },
+  "foundations/robotics/docs/guides/explanation/README.md": {
+   "sha256": "7fa87f0955136ef7792f34f1df3619b8c17daf0217fb535b6b76fd250130d134",
+   "bytes": 214
+  },
+  "foundations/robotics/docs/guides/how-to/README.md": {
+   "sha256": "9029a5e25987a3f9e36d90fc3e7bad5949e409db7f0a86770aa7bd6e5e1dcc51",
+   "bytes": 204
+  },
+  "foundations/robotics/docs/guides/reference/README.md": {
+   "sha256": "62ea481ba7265bed250f844f3ec1f7ca770830a819126c45acd422fde691901a",
+   "bytes": 134
+  },
+  "foundations/robotics/docs/guides/tutorials/README.md": {
+   "sha256": "cd5926b4f522f2463d4af05e60903424e90cf70c9b21edd37c59aea125281d0d",
+   "bytes": 81
+  },
+  "foundations/robotics/docs/icd/icd-cstack.md": {
+   "sha256": "2b75f1d00112d3df4ea22d527713ae6423eb41fc448b1afc2acb2f58a488bdee",
+   "bytes": 1118
+  },
+  "foundations/robotics/docs/requirements/requirements.md": {
+   "sha256": "8b387da78045912b0b57bd47970ce39db8fb3b3e69d0f93b121fb63cfab944f5",
+   "bytes": 2947
+  },
+  "foundations/robotics/docs/verification/verification-matrix.md": {
+   "sha256": "daa7305911b7190a89cff7e26c42a6c183a2af1c4a0d6b2c33805acf7ad038d8",
+   "bytes": 981
+  },
+  "foundations/robotics/foundation_robotics/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/robotics/foundation_robotics/balance.py": {
+   "sha256": "9f22dac52bf55394714ca05080c67b7b6239a974d1a1186020dec8eb24efc44c",
+   "bytes": 6555
+  },
+  "foundations/robotics/foundation_robotics/data/calibration.json": {
+   "sha256": "ca064b3faf1907e26b33ee577a6b3d86e76aa6716cdde035b8495038fefc77a4",
+   "bytes": 4288
+  },
+  "foundations/robotics/foundation_robotics/data/defaults.json": {
+   "sha256": "f3e02ceb2b146bc5b9e43340df456f0574fbcfae77529af00054d5f46d2bd6da",
+   "bytes": 3976
+  },
+  "foundations/robotics/foundation_robotics/gait.py": {
+   "sha256": "4caf9e346f468adef4bfca142847af2b648a632c138033d3c6f266229be52c94",
+   "bytes": 8295
+  },
+  "foundations/robotics/foundation_robotics/kinematics.py": {
+   "sha256": "569321c2e84f8f686b55bce178ace080550281ef493107822dc57d321390d05a",
+   "bytes": 7245
+  },
+  "foundations/robotics/foundation_robotics/measures.py": {
+   "sha256": "1940a9dab29e4445e1776e24620ed00a77c6947dba7e4e91a8d9709df7b2a773",
+   "bytes": 3659
+  },
+  "foundations/robotics/foundation_robotics/mechanisms.py": {
+   "sha256": "21e2921d920c69441a476babca7ea7d24c4a4e58c375ea11a851779a8cfaf8ad",
+   "bytes": 10813
+  },
+  "foundations/robotics/foundation_robotics/scale.py": {
+   "sha256": "0a119a4cfd2ef498dabfb9aa746e7d3b4cd9802e7a0cf65b4865f876c461f5b0",
+   "bytes": 3565
+  },
+  "foundations/robotics/foundation_robotics/sources.py": {
+   "sha256": "428e789e8f84e596702a6d198f4c8021e542d64043b03fbc54bd312b9de4dac1",
+   "bytes": 5174
+  },
+  "foundations/robotics/foundation_robotics/squash.py": {
+   "sha256": "d35d21db3e55a38f39d80e3139d277743ce2904b2a78f7456a253616a5775fee",
+   "bytes": 1386
+  },
+  "foundations/robotics/foundation_robotics/tools.py": {
+   "sha256": "40890fb882e88adabe203fa7fdc8352411fc2abcb9a4d85c3b21bb5a04471138",
+   "bytes": 9601
+  },
+  "foundations/robotics/foundation_robotics_bridge/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/robotics/foundation_robotics_bridge/__main__.py": {
+   "sha256": "b2e7cd69efc38bed1ba71f3238b4c028839c75ac65653fcf9c369bdf78bc7554",
+   "bytes": 94
+  },
+  "foundations/robotics/foundation_robotics_bridge/schemas.py": {
+   "sha256": "4d481b8b700c2ffa50b1bf1c688d564cc0ee8744ec2919976d707d26187539a3",
+   "bytes": 12695
+  },
+  "foundations/robotics/foundation_robotics_bridge/server.py": {
+   "sha256": "939429ec433e743f45708ca17e4f714ff58378c0dad767d21c8f3bba91fd2865",
+   "bytes": 7776
+  },
+  "foundations/robotics/tests/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "foundations/robotics/tests/test_bridge.py": {
+   "sha256": "c3f8e2c3cc2808c812575e1045c7edfd70bf3684707d776a1f5ba494283970f6",
+   "bytes": 4144
+  },
+  "foundations/robotics/tests/test_tools.py": {
+   "sha256": "eace05bdb204f28f8fe8510db6338d70b7e522bc4f8a0385413a36a4ce42eb56",
+   "bytes": 21893
+  },
+  "foundations/robotics/tools/build_manifest.py": {
+   "sha256": "7c8db477e79c5a364a100e683b88ee5462f0f5f97d6067b1f9d1c3808221b1ff",
+   "bytes": 1243
+  },
+  "foundations/template/.github/CODEOWNERS": {
+   "sha256": "0b43bdb0202e8770771703bd63dfe8551aaaad356dcac08cdc38f46b2352d242",
+   "bytes": 15
+  },
+  "foundations/template/.github/ISSUE_TEMPLATE/bug.md": {
+   "sha256": "30373862be50eeba5d7b7d94be80b50244b00f6881a23bf676f451ed47836945",
+   "bytes": 135
+  },
+  "foundations/template/.github/assets/social-preview.png": {
+   "sha256": "36af2b21422cdd6636a090ab45b21516fb4d72f7c52c1ea61fcc9c412951d492",
+   "bytes": 72953
+  },
+  "foundations/template/.github/pull_request_template.md": {
+   "sha256": "6aa4d61712fd297fd703484793c2933fa85ddaaf43ab8cd07e5709db9454c406",
+   "bytes": 188
+  },
+  "foundations/template/.gitignore": {
+   "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
+   "bytes": 36
+  },
+  "foundations/template/.gitleaks.toml": {
+   "sha256": "27630a96d6c55755cc37620f3933d5cab94b1eb78a726a32e11212972525d76e",
+   "bytes": 27
+  },
+  "foundations/template/CHANGELOG.md": {
+   "sha256": "a4551fc855c4830a7e13f17f1221873d0e6999914ae02554fa2231ba25d9c0ca",
+   "bytes": 175
+  },
+  "foundations/template/CODE_OF_CONDUCT.md": {
+   "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
+   "bytes": 188
+  },
+  "foundations/template/CONTRIBUTING.md": {
+   "sha256": "9ed1fe3efc3c3f000b98754c6909fa978112d9f6540952a4e8e0fdddedd3c01e",
+   "bytes": 725
+  },
+  "foundations/template/LICENSE": {
+   "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+   "bytes": 34674
+  },
+  "foundations/template/NOTICE.md": {
+   "sha256": "612fed4775eecf3503432401df1638b8f394d5d4ef3c8aa25195d6360630a289",
+   "bytes": 216
+  },
+  "foundations/template/README.md": {
+   "sha256": "fca8b225be558eecae87035ce175f833eab4685728edb37916dcfbe7a3c812f0",
+   "bytes": 3176
+  },
+  "foundations/template/SECURITY.md": {
+   "sha256": "7e14a8a25cb03c7055f8966e9ca2052de5f818bc3fbfe825c9a916c1e9463990",
+   "bytes": 210
+  },
+  "foundations/template/SOURCE-MANIFEST.json": {
+   "sha256": "259316e6768ce551e8427e860620b588e010ce847933a2cd1106bd1ab4d1625c",
+   "bytes": 3409
+  },
+  "foundations/template/SUPPORT.md": {
+   "sha256": "e3ebb589274d55dc463a69c7ca0843edd2bdf2bda01efa3f88be7c03681c343c",
+   "bytes": 136
+  },
+  "foundations/template/docs/README.md": {
+   "sha256": "a75d462384ee13bd21c1a3fd13fa82c3e909f284d5e664a58cdffa8715ad9a93",
+   "bytes": 602
+  },
+  "foundations/template/docs/architecture/architecture.md": {
+   "sha256": "fa9c2e45cd1994e20cfabe3d976f2e500c233fb3cd87826841795276fcf1c6dd",
+   "bytes": 1296
+  },
+  "foundations/template/docs/configuration/configuration-management.md": {
+   "sha256": "c34818bf4ca6cc7e0dd6829fcae89aba5ebf831c50189f4a605760a755218fc9",
+   "bytes": 580
+  },
+  "foundations/template/docs/guides/explanation/README.md": {
+   "sha256": "7fa87f0955136ef7792f34f1df3619b8c17daf0217fb535b6b76fd250130d134",
+   "bytes": 214
+  },
+  "foundations/template/docs/guides/how-to/README.md": {
+   "sha256": "9029a5e25987a3f9e36d90fc3e7bad5949e409db7f0a86770aa7bd6e5e1dcc51",
+   "bytes": 204
+  },
+  "foundations/template/docs/guides/reference/README.md": {
+   "sha256": "6f4ecd79cf47768c7be6e481058aa83769878a668878ef088298447fad0e3849",
+   "bytes": 134
+  },
+  "foundations/template/docs/guides/tutorials/README.md": {
+   "sha256": "cd5926b4f522f2463d4af05e60903424e90cf70c9b21edd37c59aea125281d0d",
+   "bytes": 81
+  },
+  "foundations/template/docs/icd/icd-cstack.md": {
+   "sha256": "be620fae1fd89f70fb07ddc3f11daf16c2f305953fb575b6afcbb2298e42bd4d",
+   "bytes": 1044
+  },
+  "foundations/template/docs/requirements/requirements.md": {
+   "sha256": "8845095556eb2c08d14e4541cd3496e8b7206e959bf08da4a7c01fb4ad3153fd",
+   "bytes": 1403
+  },
+  "foundations/template/docs/verification/verification-matrix.md": {
+   "sha256": "70584e437aea643f71a997cde48a4b5c9a56c2420bccb8e2a31843f506887b19",
+   "bytes": 635
+  },
+  "foundations/template/foundation_template/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/template/foundation_template/tools.py": {
+   "sha256": "8e67e22e8efd71da331b17867bb69909c624699cb3a439b14739becd25e08a62",
+   "bytes": 1912
+  },
+  "foundations/template/foundation_template_bridge/__init__.py": {
+   "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+   "bytes": 22
+  },
+  "foundations/template/foundation_template_bridge/__main__.py": {
+   "sha256": "b2e7cd69efc38bed1ba71f3238b4c028839c75ac65653fcf9c369bdf78bc7554",
+   "bytes": 94
+  },
+  "foundations/template/foundation_template_bridge/schemas.py": {
+   "sha256": "6519de4783a77be09e6cd6a4f480e5f70b6e77bfb331e4402e89ceecc265216d",
+   "bytes": 1813
+  },
+  "foundations/template/foundation_template_bridge/server.py": {
+   "sha256": "d5050b0a6eef2e745b32253f30d2414910fba588e71106f59cd77d40bfae00c1",
+   "bytes": 7720
+  },
+  "foundations/template/tests/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "foundations/template/tests/test_bridge.py": {
+   "sha256": "5624f0b16f496bc990ce87ab8819301591667d29e3a222073bd10ed849aed9a6",
+   "bytes": 4148
+  },
+  "foundations/template/tools/build_manifest.py": {
+   "sha256": "94ef233353aa2e4a81e1c0331619ce46e86f8682bf4b2fd72fef2e61d8497bf0",
+   "bytes": 1243
+  },
+  "poodo_core/__init__.py": {
+   "sha256": "8e1ac08df106fb3aa2e6c6eaa89008554ee59006ba9d681e2dbfea2d81e75a67",
+   "bytes": 312
+  },
+  "poodo_core/core.py": {
+   "sha256": "378b83031df68cb2186060b0783cef036c0ced9e6fbf38e0ab40fc23b36d5e0b",
+   "bytes": 43269
+  },
+  "poodo_core/models.py": {
+   "sha256": "45293f7dd3e33896d00eb388ffd9160ad849921f581252ed4e2ca21e8b3d405e",
+   "bytes": 14674
+  },
+  "poodo_core/policy.py": {
+   "sha256": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
+   "bytes": 6600
+  },
+  "poodo_core/ports.py": {
+   "sha256": "718c25f7942c431102db09a32abe1f4055e03635a0358d6f0dc3b939166ef37c",
+   "bytes": 3019
+  },
+  "products/README.md": {
+   "sha256": "43bf0d16c9e768d14e58adf8b84867dbbea5a6298327e434e41900bddb878a4e",
+   "bytes": 136
+  },
+  "products/example.json": {
+   "sha256": "804a88dcc6f766e1224c6a4282f2f32efb359167939811f3b18146c498595c5a",
+   "bytes": 38
+  },
+  "reasoning/poodo/.github/pull_request_template.md": {
+   "sha256": "8d59c9a6aa17b5834b0c1bfc6cbf58f2461170c960c22794b5ee453d95dbabe2",
+   "bytes": 287
+  },
+  "reasoning/poodo/.github/workflows/checks.yml": {
+   "sha256": "829b5c9fcb90c869f19600a90122fec2ca11a7eafa714ec5c4aceb41aacaf563",
+   "bytes": 693
+  },
+  "reasoning/poodo/.gitignore": {
+   "sha256": "47c3e32b8d7ad237f8e8a7c0a46a6879d815319a0b0f6516a54e276dd249f09d",
+   "bytes": 86
+  },
+  "reasoning/poodo/CHANGELOG.md": {
+   "sha256": "2f431b7e61cf558b91d785207a323d592d8a2eef866de48e3d82a2220393bfd1",
+   "bytes": 3800
+  },
+  "reasoning/poodo/CONTRIBUTING.md": {
+   "sha256": "fc89fa955239b79888ac60145088219222a0469c1dea6a56b932c6379f6fc922",
+   "bytes": 1604
+  },
+  "reasoning/poodo/LICENSE": {
+   "sha256": "330f8ede387b939987d1e81cfb8a0f2da48b473f965a3d18aaa39fa4782976b8",
+   "bytes": 1068
+  },
+  "reasoning/poodo/README.md": {
+   "sha256": "0bf568174d2d2a504f3ad2fbdb014c775b5b8d6fdafd0a19e6883b6a842f4ba5",
+   "bytes": 5944
+  },
+  "reasoning/poodo/SKILL.md": {
+   "sha256": "1253b583cbdada0423524e22427312e00a881c6d335aa68b780d8eb392bf15f7",
+   "bytes": 11478
+  },
+  "reasoning/poodo/THIRD_PARTY_NOTICES.md": {
+   "sha256": "9f4964456acd7470810f791d66952e18f059443a252b61dca17b7b24c399db11",
+   "bytes": 2709
+  },
+  "reasoning/poodo/agents/openai.yaml": {
+   "sha256": "b69e08206ae75a1327bc9142770833c7992ee8091f43e736f48092fbbe9e7a5e",
+   "bytes": 251
+  },
+  "reasoning/poodo/assets/mega-observe-charter.yaml": {
+   "sha256": "500fdcc902a7e877bd9c8d26f775a5ff7efe0624e0f53cc10dcbf94ef05a5ea3",
+   "bytes": 1542
+  },
+  "reasoning/poodo/docs/evaluation.md": {
+   "sha256": "8236467aaedeb5e4a90df59f9614d9f8bdd4108c63343ba91e7f021d23f8475f",
+   "bytes": 5572
+  },
+  "reasoning/poodo/docs/getting-started.md": {
+   "sha256": "84bd7a7d16685441b29271cc7136430e250cb0352672d117da9cc91dcd16d580",
+   "bytes": 3005
+  },
+  "reasoning/poodo/docs/how-it-works.md": {
+   "sha256": "3c566c354053e405ab1f6691947b96d457921772ad6c36b64fabe8477f4f7248",
+   "bytes": 2506
+  },
+  "reasoning/poodo/docs/roadmap.md": {
+   "sha256": "56361527a5c0973c8f24906ddaa58a69ebf9a885aa9df589677e1cfe2020d836",
+   "bytes": 1336
+  },
+  "reasoning/poodo/evals/fixtures/invalid-resurrection.yaml": {
+   "sha256": "98124f6f06e54d81858ac88bf4b50df85cca7a530ebe9e6d222db8d994c5bf9f",
+   "bytes": 1001
+  },
+  "reasoning/poodo/evals/fixtures/invalid-truncated-evidence.yaml": {
+   "sha256": "b6990ed1206da8392411df7b8da1fcc782fcc2c8d660059fbc5645b86dc0e30d",
+   "bytes": 1335
+  },
+  "reasoning/poodo/evals/fixtures/software-engineering/booking.mjs": {
+   "sha256": "1fe96ff2228d18509f5e0ad03164a53bd4b17e4b50f4f56518229f3bfdf7385b",
+   "bytes": 288
+  },
+  "reasoning/poodo/evals/fixtures/software-engineering/release.json": {
+   "sha256": "9515b3e06d938906e7ca85fe141ac6f2fc35a3381721ff091d9469e426eb1232",
+   "bytes": 703
+  },
+  "reasoning/poodo/evals/fixtures/software-engineering/workshop.json": {
+   "sha256": "5508b1b89ac4021dbfbdd407e38e1c3cb717011fb9ceb14b2b873fc117c73ec1",
+   "bytes": 898
+  },
+  "reasoning/poodo/evals/fixtures/valid-capsule.yaml": {
+   "sha256": "a16a2cc389ec4b6ff97016cde18573578aa6c79b7c32136dbfabf7e7cab27a1e",
+   "bytes": 2511
+  },
+  "reasoning/poodo/evals/manifest.yaml": {
+   "sha256": "9b060ef34bd740e8ce478d831aa83f1589d8ecda332f49945b835f4b71bba593",
+   "bytes": 7241
+  },
+  "reasoning/poodo/evals/mega-observe.yaml": {
+   "sha256": "8d90591ee9aeaa0199c49f4ca3fb3c82ba17e0b67c99e972acd9d065a1bfc284",
+   "bytes": 3184
+  },
+  "reasoning/poodo/evals/protocol.md": {
+   "sha256": "6ff35454bf3a514063d727bd19656aca2803831d8b69d341317cca7fab30d9a3",
+   "bytes": 1626
+  },
+  "reasoning/poodo/evals/rubric.md": {
+   "sha256": "155a96e0e4ee2590cfd5309f637c23114bb65254fc2a81779af1f4615624970e",
+   "bytes": 2322
+  },
+  "reasoning/poodo/evals/run-record.template.yaml": {
+   "sha256": "56fd0364998f12bf8a486bca9dc397a5b1c305cd551be93b706fa42ff7621ab0",
+   "bytes": 683
+  },
+  "reasoning/poodo/evals/software-engineering.yaml": {
+   "sha256": "e9efb98221104f8dc4f1fedcfea7e798c52c5f88873345dfbbf942fb099594c6",
+   "bytes": 6446
+  },
+  "reasoning/poodo/evals/test_check_capsule.py": {
+   "sha256": "c42ac41f9441def8ffe8a5d1b32b63b54335231dd9eb6ebb8d3a0098ed285a49",
+   "bytes": 6941
+  },
+  "reasoning/poodo/examples/README.md": {
+   "sha256": "7039b71787edbdbfd9a5a748a41bbbce6eb82308eb673e6c3b0ce5faf21e6e45",
+   "bytes": 775
+  },
+  "reasoning/poodo/examples/architecture-decision.md": {
+   "sha256": "4ba14c89a317095ad8b8044a9fb90c44de87c711c9d39ae4ebd79b551b38cd7a",
+   "bytes": 1678
+  },
+  "reasoning/poodo/examples/continuity-handoff.md": {
+   "sha256": "f4d4c4ad9ccada5eff441ac2b16de7ec51a3981d82137c21b04333d4f88d07f0",
+   "bytes": 1176
+  },
+  "reasoning/poodo/examples/deployment-contradiction.md": {
+   "sha256": "8cb8e47ecd74c6a4dac7231045f8e0e83ed3af2b006b4b52f477e65851d6e150",
+   "bytes": 1886
+  },
+  "reasoning/poodo/examples/mega-observe.md": {
+   "sha256": "5d5ab70e3a2ba0bf78c82b7dce31e12f057a4b9a0ab78a83569ffab8fd617be0",
+   "bytes": 1989
+  },
+  "reasoning/poodo/references/continuity-and-ledger.md": {
+   "sha256": "3e70f627645df8f4f9db67fcefa0e537654c11e58c4846d6494b830af41c1ee5",
+   "bytes": 8520
+  },
+  "reasoning/poodo/references/contradiction-protocol.md": {
+   "sha256": "8d305f63cc9fad68ac0f121ebedd685e2910404f7e62ccd92bf4c3a5bf7278bb",
+   "bytes": 2537
+  },
+  "reasoning/poodo/references/decide.md": {
+   "sha256": "4ff0719fd295123a1eff62908d7dd95c09e9e8693b669ff21a565f9f71686ccf",
+   "bytes": 1360
+  },
+  "reasoning/poodo/references/epistemic-integrity.md": {
+   "sha256": "baad65ca7327243e80ba23527739e3af4c115d447d6afd55d6e63477140ff9f2",
+   "bytes": 6356
+  },
+  "reasoning/poodo/references/evaluation.md": {
+   "sha256": "7b287a3e676c1a829cabde943aa2685ffd29add19ad54d24edcb8a15313efa7d",
+   "bytes": 3347
+  },
+  "reasoning/poodo/references/fan-out-spikes.md": {
+   "sha256": "8ffd73adbe3f6031eddee95beaf0c901afc2a2b73edbac003e49e9892f0d5312",
+   "bytes": 6753
+  },
+  "reasoning/poodo/references/goal-integration.md": {
+   "sha256": "d00c91e826a522c0adae89ff47e091954bd904dbc1c22e832c906a865b9c45ca",
+   "bytes": 4429
+  },
+  "reasoning/poodo/references/mega-observe.md": {
+   "sha256": "279908406e3865f6fb16fb1573f5ece76c32a1e0d7c8fb1cb83a085b7105aee8",
+   "bytes": 13534
+  },
+  "reasoning/poodo/references/method-selection.md": {
+   "sha256": "c25eb27c1f6a59c822366692421c35d8708f473c60b14778f6c7cd3338b20494",
+   "bytes": 1683
+  },
+  "reasoning/poodo/references/observe.md": {
+   "sha256": "3b2b4ca43b0caa45f7a46a7ee2bf8f38f3953119f310d5605af785ab25f4205e",
+   "bytes": 4880
+  },
+  "reasoning/poodo/references/orchestrate.md": {
+   "sha256": "8a4842a0f7bd170d81fe4cc70e324c0f5b0dcdd9868ccb7b952c0c282bed3390",
+   "bytes": 1553
+  },
+  "reasoning/poodo/references/orient.md": {
+   "sha256": "f9cd09769c4207021972bde939916bb3c10a926e23838d07e1402301e3c2cd98",
+   "bytes": 2738
+  },
+  "reasoning/poodo/references/output-patterns.md": {
+   "sha256": "a0a1f6d3eee5daa6b743888053d6c23956fbc4dc344a82e6ed1ae133399053ea",
+   "bytes": 1290
+  },
+  "reasoning/poodo/references/pontificate.md": {
+   "sha256": "3a1b789ef0a6f6d436bd9efdc338c22b595e9c0ac8f0a88aa8b3ed9d2d0a7524",
+   "bytes": 2193
+  },
+  "reasoning/poodo/references/semantic-topology.md": {
+   "sha256": "8982021a5713efc1123297877a40934901a722045c4eac11592cf414cbf6a644",
+   "bytes": 3243
+  },
+  "reasoning/poodo/references/software-engineering.md": {
+   "sha256": "be8ea3f63ad06a80e2bb7ccc8821264078c1ded53bd8458455b23f6f892f3a0a",
+   "bytes": 7813
+  },
+  "reasoning/poodo/requirements-dev.txt": {
+   "sha256": "0969da99a0bc2a1b71ed50584560f4588a37567ac63af3ddbaf3c4617ca5621a",
+   "bytes": 14
+  },
+  "reasoning/poodo/scripts/check_capsule.py": {
+   "sha256": "a8dde2ffa2c45acdd600e9a02a4baa942c18244d3c7f5cd5048654a14d439e7f",
+   "bytes": 16007
+  },
+  "reasoning/poodo/scripts/validate_skill.py": {
+   "sha256": "0fa924b0098d4e28951f8aa0712e66dc593da30a5d0fc4fc6956f86d16d32950",
+   "bytes": 4278
+  },
+  "requirements.txt": {
+   "sha256": "55ff5313a0132d4037cf57d9dc9dd29073aee248a472b0702d2246b37cbd0431",
+   "bytes": 98
+  },
+  "schemas/film-v01-tools.json": {
+   "sha256": "cbb83d768106c0c19852bb549aa923f7e6decd69ce94d933989b7e95c4dec11c",
+   "bytes": 39483
+  },
+  "schemas/math-v014-tools.json": {
+   "sha256": "7060358a342286ce12dacc99641df17a63ee5c2d9af8eb0e5707a0658fa63bce",
+   "bytes": 353013
+  },
+  "schemas/refrigeration-v01-tools.json": {
+   "sha256": "b0fb6ce834bbf981ad922478930b8520d63d5766a88093d1f49aaf9dc1a9a5a4",
+   "bytes": 69160
+  },
+  "schemas/robotics-v01-tools.json": {
+   "sha256": "1dab2bff430945fae5817bf703c97b3fa73779cad41aa12c12cf0f36e3ce1f73",
+   "bytes": 42967
+  },
+  "schemas/template-v01-tools.json": {
+   "sha256": "42cb98b52d8646947f197201b6ee5a143c4d1afb00a316df837cc380798d2308",
+   "bytes": 2070
+  },
+  "tests/__init__.py": {
+   "sha256": "256c0627555b853522dc09a3759e34449cb55fc944a4619d0a7164029197ae9f",
+   "bytes": 65
+  },
+  "tests/aor_fixtures.py": {
+   "sha256": "22a8cebe552412146bb014c999f9646f1e9a11f4b8240c8c013fe569e1789c55",
+   "bytes": 4423
+  },
+  "tests/fake_gh.py": {
+   "sha256": "27dc75c5f361cfb9c18ae449ab355a39a12e6211287fb87ab2935fd8dd34cbe4",
+   "bytes": 3896
+  },
+  "tests/fixtures/mcp_tools_list.json": {
+   "sha256": "0cc17af27ac90d4ca805a198709a143ee7fc841a5ef93b984e01819432d30778",
+   "bytes": 4708
+  },
+  "tests/fixtures/mcp_tools_list_fleet_mail.json": {
+   "sha256": "c20830e7e722a39c1a8fad60d90f6dcdbbbf3719fb517adfc1a6f3ab875af572",
+   "bytes": 2712
+  },
+  "tests/helpers.py": {
+   "sha256": "bc2ae39268ef1e83066ccdd637988bfd62b55f074d84015d1be2d81a727e297b",
+   "bytes": 3987
+  },
+  "tests/replaceability/__init__.py": {
+   "sha256": "32c0d4734efbb41a923eb5b0ee1d2c67581b63b6cb50f7eb4316e8686f2f3654",
+   "bytes": 97
+  },
+  "tests/replaceability/compose.py": {
+   "sha256": "84f4562501c55cc64d1d9d0a822ac60ccfd1dbac2021da26e5c7004641a09b03",
+   "bytes": 5586
+  },
+  "tests/replaceability/test_shared.py": {
+   "sha256": "5c5f206db7cab41f67f9b28e14529b8f468d262d8d8959bed81bc2787f3f1570",
+   "bytes": 5057
+  },
+  "tests/replaceability/test_toolface.py": {
+   "sha256": "3051a39b88ca8f07cb8bef5914b1c341ec81013aea23490a6313bcb1a201134c",
+   "bytes": 3112
+  },
+  "tests/replaceability/test_truthface.py": {
+   "sha256": "be62e10c45d77ce11b34352aeceae57f142b88dd387ba158fb0b387e31ce7db2",
+   "bytes": 4321
+  },
+  "tests/test_adapter_inventory.py": {
+   "sha256": "02627f6c7381b6b989c50952903273aa3304cfdcfa0133e1866b20702beb7076",
+   "bytes": 8697
+  },
+  "tests/test_aor_registry.py": {
+   "sha256": "74450ac86315db0f02da136c3e68ffceef6a73d55d6748b4c4ab20b53678cda3",
+   "bytes": 3948
+  },
+  "tests/test_aor_session.py": {
+   "sha256": "118ed9f971b83fbe0a76cabb9fa560ea4aae8d6f45a8e12c182165ab0c4c69c0",
+   "bytes": 10004
+  },
+  "tests/test_aor_session_ownership.py": {
+   "sha256": "46e63fd9c91f9a237a801551adbe0fc5ab79f1590808d32b5f0e348980196030",
+   "bytes": 7813
+  },
+  "tests/test_approval_policy.py": {
+   "sha256": "efc40d2f86796ec7803ff774863eb9b26a3573e4776f8e76cdb6781c615575d6",
+   "bytes": 11209
+  },
+  "tests/test_approval_store.py": {
+   "sha256": "38339c8c173de0c32eebb6997133ba3d3dff89c860669ba10a4f371e7483b3ab",
+   "bytes": 5878
+  },
+  "tests/test_bootstrap.py": {
+   "sha256": "20ba1ca2e67a8bf3f97c208b71b3786c3a3f19525d7fa87cc20aab9550d5290b",
+   "bytes": 3738
+  },
+  "tests/test_budget_hard_stop.py": {
+   "sha256": "b9b41afebbd6e43760856bb2eb23fba5eb262b14c604dad31598ff18c36c58e5",
+   "bytes": 11288
+  },
+  "tests/test_capacity_admission.py": {
+   "sha256": "2c35dc9529509296bf793fb7c69efdd9db311754aa62528ea860f33bae7849b5",
+   "bytes": 17104
+  },
+  "tests/test_check_links.py": {
+   "sha256": "6caa8ae1810e4102053cf8eb1ab71336fda3e54e94f057ef50a993304354c7ba",
+   "bytes": 3514
+  },
+  "tests/test_claim_gate.py": {
+   "sha256": "a10e1a1e02df03c65f60da2fb29e3c424525fd650b245b3463b522e4764266ac",
+   "bytes": 7016
+  },
+  "tests/test_core.py": {
+   "sha256": "f8360e0edd9f96e37bcce52dbeeb8dbd92e0a0352f394225a92ac4df341e7ade",
+   "bytes": 13076
+  },
+  "tests/test_core_reentrancy.py": {
+   "sha256": "6c74437088be797b56f5cfd73197a01218d39eb8214e141b5481afe0e138577c",
+   "bytes": 16932
+  },
+  "tests/test_domain_registry.py": {
+   "sha256": "feab251f5862c1dfa412ec34582cd653e6bd61abdad5f774716785d6e9c88f41",
+   "bytes": 5535
+  },
+  "tests/test_e2e_agent_ledger.py": {
+   "sha256": "47bd7346674aaea4d7f34c0809385fd4e22c3b8dc0ac2aa57c081f20454db060",
+   "bytes": 2638
+  },
+  "tests/test_film_conformance.py": {
+   "sha256": "4df1b1f827f15d7ed42034e9f33e00e979fe1873a8e1d232a7d251ca47be5ec3",
+   "bytes": 9778
+  },
+  "tests/test_fleet_mail.py": {
+   "sha256": "195bb022f35b6f9a1a6f06f914c6545124724b6fc87cb9b9d4b80ecd1c1d25f8",
+   "bytes": 27897
+  },
+  "tests/test_goal_liveness.py": {
+   "sha256": "75f3b7e05e45b340add1bed493c6ce478ac2c83ee69a135673429fc6b948ee75",
+   "bytes": 5001
+  },
+  "tests/test_grant_lanes.py": {
+   "sha256": "846188c8229fd1ffc74aa7a0e7fd09a1408d5bf7a0011bae98a48b104b6ec4f1",
+   "bytes": 13200
+  },
+  "tests/test_host_read_models.py": {
+   "sha256": "e918e122cb612bd61abd2aeafb378079b64d408879334865c562798b078865b8",
+   "bytes": 8189
+  },
+  "tests/test_inventory_crosscheck.py": {
+   "sha256": "4fea41b3645955e41b719dfd944c6655ffda10ce8a631dfce21d9e2b5129677f",
+   "bytes": 2634
+  },
+  "tests/test_math_adapter.py": {
+   "sha256": "76e539a0c70cb39bb2f1003b696a4f7518510004299d3d8be2699f2a6cd3b5cc",
+   "bytes": 12181
+  },
+  "tests/test_mcp_conformance.py": {
+   "sha256": "6c84558479b979a41ffe5ba044590de4b9d31b7b8dd4a57f78942f310ea19743",
+   "bytes": 5223
+  },
+  "tests/test_mcp_driving_adapter.py": {
+   "sha256": "19475f9c54763aa6b0b838106e441ad4d0969e30ae10f683246688da2b943cdf",
+   "bytes": 11728
+  },
+  "tests/test_mcp_stdio_client.py": {
+   "sha256": "f4a362be20e12fcc20d05942a7f4cbcd6126a22017f48b20e13effc696bae613",
+   "bytes": 17200
+  },
+  "tests/test_memory_cli.py": {
+   "sha256": "66fffd8e2d4b5ec8f56621e63c7ef0792b9d57bad0edfc1c3e3c76da59f5aa8a",
+   "bytes": 7521
+  },
+  "tests/test_memory_ingest.py": {
+   "sha256": "d2575c39ad6b44169d1af9f68ad47d9c4d860fd4cfac4cf8eaa31c9a9d3b8d97",
+   "bytes": 6896
+  },
+  "tests/test_memory_store.py": {
+   "sha256": "4ae668c087fa06cd92e75668feec5566c1778dcafae0c090c6e07eafd30e1c31",
+   "bytes": 8469
+  },
+  "tests/test_merge_train.py": {
+   "sha256": "e8049e3b8569dddfb59d6f38b08db9ccbd986c4c2eb259d60912fe2d8e2abce8",
+   "bytes": 1432
+  },
+  "tests/test_process_and_cli.py": {
+   "sha256": "49568263d447661df2bc58b8cd7e09f155391dac8a9d4c17caf5989adf7b848a",
+   "bytes": 8583
+  },
+  "tests/test_provider_policy.py": {
+   "sha256": "ec241cb9ca46d52e97d701ef465ae4b69f3dafc4e8695ada747d4d0157e01951",
+   "bytes": 11837
+  },
+  "tests/test_read_models.py": {
+   "sha256": "4428bba802c04f82c3d475ae6b3a30ac48a6e414bc8951c5dd19e7564e79012c",
+   "bytes": 9462
+  },
+  "tests/test_read_models_cli.py": {
+   "sha256": "bf8d7957bc0bbb8e3dfea0f4a6158984cc50629ecdc318d22334b95de068382b",
+   "bytes": 1683
+  },
+  "tests/test_refrigeration_conformance.py": {
+   "sha256": "25878c4d5e3ee14434eadee3660866be138b57f22cca17fadb6b093606154050",
+   "bytes": 18503
+  },
+  "tests/test_robotics_conformance.py": {
+   "sha256": "f14e2388ce3bf7c7e6c4af59780a6c9795819e676190c1f2da7c77378f1b52a6",
+   "bytes": 9561
+  },
+  "tests/test_runtime_watch.py": {
+   "sha256": "80645b19929c1bfdbdedfd025e735c00d2c74068378c9c7da5a23261b9456dbc",
+   "bytes": 29589
+  },
+  "tests/test_scheduled_approvals.py": {
+   "sha256": "58e3c0c50b1ae08ebb9ce113aa8523a87dc74f8da091a9462e3897c2b8fa7a38",
+   "bytes": 17207
+  },
+  "tests/test_template_conformance.py": {
+   "sha256": "de3088571833aeaf89adbb704e63b21823fab7fdf079a7eb9a736725f19dd0da",
+   "bytes": 6953
+  },
+  "tests/test_witness_watch.py": {
+   "sha256": "801043a5758b12a2134a82b5c63fd6e8a40a7f5f03aaf6fa44752d865b6e6a7b",
+   "bytes": 17858
+  },
+  "tests/test_witnessed_ledger.py": {
+   "sha256": "fdd0dd815cdba00a9ce7b8c46d95b5337d14837e09c6057420e73467662e9dd9",
+   "bytes": 23004
+  },
+  "tests/test_workspace_snapshots.py": {
+   "sha256": "4aff69a78080c0abcd07e9ca87cbc3973a180c82da0e131d3b8d6671a521c85a",
+   "bytes": 9265
+  },
+  "tools/agent_profiles.py": {
+   "sha256": "e18bb8b9cbf170f0b51b1ebf59f385277f1bf93cef49365c77973529ee420f05",
+   "bytes": 9000
+  },
+  "tools/build_export_manifest.py": {
+   "sha256": "a5f28781176d5bee24d23238ef151179da4ea40e22545b50cdf4bb5e582798e1",
+   "bytes": 785
+  },
+  "tools/check_links.py": {
+   "sha256": "838c0e5d4e624d556791ce8f23a59384b19853ac39f8ffcf9d8886abf49e381b",
+   "bytes": 5867
+  },
+  "tools/claim_gate.py": {
+   "sha256": "4e1dd8b89b4df7e0d4054d14e46968e0b6e053aa743ff9889054c2018b1e04fc",
+   "bytes": 12904
+  },
+  "tools/cstack_mcp.py": {
+   "sha256": "70deb8d3adda58bd6376aab3fb1f389566ade0bf3a6ad771ca324429878f8ad0",
+   "bytes": 2959
+  },
+  "tools/e2e_agent.py": {
+   "sha256": "0c3240023a16ea16592131e31117c0c9c97e2cb120f05dd468cd1b937c1505a5",
+   "bytes": 20554
+  },
+  "tools/generate_aors.py": {
+   "sha256": "074408a18c9ae94751b4693bd58cf82e784e2c84a4af75be9ee6977c710c382e",
+   "bytes": 5253
+  },
+  "tools/merge_train.py": {
+   "sha256": "da731708b65ea06c5aa595b43db143c8274a06b2d824a8aa4dbb4c7873f0b421",
+   "bytes": 9480
+  },
+  "tools/read_models.py": {
+   "sha256": "439fc3b1930c197b42b66709f57bbb7473fda6dd42483b2e7eab54f21c79c215",
+   "bytes": 3254
+  },
+  "tools/runtime_watch.py": {
+   "sha256": "6fe2e7f0153e6d4c8db4d28a0b4a2c5b3111a164146323e29f6aa6bd5644c85a",
+   "bytes": 25558
+  },
+  "tools/scheduled_approvals.py": {
+   "sha256": "bf19e7b18ae091f167ae6bc6be55e1c761138152e0b124a50b159ba7136d64da",
+   "bytes": 21509
+  },
+  "tools/snapshot_step.py": {
+   "sha256": "4e7c667af8a1cdbb35ddf7885835754c620bc0ef6dd098d00102b181689806ed",
+   "bytes": 2808
+  },
+  "tools/witness_watch.py": {
+   "sha256": "e48e0027fe96dfc23b3353e95ce4c205d498820565cda065c102f6b1650158dc",
+   "bytes": 16851
+  },
+  "vendor/foundation-math-v014/.gitignore": {
+   "sha256": "b188801bee5cfce1920cccf1cdff1b134a2467fa0b0e8d7a222f5badba979758",
+   "bytes": 77
+  },
+  "vendor/foundation-math-v014/AGENTS.md": {
+   "sha256": "a4e02b89f5f312cb9b1a16f222adf42bd5585df4abe8b1f839204e99f6ae6b46",
+   "bytes": 1845
+  },
+  "vendor/foundation-math-v014/CONTRIBUTING.md": {
+   "sha256": "c36229512442469dad5ac62870f75e0c2d31553e55fe8cd1f33e1753f4bb7dbe",
+   "bytes": 1317
+  },
+  "vendor/foundation-math-v014/COUNTEREXAMPLE-VENDOR-PROVENANCE.json": {
+   "sha256": "fe92b8b256fa796244882d9c553d44512bb59763668bc984ee97fca916a021ce",
+   "bytes": 717
+  },
+  "vendor/foundation-math-v014/EXTERIOR-EVIDENCE-PINS.json": {
+   "sha256": "44211f1e6fffb1a31cb6b586dae43dce0ab5d9c6343f9bfde33c4c02d87ea3f6",
+   "bytes": 12243
+  },
+  "vendor/foundation-math-v014/HYPOTHESIS-SCOPE-PINS.json": {
+   "sha256": "81e83a911289ac601e83b37f2c3ff7122b4124c79633774e40916eae8a5b4747",
+   "bytes": 2868
+  },
+  "vendor/foundation-math-v014/POLYNOMIAL-WITNESS-VENDOR-PROVENANCE.json": {
+   "sha256": "9dc74f7809b4ba686040faba843aecf0dbcf4613166146422cd75f022997c1e6",
+   "bytes": 711
+  },
+  "vendor/foundation-math-v014/README.md": {
+   "sha256": "a1a0831bcffc41332c21aa116a4432a1acf226905ec730b6c3aca1ed6402b9fd",
+   "bytes": 27931
+  },
+  "vendor/foundation-math-v014/RELEASE-FILES.json": {
+   "sha256": "120f07e9aae3e37e892adac8d1cdffc9f6c40c5c2b2dff535e387d42aef6ed02",
+   "bytes": 27690
+  },
+  "vendor/foundation-math-v014/SNAPSHOT-PINS.json": {
+   "sha256": "cb7236993734b2e2e0bbfa9712caff2f9b85916a3032934358fa181134d06f02",
+   "bytes": 914
+  },
+  "vendor/foundation-math-v014/SOURCE-MANIFEST.json": {
+   "sha256": "23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2",
+   "bytes": 66514
+  },
+  "vendor/foundation-math-v014/baseline_snapshot/__init__.py": {
+   "sha256": "5ad299a09c6f180ed16a47c47b240f01ed5b5bb0343e61d0564c572a766b6357",
+   "bytes": 80
+  },
+  "vendor/foundation-math-v014/baseline_snapshot/snapshot.py": {
+   "sha256": "c4960a494ab1d18e0f3d8e4c7a212d097c6cf7a92759785a080d08fad474fe0e",
+   "bytes": 23670
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/__init__.py": {
+   "sha256": "7af57b792f73466627d825ae0a105e6d00adf3d89339e9d5e322353a1b8465d0",
+   "bytes": 396
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/__main__.py": {
+   "sha256": "2219d15e0c112eb356aceb113e29826b5e01aedb0faee1d4cd7339364ed70ec0",
+   "bytes": 1812
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/_vendor/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/_vendor/calculator.py": {
+   "sha256": "146ec4fc9fca0c3400331c06595894fd9cb6a23668abae5c7b8d196e06bad54e",
+   "bytes": 9112
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/_vendor/polynomial.py": {
+   "sha256": "b700a069e0af9609a7b9e63d6a8185d9b430630d6d2f55f5a6ac2e5155022b9b",
+   "bytes": 16701
+  },
+  "vendor/foundation-math-v014/bounded_counterexample/core.py": {
+   "sha256": "6ae3f45d62563f7283491059913a3ecdf93326bc641ebb64b2c42a58292c42a0",
+   "bytes": 21517
+  },
+  "vendor/foundation-math-v014/character_ring/__init__.py": {
+   "sha256": "ccd5a3d9419574d33ce3a628f52639d741c2db3c4dd8dcfc827de38753825182",
+   "bytes": 522
+  },
+  "vendor/foundation-math-v014/character_ring/__main__.py": {
+   "sha256": "f77bbfbe0c410b28d88c5b4dd5e5963ec8b2fcfdba01fafff3146d27f3896314",
+   "bytes": 1294
+  },
+  "vendor/foundation-math-v014/character_ring/catalog.json": {
+   "sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+   "bytes": 16182
+  },
+  "vendor/foundation-math-v014/character_ring/contract.py": {
+   "sha256": "15414a9671f66d0ee7ed1ba1b681f611de392f1f87c920611631f444b3a92c4b",
+   "bytes": 4804
+  },
+  "vendor/foundation-math-v014/character_ring/producer.py": {
+   "sha256": "20993a7288b37e1b3a384b1c4046cae375c287f5bc5759078da41b1df5bf3ca0",
+   "bytes": 3765
+  },
+  "vendor/foundation-math-v014/character_ring/types.py": {
+   "sha256": "e25eb3799b2e16f8ceefe9c8f02ec25a3ac3898968ee04b65ebf0ce8fe29bccb",
+   "bytes": 1407
+  },
+  "vendor/foundation-math-v014/character_ring/verifier.py": {
+   "sha256": "d5ba4f472d8783d706ae4919fe86e77804c86abcf52574ca7959d9f432257115",
+   "bytes": 11934
+  },
+  "vendor/foundation-math-v014/claim_revision/__init__.py": {
+   "sha256": "39510615eee5e8b788cf9a935fcb73b54d8569d7c18ec19673ff940c474941af",
+   "bytes": 295
+  },
+  "vendor/foundation-math-v014/claim_revision/__main__.py": {
+   "sha256": "494463742ed58a29a2846722c04a5d8c68645cc467432bfe8b2981c7dfcfe61a",
+   "bytes": 733
+  },
+  "vendor/foundation-math-v014/claim_revision/core.py": {
+   "sha256": "c6c1f2ef00a64d514a781f281c7318612d644dc6b872690f6de7f16577552294",
+   "bytes": 18952
+  },
+  "vendor/foundation-math-v014/docs/AGENT-BRIDGE-VALIDATION.md": {
+   "sha256": "89a16bf6ff2c052f64048b2c851904a9107260dd293bf085a5277c0abd126c8f",
+   "bytes": 5992
+  },
+  "vendor/foundation-math-v014/docs/AGENT-BRIDGE.md": {
+   "sha256": "db4fc1a136df55ccbdc2a0f57b8d0952dc849c273c87f425653cac2a0adc5404",
+   "bytes": 12793
+  },
+  "vendor/foundation-math-v014/docs/ARCHITECTURE.md": {
+   "sha256": "03ab5a1dfba9e7199a1771e9b8033c57f9623af7404ae8755426b062f33764b2",
+   "bytes": 4367
+  },
+  "vendor/foundation-math-v014/docs/BASE-V010-BRIDGE-TOOLS.json": {
+   "sha256": "6f5b6f656ad17a7b711d691bba4054fe1694c89fe71d2847e9cfa28d19706ac9",
+   "bytes": 560672
+  },
+  "vendor/foundation-math-v014/docs/BASE-V010-SOURCE-MANIFEST.json": {
+   "sha256": "7626cbaadd8b8bd70d1b8ebaea4c2e638c478c63bddbb6c7ade3a2e485b3695f",
+   "bytes": 38023
+  },
+  "vendor/foundation-math-v014/docs/BASE-V011-BRIDGE-TOOLS.json": {
+   "sha256": "2a4d21f133451da623def629efe8adb81da7728fd6c5a561e7dda26db7039f9b",
+   "bytes": 593692
+  },
+  "vendor/foundation-math-v014/docs/BASE-V012-BRIDGE-TOOLS.json": {
+   "sha256": "2a4d21f133451da623def629efe8adb81da7728fd6c5a561e7dda26db7039f9b",
+   "bytes": 593692
+  },
+  "vendor/foundation-math-v014/docs/BASE-V013-BRIDGE-TOOLS.json": {
+   "sha256": "5e2e8644be2e79e36ff31f911cf9fec496820bc44047eae1ead40710fda4e6f4",
+   "bytes": 641197
+  },
+  "vendor/foundation-math-v014/docs/BASE-V03-SOURCE-MANIFEST.json": {
+   "sha256": "97a30118a3b75595451f6075d3d134f44c1bb1ed37358685ccb330eb2f00276d",
+   "bytes": 7751
+  },
+  "vendor/foundation-math-v014/docs/BASE-V04-SOURCE-MANIFEST.json": {
+   "sha256": "82bb4dfdf9b934f58fb1508f3cb94ac6eddb4970802391e16592dfd132b8735b",
+   "bytes": 11689
+  },
+  "vendor/foundation-math-v014/docs/BASE-V05-BRIDGE-TOOLS.json": {
+   "sha256": "cfa745b20d43fda52799ebc95c55e67d017888ed06e40acb2d01c3b955b245bc",
+   "bytes": 30142
+  },
+  "vendor/foundation-math-v014/docs/BASE-V05-SOURCE-MANIFEST.json": {
+   "sha256": "000a9d71a9ee250661f49edaa94ae8f0fb2929be698da4382e83210325acdb7e",
+   "bytes": 13788
+  },
+  "vendor/foundation-math-v014/docs/BASE-V06-BRIDGE-TOOLS.json": {
+   "sha256": "e68b33f04f2af94ccf0887d365d72441a73f20c2ae8fcc4f778eb3f4aff4e96f",
+   "bytes": 98834
+  },
+  "vendor/foundation-math-v014/docs/BASE-V06-FROZEN-FILES.json": {
+   "sha256": "a5b2f0e75d36aae10e40e1128c0a7dfd216207f43426271b6debdd1ddf261891",
+   "bytes": 18624
+  },
+  "vendor/foundation-math-v014/docs/BASE-V06-SOURCE-MANIFEST.json": {
+   "sha256": "e11e09b92c66687bf5bab2b88927ee5205e50beb1832a9a555af789e6f63e54f",
+   "bytes": 18955
+  },
+  "vendor/foundation-math-v014/docs/BASE-V07-PORTABLE-BRIDGE-TOOLS.json": {
+   "sha256": "1fd8dc7778949f1945603e81df7772d402446ade1b3332e1e69a2cbfa9863240",
+   "bytes": 252317
+  },
+  "vendor/foundation-math-v014/docs/BASE-V07-PORTABLE-FROZEN-FILES.json": {
+   "sha256": "b7ebee3bf1d0e8d7fed8d6331c6687fe5efa3c4e5297aca8f6f3e66d609eb25b",
+   "bytes": 28586
+  },
+  "vendor/foundation-math-v014/docs/BASE-V07-PORTABLE-SOURCE-MANIFEST.json": {
+   "sha256": "608d5703b313d0a2f8edf08b8dab40607ce61baf5921af44a0b8098062991214",
+   "bytes": 22568
+  },
+  "vendor/foundation-math-v014/docs/BASE-V07-SOURCE-MANIFEST.json": {
+   "sha256": "93892d475dd1cad0e1e5637a6fe682ee65af0846bfa0015650d088e68e5e30f3",
+   "bytes": 22088
+  },
+  "vendor/foundation-math-v014/docs/BASE-V08-BRIDGE-TOOLS.json": {
+   "sha256": "0223a5d7433c971f394730bcf3e8bc688cf3ece9e83fc637ad6075e6c1ced91d",
+   "bytes": 371471
+  },
+  "vendor/foundation-math-v014/docs/BASE-V08-SOURCE-MANIFEST.json": {
+   "sha256": "7c8c781fb33a261045eb3ebddde5805022bc5e55a6ce8521d94c5fcc83efa056",
+   "bytes": 27925
+  },
+  "vendor/foundation-math-v014/docs/BASE-V09-BRIDGE-TOOLS.json": {
+   "sha256": "3cf02ac4698902312430150a698aa1bb2a93a6f01bca49f5d2851eebafd48a40",
+   "bytes": 447638
+  },
+  "vendor/foundation-math-v014/docs/BASE-V09-SOURCE-MANIFEST.json": {
+   "sha256": "b39a8986aea180d8c24ced0606e1354ea0af53bc5f52ee7b22458e36c0e03c41",
+   "bytes": 32980
+  },
+  "vendor/foundation-math-v014/docs/BASELINE-SNAPSHOT-LAB-CONTRACT.md": {
+   "sha256": "90c6f2a77b13c942f9907026d6c639410da455de8cd6c311d1562803682da59a",
+   "bytes": 6105
+  },
+  "vendor/foundation-math-v014/docs/BASELINE-SNAPSHOT-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "55991f10d519cdcc1e10389f60d178bc12fa82174615a390f059047a34350a1b",
+   "bytes": 49931
+  },
+  "vendor/foundation-math-v014/docs/BASELINE-SNAPSHOT-VALIDATION.md": {
+   "sha256": "5ae0ca227408b441451b5441bc8d6fe49dd6b0b0515bfbe258dd13b1f8c6aee0",
+   "bytes": 3262
+  },
+  "vendor/foundation-math-v014/docs/BASELINE-SNAPSHOT.md": {
+   "sha256": "9639f8627a277aeeec0fe79efa87fb34bbe8826bca2ebc85218b15580c176f52",
+   "bytes": 3488
+  },
+  "vendor/foundation-math-v014/docs/BOUNDED-COUNTEREXAMPLES.md": {
+   "sha256": "b88ce7c97dbed5692e5fe1e47bb0393b144d08deea8fcad099aca14eb2929972",
+   "bytes": 10548
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-BRIDGE.md": {
+   "sha256": "cbb5783cda5a5d59e4d394478f12ce832837eaccaf700f56863095f6c81ba563",
+   "bytes": 2001
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-API.md": {
+   "sha256": "1c38395d4ceffb68eb3e915bf472d908cb1017f3a4a07faa978da43dcf6f9bc9",
+   "bytes": 7942
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-ARTIFACT-MANIFEST.json": {
+   "sha256": "6ee597fbc708da1c116ff9522142ffb8045dfbb47f05b615a055d1579f671d9d",
+   "bytes": 7977
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-DELIVERY-REPLAY.json": {
+   "sha256": "5f6d8cf16ef7c5156910ec255ac4ff23bc7abe17af4c8116d10924795fc910b3",
+   "bytes": 1263
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-MATHEMATICS.md": {
+   "sha256": "2d4327a0a43707c5ad81e0f161eee16e4d8776e0a9affbb6737ca7d18de1850d",
+   "bytes": 5693
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-REVIEW.md": {
+   "sha256": "a97358ffd0c0349dd488e8c8c4d38fcd8816a036a731ba0522d056cf5930f084",
+   "bytes": 6467
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "fbd2014cd2931db57964142c4af7bba09853a4fa6e191bf8a550fee9f1b2cb37",
+   "bytes": 5024
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-LAB-VALIDATION.md": {
+   "sha256": "dfdbe9e70776204f72825d3351af724808da02cef3011dd84c50a1f0e0efa122",
+   "bytes": 2284
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING-VALIDATION.md": {
+   "sha256": "f5c6385cc647afbe8b800ff49b4eb58448fa67af9529a3ede332934258f7e096",
+   "bytes": 5312
+  },
+  "vendor/foundation-math-v014/docs/CHARACTER-RING.md": {
+   "sha256": "062cb3cd272653e19db359767b11ed2375516aa79e05a584a1df6317e9c7a9d5",
+   "bytes": 3978
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-BRIDGE.md": {
+   "sha256": "98fb90c9a4bf2601ec3e7eba0ec6d407cff53feb6c811649aaefc8a29ff71779",
+   "bytes": 1879
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-LAB-CONTRACT.md": {
+   "sha256": "f8f196d4d63c753b3d0f2d5834851ea02e7b37b5bf7c6d50247e76e5c9342d60",
+   "bytes": 8496
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-LAB-REVIEW.md": {
+   "sha256": "d474b4c466029e9f09cba3918d595386d0b82d527ec9448f69ed6152ea9a16df",
+   "bytes": 6885
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "37101f16966c8427ac639e3328d98aca10cc5a3b17783748a56e808fb12a9c22",
+   "bytes": 6519
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-LAB-VALIDATION.md": {
+   "sha256": "8622d8aae91eb02789f8065fb9ea8f7b3d6f3c38b90af1e31d059b00487dca49",
+   "bytes": 3309
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION-VALIDATION.md": {
+   "sha256": "f03127a173fa7a8185064344f9b38eb6ec123b799e72f5435a35423f329746ca",
+   "bytes": 2790
+  },
+  "vendor/foundation-math-v014/docs/CLAIM-REVISION.md": {
+   "sha256": "fa95e9a23e76520c66da8d61aab9994a7f0a25e344f6034c404e5463e3cf6ce4",
+   "bytes": 3527
+  },
+  "vendor/foundation-math-v014/docs/COUNTEREXAMPLE-REVIEW.md": {
+   "sha256": "d027e39a5ed39cb26f7eec184bc3be4536f20be74c30081b44cdbf7be49fcb37",
+   "bytes": 6850
+  },
+  "vendor/foundation-math-v014/docs/COUNTEREXAMPLE-VALIDATION.md": {
+   "sha256": "ea827dc174f0d05b1513ed40dabfb7af658359f8dc5e38b4002dae09f5c1f64e",
+   "bytes": 5255
+  },
+  "vendor/foundation-math-v014/docs/DOMAIN-PACKS.md": {
+   "sha256": "c6c2d11d313a389ecbb775b4fcc1d1c744b7f825e56d9c50aea65ab51ed2f724",
+   "bytes": 3289
+  },
+  "vendor/foundation-math-v014/docs/DOMAIN-RUNTIME.md": {
+   "sha256": "8bc9a136a3ea3543f60c72af9335eb6a17ad19fe4c75b5dd499edd72edde3c26",
+   "bytes": 9413
+  },
+  "vendor/foundation-math-v014/docs/EULER-SEQUENCE-PITFALL.md": {
+   "sha256": "f653ce19f8a4f84471ab14582927c2d5722c3e2663bc6e32311b4e800d3d9b6a",
+   "bytes": 4482
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-EVIDENCE-BRIDGE.md": {
+   "sha256": "5d72aba7b7b481da96f6582ca906bfd9273b38836a0ea3c9e00a5a1435b3d2e5",
+   "bytes": 2647
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-EVIDENCE-VALIDATION.md": {
+   "sha256": "5c583abb73768e3c310b95659e3c0b3a5ed7d4b550fd5d74d6e869010e420503",
+   "bytes": 5520
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-EVIDENCE.md": {
+   "sha256": "4ae562fa2bd11e1cb30710963804b27073efe000b483f999aa13dd43d23d0a8a",
+   "bytes": 3006
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-API.md": {
+   "sha256": "2c5f37aca004d1ec5b823f1c4babbcdb76c04ff6a4de7b9f3be139197c0134be",
+   "bytes": 4762
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-INDEPENDENT-REVIEW.md": {
+   "sha256": "339721e73b7b037d943f607ffc2fb103b2180e83d985943fda313e913866cc28",
+   "bytes": 8970
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-MATHEMATICS.md": {
+   "sha256": "bc5591f952d722eaed3a2dab500975a3cac386354627d7552c3aea173e385226",
+   "bytes": 6268
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-PROVENANCE.md": {
+   "sha256": "80abbbb79348c754691d678704e531d91bf0ff922a590ddabfd2f2c260e47304",
+   "bytes": 2860
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "89264e3f2d6dd2391f80bf5a1d07292a3748166bef9c60d9ab9f82c3c34d078e",
+   "bytes": 8323
+  },
+  "vendor/foundation-math-v014/docs/EXTERIOR-LAB-VALIDATION.md": {
+   "sha256": "bfa375ae3b6369742a99d189404e9788a92ec729356aa9a80b1d7d90ec48ac99",
+   "bytes": 3650
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE-BRIDGE.md": {
+   "sha256": "df8ed084870f4247c226ee2055df1abcd610ec7e565f3980a7a3cf6c3d166e01",
+   "bytes": 1734
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE-LAB-CONTRACT.md": {
+   "sha256": "ff27743fd534a2939ee19cd97c5c13bbd57150cd6cb37029d018d5536eb7e187",
+   "bytes": 12450
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE-LAB-REVIEW.md": {
+   "sha256": "6c5157ed4aa9fe37b245ea281ea7aba376bff3b87c96c50e9afc326234615eef",
+   "bytes": 1950
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "0d7cb6249f9c94eb073d330bd8c1ae59b0440e7ce703182cc4c2ee5856c079b9",
+   "bytes": 3540
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE-VALIDATION.md": {
+   "sha256": "c69c173986f5e424dc061a9f40e9a84ce1221734b16c77a3773cb9ea8c2855b9",
+   "bytes": 2361
+  },
+  "vendor/foundation-math-v014/docs/HYPOTHESIS-SCOPE.md": {
+   "sha256": "7324084a3aafd205c2c847c39fe983cb0887aee891691784abcb5dd2f7ae5ca3",
+   "bytes": 1840
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-ALGEBRA-BRIDGE.md": {
+   "sha256": "dc7c107653da52a5c459f5e44a1861b0ecb75b76a569bc9b588cc26668c2ab2f",
+   "bytes": 10708
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-ALGEBRA-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "bcae5cf02957029bcde3fc3ec2e95b985a7367d49e918f88cd5373dafef685ea",
+   "bytes": 3671
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-ALGEBRA-VALIDATION.md": {
+   "sha256": "71742880d0078b540ea4325ede46442dd47b98ffa7b58134ab8f72e38ba48ba5",
+   "bytes": 6003
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-ALGEBRA.md": {
+   "sha256": "861ed5786dba7ba4814ac285049dd80e29683a08b580bfc747714abc30cde5e5",
+   "bytes": 6691
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-BRIDGE.md": {
+   "sha256": "e6ee42d70bbe514579a921ec8665512099e3b3efaa63313f6a1c727992d05fbc",
+   "bytes": 2009
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-LAB-CONTRACT.md": {
+   "sha256": "63813361d5dda902ff7407e951ea43d26c904076838f57e69f295c6d9e76be85",
+   "bytes": 9030
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-LAB-FROZEN-FILES.json": {
+   "sha256": "32480f1bb64845cef9a4278801589ef9732be6878f26477ae06bb7108dd11e6e",
+   "bytes": 5458
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-LAB-MATHEMATICS.md": {
+   "sha256": "389bb2d495a84f9ac9f9cce39f8e18a359a3d4e638c37ea077f91e5953655eed",
+   "bytes": 5454
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "1159de46ea66a4b2564a906c81ab43744e316e0e58ec7ae33ebeb069575d226b",
+   "bytes": 4595
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-LAB-VALIDATION.md": {
+   "sha256": "2a81c02a4d3db074a557037e1b8c2ee4dc7851859bf35b709e0f695ab407fac5",
+   "bytes": 4890
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS-VALIDATION.md": {
+   "sha256": "3aa5773a9bdf19dae38862ae01a4da54132aca421fe6d2cbf065610fe7389b6d",
+   "bytes": 4822
+  },
+  "vendor/foundation-math-v014/docs/LINEAR-SYSTEMS.md": {
+   "sha256": "0452cbd4d382bac1f59b85dfc63b7690e957631ce481b444fd7af546742eab29",
+   "bytes": 5668
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-DOMAIN.md": {
+   "sha256": "47174b698b3c1d47411693226e9fbb405838bb91944e084b7ce64e6b1323815b",
+   "bytes": 9212
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-BRIDGE.md": {
+   "sha256": "0ad9e3d57e0402f87769d42012f671b4543141be0ed90a2e0a74459b8728f1bb",
+   "bytes": 5823
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-LAB-FROZEN-FILES.json": {
+   "sha256": "19231c18a80c36b4e2f76d6cdd9ac0e70196158a991e2eab879976e8ba10e956",
+   "bytes": 4934
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "273b8c1847daf7930b3f04325791b9bac19963018e51d83972b3c633597ab45f",
+   "bytes": 6342
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-REVIEW.md": {
+   "sha256": "447a77d8dc948fcd1d7f4f1ed001f81c97c4c9e813b34d33df79094313b747da",
+   "bytes": 10624
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-TOTAL-DEGREE-BOUND.md": {
+   "sha256": "c61ce7e673bdf81fa7470b4630b205677cc69711f38a50d11908fdd50b34bd7e",
+   "bytes": 5904
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS-VALIDATION.md": {
+   "sha256": "3a32cfa6c967621da606582460fc38dbc458ee27a01240407b8c6efadbab467d",
+   "bytes": 7238
+  },
+  "vendor/foundation-math-v014/docs/POLYNOMIAL-WITNESS.md": {
+   "sha256": "fa81ef59dfdd2cc3b13118bbab84086e2e5bcd83a45416582221bbecc20163ef",
+   "bytes": 10347
+  },
+  "vendor/foundation-math-v014/docs/PORTABLE-RELEASE-VALIDATION.md": {
+   "sha256": "711a5b927fed498d4896639c86d3418b62d4cb795ff31b089fabbadff972e5c4",
+   "bytes": 2711
+  },
+  "vendor/foundation-math-v014/docs/PROVENANCE.md": {
+   "sha256": "466349c9832b3acc300a841572ade34c37909f42f1291c7c89da36bf6c729ee2",
+   "bytes": 6042
+  },
+  "vendor/foundation-math-v014/docs/READINESS.md": {
+   "sha256": "ddf1fd39ba89458d68b412c4aeaf88b5b3553c4506f2d2c7d8e282447f1e0e43",
+   "bytes": 5421
+  },
+  "vendor/foundation-math-v014/docs/RECEIPT-LAB-CONTRACT.md": {
+   "sha256": "da459d29801efd2b8a51dd909f99369e6b31ab920e5cabf7c43e9d3a9ad82573",
+   "bytes": 12161
+  },
+  "vendor/foundation-math-v014/docs/RECEIPT-LAB-DESIGN.md": {
+   "sha256": "f6c7c2ba0f33b418bfeb0652098f300d4b0ed1c6d0e40e537e7944076682338d",
+   "bytes": 4550
+  },
+  "vendor/foundation-math-v014/docs/RECEIPT-LAB-INDEPENDENT-REVIEW.md": {
+   "sha256": "f7dfdbb479c00b3d80269563e384f20867d17b4c9b60a65fdf246ff198dc024e",
+   "bytes": 8769
+  },
+  "vendor/foundation-math-v014/docs/RECEIPT-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "87e9ebc74819e201513887908b67e8e4b717bf90702e64cab413eb442b094515",
+   "bytes": 6250
+  },
+  "vendor/foundation-math-v014/docs/RECEIPT-LAB-VALIDATION.md": {
+   "sha256": "4dd950696032796564c4dbfd068c52c0f899badcd6d42dd01f8b9947fc5d940c",
+   "bytes": 2405
+  },
+  "vendor/foundation-math-v014/docs/ROADMAP.md": {
+   "sha256": "29c86f247d497bcfdf4f75c3dde45dc9b8e9465aa504294c5c465f8e18b8e2c6",
+   "bytes": 2703
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-BRIDGE.md": {
+   "sha256": "c87ebd58576738a986eb80539720d264ebb90e084dab271251e1101b4b13ea7f",
+   "bytes": 1436
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-API.md": {
+   "sha256": "feeada9060c89895a42c4b81394e3edfa9e0f4c627bf63dd5011871523ae84f2",
+   "bytes": 6050
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-ARTIFACT-MANIFEST.json": {
+   "sha256": "83d4fd904eb85df128002dee9ba98fca51b5ba5f0e8fbdba67e0db2a9a73ea29",
+   "bytes": 8599
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-MATHEMATICAL-REVIEW.md": {
+   "sha256": "21fa5abd51c7de6b5540b1a892d28b9fbb38f7142eaa779ba41e9274711c659a",
+   "bytes": 4182
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-MATHEMATICS.md": {
+   "sha256": "9cb3e62338903f62fb6ac7821f66a444400dd7cebf058d7ef001142f3b769077",
+   "bytes": 7448
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-REVIEW.md": {
+   "sha256": "b1637608866467b525428d46a6921e08794dec076f49c6d3c475da39dd377282",
+   "bytes": 4382
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-SOURCE-MANIFEST.json": {
+   "sha256": "e990ec49458fa8bd239b5f6277a5d36feee3c98f0d1ae82a22ee4451b983369c",
+   "bytes": 1855
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-LAB-VALIDATION.md": {
+   "sha256": "b0d287f86b29818ff7291e92f351d6d0980dce41b52d3e5fdcc95d00c7b5df8b",
+   "bytes": 4125
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE-VALIDATION.md": {
+   "sha256": "0558c7e6fdc8caaa5a555059e88e2ba879c5c59701b476edd13e7d2eb9f75996",
+   "bytes": 2367
+  },
+  "vendor/foundation-math-v014/docs/SPLIT-BUNDLE.md": {
+   "sha256": "69bacab1a67f22a3208625faca8d8626ac85fd95eb6ab0f4477abe6e55bfdf41",
+   "bytes": 2483
+  },
+  "vendor/foundation-math-v014/docs/VALIDATION.md": {
+   "sha256": "3f4296cc210038dc69b84eb6761f7e1d97f0cd3b81cd62503ccee4ffe6897764",
+   "bytes": 4437
+  },
+  "vendor/foundation-math-v014/docs/VERIFICATION.md": {
+   "sha256": "73d8ec54d2518ba59b59ef62541fa6710c9703b4e1e002123bf3ca033f3f2d9d",
+   "bytes": 3393
+  },
+  "vendor/foundation-math-v014/docs/linear-algebra/CERTIFICATE.md": {
+   "sha256": "e55b51483ea5f790f592a18758e746102e95558205156e55e7221459e9602535",
+   "bytes": 4482
+  },
+  "vendor/foundation-math-v014/docs/linear-algebra/CONTRACT.md": {
+   "sha256": "1307ba0e136da08091e02f896664c58b7e775932108ab0870f34d3bcb546fbb3",
+   "bytes": 6881
+  },
+  "vendor/foundation-math-v014/docs/linear-algebra/SOURCES.md": {
+   "sha256": "b30b1df0a4143c767dc8eef7f95ef9a5309fb790fec49465aebf77dca149e572",
+   "bytes": 1555
+  },
+  "vendor/foundation-math-v014/docs/linear-algebra/VALIDATION.md": {
+   "sha256": "4b210c04132a812f6d4b70087821949c28be1a7e5cfafba1991cc59d2bd60a34",
+   "bytes": 5219
+  },
+  "vendor/foundation-math-v014/docs/polynomial-witness/ALGORITHM.md": {
+   "sha256": "3a5c7afb47d0330593bffef9322d9ba5ee583b28d0e892ef9bd411eb72f075d6",
+   "bytes": 4801
+  },
+  "vendor/foundation-math-v014/docs/polynomial-witness/CONTRACT.md": {
+   "sha256": "875327f63dabdbbc17657f8efc65a81566dfff417fdba3bc0a6da34ffcf1f4a0",
+   "bytes": 5910
+  },
+  "vendor/foundation-math-v014/docs/polynomial-witness/INDEPENDENT-REVIEW.md": {
+   "sha256": "6e9920d93b9b1fc6db073ebc8a44b260ec776ac87d8ba14652706c08b90dbb5a",
+   "bytes": 9678
+  },
+  "vendor/foundation-math-v014/docs/polynomial-witness/SOURCES.md": {
+   "sha256": "195d12acb798108f2b111792b066a14659293982231c6484b0f9fa01f4142016",
+   "bytes": 1535
+  },
+  "vendor/foundation-math-v014/docs/polynomial-witness/VALIDATION.md": {
+   "sha256": "77901a0175ebc5ebf762a67e31ea6828eb074c537e290386839844c1ff601d2b",
+   "bytes": 4378
+  },
+  "vendor/foundation-math-v014/exact_linalg/__init__.py": {
+   "sha256": "530a86ce31a58b2b4bb821d7f057efa4b6f6fe753e44fd1321e58b470885c19e",
+   "bytes": 423
+  },
+  "vendor/foundation-math-v014/exact_linalg/__main__.py": {
+   "sha256": "da1ebf341fb8d34e1b80349c7fb075269b8841f62ed53661fe3ccd8ea2a8ab6b",
+   "bytes": 830
+  },
+  "vendor/foundation-math-v014/exact_linalg/api.py": {
+   "sha256": "b790003d90830d7dc9d3fa5c413a4898c0b75a7e8f39d8fa7445a14e307f268f",
+   "bytes": 1799
+  },
+  "vendor/foundation-math-v014/exact_linalg/contract.py": {
+   "sha256": "b706f8caeb8c782a96c7839d8749bcd4085cd73b968b12b8ac64ef72fecd86dd",
+   "bytes": 12887
+  },
+  "vendor/foundation-math-v014/exact_linalg/producer.py": {
+   "sha256": "057d6a1a55449a3e6e1c5119599851f852710cc3658b8ba11848dfbfe3ed14e5",
+   "bytes": 4558
+  },
+  "vendor/foundation-math-v014/exact_linalg/verifier.py": {
+   "sha256": "6aaa420141b2d028c5087ead9a5af83dce51ebac0b10e0ecb54acca9b96fd2b3",
+   "bytes": 12365
+  },
+  "vendor/foundation-math-v014/exact_systems/__init__.py": {
+   "sha256": "c8a1010fb1239bf5b1d77a33086f51088370ad80286ab94cf5e14090ba01db6b",
+   "bytes": 570
+  },
+  "vendor/foundation-math-v014/exact_systems/__main__.py": {
+   "sha256": "5244ae47695b35e7eee6d7f363f22c199bc7c409ac0ad7b1351ff54da06f53e0",
+   "bytes": 847
+  },
+  "vendor/foundation-math-v014/exact_systems/api.py": {
+   "sha256": "4efa29add8afe2eb6fc242c019bd16142318c57fb30d58d9a60bd8fe03c93c82",
+   "bytes": 1614
+  },
+  "vendor/foundation-math-v014/exact_systems/contract.py": {
+   "sha256": "918c8bfb12d1da7bf5e7000384bcbcf408a0574ce12efe3b93e1f25a74947cf8",
+   "bytes": 3482
+  },
+  "vendor/foundation-math-v014/exact_systems/producer.py": {
+   "sha256": "cada426cf0b666add311ba9a5def163e91161fd628e49447374fed5ff0fdbe1f",
+   "bytes": 2561
+  },
+  "vendor/foundation-math-v014/exact_systems/verifier.py": {
+   "sha256": "e7e0b40e82ea894134465876653ba8f8924f5020d97988dc858710d3386ddea0",
+   "bytes": 6279
+  },
+  "vendor/foundation-math-v014/examples/ExactSmoke.lean": {
+   "sha256": "a9e68b4390707cc494bd04abfa370427c906ea78d5904edb95cb47e519664b29",
+   "bytes": 193
+  },
+  "vendor/foundation-math-v014/examples/artifacts/check_triangular.py": {
+   "sha256": "1c33844a389f8956ec686205c2b07845493100a31d21ac2d9e89810f7012f8c3",
+   "bytes": 736
+  },
+  "vendor/foundation-math-v014/examples/artifacts/triangular-proof.md": {
+   "sha256": "3454b6f4a87f8452e70557027767db97d5967fea63ca46ffac698796f18cbf84",
+   "bytes": 1282
+  },
+  "vendor/foundation-math-v014/examples/bridge/session-requests.jsonl": {
+   "sha256": "4343bd6750bb406d890739308e80ed19d4be584b4ee076a3466d6400d99e17fb",
+   "bytes": 2585
+  },
+  "vendor/foundation-math-v014/examples/bridge/stdio_client.py": {
+   "sha256": "60697fb4e098d237d09be4c0a022e2a4fccbe062142505a1bc113ac3157522e7",
+   "bytes": 2027
+  },
+  "vendor/foundation-math-v014/examples/character-ring/distinct_doublets.certificate.json": {
+   "sha256": "58a6b642e7f2861b565d208bc663ca672da72cd52e1c75b063916db2a5a9af9c",
+   "bytes": 1436
+  },
+  "vendor/foundation-math-v014/examples/character-ring/distinct_doublets.request.json": {
+   "sha256": "e14b83d6442e08236fd077c1f4a3cf6ec1922fe67ea16ad4df77093a5919d82a",
+   "bytes": 325
+  },
+  "vendor/foundation-math-v014/examples/character-ring/distinct_three_spaces.certificate.json": {
+   "sha256": "8ac261c39deec9cdde58709711e5d362d9c2d7d7f395033c7c3b69cf3cd9aa9a",
+   "bytes": 1434
+  },
+  "vendor/foundation-math-v014/examples/character-ring/distinct_three_spaces.request.json": {
+   "sha256": "40f82c2376b8c9a18a894becd846d7dce078612b3924d08fa0cf1978f5e1db34",
+   "bytes": 323
+  },
+  "vendor/foundation-math-v014/examples/character-ring/mixed_parity.certificate.json": {
+   "sha256": "9600aa366fd00fb710a279b8e228cef72dbd9b3b68eadf82d16410455fc765b5",
+   "bytes": 1396
+  },
+  "vendor/foundation-math-v014/examples/character-ring/mixed_parity.request.json": {
+   "sha256": "66b8f141a2ae367b5f15f1eb5ccc83968050ec72593e3852082ad5a06e3bf406",
+   "bytes": 310
+  },
+  "vendor/foundation-math-v014/examples/character-ring/physical_tensor.certificate.json": {
+   "sha256": "c17b0fd7802266a26f4a076e44292bc79bd9c4b404cba6fd626f33bdf9841684",
+   "bytes": 1402
+  },
+  "vendor/foundation-math-v014/examples/character-ring/physical_tensor.request.json": {
+   "sha256": "42a97456032692d721ecb96f59885c57e4ae1715b63c68fb6b96196d56fe0123",
+   "bytes": 315
+  },
+  "vendor/foundation-math-v014/examples/character-ring/positive_dimension_virtual.certificate.json": {
+   "sha256": "6575ed72c145de7428820f61e41aa01a326125cdc103a2be8730efd7af65a71a",
+   "bytes": 1361
+  },
+  "vendor/foundation-math-v014/examples/character-ring/positive_dimension_virtual.request.json": {
+   "sha256": "2b03a4c1ce3787417e417bd37fe87f018e673a8fcff95c0af3ddb3ca6aec2e6c",
+   "bytes": 256
+  },
+  "vendor/foundation-math-v014/examples/character-ring/symmetric_square.certificate.json": {
+   "sha256": "b38c5349cf5f20be857368d520ca203d958c4367a484ba5b2c4df6cdad1959a5",
+   "bytes": 1271
+  },
+  "vendor/foundation-math-v014/examples/character-ring/symmetric_square.request.json": {
+   "sha256": "039ecc56d3b2bd8130054a625db74cca4c1ac3161d9021ab69313fece2fff9f6",
+   "bytes": 202
+  },
+  "vendor/foundation-math-v014/examples/character-ring/zero.certificate.json": {
+   "sha256": "c8565d141194577ba5eca475dfb5588c02c4c1bafbe276177e00f4dd00692d11",
+   "bytes": 1359
+  },
+  "vendor/foundation-math-v014/examples/character-ring/zero.request.json": {
+   "sha256": "16cde1796fb70bf33afd9e8c33f76a255eb06e85db9e2c2c7820f26a21ca7e86",
+   "bytes": 283
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/authored-status-is-not-proof.expected.json": {
+   "sha256": "ac8ea503db426e991b4243b4a57fa2cf34a0b23149d0b2f02172e38dc1282678",
+   "bytes": 1282
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/authored-status-is-not-proof.ledger.json": {
+   "sha256": "ecd9fc4bb840e63f85f85a41722e8782cb6d02dcb41cb1a7ebb3f712382b0257",
+   "bytes": 719
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/boundary-withdrawal.expected.json": {
+   "sha256": "875a9f8f803675327cacf45f11ddaf36ef02110fbdc080cc591d23ccfdfb4e62",
+   "bytes": 12009
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/boundary-withdrawal.ledger.json": {
+   "sha256": "752b73bc249dd448397f8f005317f4d1351363bcb359715880b939b54a35d07e",
+   "bytes": 5979
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/diamond-shortest-path.expected.json": {
+   "sha256": "adf0fb8a2889ca2a61fa43b2e376bd82ea4babd294f9fa7da4db06be6537b736",
+   "bytes": 6972
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/diamond-shortest-path.ledger.json": {
+   "sha256": "fb0ce1ac65ea5571d08624ece46873fd151513c1afa784708fb8a9eb1d5b225d",
+   "bytes": 3330
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/explicit-repair.expected.json": {
+   "sha256": "b69716e0803ac8fc30ad610baf1f4b1d524cb5bdef11f5a7d75fa20fcfcf23cd",
+   "bytes": 3394
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/explicit-repair.ledger.json": {
+   "sha256": "1fbb8a36a60f5001c57a01568bc8c715128d87b80e132a0b9ce527457bae2e6c",
+   "bytes": 5237
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/historical-objection.expected.json": {
+   "sha256": "b5a9c4980e914ac3bdde4ba3561923834696a17f39f9e6bad93e40105b667b9a",
+   "bytes": 5015
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/historical-objection.ledger.json": {
+   "sha256": "6c45b295e9cbeb0bb70fee718748ddf08313a5537839d30118fb97c5c2868b08",
+   "bytes": 3695
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/revision-change.expected.json": {
+   "sha256": "3ab64d707dd3e3a0be1f8fbcb5c93a8f35f8963b49c014ce1254b0955d697f55",
+   "bytes": 5525
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/revision-change.ledger.json": {
+   "sha256": "d6fdbebc4d064298f970ef91efe681dd0f9cfcaa18d91b1320e640a17690da42",
+   "bytes": 3102
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/stale-edge-isolation.expected.json": {
+   "sha256": "d4b41a1d816915cc887f962492590db200e66b92c00d290985651d4c20b52c08",
+   "bytes": 6069
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/stale-edge-isolation.ledger.json": {
+   "sha256": "6964bb9e324bfac698f090caa5fb8670d3f52852f63213c7f1a801367d893f8e",
+   "bytes": 3424
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/stale-stable-id-cycle.input.json": {
+   "sha256": "86bac9a0c870383a79279f1912ef9378de7a4827fb8a4e715b797c036b072eec",
+   "bytes": 2601
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/stale-stable-id-cycle.rejection.json": {
+   "sha256": "2201ff328258393609030467522225fcccd29049c43d1d79f926c15fb2021460",
+   "bytes": 43
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/unchecked-refutation.expected.json": {
+   "sha256": "701341bc65eb033c49544031bafe37d764ae46ef6e83ac0bbbf4d101e0cccc07",
+   "bytes": 7165
+  },
+  "vendor/foundation-math-v014/examples/claim-revision/unchecked-refutation.ledger.json": {
+   "sha256": "d8c19e98aa2ef718b9b8aa238d2d6042dbc9f01507e79671243f403a6b2ac22f",
+   "bytes": 3212
+  },
+  "vendor/foundation-math-v014/examples/counterexample/constraints-exclude-false-assertion.json": {
+   "sha256": "959232e271525c8c50a5edf590be5571d3c2a8e51b6881b54a5d25d5aa8a3ebc",
+   "bytes": 603
+  },
+  "vendor/foundation-math-v014/examples/counterexample/false-bounded-inequality.json": {
+   "sha256": "8279c9aa4acc5b2850548ae4213d962d02e78fe6fc4fdecf38012f056e857e08",
+   "bytes": 389
+  },
+  "vendor/foundation-math-v014/examples/counterexample/integer-domain-pitfall.json": {
+   "sha256": "7e31ab9dedfba4bba6be9098cb7015760bdaff686ac3275551e271fa9573d486",
+   "bytes": 957
+  },
+  "vendor/foundation-math-v014/examples/counterexample/rational-half-not-in-domain.json": {
+   "sha256": "d9f00477c42742662389807fd48d16774513416560c5ae761d541fc99b0fd43d",
+   "bytes": 58
+  },
+  "vendor/foundation-math-v014/examples/counterexample/rejected-polynomial-division.json": {
+   "sha256": "151983dfb1eff63e9e066aaf2251c7cdec07872744915a2fdb7407af640e2c0f",
+   "bytes": 542
+  },
+  "vendor/foundation-math-v014/examples/counterexample/true-bounded-inequality.json": {
+   "sha256": "1714144244d2ba993738df366705518aaf2f7edbc65f01cc15dbf950e4f4b9bd",
+   "bytes": 544
+  },
+  "vendor/foundation-math-v014/examples/counterexample/valid-witness.json": {
+   "sha256": "0605435cb2e1c70f2c19d5fca9cd8b7251c8eae8b72b2c54feb2c78da9933261",
+   "bytes": 14
+  },
+  "vendor/foundation-math-v014/examples/counterexample/zero-variable-false-constant.json": {
+   "sha256": "081bc576e17439482a9b94ac5c8d3923ca917d05c70e96c837c7a7ccb7802a89",
+   "bytes": 349
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-1.certificate.json": {
+   "sha256": "8675c1e4458b1440c8e0c4ec83d091350074c198e190ebe0fa0a9d7f37f41729",
+   "bytes": 9637
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-1.request.json": {
+   "sha256": "d32c0bb5fe7f47d707830265e539e72f9761e0a6aacc0bcaa3ef7a57935223dd",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-A.certificate.json": {
+   "sha256": "b31f1073d9d8fda84e3bf3fa5baf8314984dce126082d7dc37fef1b2f88b735e",
+   "bytes": 9703
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-A.request.json": {
+   "sha256": "d713d53653fbbb832718af7fe29c6da6e5596b0c857bd4c422ea3ed9f6e2d22b",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-D.certificate.json": {
+   "sha256": "be35ba053a32f9092ccc6cd118b147eea7c08573b28dce1f83070edc345a22f4",
+   "bytes": 9849
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-D.request.json": {
+   "sha256": "932c37dc45374f027c5e92c8ea40ba02c877d1ec10dc20233c3b1ba3ccf2fde4",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-P.certificate.json": {
+   "sha256": "616650dc832b5a26dc8f8de7a0d0c90b6c497d2b1bdb41dc2581c3a28e8a1a13",
+   "bytes": 9756
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-P.request.json": {
+   "sha256": "e613afe476219ef76e1f3cbb963cf76c9903066356cb573298f8f83a4c374e04",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-S4.certificate.json": {
+   "sha256": "8bd37d5f372e29836a96bfd7dbeca9dadda2d5b3c505da4ef4fae49861893485",
+   "bytes": 9756
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-S4.request.json": {
+   "sha256": "82c64e54f94bc17cf9f62c76769b06956a7d01ffdf3a193b7ff3f58665f97c5c",
+   "bytes": 187
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-T6.certificate.json": {
+   "sha256": "a920c0fc756b471aaabd4f94189a4a2d9d235c912e3cf4abaa36a0d6dff055f6",
+   "bytes": 9906
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-T6.request.json": {
+   "sha256": "8771bcb07bf5c7ec05ef34d9b42cfb66fd490fe3bccdfa3c87327e90482b7d4a",
+   "bytes": 187
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-V.certificate.json": {
+   "sha256": "3c2d5ee30db9179db4fb93260ffb7931f2b6352774299edfdced2fc62ae486c2",
+   "bytes": 9703
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-V.request.json": {
+   "sha256": "f947fac49834e1af6ed2039b518088050ea29c1d184022550239c0191fa7c4d8",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-W.certificate.json": {
+   "sha256": "2d2ec544f3c96674770ba8206411872f1a568681ac5744458ca4f1482d2dafd7",
+   "bytes": 9672
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-W.request.json": {
+   "sha256": "35998c563f1ebf7af55a0ed21b48b751a4416b98de62a24e42e5208ee470be7f",
+   "bytes": 186
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-Wp.certificate.json": {
+   "sha256": "15d45bf224c6b4ccd286afdcadbd163233687951416a369802177544995c2b02",
+   "bytes": 9674
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/irrep-Wp.request.json": {
+   "sha256": "8d88cbd31b62f7eabf7fe7db16efc4bbbae9483414cccf10c7d8997a1ff5de80",
+   "bytes": 187
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/passing-is-not-existence.certificate.json": {
+   "sha256": "91b2bc8a95a3d9b2aee1cbe6cf0316a29e2e1637beb4a7513c166be6f209723d",
+   "bytes": 8231
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/passing-is-not-existence.request.json": {
+   "sha256": "c620cb2592ca9e98b859d9b75583e0da3254e642cc44a4c0c448fe784bb21494",
+   "bytes": 331
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/physical-W-not-Wp.certificate.json": {
+   "sha256": "267c0efefd6c02e59d0c5737fd298522d6be64efc655f1d59ae9e0a84e0c0347",
+   "bytes": 28504
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/physical-W-not-Wp.request.json": {
+   "sha256": "0ec60013fea8cf650c5937eb841c7a2b805f18395b455f6847df55d0ec6ce73c",
+   "bytes": 353
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/repeated-doublets.certificate.json": {
+   "sha256": "56bcb8164229500b0a47aeead0655154aab6cbaacf98caed4d7467c24162db90",
+   "bytes": 9994
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/repeated-doublets.request.json": {
+   "sha256": "6a2b3356a540202da5feb82ad9a8103683fb3c0c690cc02c2734b815db841e9f",
+   "bytes": 199
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/split-degree-tracking.certificate.json": {
+   "sha256": "3f8f252ba7877c56cb6f1b0a086099f5713c6a27f93d1e9d2a485eb3c0ae4c8e",
+   "bytes": 31524
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/split-degree-tracking.request.json": {
+   "sha256": "cf4abe0ca14525dbf6bdc5f157f1091bb81ef281798d0ab2525767cbd69abe7e",
+   "bytes": 379
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/stronger-exterior-test.certificate.json": {
+   "sha256": "b8dad6f7fa0247c47c1d483a18ce4bb8a18c7b5a69d6fa7bcef60519957a8580",
+   "bytes": 15804
+  },
+  "vendor/foundation-math-v014/examples/exterior-power/stronger-exterior-test.request.json": {
+   "sha256": "0de89b71e4fdcc53017f50a6af15a4dd454e2e45e2ba107ec147e55e7e3b6c11",
+   "bytes": 430
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/A-not-V.json": {
+   "sha256": "2709184d4d3e9242ee040e5be0d0b7c2653ba7d5278023c0fab07ab77b2e87d4",
+   "bytes": 13214
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/W-not-Wp.json": {
+   "sha256": "cd28a1f9fc4a042e70b42b28a3d4ff60bb5d3a829e4c3340b0ef838479c050a1",
+   "bytes": 13215
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/abstract-not-embedded.json": {
+   "sha256": "ae97fbfb8f2d860cd433687d727d69fadeddf5c9eceaba6ef1ec24ea88218263",
+   "bytes": 13540
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/exact-full-kernel.json": {
+   "sha256": "551462e6c5d3a3c7f7988b6845353ef5686c37661378999dd6c7567c66dc236a",
+   "bytes": 13716
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/expectations.json": {
+   "sha256": "72ccb727a021fa6cfde464f0f05598a4f7199b0bc108e89a0768f8bddbc6cb85",
+   "bytes": 1266
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/generic-not-coherent.json": {
+   "sha256": "65c64019b6cd383654f86e76b2a096ecc049b9c06b0c154abaef9ae9b4baded4",
+   "bytes": 13521
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/original-not-induced-torsion.json": {
+   "sha256": "c3302f50bb0b015473d8327f083f539b94a68c1ec998bb0760ca1b3c6e4384f0",
+   "bytes": 14213
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/same-endpoints-not-same-map.json": {
+   "sha256": "6f343ef914f56566632a71f458998018d7de4cfc9e0a2fef5a67ee0a7a985e88",
+   "bytes": 12941
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/saturated-not-coherent-image.json": {
+   "sha256": "eba070a7983d3fe3ebb512db78d977ff11fb741483262dc63f019151e40d1251",
+   "bytes": 13721
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/selected-not-full-kernel.json": {
+   "sha256": "3319749fde17408eb2e0d5951d7f453330620baf04b5790a12b06c5ab79452c7",
+   "bytes": 13723
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/stale-fact-pin.json": {
+   "sha256": "e723ec66136805ac328c8847b113ed907f54b33d423867dc2363c036314e95cb",
+   "bytes": 13716
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/two-step-not-one-step.json": {
+   "sha256": "f3e0f6be0b08ba62d8ee1b9520a7069537dbe465108478e9df49acd4ba746b58",
+   "bytes": 13989
+  },
+  "vendor/foundation-math-v014/examples/hypothesis-scope/withdrawn-fact.json": {
+   "sha256": "9ccb3332e2716e33fa273dd26f984d5e4da5e0a03b6604f6c69dcae6795d8b90",
+   "bytes": 13717
+  },
+  "vendor/foundation-math-v014/examples/invalid/dependency-cycle.json": {
+   "sha256": "4561295b06fe3b317a56ad17dcf8ed1369490ceb0498dbe0ecd8f8d33bab8fb1",
+   "bytes": 985
+  },
+  "vendor/foundation-math-v014/examples/invalid/duplicate-id.json": {
+   "sha256": "64c64ab536c424537be5f7dd74c223770099d0889a4b80a6d260f2cf5c93b46f",
+   "bytes": 949
+  },
+  "vendor/foundation-math-v014/examples/invalid/missing-dependency.json": {
+   "sha256": "339b55955fe76ddfb8ca5c44a7dd5eb9f3d614276a76687c0b80714f96d71bd1",
+   "bytes": 557
+  },
+  "vendor/foundation-math-v014/examples/invalid/missing-formal-evidence.json": {
+   "sha256": "96eabd7947e2ca7da145fa50344c9131b7a919b4dfc30008f7fe2b6d7afda33f",
+   "bytes": 561
+  },
+  "vendor/foundation-math-v014/examples/invalid/unsupported-closure.json": {
+   "sha256": "aa434f5051613edd4d43362aef0d2a92a21a207e94263e1c2fd4616dfdc92fd9",
+   "bytes": 1032
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rational-certificate.json": {
+   "sha256": "551322fdc944a37ab8b1c44b01841362651c2de3050802a2128aaea47bcccf51",
+   "bytes": 1381
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rational-matrix.json": {
+   "sha256": "7a54793932e0b258ad4e88f5982507dcb2a78bfde470bad79fc4275d2abf0530",
+   "bytes": 168
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rational-request.json": {
+   "sha256": "d6c889163e9361234abce0991766214a89f92d3073ffa15d42fd7b12f006ee01",
+   "bytes": 106
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rectangular-certificate.json": {
+   "sha256": "43523cf602cc2c3fa842a04be258e1570072e08a4104461a48107bb9a0295d30",
+   "bytes": 982
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rectangular-matrix.json": {
+   "sha256": "072443114b05461f6169f51c28af4482923369a13d7e6e2fbb76b5f3a4ac0a9c",
+   "bytes": 143
+  },
+  "vendor/foundation-math-v014/examples/linear-algebra/rectangular-request.json": {
+   "sha256": "b58aee4ab89396a5594c5904af08bf3c3f02c3d8d09f7c750404013ccb6b117f",
+   "bytes": 94
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/consistent-certificate.json": {
+   "sha256": "811c8c566d281bfcbaaf4ba4f63daf05a7d107446d962b3802b7d3ba6b9e6757",
+   "bytes": 1844
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/consistent-request.json": {
+   "sha256": "74cfe5986386aeceaed65fd3dab8c103fcb8488c60ef737b8227bdb368a17872",
+   "bytes": 304
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/consistent-result.json": {
+   "sha256": "57cbc6a417d9c475cf30dd684ed3d579795056de8d492e1695d8d7ce132ac84a",
+   "bytes": 2883
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/consistent-system.json": {
+   "sha256": "7a016e14309b27e3a1b946c3c074eae754685fefd9b261de00a30dd59e588002",
+   "bytes": 220
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/empty-equations-certificate.json": {
+   "sha256": "56a313cd17ec15fae11113ab6f628003210b3e22c4c5f666992be210e317391e",
+   "bytes": 1055
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/empty-equations-request.json": {
+   "sha256": "92ea5e9c6d1870c9f1edbca9ba8ddacd0503362e0aa3fd5b1b33b7c353b9fd49",
+   "bytes": 158
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/empty-equations-result.json": {
+   "sha256": "d83d72e02d1a041e915e9a64f67909a265768a315a69f7ce85e2066e9c5857e1",
+   "bytes": 1906
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/empty-equations-system.json": {
+   "sha256": "b09a7938fb29a0827180bfa874d3996d93d26f40e9cdeefebadc67623a590c9b",
+   "bytes": 102
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/inconsistent-certificate.json": {
+   "sha256": "15c9b10e12c7b3cb4973c86098f11eee8971eb3d4413ffe4012c177d1d2be5f1",
+   "bytes": 401
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/inconsistent-request.json": {
+   "sha256": "76b94dcfbc6d92e68278a969b747c180ad592093953d9bd47a3bf92467131a98",
+   "bytes": 278
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/inconsistent-result.json": {
+   "sha256": "dea4d1d0c9c2f53178f448296b705bdae8c32d7d41a439dff5f67d6321f12a5e",
+   "bytes": 876
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/inconsistent-system.json": {
+   "sha256": "1fd19419f84dbff8c5a50dd76cdd11612dd64645bd29e2f364a06e15de5beaa0",
+   "bytes": 198
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/verify-consistent-request.json": {
+   "sha256": "7470f5bd628cf5c3333d54cd5f58042a2da0c46de553a883839713287d184041",
+   "bytes": 2433
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/verify-empty-equations-request.json": {
+   "sha256": "7ed12c121692b3595761833a75b4481a493c54d3a83f80a073c6bc86e0d1bcba",
+   "bytes": 1370
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/verify-inconsistent-request.json": {
+   "sha256": "0b4b10b8b3ddf02db581d542ed9761293a8c3796168eeac99bcf49507f3b77b5",
+   "bytes": 756
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/verify-zero-unknowns-inconsistent-request.json": {
+   "sha256": "457cb55d43cd0460ec85a7d9799ee9c96636ba8dd2dc40c5376067d5d3952ca8",
+   "bytes": 607
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/zero-unknowns-inconsistent-certificate.json": {
+   "sha256": "8ce94a8c1b850e99a21c4dc7e9d2f28dd6acd80c35c06ddbc909fe3f296de5dd",
+   "bytes": 332
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/zero-unknowns-inconsistent-request.json": {
+   "sha256": "80fe709d3b70f2ff37dc2c11ac10716da727ab636bfc4a00b9eeda8ec49d3af4",
+   "bytes": 210
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/zero-unknowns-inconsistent-result.json": {
+   "sha256": "be539dee48bdcf1dffd7706270cb0efae071f4f3c74123f32df1f9f5484d4b72",
+   "bytes": 794
+  },
+  "vendor/foundation-math-v014/examples/linear-systems/zero-unknowns-inconsistent-system.json": {
+   "sha256": "f42dd830f30115256fb6046abc15e875e0c4e70bdec77879b970b2a0269e613e",
+   "bytes": 142
+  },
+  "vendor/foundation-math-v014/examples/polynomial/README.md": {
+   "sha256": "8902be1193eeb128cb5acaa59c2330dc6af4e098598329c5de7c3675f10bf4b6",
+   "bytes": 909
+  },
+  "vendor/foundation-math-v014/examples/polynomial/distributivity.json": {
+   "sha256": "86391246cf24d3088e9ecae18f38f29f9f470451f8a7a3c04dd5ac67f1fe1ee0",
+   "bytes": 2182
+  },
+  "vendor/foundation-math-v014/examples/polynomial/euler-sequence-composite.json": {
+   "sha256": "8f9a856bcfce8dabbe5ff16d565cf9baa6cd78e2cf309cf51a1e7cc04b4437fd",
+   "bytes": 1095
+  },
+  "vendor/foundation-math-v014/examples/polynomial/false-square-identity.json": {
+   "sha256": "f27570ad248751c608e0b8c1e9e72777460e84252c2e2dacf5e1d340c5732d9a",
+   "bytes": 1328
+  },
+  "vendor/foundation-math-v014/examples/polynomial/rejected-division.json": {
+   "sha256": "bde4e2cadeda36875d5475084a73372a87b21f36c98bef36be69f00d92107bf0",
+   "bytes": 449
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/degree-32-many-roots.json": {
+   "sha256": "057a482789de7fb7acd9301335a6f366e08f63054465fd46f7dc35dd7e953229",
+   "bytes": 20865
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/dynamic-degree-drop.json": {
+   "sha256": "52beb4a632398ec30f226990112f7890590ac3d91b1a1373b40fd180cf95fcf1",
+   "bytes": 895
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/eight-variable-sparse-product.json": {
+   "sha256": "24e2225a446391816ad28e6036d48a4f52bca2a5492c77c41bd68beab36fa6c8",
+   "bytes": 1811
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/false-square-witness.json": {
+   "sha256": "fcdae270ef8e0118ff082fc0287b945537b32b139f192909774e684e7830b089",
+   "bytes": 585
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/false-square.json": {
+   "sha256": "3ff7e72b18cedf2f1e884de956b3b9d31227cfa50fa6248d6b155fa72f3589ea",
+   "bytes": 1328
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/multivariate-root-product.json": {
+   "sha256": "18a6733761a903c54cd50d73f6e8cc26c5f90a5e703433616aee6b8f66521883",
+   "bytes": 6743
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/negative-rational.json": {
+   "sha256": "86b2af5daad3c22aef11b3cc9141d48cf7647a1acf11f4e4a0832c89fb0492cf",
+   "bytes": 474
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/rejected-constraints.json": {
+   "sha256": "b23d3daa18959bc287b3f05e00fba7b3f9978ec9d3884433483cdd92c595dbc1",
+   "bytes": 308
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/rejected-degree-limit.json": {
+   "sha256": "afbb55a6d0ff1a670c11f71dd5cde547ada2d258075684646e4bd3183f6a9c48",
+   "bytes": 8955
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/rejected-division.json": {
+   "sha256": "fb0d6a84a63064591897a3f4a154556e9b45ba229f2a7d0db2af2f02baac05e4",
+   "bytes": 471
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/rejected-finite-field.json": {
+   "sha256": "412e28ae0f1dc8a50330db88e438658c5cd963be15f01cc1137d11583f03b012",
+   "bytes": 288
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/rejected-quotient-ring.json": {
+   "sha256": "a9e26f7fae6e6e41dbabdbcf852252b05427e4aac14d6e1723b8d41938339494",
+   "bytes": 285
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/session-requests.jsonl": {
+   "sha256": "a37922a7b19c1f213a18708803f5f5b6b929520765f5f65d57daab49a97c30e1",
+   "bytes": 4429
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/sharp-40-trials.json": {
+   "sha256": "9fc70f1ffb39b9f553a7d5d661861d6e7edd3e159a6453257aec72c0ab632194",
+   "bytes": 20970
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/true-distributivity.json": {
+   "sha256": "dacd3ac2ba9ad20b549b7b38f7fccec84003e93e466a776fe558add6ffe553e9",
+   "bytes": 1151
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/unused-variables.json": {
+   "sha256": "deecdc55cd9328dd193b058ebcbe73f3cbc6c71b791269b05a2b172496436b00",
+   "bytes": 301
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/valid-witness.json": {
+   "sha256": "69e42aacebcfeb615ba7888e7bf3ae80620cfac18d1abf18042145ed41c88eba",
+   "bytes": 2144
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/zero-polynomial.json": {
+   "sha256": "971729ef837dfd8a0a438bc0f6546ce90d981f851a35d8310d24416223ce789b",
+   "bytes": 664
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/zero-variable-false-constant.json": {
+   "sha256": "0b57a83af93eefa6501edcc49c2d78f5f91d667d907672da3d04948c0502d841",
+   "bytes": 303
+  },
+  "vendor/foundation-math-v014/examples/polynomial-witness/zero-variable-zero.json": {
+   "sha256": "0f3ec660bde8321b5fb1e8279ed5ff2ed8a7d99b08949a56c1fe659776671658",
+   "bytes": 303
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/empty_bundle.certificate.json": {
+   "sha256": "725081f3fd264ff19903c2398c9d12e672780fc37911c241caab41e0cd0bf157",
+   "bytes": 16968
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/empty_bundle.request.json": {
+   "sha256": "92f3cdad87fd6dbeb9470366a492bdd16d7de97268f57282e5d3f6efd2af762a",
+   "bytes": 140
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/euler_collision_doublet.certificate.json": {
+   "sha256": "40b6fbd61c2f5a7a3fe19d983dea3d47635077475a27af75c3ef8c8b9d216fa2",
+   "bytes": 37559
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/euler_collision_doublet.request.json": {
+   "sha256": "2cb5b523d3c786a2f0a3f2155c76d33f66c34fc028efc3fbbd19d1ee656039c4",
+   "bytes": 255
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/euler_collision_lines.certificate.json": {
+   "sha256": "457fc28ff57e681ea4fddd65012e688e45f1df3a33010e870786d40e7b3fa6ee",
+   "bytes": 37644
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/euler_collision_lines.request.json": {
+   "sha256": "46fc342411c261c7dfbb4251ff2cdbc3825f2ffd72c07f37dcf0fcafec178d61",
+   "bytes": 330
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/hom_not_map_rank.certificate.json": {
+   "sha256": "2a628eb005ed92545d79d933cd90f665e8abb2ac2eb8549adb0643f87a29011c",
+   "bytes": 2250
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/hom_not_map_rank.request.json": {
+   "sha256": "f3badc34cc0d0f5a74e39a8a0618acedac3633b92056ee87c012e9b9f88d01e6",
+   "bytes": 255
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/negative_h1_critical.certificate.json": {
+   "sha256": "f1348c6f814439e041e4e81b83f5cbf34e535fde7149df298396c59fd8c626aa",
+   "bytes": 5186
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/negative_h1_critical.request.json": {
+   "sha256": "61c6238c312d9820c5f4b4c6db7744dac38c213de476011a785e66039bf8e1b6",
+   "bytes": 346
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/zero_multiplicity.certificate.json": {
+   "sha256": "b51a3b951d4e9eb66c53a5048e142085b6384256a84af6dbbde647a66e0e6775",
+   "bytes": 5007
+  },
+  "vendor/foundation-math-v014/examples/split-bundle/zero_multiplicity.request.json": {
+   "sha256": "4b9aa56421abc19ee7fa1137f9d95ea62c8f0b3b6cad23fe541862067326f137",
+   "bytes": 194
+  },
+  "vendor/foundation-math-v014/examples/toy-ledger.json": {
+   "sha256": "eabef9fe7d1afd8328876e7e2628080960814f69bd87f9a9da67ac5187411faf",
+   "bytes": 2800
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/all-pins-match.expected.json": {
+   "sha256": "f695e163fc051e215e8ce2e09ad76afc88a22e82c289b2e10860d1a5ebdc0a04",
+   "bytes": 3793
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/all-pins-match.input.json": {
+   "sha256": "e2ffa7418fcfcc58163d4c3de825c706993a34e93ec08bb0d8710b596817e32f",
+   "bytes": 10826
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/input-drift-chain.expected.json": {
+   "sha256": "7866a6bf532e94b6acca7ee752f021b98974f37011ff152104a19a91bd212803",
+   "bytes": 5275
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/input-drift-chain.input.json": {
+   "sha256": "3cff96cb662fc2c3f50190ab871f8841f83900aad0aba6e5147b7171d9bcb056",
+   "bytes": 10851
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/mandatory-fresh-policy.expected.json": {
+   "sha256": "1852cba98375da414dfa3533c72752c52ebbdc7bd40f80d185d7fb7302fbab40",
+   "bytes": 8666
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/mandatory-fresh-policy.input.json": {
+   "sha256": "16777a573d9024a382cadf2b5b7261c328e35fe4a6658d6d9a3b120eeb603291",
+   "bytes": 22647
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/no-implicit-latest.expected.json": {
+   "sha256": "d01a838a846ece261d292c823b3ea39b2b097fb037509c4f024f5f9460c89251",
+   "bytes": 3604
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/no-implicit-latest.input.json": {
+   "sha256": "8d9183b42488d892cdef52f04189a0094bc77022306847e5c04833430c25f61a",
+   "bytes": 9342
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/unestablished-closure-chain.expected.json": {
+   "sha256": "d4cc3b0563d0c947416814f42b3fa6f2bf3ff035bacaed87704c16da0debc369",
+   "bytes": 5442
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/unestablished-closure-chain.input.json": {
+   "sha256": "fcd3bd406051d8ee0dac1df7f826197300c620f39cbcca1135cea3fbf5e6d996",
+   "bytes": 10809
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/unknown-environment-chain.expected.json": {
+   "sha256": "0873935790d0674b5c49b52bf21e1540541cdd54f52db6f467eab21c2ff581bc",
+   "bytes": 5436
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/unknown-environment-chain.input.json": {
+   "sha256": "e740e61ce168acadca88d7e4c62d28cc00ce49fdf53816ff89f6d6f0cb639a2e",
+   "bytes": 10764
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/withdrawn-receipt-chain.expected.json": {
+   "sha256": "53ed2af4af2bb73a9cd7876628a9b5a05963ef7e0aaf8d4bdeebac0816558f6d",
+   "bytes": 5482
+  },
+  "vendor/foundation-math-v014/examples/validation-evidence/withdrawn-receipt-chain.input.json": {
+   "sha256": "049e36eb6a9e910db1f7aeb47de48a100b7145152f49b5b1871076eff24e5f64",
+   "bytes": 10827
+  },
+  "vendor/foundation-math-v014/examples/workflow/README.md": {
+   "sha256": "8bf55cd0f3f4be10dbd44c536e3309470763dd46e4ffc719dbf31e1abc403868",
+   "bytes": 3334
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_distributivity.json": {
+   "sha256": "93c1d59d28547b94c21b3b079b242a18e754491ff81e972b1aeabe26a4da8097",
+   "bytes": 6952
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_false_identity.json": {
+   "sha256": "31be621c6b8bcef003e273b470d1063f228b2d6a0f37daec567dd884c2014ff6",
+   "bytes": 4860
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_formal_requirement.json": {
+   "sha256": "89ad84b2fc1ad4f15229fa53f2d732103b6a7c1adb457fd5a90c478da6dafc1d",
+   "bytes": 6947
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_rejected_cancellation.json": {
+   "sha256": "004c06c5767578d7321592520d689aae56863c575932d49d029c5e8a4317b7ba",
+   "bytes": 2574
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_rejected_quotient.json": {
+   "sha256": "400833b50c5d9b366c4806d0d31c2db735c9a5318ab1a39ac639b1b5d910794f",
+   "bytes": 6998
+  },
+  "vendor/foundation-math-v014/examples/workflow/polynomial_tampered_ring.json": {
+   "sha256": "7960b9ffdd7018e986b26e5effd506e13ee2c8730005b8a340a4b692d3da9da8",
+   "bytes": 6952
+  },
+  "vendor/foundation-math-v014/examples/workflow/rational_addition.json": {
+   "sha256": "27bb697de812988f8f7b72fbd2716925b7f7c5ae89d6d10b5dc02814b54db467",
+   "bytes": 1626
+  },
+  "vendor/foundation-math-v014/examples/workflow/rejected_proposal.json": {
+   "sha256": "64ae64ec7570b3a8becb97863de0658bb0ed33bc41fe0ca23a595af80c25f4ec",
+   "bytes": 1616
+  },
+  "vendor/foundation-math-v014/examples/workflow/scalar_formal_requirement.json": {
+   "sha256": "91d6843ca7cef865907e43c163233a9fca555373980b19573b3142279fff3ffa",
+   "bytes": 1667
+  },
+  "vendor/foundation-math-v014/exterior_evidence_packaging_tests/test_integration.py": {
+   "sha256": "fd6b0a4c8915e2425781e76c6492cbefd2a39d29e81dbbcb324ec37732a5905e",
+   "bytes": 8138
+  },
+  "vendor/foundation-math-v014/exterior_power/__init__.py": {
+   "sha256": "0330880b5c58549ff885ee164a407f7d8f8264706cb8c73245f2b584da7fd84c",
+   "bytes": 477
+  },
+  "vendor/foundation-math-v014/exterior_power/__main__.py": {
+   "sha256": "d129d6b19a8c11b66532764ddfb66052f3f55378e9ebe97c87ee8aa479a6c024",
+   "bytes": 1124
+  },
+  "vendor/foundation-math-v014/exterior_power/catalog.json": {
+   "sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+   "bytes": 16182
+  },
+  "vendor/foundation-math-v014/exterior_power/class_arithmetic.py": {
+   "sha256": "33bdf6a8fc736834b39a436df0be7dd989525e0e395c9ce2bedab349c211baa8",
+   "bytes": 4666
+  },
+  "vendor/foundation-math-v014/exterior_power/contract.py": {
+   "sha256": "39d3c22597845a7a3725fdf307333543fb1528a3df651639e950908fd2fd1b06",
+   "bytes": 6289
+  },
+  "vendor/foundation-math-v014/exterior_power/fusion.py": {
+   "sha256": "9abb0310fbdf24bede872c2e7d4ee79e0701b51de8590529024c19d58c6971b3",
+   "bytes": 2406
+  },
+  "vendor/foundation-math-v014/exterior_power/producer.py": {
+   "sha256": "70b105a761dd168a0d5af60b25beed0485f7d05b4a9768c1bcbaf7805d43460b",
+   "bytes": 3787
+  },
+  "vendor/foundation-math-v014/exterior_power/seeds.json": {
+   "sha256": "0476eb520e3f8910828b4762fac3e88e16b12ba8f35ebe782c4e357c06ff1656",
+   "bytes": 3749
+  },
+  "vendor/foundation-math-v014/exterior_power/verifier.py": {
+   "sha256": "251d1a9edb81780cf881ba5eed9b15b0b05dc85576e8062ce850e2e5549b4281",
+   "bytes": 4226
+  },
+  "vendor/foundation-math-v014/foundation_math/ADAPTERS.md": {
+   "sha256": "07f0b83874ef75a577b37798123e56f66028b53d593671303cdad99b42e153df",
+   "bytes": 6838
+  },
+  "vendor/foundation-math-v014/foundation_math/__init__.py": {
+   "sha256": "ec1d31e23b959eadba8dc1d4ca9963f3f43228fa522ad862e69e60ba44c5376f",
+   "bytes": 111
+  },
+  "vendor/foundation-math-v014/foundation_math/__main__.py": {
+   "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+   "bytes": 48
+  },
+  "vendor/foundation-math-v014/foundation_math/calculator.py": {
+   "sha256": "146ec4fc9fca0c3400331c06595894fd9cb6a23668abae5c7b8d196e06bad54e",
+   "bytes": 9112
+  },
+  "vendor/foundation-math-v014/foundation_math/character_ring.py": {
+   "sha256": "faffdbfb17477a075cf62b781f1ef64751db24bd285da4d8fc5b1b0736871007",
+   "bytes": 5526
+  },
+  "vendor/foundation-math-v014/foundation_math/claim_ledger.py": {
+   "sha256": "0c7467595300fe6a4231caae162188cbf06c9fc50c535d07264c9d168e00914d",
+   "bytes": 2285
+  },
+  "vendor/foundation-math-v014/foundation_math/cli.py": {
+   "sha256": "202b6cc02b764b7b30d98be9274af4d1986d5efc4bb7fe1fb71d37404ce8f6f1",
+   "bytes": 14443
+  },
+  "vendor/foundation-math-v014/foundation_math/counterexample.py": {
+   "sha256": "da0c0a8c7993e65825794a321aca847bdc208d880c0bbb09abd256415a87c3c8",
+   "bytes": 469
+  },
+  "vendor/foundation-math-v014/foundation_math/domains.py": {
+   "sha256": "54ad911521b8828fe9daab85e6f686b73f1eb7c4892890c2f034334631989b0d",
+   "bytes": 7341
+  },
+  "vendor/foundation-math-v014/foundation_math/exterior.py": {
+   "sha256": "ea190d57a38bb0e80bd87d011f1449eca3fb14bf87eaf78f222f60454f440d13",
+   "bytes": 3304
+  },
+  "vendor/foundation-math-v014/foundation_math/hypothesis_scope.py": {
+   "sha256": "66824df7116f4e2aeb90cb9a47eb1253b97758791bc3fbf429d2e44daff5ecd1",
+   "bytes": 2291
+  },
+  "vendor/foundation-math-v014/foundation_math/lean_adapter.py": {
+   "sha256": "6399583903ef77e229f26b5df425016d65a3653867f5279a43e0995cb87bdcfe",
+   "bytes": 17021
+  },
+  "vendor/foundation-math-v014/foundation_math/linear_algebra.py": {
+   "sha256": "cb83e37e1e9c0db34ada9beecbfa3b0de8c5cdfca2a094bc83c2780b0fde36af",
+   "bytes": 4310
+  },
+  "vendor/foundation-math-v014/foundation_math/linear_systems.py": {
+   "sha256": "48442666ee963f7625d2f466d3cc4fd1358ec4f074204e916b800257dbeba913",
+   "bytes": 3782
+  },
+  "vendor/foundation-math-v014/foundation_math/orchestrator.py": {
+   "sha256": "9744c44f132294c1933bc726bf8eaeffc3f56ed79c469153d1bef085d4f45114",
+   "bytes": 24167
+  },
+  "vendor/foundation-math-v014/foundation_math/polynomial.py": {
+   "sha256": "66d61b69e274565d187f1a0bc836a4102a94a6e88898f6611fbd549dd97a0648",
+   "bytes": 17086
+  },
+  "vendor/foundation-math-v014/foundation_math/polynomial_witness.py": {
+   "sha256": "69246c388588a34406dd28e363660df350c20f1fd4fb5207e32a2a87172666cc",
+   "bytes": 9470
+  },
+  "vendor/foundation-math-v014/foundation_math/split_bundle.py": {
+   "sha256": "a7a161b322f51a82aa793feb19a613401215eabf8ac821f71b8a04c3ef9b89f4",
+   "bytes": 6038
+  },
+  "vendor/foundation-math-v014/foundation_math/validation_evidence.py": {
+   "sha256": "003090e2bb0f41ae7cdb0c97153dbc35dc2e540650dc600b4ecf46adee480424",
+   "bytes": 1833
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/__init__.py": {
+   "sha256": "8a431990310c774f791c9c701d7abb043c3e4c38def0acc6858679a757b0754d",
+   "bytes": 91
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/__main__.py": {
+   "sha256": "9bcc94bddffefb437ebdc44ffcd4bbe2994f63d48e8724059f072819b49f1db5",
+   "bytes": 246
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/character_ring_schemas.py": {
+   "sha256": "18c409ed66716402023b1161d02b16a697f8b3730a6c449c999cec4cccb147ba",
+   "bytes": 9773
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/claim_ledger_schemas.py": {
+   "sha256": "3ce736bd139d66bb0357472f166f684090003663d8a73f0e5b36d49681e0e181",
+   "bytes": 29159
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/exterior_schemas.py": {
+   "sha256": "6bcad11df39299474826a7bd3fbafed481edce0f4c75d57a1ba815dd0d65db67",
+   "bytes": 6739
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/hypothesis_scope_schemas.py": {
+   "sha256": "069946a25528063e22b0a8c8e36d1ab8d15af61f45bbc5e4a3d792467c8cb28b",
+   "bytes": 28173
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/linear_systems_schemas.py": {
+   "sha256": "83acba0e8d26d990e5e9ac8f28f29a2557c5e001288966b131acafd384d99bdd",
+   "bytes": 6860
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/polynomial_witness_schemas.py": {
+   "sha256": "3c82616dc81ad7588cd3b8ef18d0df52da36b82b05c06e195e020557aee47c10",
+   "bytes": 11365
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/schemas.py": {
+   "sha256": "c561df3f627dcd4afe5e1d7d317ea5272487df7b6409ba102994bb2dc5d3c9a3",
+   "bytes": 16309
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/server.py": {
+   "sha256": "ebe8a020b8732ded8510222eb205c0cceb0a822eb3e0ae6f09d97479ab64683b",
+   "bytes": 18127
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/split_bundle_schemas.py": {
+   "sha256": "9efc278a185db38f1cf367bf6c2ed5ae7becb67626dfc35b310bb138c0437b48",
+   "bytes": 13466
+  },
+  "vendor/foundation-math-v014/foundation_math_bridge/validation_evidence_schemas.py": {
+   "sha256": "58974c18a7d682c96e23301808e17a4b9dbe36ad6e6823731f7b5e9c5efdca17",
+   "bytes": 18923
+  },
+  "vendor/foundation-math-v014/hypothesis_scope/__init__.py": {
+   "sha256": "3fa60d50ba09b1dff8e392146b1376cf72bc3bfd7724f0d3bcfc81c2de99e233",
+   "bytes": 273
+  },
+  "vendor/foundation-math-v014/hypothesis_scope/__main__.py": {
+   "sha256": "292efbd2bc4eccca2296dc0655febcafc16f89a1865ea28672c7d4d68e375910",
+   "bytes": 703
+  },
+  "vendor/foundation-math-v014/hypothesis_scope/core.py": {
+   "sha256": "88e29466f62e89875735db45a29bb1b99ada88e8aa29810defe963b3c30a62f6",
+   "bytes": 18403
+  },
+  "vendor/foundation-math-v014/methods/README.md": {
+   "sha256": "7fa9b5833f588d2c47d5b400033dd7cd2b6ea7799fc99691a8e1b4ab13c4359a",
+   "bytes": 3759
+  },
+  "vendor/foundation-math-v014/methods/claim-contracts.md": {
+   "sha256": "6f5d03e559cb2c47de017fb606940aba7b0b13e72b02d28a3e57a888dab58518",
+   "bytes": 5916
+  },
+  "vendor/foundation-math-v014/methods/collaboration-and-release.md": {
+   "sha256": "4bf184d399472942274386d9607621ca7891b383cfac6227519c17c29d3d70ea",
+   "bytes": 5738
+  },
+  "vendor/foundation-math-v014/methods/evidence-and-references.md": {
+   "sha256": "80d61980f566f577c070153e9bbdc821ddab0fe5e44666d40dfebcc213408294",
+   "bytes": 5532
+  },
+  "vendor/foundation-math-v014/methods/experiments-and-pivots.md": {
+   "sha256": "9cb41fa6081a84a0f0d5482dffe48452431dba216a1a52591cae7b3f28491fc5",
+   "bytes": 5840
+  },
+  "vendor/foundation-math-v014/methods/failure-modes.md": {
+   "sha256": "d09a055848c110c274ca212f8fc0aa32b2998a6c941c6e1e77c7a4cca3b8a0ff",
+   "bytes": 4293
+  },
+  "vendor/foundation-math-v014/methods/proof-repair-and-reuse.md": {
+   "sha256": "0c06b913d4c91ead7a9f979cd6a4344bdf699e1db415e5f42b5e31256dc08443",
+   "bytes": 7688
+  },
+  "vendor/foundation-math-v014/methods/reproducible-computation.md": {
+   "sha256": "4af43bf243863eb5a4f427baa585138fa64539ad4772c946ef1790ccbc894099",
+   "bytes": 7229
+  },
+  "vendor/foundation-math-v014/packaging_tests/test_integration.py": {
+   "sha256": "0e5abe4ee2f2c5c7f1a8cddb31451903d7b5bbf91ad4c8f83edd397dad76fc9c",
+   "bytes": 7772
+  },
+  "vendor/foundation-math-v014/packaging_tests/test_snapshot.py": {
+   "sha256": "a61822291ce5903f55c906aef11a3ee2cbb9f23ea09ab8e040e9c03f49c3f572",
+   "bytes": 20876
+  },
+  "vendor/foundation-math-v014/polynomial_witness/__init__.py": {
+   "sha256": "5db5c09de73dd544823e8393aa5dfb8500213bea1b459369f4739b3eb3ce2e53",
+   "bytes": 105
+  },
+  "vendor/foundation-math-v014/polynomial_witness/__main__.py": {
+   "sha256": "80aee4cf885ec72caba9a40f5a7c140a30628d57a2c05441000fd8287792d103",
+   "bytes": 817
+  },
+  "vendor/foundation-math-v014/polynomial_witness/_vendor/__init__.py": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "bytes": 0
+  },
+  "vendor/foundation-math-v014/polynomial_witness/_vendor/calculator.py": {
+   "sha256": "146ec4fc9fca0c3400331c06595894fd9cb6a23668abae5c7b8d196e06bad54e",
+   "bytes": 9112
+  },
+  "vendor/foundation-math-v014/polynomial_witness/_vendor/polynomial.py": {
+   "sha256": "b700a069e0af9609a7b9e63d6a8185d9b430630d6d2f55f5a6ac2e5155022b9b",
+   "bytes": 16701
+  },
+  "vendor/foundation-math-v014/polynomial_witness/api.py": {
+   "sha256": "b5d43b961ea87df91ab65248c53ffb8a6917d6b31c63bb295c0e8d0308ecf01b",
+   "bytes": 1780
+  },
+  "vendor/foundation-math-v014/polynomial_witness/checker.py": {
+   "sha256": "b2c0a826e0769ec3c65f082c3115b455ef9841154229d1a820e19f528a00891c",
+   "bytes": 5610
+  },
+  "vendor/foundation-math-v014/polynomial_witness/contract.py": {
+   "sha256": "d7d3aa19dcb6d1fccff25e3ce94723d4e7fb6ed56802a8986fd7eb2b83ba50dc",
+   "bytes": 5391
+  },
+  "vendor/foundation-math-v014/polynomial_witness/producer.py": {
+   "sha256": "a26f8c10f085bebe3fb42cc3ca0581670067a75007634182336bf4c902da0129",
+   "bytes": 6953
+  },
+  "vendor/foundation-math-v014/review/V010-REVIEW-PINS.json": {
+   "sha256": "53cd0c03a7431dbaa937ca076989b35d5b4312b4cf53831d44b183c3347b8fdc",
+   "bytes": 851
+  },
+  "vendor/foundation-math-v014/review/V010-REVIEW.md": {
+   "sha256": "f5e7990c2ce23288b77f468af71e61adbdd5f9a47c118ab14837f4dca5b22e84",
+   "bytes": 3555
+  },
+  "vendor/foundation-math-v014/review/V011-BASELINE.json": {
+   "sha256": "eac02d27524eccd236fa56a118fd5e8a1366f158d03267a33ade5a2eb3faee26",
+   "bytes": 686145
+  },
+  "vendor/foundation-math-v014/review/V011-REVIEW-PINS.json": {
+   "sha256": "a2ecdc5dd711a0c0f51c572be38e4f8975452a2d10e5905839ac06f49ce2169a",
+   "bytes": 2026
+  },
+  "vendor/foundation-math-v014/review/V011-REVIEW.md": {
+   "sha256": "670c47c92dc29951eabadc37f7325ebf297801b2c91e1e6b0643a02f2dfd4467",
+   "bytes": 8875
+  },
+  "vendor/foundation-math-v014/review/V012-REVIEW-PINS.json": {
+   "sha256": "33b8a921cbc358bfe9927bddb4809ee69cd2ea09dc4e55159e5460b748359bdd",
+   "bytes": 2733
+  },
+  "vendor/foundation-math-v014/review/V012-REVIEW.md": {
+   "sha256": "9842c2b323f0607ec4af2f3d1d316dd405b7e1a848a4593bb5a7f45cfa6fac59",
+   "bytes": 9200
+  },
+  "vendor/foundation-math-v014/review/V013-REVIEW-PINS.json": {
+   "sha256": "1492f4e8fa6244aa39298fcf570e8f89d17f61b4a764151a12424c2088ebb3fe",
+   "bytes": 52652
+  },
+  "vendor/foundation-math-v014/review/V013-REVIEW.md": {
+   "sha256": "ba1c276b4fb34644519d0158062ea00d907adbd9370187c063912cb18c1f84cb",
+   "bytes": 5311
+  },
+  "vendor/foundation-math-v014/review/V014-REVIEW-PINS.json": {
+   "sha256": "e6ed927f22882abefeca767ab9041cc9ced8f9721df4db87c904586eba5f62d6",
+   "bytes": 65934
+  },
+  "vendor/foundation-math-v014/review/V014-REVIEW.md": {
+   "sha256": "4285f87f80c2fe5ec64289310ee1fa9a50870b578d7515839a7e68dbcac4d3b8",
+   "bytes": 12123
+  },
+  "vendor/foundation-math-v014/review/claim-revision-lab/oracle.py": {
+   "sha256": "e43711bc29006e3469a8d9e3b1680a7f7accc01df47373b40c78bad537a1bedd",
+   "bytes": 5994
+  },
+  "vendor/foundation-math-v014/review/claim-revision-lab/reproduce_review.py": {
+   "sha256": "94ee0b8839008ed4b6055c7d675796c13bf9a7eb7a5896832fe7ef058a2c7767",
+   "bytes": 4484
+  },
+  "vendor/foundation-math-v014/review/claim-revision-lab/review.py": {
+   "sha256": "60ae061320d5a392e199dae1a7bf52065ae2c45fa93dcbf1533c49ba5b884ea4",
+   "bytes": 25594
+  },
+  "vendor/foundation-math-v014/review/v010_review.py": {
+   "sha256": "7277ace6485630637dcb84a716ed3824e1ee3f768d945944c080614c01be7ee5",
+   "bytes": 5457
+  },
+  "vendor/foundation-math-v014/review/v011_review.py": {
+   "sha256": "40952c6485693980609b74ead2c6db8ac53426602dccaa42c511d61f089bcf00",
+   "bytes": 24786
+  },
+  "vendor/foundation-math-v014/review/v012_review.py": {
+   "sha256": "be43bb039635141b3489c5d3842f64c5ba83f2d29a795ab75e28892f1559b495",
+   "bytes": 35441
+  },
+  "vendor/foundation-math-v014/review/v013_review.py": {
+   "sha256": "70a37437e1a3ffc5b7466ed2b9546bcb392051ea4d72e278ff9861f6ca4b7d4f",
+   "bytes": 42938
+  },
+  "vendor/foundation-math-v014/review/v014_review.py": {
+   "sha256": "62cafb37297e11910c5d199f4defbe7e2b4fddbbd365ced0a03917014bf6ccc0",
+   "bytes": 46902
+  },
+  "vendor/foundation-math-v014/schemas/claim-ledger.schema.json": {
+   "sha256": "ebcb296400067acc0629bdf7eb22dcb9a494d1fe1958f76709527389efc86fc6",
+   "bytes": 7958
+  },
+  "vendor/foundation-math-v014/schemas/claim-revision/ledger.schema.json": {
+   "sha256": "6eb7715dce6baf48efa313cabfdbf8c8f4899196bafc33312df7430ce9c8d99f",
+   "bytes": 8359
+  },
+  "vendor/foundation-math-v014/schemas/claim-revision/report.schema.json": {
+   "sha256": "b7999d82a3a0eb274aeb504c8a6d9bf716877240e15d6f7ef5e94fa0ec64b276",
+   "bytes": 10043
+  },
+  "vendor/foundation-math-v014/schemas/hypothesis-scope-request.schema.json": {
+   "sha256": "7d7b6a00aeaca1feb9fdcee4cdd8df898511a553fa3a5eeb21d5a34d57d8cda0",
+   "bytes": 18236
+  },
+  "vendor/foundation-math-v014/schemas/validation-evidence-request.schema.json": {
+   "sha256": "cc32c0def3799df8056a62e3f3177115c8c672ac07a376c1a5b5bad403e2c422",
+   "bytes": 10188
+  },
+  "vendor/foundation-math-v014/scope_packaging_tests/test_integration.py": {
+   "sha256": "fa364d35031150dcc7ec6f395bc0cb224144125efef2d36c0491eaf98d678a34",
+   "bytes": 9579
+  },
+  "vendor/foundation-math-v014/snapshots/v011/baseline-manifest.json": {
+   "sha256": "438bc999e2a3577a4c8525a5b990a7346bd4d0dd9f1b400d596661d7a465e6a4",
+   "bytes": 43923
+  },
+  "vendor/foundation-math-v014/snapshots/v011/blobs/62f421a83e92f04b3b1dbc6f539a1096a202abbd6eb451e26fa45138c4e6a05c": {
+   "sha256": "62f421a83e92f04b3b1dbc6f539a1096a202abbd6eb451e26fa45138c4e6a05c",
+   "bytes": 21468
+  },
+  "vendor/foundation-math-v014/snapshots/v011/blobs/633dbe98a518172ac31ba83f268d609bc84ac956aa69cf3ec7d24fd86fc65621": {
+   "sha256": "633dbe98a518172ac31ba83f268d609bc84ac956aa69cf3ec7d24fd86fc65621",
+   "bytes": 17670
+  },
+  "vendor/foundation-math-v014/snapshots/v011/recipe.json": {
+   "sha256": "0d8a5780fbad9df5811021c3b658f57a2aa696779d4a1d256612cb821bf22ef6",
+   "bytes": 75817
+  },
+  "vendor/foundation-math-v014/snapshots/v012/baseline-manifest.json": {
+   "sha256": "dcd1c48e50f3c384b96e7eea4a442286fc669ad71dd10e0704366632e75adf9d",
+   "bytes": 46342
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/0491c6f0f8be381ad4e2991b2e516399b816596402a6fadde5aa828e13c299ee": {
+   "sha256": "0491c6f0f8be381ad4e2991b2e516399b816596402a6fadde5aa828e13c299ee",
+   "bytes": 18593
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/0a16f3182bbab005dd3cae7cfa6cc9b990bd8ee3c4b28411d29b9dccc07fa811": {
+   "sha256": "0a16f3182bbab005dd3cae7cfa6cc9b990bd8ee3c4b28411d29b9dccc07fa811",
+   "bytes": 13269
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/153ac27433ad78089bf447e3ae189663df4bc077678bb62168b31885a0bc5a8d": {
+   "sha256": "153ac27433ad78089bf447e3ae189663df4bc077678bb62168b31885a0bc5a8d",
+   "bytes": 9247
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/1be23d6932a3ffffa1c45f08b06ab172d676bc6085726629e793ba70d6c491e7": {
+   "sha256": "1be23d6932a3ffffa1c45f08b06ab172d676bc6085726629e793ba70d6c491e7",
+   "bytes": 20345
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/25203072229e815cdecc824f97c050681c8ff044c90c8e367bcf710a41711369": {
+   "sha256": "25203072229e815cdecc824f97c050681c8ff044c90c8e367bcf710a41711369",
+   "bytes": 2854
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/30c0bdb106424e6cfc80f7d90ab890c680c44f62c110bf5a2cad10d22da9a043": {
+   "sha256": "30c0bdb106424e6cfc80f7d90ab890c680c44f62c110bf5a2cad10d22da9a043",
+   "bytes": 16010
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/44d9a70befaeb4389250820e306d62dbdee6270c425c8e3b06bac43da13e01c1": {
+   "sha256": "44d9a70befaeb4389250820e306d62dbdee6270c425c8e3b06bac43da13e01c1",
+   "bytes": 13781
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/4bc02498547df6a7605b60c3167f7eadff7a7bb1fba01a9a262fd3baf486fca7": {
+   "sha256": "4bc02498547df6a7605b60c3167f7eadff7a7bb1fba01a9a262fd3baf486fca7",
+   "bytes": 38624
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/4df6804607c57ce2ec3a1fc03db2998fb2d2f1ab0fcce89e32348092c3e96e44": {
+   "sha256": "4df6804607c57ce2ec3a1fc03db2998fb2d2f1ab0fcce89e32348092c3e96e44",
+   "bytes": 35452
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/5872c1421b56a1ea1a4d67d3df49d98f7bb05426ea3874da3e82fcc2158f5787": {
+   "sha256": "5872c1421b56a1ea1a4d67d3df49d98f7bb05426ea3874da3e82fcc2158f5787",
+   "bytes": 23373
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/77a2b2f3a354da250093cf499dd12ca14e2351205664a3bfec0f529359a9f135": {
+   "sha256": "77a2b2f3a354da250093cf499dd12ca14e2351205664a3bfec0f529359a9f135",
+   "bytes": 15847
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/9213a83a4a5b66a8f419b217ec4b76eff9c7891cb21b7bb2ebc2aaf30c6cf108": {
+   "sha256": "9213a83a4a5b66a8f419b217ec4b76eff9c7891cb21b7bb2ebc2aaf30c6cf108",
+   "bytes": 91
+  },
+  "vendor/foundation-math-v014/snapshots/v012/blobs/de315368b47cb2ffbf6d06bda2df3f91cb55478980a0960ed9b26878072cf28a": {
+   "sha256": "de315368b47cb2ffbf6d06bda2df3f91cb55478980a0960ed9b26878072cf28a",
+   "bytes": 23369
+  },
+  "vendor/foundation-math-v014/snapshots/v012/recipe.json": {
+   "sha256": "3f33b16d89722d45e4c360fade0ae446cd6c58f454534c4b6d05d9a24afa3deb",
+   "bytes": 79928
+  },
+  "vendor/foundation-math-v014/snapshots/v013/baseline-manifest.json": {
+   "sha256": "e2d034b8703bd1c98c847962627fbfd2f86c695ecc19dab83c596873f2de7de8",
+   "bytes": 53089
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/0f863bbd40c26a6218fb367c7e77b7289285d1d5f50a8a73cb69bbee5dec44e0": {
+   "sha256": "0f863bbd40c26a6218fb367c7e77b7289285d1d5f50a8a73cb69bbee5dec44e0",
+   "bytes": 14090
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/110b42225defe6a1ffc287f655d6c91c8371079f4691bb44122c5c6384e4f217": {
+   "sha256": "110b42225defe6a1ffc287f655d6c91c8371079f4691bb44122c5c6384e4f217",
+   "bytes": 16122
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/2e1375293f2aa97c0d0e6b7d355f18c3bf00ec49cfe48f0e6822240a1bdecd3c": {
+   "sha256": "2e1375293f2aa97c0d0e6b7d355f18c3bf00ec49cfe48f0e6822240a1bdecd3c",
+   "bytes": 23399
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/3e051b507623f161d211503ef62575096ab45e42f0c25011e0853c738d580df3": {
+   "sha256": "3e051b507623f161d211503ef62575096ab45e42f0c25011e0853c738d580df3",
+   "bytes": 10166
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/3faf2c55488a33f4eec5f8053b334203b1075d8749d4f84f4ccee1c3432803eb": {
+   "sha256": "3faf2c55488a33f4eec5f8053b334203b1075d8749d4f84f4ccee1c3432803eb",
+   "bytes": 25657
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/47aa4b0a38cc951dc45a51da0c21ee125a7708757d642f239dec1abb00521c79": {
+   "sha256": "47aa4b0a38cc951dc45a51da0c21ee125a7708757d642f239dec1abb00521c79",
+   "bytes": 2874
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/55eceee445695d67272afc6c5e495298b469a4588fe693bd8242b0e85ca55ee2": {
+   "sha256": "55eceee445695d67272afc6c5e495298b469a4588fe693bd8242b0e85ca55ee2",
+   "bytes": 16156
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/5decdc4f9c7cf81e5ef1465d8877342583ad370b44796fbd7093152549e27087": {
+   "sha256": "5decdc4f9c7cf81e5ef1465d8877342583ad370b44796fbd7093152549e27087",
+   "bytes": 13269
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/6c90b8b0cb3ed152e02d38badbf847eb255b94360496c8c2fc1a2b13a2b723af": {
+   "sha256": "6c90b8b0cb3ed152e02d38badbf847eb255b94360496c8c2fc1a2b13a2b723af",
+   "bytes": 9247
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/7881946db89c0dd8257ae754a33f1403ce057a9519a4e6cd9dc1e4816cdc90d2": {
+   "sha256": "7881946db89c0dd8257ae754a33f1403ce057a9519a4e6cd9dc1e4816cdc90d2",
+   "bytes": 20371
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/b68090cb51a36c7dfdfb269ecc562aaff7404a0030608943559c92e9475790f3": {
+   "sha256": "b68090cb51a36c7dfdfb269ecc562aaff7404a0030608943559c92e9475790f3",
+   "bytes": 91
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/bfc0da128bd49d6ecbe443819bce4b7a7bbdc8846794c25bed55b63aa8709ad2": {
+   "sha256": "bfc0da128bd49d6ecbe443819bce4b7a7bbdc8846794c25bed55b63aa8709ad2",
+   "bytes": 35452
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/d93cf5ad4448dc4a0cc4cc461ef88767668a4fd009c53a06079234459c209694": {
+   "sha256": "d93cf5ad4448dc4a0cc4cc461ef88767668a4fd009c53a06079234459c209694",
+   "bytes": 21688
+  },
+  "vendor/foundation-math-v014/snapshots/v013/blobs/ed56e8036bc4343a8afe34679045e888b0f72e98edca2d14c6af56693185ab2d": {
+   "sha256": "ed56e8036bc4343a8afe34679045e888b0f72e98edca2d14c6af56693185ab2d",
+   "bytes": 38624
+  },
+  "vendor/foundation-math-v014/snapshots/v013/recipe.json": {
+   "sha256": "e67eaa66f4f6484ca81ab1fddb313613d170bc0664e51cb315b8a39c5efc5453",
+   "bytes": 91110
+  },
+  "vendor/foundation-math-v014/split_bundle/__init__.py": {
+   "sha256": "6ebaf46927773838389d9ff2f516a3e7b9b0b849596f0ba6a655385c28246b0e",
+   "bytes": 531
+  },
+  "vendor/foundation-math-v014/split_bundle/__main__.py": {
+   "sha256": "223400cabdfab5040da7814268b1ea61e4e8f303c4919a5f9dd9771e4b6af225",
+   "bytes": 992
+  },
+  "vendor/foundation-math-v014/split_bundle/contract.py": {
+   "sha256": "4259114f723b7e3a57ba5490d5e6e923e72bcc5647fe7bad3719cba7ab2e625c",
+   "bytes": 4682
+  },
+  "vendor/foundation-math-v014/split_bundle/producer.py": {
+   "sha256": "106c61e5200650a8e369bcbedb11377d21ff36ad85b01275dff55022c1848a6c",
+   "bytes": 2747
+  },
+  "vendor/foundation-math-v014/split_bundle/verifier.py": {
+   "sha256": "3e95fbec7f466c4efcf01abbcdb246be775844d126e5599a3f62995e54556076",
+   "bytes": 7455
+  },
+  "vendor/foundation-math-v014/templates/experiment.md": {
+   "sha256": "465eb55c2447905ef6976ad8f6569c8ae000b3c319ce9c5e378d9cd087649c43",
+   "bytes": 429
+  },
+  "vendor/foundation-math-v014/templates/problem.md": {
+   "sha256": "5ec19408c62ae87f9ffc02d14e2b7e58166ed316ce690712ad0d2054970fd729",
+   "bytes": 456
+  },
+  "vendor/foundation-math-v014/templates/proof-review.md": {
+   "sha256": "a107e7bffe799990dbecc0ebae553ec384660947f7455eba04a629ce26d67f00",
+   "bytes": 461
+  },
+  "vendor/foundation-math-v014/tests/test_adversarial_integration.py": {
+   "sha256": "62023e947bc3491313251f879827c1180f318ca98952bc907b67a7659f19e4df",
+   "bytes": 10828
+  },
+  "vendor/foundation-math-v014/tests/test_agent_bridge.py": {
+   "sha256": "16518e65bae230b9398acdbfb71dc7081bc7e7de14293b1ceb0d9cf5cacbcb9e",
+   "bytes": 23519
+  },
+  "vendor/foundation-math-v014/tests/test_calculator_adapters.py": {
+   "sha256": "92389df7956588bfafd087a0f7a503b9de8a3db855c55d46787d8001795a6f65",
+   "bytes": 15349
+  },
+  "vendor/foundation-math-v014/tests/test_character_ring_integration.py": {
+   "sha256": "28f2c75457383162c7852f2d207256f9bad582b28421d7ceb039a1cdcea33448",
+   "bytes": 35452
+  },
+  "vendor/foundation-math-v014/tests/test_claim_ledger.py": {
+   "sha256": "d4146183caee01b9bf0e9753d1aabf7d29905d5eeac57d43cfead1366b024d50",
+   "bytes": 15364
+  },
+  "vendor/foundation-math-v014/tests/test_claim_revision_integration.py": {
+   "sha256": "5fe349e1423f4ea2df31890052f0e01e91ef6fdbdc652c02e12505dbe9641f72",
+   "bytes": 9247
+  },
+  "vendor/foundation-math-v014/tests/test_counterexample.py": {
+   "sha256": "3702b17d9be7f5c8d01740989ecf37984b58a381c2e51e16297a3373b548d323",
+   "bytes": 22395
+  },
+  "vendor/foundation-math-v014/tests/test_counterexample_integration.py": {
+   "sha256": "4ff22274193604e426302f94ca5279af3ace5f2e522fac5999afe51651ef1719",
+   "bytes": 6080
+  },
+  "vendor/foundation-math-v014/tests/test_counterexample_runtime_adversarial.py": {
+   "sha256": "44d3a946abcb862f06b905744435349d5e3c38b8467c3000a77b6b4b67af00cc",
+   "bytes": 12662
+  },
+  "vendor/foundation-math-v014/tests/test_domain_runtime.py": {
+   "sha256": "f7c6361f8f15fcfe0d7958ace49af9b0939a927a13f654f31ac8a7d74d50d6ce",
+   "bytes": 18145
+  },
+  "vendor/foundation-math-v014/tests/test_domain_runtime_adversarial.py": {
+   "sha256": "2a0ebcf9c5c8d44eca47c0e7faf44550d936da4a3dcdff97ee2536f48c22ebf0",
+   "bytes": 13360
+  },
+  "vendor/foundation-math-v014/tests/test_exterior_evidence_integration.py": {
+   "sha256": "e268378dbb57d726e23b41ddba05c826e20f738f218765921e6026673c9ea717",
+   "bytes": 17324
+  },
+  "vendor/foundation-math-v014/tests/test_hypothesis_scope_integration.py": {
+   "sha256": "d000a0960649065cd259aa873966aa8686b0f33f5ae70df583b83954292dc639",
+   "bytes": 10166
+  },
+  "vendor/foundation-math-v014/tests/test_linalg_contract_and_api.py": {
+   "sha256": "8ff413ac559ecb2a95bdc2cde8f2c043b6fcf6f297563f2732e9c44cd6f6a73d",
+   "bytes": 11748
+  },
+  "vendor/foundation-math-v014/tests/test_linalg_independent_audit.py": {
+   "sha256": "e99f651f95980b11a24e5c96ad33742c068748fc5bc219121f28181437523d3f",
+   "bytes": 11457
+  },
+  "vendor/foundation-math-v014/tests/test_linalg_producer_oracles.py": {
+   "sha256": "91a78c521f3748a5fbc9992a18914b9759a4181dd8d0d0415659e521795f7529",
+   "bytes": 5063
+  },
+  "vendor/foundation-math-v014/tests/test_linalg_runtime_boundary.py": {
+   "sha256": "6b3835e87e819ca4a92fb06de4766dc5f16c1c8924620d6645e729e055ea728f",
+   "bytes": 2002
+  },
+  "vendor/foundation-math-v014/tests/test_linalg_verifier_independent.py": {
+   "sha256": "49afe28b1cd5201e6d943a9b036bcda3eb7ba8fecdfb42756d9245bec44c5e1b",
+   "bytes": 15688
+  },
+  "vendor/foundation-math-v014/tests/test_linear_algebra_bridge.py": {
+   "sha256": "efc3eeb57c1deed7185761c91071c373ab2a0a551fcd03b443cbb4967a4b3a03",
+   "bytes": 20491
+  },
+  "vendor/foundation-math-v014/tests/test_linear_algebra_integration.py": {
+   "sha256": "e9c1116d0e21cad35239be25122ddbdd1fa94d8ed3114f5121a3bfd8e0a82619",
+   "bytes": 10021
+  },
+  "vendor/foundation-math-v014/tests/test_linear_systems_integration.py": {
+   "sha256": "99bd3faf9e444cc6f31e7ed325e1ee0d24e29c28316067d21407e19933aa8c1e",
+   "bytes": 13269
+  },
+  "vendor/foundation-math-v014/tests/test_orchestrator.py": {
+   "sha256": "05311fae6d673f0b3f0c0ffe6dbfa2362e849b553c1b8f06f01fbfcc3c3ed997",
+   "bytes": 12571
+  },
+  "vendor/foundation-math-v014/tests/test_polynomial.py": {
+   "sha256": "725a3bbdb1b8b1ae744f58a795e85fab00aa8675efbc6ad4b4b7c165b902835d",
+   "bytes": 19394
+  },
+  "vendor/foundation-math-v014/tests/test_polynomial_witness_lab.py": {
+   "sha256": "10cf8a0f2a36fe74b42c8420e385c75a88ac71cdad9a688817e11a96a3bd983c",
+   "bytes": 18020
+  },
+  "vendor/foundation-math-v014/tests/test_portable_validation.py": {
+   "sha256": "f6468504241f64a12efbb8de135c5a92f1156921de74138fe89b12d1b157d6ce",
+   "bytes": 2914
+  },
+  "vendor/foundation-math-v014/tests/test_split_bundle_integration.py": {
+   "sha256": "2838e7b47de544912d46287e530d61cab2fe3e54aea3858fc8484db6109c0b13",
+   "bytes": 38624
+  },
+  "vendor/foundation-math-v014/tests/test_systems.py": {
+   "sha256": "338db30d5557ed84c9ee3ba791ce88542e21594febe675ff076a3838d64e4860",
+   "bytes": 23814
+  },
+  "vendor/foundation-math-v014/tests/test_v06_independent_review.py": {
+   "sha256": "dd4a1095b6c3e24a4a8616568a5f4271496c865b88c193a862d10e7e1c64164f",
+   "bytes": 15461
+  },
+  "vendor/foundation-math-v014/tests/test_v07_independent_review.py": {
+   "sha256": "9881079e8f8b1b10d1975d0c7c056a24bbbccc4d920f97ddfde7024134ab6ba4",
+   "bytes": 32214
+  },
+  "vendor/foundation-math-v014/tools/README.md": {
+   "sha256": "fd922c52812d1c6c193a590416f94a188e846b9cce904deb6c9f7c615b423905",
+   "bytes": 7163
+  },
+  "vendor/foundation-math-v014/tools/__init__.py": {
+   "sha256": "3ad25918ba565b757b08f2173fa91932ef123b1d48a31720f71605a9baae5b08",
+   "bytes": 72
+  },
+  "vendor/foundation-math-v014/tools/audit_agent_bridge.py": {
+   "sha256": "19138e607bace0883aea418dc321b7956011e6d9dbeac53c56f133240c32c901",
+   "bytes": 17401
+  },
+  "vendor/foundation-math-v014/tools/audit_linear_systems_integration.py": {
+   "sha256": "1be846f7d6a6ae1b198a711264b446138574c94d5e5799b534699ca9b13be6f2",
+   "bytes": 9016
+  },
+  "vendor/foundation-math-v014/tools/audit_polynomial.py": {
+   "sha256": "827fbf0fd8f60832aa87e3220c680428c2811841a11bfd1e76f33af84295877f",
+   "bytes": 7729
+  },
+  "vendor/foundation-math-v014/tools/audit_polynomial_witness_integration.py": {
+   "sha256": "57ad38209e3eb20de26f3e225eab40379fe0ebc8268928b02510f38f470d8f1e",
+   "bytes": 20920
+  },
+  "vendor/foundation-math-v014/tools/audit_polynomial_witness_lab.py": {
+   "sha256": "4bf3219310826df6d11a16ed15130ecb8b1f63c0b7566b058cd08dfe31105cbc",
+   "bytes": 25972
+  },
+  "vendor/foundation-math-v014/tools/audit_prior_tool_differential.py": {
+   "sha256": "9347de7d2fb84eb22c195bd008e6937cb08698e3a812c1afa864e6a8d1cd7c22",
+   "bytes": 5500
+  },
+  "vendor/foundation-math-v014/tools/audit_systems_lab.py": {
+   "sha256": "3e313e712286e6952c3ba61c34e015e2ba242d328bd7b20a1211467caec17433",
+   "bytes": 3246
+  },
+  "vendor/foundation-math-v014/tools/audit_v010_tool_differential.py": {
+   "sha256": "1762b1ac9e5ec7b0afa23cc9b99dd46c0900e4d3eacb029a0a05a69da69bb36e",
+   "bytes": 6170
+  },
+  "vendor/foundation-math-v014/tools/audit_v012_tool_differential.py": {
+   "sha256": "670a35e339dc8f705644b490dbb25a7ea6f52da817543f7183fc2d53655ad053",
+   "bytes": 6258
+  },
+  "vendor/foundation-math-v014/tools/audit_v013_tool_differential.py": {
+   "sha256": "4c3b40701d765252d447d2051475d3d74b3d0868d0568b8ba56e81c8f2069dfc",
+   "bytes": 6563
+  },
+  "vendor/foundation-math-v014/tools/audit_v09_tool_differential.py": {
+   "sha256": "aa0cb9628ba22d641814b69636c81a1e7577ba33083e9c6205243cb11a0db609",
+   "bytes": 5826
+  },
+  "vendor/foundation-math-v014/tools/build_claim_ledger_release.py": {
+   "sha256": "ac49d350939f7cc9c54fba501dae76abb9a3058c58c43c3c7d2d6b7328084c28",
+   "bytes": 3500
+  },
+  "vendor/foundation-math-v014/tools/build_exterior_evidence_release.py": {
+   "sha256": "ffb6e4ab7363682bb287392186b503353ff1f1028ca167bb56597ae9a8940042",
+   "bytes": 5664
+  },
+  "vendor/foundation-math-v014/tools/build_hypothesis_scope_release.py": {
+   "sha256": "bdfa84488706511d92b293182d94fa89969e850f290df49bf1f7184bbbbe77da",
+   "bytes": 5526
+  },
+  "vendor/foundation-math-v014/tools/build_snapshot_release.py": {
+   "sha256": "287b65f988caecd1efaa528a682cd0ef7df440ae061f978c56597f21a4571687",
+   "bytes": 5481
+  },
+  "vendor/foundation-math-v014/tools/build_split_bundle_release.py": {
+   "sha256": "4a6f4840eb554fd07f0fd8757e8b6c381ad3b3e206051ca6dcde0d8103cdae2a",
+   "bytes": 3486
+  },
+  "vendor/foundation-math-v014/tools/character_release_support.py": {
+   "sha256": "bbfa1718147d9f19cf0a566c738d94e264a990edaa82f20517063924e0d9733c",
+   "bytes": 2693
+  },
+  "vendor/foundation-math-v014/tools/claim_ledger_release_support.py": {
+   "sha256": "874cf9ec1ab95302fc23aeaaeaebfb56ee2779b6d96eefb2614e1988117302e6",
+   "bytes": 3963
+  },
+  "vendor/foundation-math-v014/tools/exterior_evidence_release_support.py": {
+   "sha256": "9950b58b24eb3586115d481496fb34172526348750448c3c51576c7a578ba77a",
+   "bytes": 9174
+  },
+  "vendor/foundation-math-v014/tools/exterior_evidence_validation_runner.py": {
+   "sha256": "123342f7afea1da3bbbc81f9ae82860c3c41d3c9474884e77c4e3c8d81839188",
+   "bytes": 2847
+  },
+  "vendor/foundation-math-v014/tools/freeze_character_ring_sources.py": {
+   "sha256": "4256b35d16e920f398fcb0516c85649332a523f6c7c53e83748b64adf36fc813",
+   "bytes": 1122
+  },
+  "vendor/foundation-math-v014/tools/freeze_linear_systems_sources.py": {
+   "sha256": "69dfaac89d8f17d5d8e7a62bebc1165412d750b889a912a1d9d0d7927487d71b",
+   "bytes": 1337
+  },
+  "vendor/foundation-math-v014/tools/hypothesis_scope_release_support.py": {
+   "sha256": "7ee179033265a609a7696a3de65e4a46c1bf49d5b876992135ed6a2a6be348dd",
+   "bytes": 12160
+  },
+  "vendor/foundation-math-v014/tools/independent_audit.py": {
+   "sha256": "cc1a900bbedd71b76b0e97377c22959444783bc0b930e23b7c991e661ef3d96a",
+   "bytes": 25347
+  },
+  "vendor/foundation-math-v014/tools/reproduce_claim_ledger_release.py": {
+   "sha256": "e3626c782ced3317f2839657adb5e7d76c7e78848b4f43fc68494d831f1491f9",
+   "bytes": 3500
+  },
+  "vendor/foundation-math-v014/tools/reproduce_exterior_evidence_release.py": {
+   "sha256": "2f541c4460ab35578b60217fa9a016cebb8d63180577e1dbc6e85dc5359173bf",
+   "bytes": 6569
+  },
+  "vendor/foundation-math-v014/tools/reproduce_hypothesis_scope_release.py": {
+   "sha256": "7cff3587560449119566458cf6da58cc846f3e217267fb992983c4962bf2908a",
+   "bytes": 6608
+  },
+  "vendor/foundation-math-v014/tools/reproduce_snapshot_release.py": {
+   "sha256": "a345b23516c2f1506178f10d72c3c286273955c858e2d6b74bef577ccf157311",
+   "bytes": 6542
+  },
+  "vendor/foundation-math-v014/tools/reproduce_split_bundle_release.py": {
+   "sha256": "9f90d1687112eb30cfcadf9e8b3057c237643e403bd3d527ae32bd22fab6103d",
+   "bytes": 3491
+  },
+  "vendor/foundation-math-v014/tools/run_bridge_validation.py": {
+   "sha256": "176167cd1ff636d320e89e3a09891a90b32f70fc94993a4854e86ae25d21b1bf",
+   "bytes": 3366
+  },
+  "vendor/foundation-math-v014/tools/run_character_ring_validation.py": {
+   "sha256": "e69f826acc1fb76fd4b982d22059720e042976235cf053473ed441cbfe9dbd86",
+   "bytes": 12947
+  },
+  "vendor/foundation-math-v014/tools/run_claim_ledger_validation.py": {
+   "sha256": "5b24b0600eeb76c78af243d598cab933a82972229b1bada72c9f6685bdb2dd90",
+   "bytes": 12072
+  },
+  "vendor/foundation-math-v014/tools/run_counterexample_validation.py": {
+   "sha256": "81f4db7313d898471727e7d0fb0a6554f929ff5c87c801430a0f251543a62cf2",
+   "bytes": 3179
+  },
+  "vendor/foundation-math-v014/tools/run_exterior_evidence_validation.py": {
+   "sha256": "0aecca8b61e6a1c8dc251a07bfa598cc71dec4f2db44907810a6dcb8a8d3c606",
+   "bytes": 7770
+  },
+  "vendor/foundation-math-v014/tools/run_full_archival_replay.py": {
+   "sha256": "1a776c66698d1802ebdb6b98aa53d6c41c472dab0f76710d465048ed8be065b1",
+   "bytes": 2043
+  },
+  "vendor/foundation-math-v014/tools/run_hypothesis_scope_validation.py": {
+   "sha256": "ad551f9fd0af1a52d3ae193ad68f7e06be7a44f55025fe2a3f5629252febd6e6",
+   "bytes": 6839
+  },
+  "vendor/foundation-math-v014/tools/run_linear_algebra_validation.py": {
+   "sha256": "0e78dade73adaf535fa49889941117fdd79aa39594c52398ac25fed1b182dd5d",
+   "bytes": 6420
+  },
+  "vendor/foundation-math-v014/tools/run_linear_systems_validation.py": {
+   "sha256": "5d7db213bb8c47e5c77d166f971a6a0aa6757abed27f0f2779e79f175fde67bc",
+   "bytes": 10683
+  },
+  "vendor/foundation-math-v014/tools/run_polynomial_witness_validation.py": {
+   "sha256": "96bf59f61c361829f9c84ae2aafffba0afeb109054a259c91769ff579872ea18",
+   "bytes": 15494
+  },
+  "vendor/foundation-math-v014/tools/run_snapshot_validation.py": {
+   "sha256": "4f3956a8846c3e30c8635a051e9f34cdbfb8cbf1833813bac825b2e9c88a052d",
+   "bytes": 7494
+  },
+  "vendor/foundation-math-v014/tools/run_split_bundle_validation.py": {
+   "sha256": "94ca3be8392404b9a03f744a91ec62addaf7edce4d507ed7fdaefceac8abc4e5",
+   "bytes": 11445
+  },
+  "vendor/foundation-math-v014/tools/snapshot_release_support.py": {
+   "sha256": "b1805aa24853e3037b89c458e8298f8751136cdcbbfc72c60b0629ed2c27a2df",
+   "bytes": 8358
+  },
+  "vendor/foundation-math-v014/tools/split_bundle_release_support.py": {
+   "sha256": "e5e715e925aa5e0e769d6a594786868a2a9c6162fe5e362019b7d8c290ddc0ec",
+   "bytes": 3315
+  },
+  "vendor/foundation-math-v014/tools/v014_privacy.py": {
+   "sha256": "1e2d86b00545574aad126f838c5f276ad9240b92635a515b829b9e240a23e9ac",
+   "bytes": 2362
+  },
+  "vendor/foundation-math-v014/tools/v014_test_runner.py": {
+   "sha256": "72c1e752fed3d3247dd753938674ee903741d562d747da5342d8826aefd560a4",
+   "bytes": 835
+  },
+  "vendor/foundation-math-v014/tools/validate_bridge_schemas.py": {
+   "sha256": "ed2d8f29cdb37a5269e0c5adfbea715f80d322ef5106d877e3b7cf50e01f7342",
+   "bytes": 2771
+  },
+  "vendor/foundation-math-v014/tools/validate_character_ring_schemas.py": {
+   "sha256": "8b10dfd06a9c7c5442f8d21fdf433fd15775f87a2b838045a1a4b0d01b4d304b",
+   "bytes": 10691
+  },
+  "vendor/foundation-math-v014/tools/validate_claim_ledger.py": {
+   "sha256": "465dd4ac05ec5caa3ad4b5bcb9a773c322e69829930dd92158fe27c8087996fe",
+   "bytes": 14958
+  },
+  "vendor/foundation-math-v014/tools/validate_linear_systems_schemas.py": {
+   "sha256": "7f6e2eb328463dcb32632823324813b47e1d2285713386ab02b7baaf909e3397",
+   "bytes": 6366
+  },
+  "vendor/foundation-math-v014/tools/validate_matrix_bridge_schemas.py": {
+   "sha256": "243964ee367df2556152ad115999c2693d9d3492956bb5dcb662e64b3ae91e2d",
+   "bytes": 6420
+  },
+  "vendor/foundation-math-v014/tools/validate_polynomial_witness_schemas.py": {
+   "sha256": "cd35f90fe2435481fc4b8f074fc828703ec6c99a954cb64b66a10a860f836f82",
+   "bytes": 5980
+  },
+  "vendor/foundation-math-v014/tools/validate_split_bundle_schemas.py": {
+   "sha256": "b224597f6912d6ee555124070ab5de015eaea33a4305302191f1bce88719c1e9",
+   "bytes": 15127
+  },
+  "vendor/foundation-math-v014/validation_receipt/__init__.py": {
+   "sha256": "b01e952e0d1e1af6c4cc7865ec4616fe434c1dd9d42773579aba94985e3e7d25",
+   "bytes": 163
+  },
+  "vendor/foundation-math-v014/validation_receipt/__main__.py": {
+   "sha256": "2ffc622b8c9c3b6638354321f6ea49f8e9ae78d11a41fefc372fe028147eecd2",
+   "bytes": 756
+  },
+  "vendor/foundation-math-v014/validation_receipt/core.py": {
+   "sha256": "9508bc57c57fa79bf31d538df48a08549b720f6a9e83935650f80371639c3305",
+   "bytes": 18471
+  },
+  "vendor/foundation-math-v014/vendor/character-ring-domain-v01.zip": {
+   "sha256": "900e5395d6d683a6a6da0c6e48c31ec9ca17892741ad85512fbdb9c0b4936115",
+   "bytes": 60635
+  },
+  "vendor/foundation-math-v014/vendor/claim-revision-lab.zip": {
+   "sha256": "c3805e92aa2b3259e310c126fac751f4bf34646f17f3442cfd63b44386d93fa9",
+   "bytes": 190698
+  },
+  "vendor/foundation-math-v014/vendor/claim-revision-review.zip": {
+   "sha256": "5e1beabbadd0b85477c167f90f4dd4bb76549a9f6ed1a3a9f0ea2fa2fe78ed5d",
+   "bytes": 488136
+  },
+  "vendor/foundation-math-v014/vendor/exterior-power-lab.zip": {
+   "sha256": "a6c32c393e7ebc61af34ec50d1793f6905b85c4d0043847152fc22a79c59eb67",
+   "bytes": 371086
+  },
+  "vendor/foundation-math-v014/vendor/foundation-math-v010-source.zip": {
+   "sha256": "6151f3f6ef3a27c082a00dc5fb91f1a8487a91869fb4c6dc1ecdd3af2bdedf4f",
+   "bytes": 2639732
+  },
+  "vendor/foundation-math-v014/vendor/foundation-math-v08-source.zip": {
+   "sha256": "9df4f74f80e40ab08b5342efd2141fbc5e9321ed1caeb5163ef7cf465fe652ea",
+   "bytes": 559548
+  },
+  "vendor/foundation-math-v014/vendor/foundation-math-v09-source.zip": {
+   "sha256": "748abc044c43c3690f7eb33171a7e84a2a319e9e96934b5a32692d3135354716",
+   "bytes": 1248569
+  },
+  "vendor/foundation-math-v014/vendor/hypothesis-scope-lab.zip": {
+   "sha256": "d32bf32ddf6baa1a013425d9775a2e8ddf84a8a8ceedb11615679ff21875bd79",
+   "bytes": 297730
+  },
+  "vendor/foundation-math-v014/vendor/split-bundle-domain-v01.zip": {
+   "sha256": "bda78ce056e8b5b07ffc7a49e018f6389cbf44f62ea534e779d31151a53d23e3",
+   "bytes": 271803
+  },
+  "vendor/foundation-math-v014/vendor/validation-receipt-lab.zip": {
+   "sha256": "5edf69aab764b000aca6b24c8503e277e85abe617cbc17b61b13d74796e575b0",
+   "bytes": 326451
+  },
+  "workshop/README.md": {
+   "sha256": "43bf0d16c9e768d14e58adf8b84867dbbea5a6298327e434e41900bddb878a4e",
+   "bytes": 136
+  },
+  "workshop/example.json": {
+   "sha256": "804a88dcc6f766e1224c6a4282f2f32efb359167939811f3b18146c498595c5a",
+   "bytes": 38
+  }
+ }
+}

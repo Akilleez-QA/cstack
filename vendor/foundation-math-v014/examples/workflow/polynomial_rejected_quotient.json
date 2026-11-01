@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "problem": {
+    "id": "polynomial-identity",
+    "domain": "polynomial_ring",
+    "assumptions": [],
+    "goal": "Verify only the stated formal polynomial identity in the declared ring.",
+    "goal_request": {
+      "domain": "polynomial_ring",
+      "coefficient_field": "Q",
+      "variables": [
+        "x",
+        "y"
+      ],
+      "operation": "verify_identity",
+      "operands": [
+        {
+          "type": "multiply",
+          "operands": [
+            {
+              "type": "add",
+              "operands": [
+                {
+                  "type": "variable",
+                  "name": "x"
+                },
+                {
+                  "type": "rational",
+                  "numerator": 1,
+                  "denominator": 2
+                }
+              ]
+            },
+            {
+              "type": "add",
+              "operands": [
+                {
+                  "type": "variable",
+                  "name": "y"
+                },
+                {
+                  "type": "rational",
+                  "numerator": 2,
+                  "denominator": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "add",
+          "operands": [
+            {
+              "type": "add",
+              "operands": [
+                {
+                  "type": "multiply",
+                  "operands": [
+                    {
+                      "type": "variable",
+                      "name": "x"
+                    },
+                    {
+                      "type": "variable",
+                      "name": "y"
+                    }
+                  ]
+                },
+                {
+                  "type": "multiply",
+                  "operands": [
+                    {
+                      "type": "rational",
+                      "numerator": 2,
+                      "denominator": 3
+                    },
+                    {
+                      "type": "variable",
+                      "name": "x"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "add",
+              "operands": [
+                {
+                  "type": "multiply",
+                  "operands": [
+                    {
+                      "type": "rational",
+                      "numerator": 1,
+                      "denominator": 2
+                    },
+                    {
+                      "type": "variable",
+                      "name": "y"
+                    }
+                  ]
+                },
+                {
+                  "type": "rational",
+                  "numerator": 1,
+                  "denominator": 3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "relations": [
+        "x*x=x"
+      ]
+    },
+    "required_evidence": "exact_computation"
+  },
+  "goal_task_id": "verify-identity",
+  "tasks": [
+    {
+      "id": "propose-identity",
+      "role": "proposer",
+      "dependencies": [],
+      "payload": {
+        "request": {
+          "domain": "polynomial_ring",
+          "coefficient_field": "Q",
+          "variables": [
+            "x",
+            "y"
+          ],
+          "operation": "verify_identity",
+          "operands": [
+            {
+              "type": "multiply",
+              "operands": [
+                {
+                  "type": "add",
+                  "operands": [
+                    {
+                      "type": "variable",
+                      "name": "x"
+                    },
+                    {
+                      "type": "rational",
+                      "numerator": 1,
+                      "denominator": 2
+                    }
+                  ]
+                },
+                {
+                  "type": "add",
+                  "operands": [
+                    {
+                      "type": "variable",
+                      "name": "y"
+                    },
+                    {
+                      "type": "rational",
+                      "numerator": 2,
+                      "denominator": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "add",
+              "operands": [
+                {
+                  "type": "add",
+                  "operands": [
+                    {
+                      "type": "multiply",
+                      "operands": [
+                        {
+                          "type": "variable",
+                          "name": "x"
+                        },
+                        {
+                          "type": "variable",
+                          "name": "y"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "multiply",
+                      "operands": [
+                        {
+                          "type": "rational",
+                          "numerator": 2,
+                          "denominator": 3
+                        },
+                        {
+                          "type": "variable",
+                          "name": "x"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "add",
+                  "operands": [
+                    {
+                      "type": "multiply",
+                      "operands": [
+                        {
+                          "type": "rational",
+                          "numerator": 1,
+                          "denominator": 2
+                        },
+                        {
+                          "type": "variable",
+                          "name": "y"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rational",
+                      "numerator": 1,
+                      "denominator": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "expected": {
+          "domain": "polynomial_ring",
+          "coefficient_field": "Q",
+          "variables": [
+            "x",
+            "y"
+          ],
+          "equal": true
+        },
+        "rationale": "Candidate only; exact replay and the evidence requirement determine acceptance."
+      }
+    },
+    {
+      "id": "calculate-identity",
+      "role": "calculator",
+      "dependencies": [
+        "propose-identity"
+      ]
+    },
+    {
+      "id": "verify-identity",
+      "role": "verifier",
+      "dependencies": [
+        "propose-identity",
+        "calculate-identity"
+      ]
+    },
+    {
+      "id": "audit-scope",
+      "role": "critic",
+      "dependencies": [
+        "verify-identity"
+      ]
+    },
+    {
+      "id": "formalize-identity",
+      "role": "formalizer",
+      "dependencies": [
+        "verify-identity"
+      ]
+    }
+  ]
+}

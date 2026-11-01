@@ -1,0 +1,118 @@
+{
+  "affected_claims": [],
+  "affected_obligations": [],
+  "events_replayed": 3,
+  "history": [
+    {
+      "current": false,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_conclusion",
+        "revision": 1,
+        "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_conclusion",
+        "revision": 2,
+        "revision_sha256": "d3f3a107a4cd6a7dd50017c4ea411c6d5af7ab51415b6f37a7f6c6c9c50dad2b"
+      }
+    },
+    {
+      "current": false,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      }
+    },
+    {
+      "current": true,
+      "kind": "claim",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+      }
+    },
+    {
+      "current": false,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      }
+    },
+    {
+      "current": true,
+      "kind": "obligation",
+      "lifecycle_events": [],
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 2,
+        "revision_sha256": "b72c10daeb2f814124edf93f777cf4a003158b2d6971d54dac46e9d01ff5c30f"
+      }
+    }
+  ],
+  "input_sha256": "a8fbe6a63fd139eeecae66cbc7f52e956742fdccaeefa4d1426081fa74024dc1",
+  "integrity": {
+    "artifact_bytes_checked": false,
+    "authorship_verified": false,
+    "record_digests_match": true
+  },
+  "proof_accepted": false,
+  "records": [
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_conclusion",
+        "revision": 2,
+        "revision_sha256": "d3f3a107a4cd6a7dd50017c4ea411c6d5af7ab51415b6f37a7f6c6c9c50dad2b"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "claim",
+      "pin": {
+        "id": "synthetic_lemma",
+        "revision": 2,
+        "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    },
+    {
+      "applicability": "no_recorded_dependency_blockers",
+      "authored_status": "draft",
+      "kind": "obligation",
+      "pin": {
+        "id": "synthetic_review",
+        "revision": 2,
+        "revision_sha256": "b72c10daeb2f814124edf93f777cf4a003158b2d6971d54dac46e9d01ff5c30f"
+      },
+      "proof_accepted": false,
+      "reasons": [],
+      "truth_assessment": "not_assessed"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1/report",
+  "scope": "All-required explicit revision dependency applicability only; no truth, proof acceptance, hypothesis checking, or formal verification.",
+  "truth_assessment": "not_assessed"
+}

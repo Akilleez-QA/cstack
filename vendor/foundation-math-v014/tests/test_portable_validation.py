@@ -1,0 +1,53 @@
+"""Clean-source reproducibility regressions, without changing runtime behavior."""
+from hashlib import sha256
+import json
+import os
+from pathlib import Path
+import shutil
+import tempfile
+import unittest
+
+from tools.run_polynomial_witness_validation import prepare_legacy_transcript, verify_inherited_sources
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class PortableValidationTests(unittest.TestCase):
+    def test_legacy_transcript_is_generated_without_historical_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ('foundation_math', 'foundation_math_bridge', 'polynomial_witness',
+                         'bounded_counterexample', 'exact_linalg', 'exact_systems', 'character_ring', 'split_bundle', 'claim_revision', 'hypothesis_scope', 'exterior_power', 'validation_receipt', 'examples/bridge'):
+                shutil.copytree(ROOT / name, root / name, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+            (root / 'tools').mkdir()
+            shutil.copyfile(ROOT / 'tools/run_bridge_validation.py', root / 'tools/run_bridge_validation.py')
+            self.assertFalse((root / 'evidence').exists())
+            prepare_legacy_transcript(root, dict(os.environ, PYTHONDONTWRITEBYTECODE='1'))
+            result = json.loads((root / 'evidence/bridge-transcript-validation.json').read_text())
+            self.assertEqual(result['status'], 'passed')
+            self.assertTrue(result['normal_optimized_identical'])
+            self.assertEqual(result['request_count'], len(result['responses']))
+
+    def test_missing_historical_evidence_is_explicitly_excluded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'source.py').write_text('source')
+            inventory = {'source.py': sha256(b'source').hexdigest(),
+                         'evidence/old.json': sha256(b'not shipped').hexdigest()}
+            baseline, changed, retained, excluded = verify_inherited_sources(root, inventory)
+            self.assertEqual(set(baseline), {'source.py'})
+            self.assertEqual(changed, [])
+            self.assertEqual(retained, ['source.py'])
+            self.assertEqual(excluded, ['evidence/old.json'])
+
+    def test_missing_source_still_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaises(FileNotFoundError):
+                verify_inherited_sources(Path(directory), {'source.py': sha256(b'source').hexdigest()})
+
+    def test_modified_source_still_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'source.py').write_text('changed')
+            with self.assertRaisesRegex(RuntimeError, 'unexpected inherited change'):
+                verify_inherited_sources(root, {'source.py': sha256(b'source').hexdigest()})

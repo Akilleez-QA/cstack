@@ -1,0 +1,454 @@
+{
+  "assumptions": {
+    "base": "P(W) with standard O(1) linearization",
+    "group": "SL2(F5) over C",
+    "maps": "no_actual_map_rank_injectivity_or_existence_claim",
+    "physical_catalog": "fixed_identification_assumed_not_proved",
+    "proof": "not_Lean_or_runtime_acceptance",
+    "splitting": "caller_supplied_formal_equivariant_direct_sum"
+  },
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "request": {
+    "operation": "wedge_h0_comparison",
+    "orders": [
+      0,
+      1,
+      2
+    ],
+    "schema": "fm-exterior-request-v1",
+    "source": [
+      {
+        "irrep": "1",
+        "multiplicity": 1,
+        "twist": -2
+      }
+    ],
+    "target": [
+      {
+        "irrep": "1",
+        "multiplicity": 1,
+        "twist": -3
+      }
+    ],
+    "twists": [
+      0
+    ]
+  },
+  "request_sha256": "1879b3f781eb8e6994a76dfe3960acd9b92f1565e35fe9074bf07aa9a196ae96",
+  "result": {
+    "comparisons": [
+      {
+        "multiplicity_test": "passes",
+        "order": 0,
+        "source_h0": {
+          "class_values": [
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 1,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "1": 1
+          }
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 1,
+          "module_center_parity": "even",
+          "multiplicities": {
+            "1": 1
+          }
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 1,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 0
+      },
+      {
+        "multiplicity_test": "passes",
+        "order": 2,
+        "source_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_h0": {
+          "class_values": [
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "dimension": 0,
+          "module_center_parity": "zero",
+          "multiplicities": {}
+        },
+        "target_minus_source": {},
+        "twist": 0
+      }
+    ],
+    "conclusion": "finite_necessary_tests_only_not_sufficient_for_any_map_or_injection",
+    "operation": "wedge_h0_comparison",
+    "source": {
+      "degree": -2,
+      "determinant": {
+        "line_degree": -2,
+        "module": {
+          "1": 1
+        }
+      },
+      "rank": 1
+    },
+    "target": {
+      "degree": -3,
+      "determinant": {
+        "line_degree": -3,
+        "module": {
+          "1": 1
+        }
+      },
+      "rank": 1
+    }
+  },
+  "schema": "fm-exterior-certificate-v1",
+  "scope": "formal_exterior_representation_and_supplied_split_bundle_arithmetic_only"
+}

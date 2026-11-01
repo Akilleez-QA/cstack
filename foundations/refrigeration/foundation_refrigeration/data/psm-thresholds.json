@@ -1,0 +1,99 @@
+{
+  "schema": "psm-thresholds/1",
+  "version": "1.0.0",
+  "owner": "foundation_refrigeration.process_safety",
+  "generatedBy": "Logic ported from an internal application (sha256 5d868a26ae743b62b51a9e193c548268d131ba70a9ca44609734bbe9fef27d28) and standard-selection.ts (sha256 53383891e8d73918dc5ac4d14e0354edea79583e0a227990178efdff46bdb0b2). Threshold quantities re-read from the eCFR versioner API on 2026-10-25: title 29 issue date 2026-10-14 (up to date as of 2026-10-22) and title 40 issue date 2026-10-22. Aqueous ammonia is out of scope. Status stays CHECK.",
+  "data": {
+    "result_kind": "screen",
+    "scope": "Federal anhydrous-ammonia quantity screen only. Not a compliance determination. Aqueous ammonia and ammonia solutions are separate rows in the cited tables and are not screened.",
+    "substance": {
+      "name": "Ammonia, anhydrous",
+      "cas": "7664-41-7",
+      "formula": "NH3"
+    },
+    "rules": [
+      {
+        "framework": "osha-psm",
+        "substance": "anhydrous-ammonia",
+        "cas": "7664-41-7",
+        "threshold_lb": 10000,
+        "unit": "lb",
+        "comparison": "at-or-above",
+        "citations": [
+          "https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1910/subpart-H/section-1910.119"
+        ],
+        "threshold_evidence": {
+          "basis": {
+            "kind": "cited",
+            "source": "29 CFR 1910.119 Appendix A",
+            "version": "eCFR title 29 issue date 2026-10-14, up to date as of 2026-10-22",
+            "clause": "Appendix A to § 1910.119, Ammonia, Anhydrous; threshold quantity in pounds",
+            "url": "https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1910/subpart-H/section-1910.119",
+            "quoted": "Ammonia, Anhydrous 7664-41-7 10000",
+            "retrievedOn": "2026-10-25"
+          },
+          "status": "CHECK"
+        },
+        "comparison_evidence": {
+          "basis": {
+            "kind": "cited",
+            "source": "29 CFR 1910.119(a)(1)(i)",
+            "version": "eCFR title 29 issue date 2026-10-14, up to date as of 2026-10-22",
+            "clause": "(a)(1)(i)",
+            "url": "https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1910/subpart-H/section-1910.119",
+            "quoted": "A process which involves a chemical at or above the specified threshold quantities listed in appendix A to this section",
+            "retrievedOn": "2026-10-25"
+          },
+          "status": "CHECK"
+        }
+      },
+      {
+        "framework": "epa-rmp",
+        "substance": "anhydrous-ammonia",
+        "cas": "7664-41-7",
+        "threshold_lb": 10000,
+        "unit": "lb",
+        "comparison": "above",
+        "citations": [
+          "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-68/subpart-F/section-68.130",
+          "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-68/subpart-F/section-68.115",
+          "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-68/subpart-A/section-68.10"
+        ],
+        "threshold_evidence": {
+          "basis": {
+            "kind": "cited",
+            "source": "40 CFR 68.130 Table 1",
+            "version": "eCFR title 40 issue date 2026-10-22",
+            "clause": "Table 1 to § 68.130, Ammonia (anhydrous); threshold quantity (lbs)",
+            "url": "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-68/subpart-F/section-68.130",
+            "quoted": "Ammonia (anhydrous) 7664-41-7 10,000",
+            "retrievedOn": "2026-10-25"
+          },
+          "status": "CHECK"
+        },
+        "comparison_evidence": {
+          "basis": {
+            "kind": "cited",
+            "source": "40 CFR 68.115(a)",
+            "version": "eCFR title 40 issue date 2026-10-22",
+            "clause": "(a)",
+            "url": "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-68/subpart-F/section-68.115",
+            "quoted": "A threshold quantity of a regulated substance listed in § 68.130 is present at a stationary source if the total quantity of the regulated substance contained in a process exceeds the threshold.",
+            "retrievedOn": "2026-10-25"
+          },
+          "status": "CHECK"
+        }
+      }
+    ],
+    "source_files": [
+      {
+        "path": "an internal application",
+        "sha256": "5d868a26ae743b62b51a9e193c548268d131ba70a9ca44609734bbe9fef27d28"
+      },
+      {
+        "path": "an internal application",
+        "sha256": "53383891e8d73918dc5ac4d14e0354edea79583e0a227990178efdff46bdb0b2"
+      }
+    ]
+  }
+}

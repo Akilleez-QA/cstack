@@ -1,0 +1,18 @@
+{
+  "operation": "solve",
+  "system": {
+    "matrix": {
+      "cols": 0,
+      "domain": "Z",
+      "entries": [
+        [],
+        []
+      ],
+      "rows": 2
+    },
+    "rhs": [
+      0,
+      2
+    ]
+  }
+}

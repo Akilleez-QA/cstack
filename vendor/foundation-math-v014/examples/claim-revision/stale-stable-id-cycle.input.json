@@ -1,0 +1,86 @@
+{
+  "events": [
+    {
+      "id": "event_one",
+      "kind": "revise",
+      "reason": "Synthetic recorded correction.",
+      "replacement": {
+        "content": {
+          "assumptions": [
+            "Synthetic declared hypotheses only."
+          ],
+          "authored_status": "draft",
+          "non_claims": [
+            "No application theorem."
+          ],
+          "scope": "conditional",
+          "statement": "Synthetic statement cycle_first."
+        },
+        "content_sha256": "4afbd4cc851ad61e140123129e5f5794556b3339c613f371ee487f06fb710b08",
+        "dependencies": [
+          {
+            "id": "cycle_second",
+            "revision": 1,
+            "revision_sha256": "ac0820fcb5a8422ae5c6a2c61c0dfacf2f08d95b3ffcf86cd9e6f5941eed5579"
+          }
+        ],
+        "id": "cycle_first",
+        "kind": "claim",
+        "revision": 2,
+        "revision_sha256": "b90547ba49560cef5752885eefad0b10d1bb46c9624d3c097e47334d683bcd31"
+      },
+      "target": {
+        "id": "cycle_first",
+        "revision": 1,
+        "revision_sha256": "ce2edda584eb71dce83606bad8120d74a9a7a293acd92f401862f9736379cda2"
+      }
+    }
+  ],
+  "records": [
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement cycle_first."
+      },
+      "content_sha256": "4afbd4cc851ad61e140123129e5f5794556b3339c613f371ee487f06fb710b08",
+      "dependencies": [],
+      "id": "cycle_first",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "ce2edda584eb71dce83606bad8120d74a9a7a293acd92f401862f9736379cda2"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement cycle_second."
+      },
+      "content_sha256": "0ef3c52aa179a7806beb59ecc218fdbcf909100fe96e08ffd5b49d7bc66805d7",
+      "dependencies": [
+        {
+          "id": "cycle_first",
+          "revision": 1,
+          "revision_sha256": "ce2edda584eb71dce83606bad8120d74a9a7a293acd92f401862f9736379cda2"
+        }
+      ],
+      "id": "cycle_second",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "ac0820fcb5a8422ae5c6a2c61c0dfacf2f08d95b3ffcf86cd9e6f5941eed5579"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1"
+}

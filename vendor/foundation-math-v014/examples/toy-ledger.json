@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "title": "Toy triangular-number deduction (proof drafts, not certified proofs)",
+  "claims": [
+    {
+      "id": "toy.triangular",
+      "statement": "For every integer n >= 0, twice the sum of the integers from 1 through n equals n*(n+1); the empty sum is zero.",
+      "assumptions": [
+        "n is an integer and n >= 0."
+      ],
+      "dependencies": [],
+      "status": "proof_draft",
+      "closure": "open",
+      "evidence": [
+        {
+          "kind": "proof",
+          "description": "Induction argument and the first-ten deduction; an unreviewed proof draft.",
+          "artifact": {
+            "path": "artifacts/triangular-proof.md",
+            "sha256": "3454b6f4a87f8452e70557027767db97d5967fea63ca46ffac698796f18cbf84"
+          }
+        },
+        {
+          "kind": "test",
+          "description": "Exact finite check for n=0..1000; this is supplementary evidence, not a universal proof.",
+          "artifact": {
+            "path": "artifacts/check_triangular.py",
+            "sha256": "1c33844a389f8956ec686205c2b07845493100a31d21ac2d9e89810f7012f8c3"
+          }
+        }
+      ],
+      "verification": {
+        "scope": "Draft argument supplied with reproducible finite regression test; no independent review or formal proof checker is claimed.",
+        "reviewers": [],
+        "trust": [
+          "Ordinary integer arithmetic and mathematical induction; Python integer arithmetic for the finite test."
+        ]
+      }
+    },
+    {
+      "id": "toy.first_ten",
+      "statement": "The sum of the integers from 1 through 10 equals 55.",
+      "assumptions": [],
+      "dependencies": [
+        "toy.triangular"
+      ],
+      "status": "proof_draft",
+      "closure": "open",
+      "evidence": [
+        {
+          "kind": "proof",
+          "description": "Induction argument and the first-ten deduction; an unreviewed proof draft.",
+          "artifact": {
+            "path": "artifacts/triangular-proof.md",
+            "sha256": "3454b6f4a87f8452e70557027767db97d5967fea63ca46ffac698796f18cbf84"
+          }
+        },
+        {
+          "kind": "test",
+          "description": "Exact finite check for n=0..1000; this is supplementary evidence, not a universal proof.",
+          "artifact": {
+            "path": "artifacts/check_triangular.py",
+            "sha256": "1c33844a389f8956ec686205c2b07845493100a31d21ac2d9e89810f7012f8c3"
+          }
+        }
+      ],
+      "verification": {
+        "scope": "Draft argument supplied with reproducible finite regression test; no independent review or formal proof checker is claimed.",
+        "reviewers": [],
+        "trust": [
+          "Ordinary integer arithmetic and mathematical induction; Python integer arithmetic for the finite test."
+        ]
+      }
+    }
+  ]
+}

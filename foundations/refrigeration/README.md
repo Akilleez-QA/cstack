@@ -1,0 +1,75 @@
+<p align="center"><img src=".github/assets/social-preview.png" alt="foundation-refrigeration" width="100%"></p>
+
+# foundation-refrigeration
+
+Refrigeration domain data and checks: saturation tables, unit conversion, exposure limits, taxonomy
+
+<img src="https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000"> <img src="https://img.shields.io/badge/python-3.11%2B-6E61FF?style=flat-square&labelColor=000000">
+
+## Family
+
+| Repository | Role | Relation |
+|---|---|---|
+| [cstack](https://github.com/Akilleez-QA/cstack) | Runs Foundations behind pinned adapters under one human approver | Host |
+| [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | TypeScript and three.js framework for browser games | Foundation |
+| [foundation-math](https://github.com/Akilleez-QA/foundation-math) | Exact mathematical kernels and physics research tools | Foundation |
+| [foundation-film](https://github.com/Akilleez-QA/foundation-film) | Film-production acceptance checks | Foundation |
+| [foundation-refrigeration](https://github.com/Akilleez-QA/foundation-refrigeration) | Refrigeration data and checks | Foundation |
+| [foundation-robotics](https://github.com/Akilleez-QA/foundation-robotics) | Physics checks for motion | Foundation |
+| [foundation-template](https://github.com/Akilleez-QA/foundation-template) | Minimal Foundation to copy for a new domain | Foundation |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | Workshop for running coding agents with checks and receipts | Tool |
+| [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
+
+## Status
+
+Version 0.1.0. 7 read-only tool(s) behind a stdio JSON-RPC bridge, standard library only. Every result carries Evidence and an input hash. A verdict is an observation, not an acceptance decision.
+
+## Quickstart
+
+```
+git clone https://github.com/Akilleez-QA/foundation-refrigeration
+cd foundation-refrigeration
+python -B -m unittest discover -s tests -t .
+python -B tools/build_manifest.py
+```
+
+## What is inside
+
+| Tool | Purpose |
+|---|---|
+| `saturation_pressure` | Saturation pressure at a temperature from the CoolProp 8.0.0-generated table (refrigerant-saturation/1) |
+| `saturation_temperature` | Saturation temperature at a pressure (absolute or gauge with a stated atmosphere) from the generated table |
+| `convert_pressure` | Convert a pressure between kPa(a), kPa(g), psia, psig, bar(a) and bar(g) |
+| `convert_temperature` | Convert an absolute temperature between degC, degF, K and degR |
+| `check_reading_against_saturation` | Compare one pressure/temperature reading with saturation at that pressure: superheat-style and subcooling-style deltas as an observation, never a diagnosis or a normal/abnormal call |
+| `exposure_limits` | Cited ammonia exposure limits (OSHA, NIOSH, ACGIH) as reference data, with caller-supplied policy set points kept as a separate kind that is never a legal limit |
+| `resolve_equipment_kind` | Resolve a legacy equipment-kind term (or a line-service code) to the canonical plant-taxonomy/1 entry |
+
+## Measured
+
+49 tests pass with `python -B -m unittest discover -s tests -t .` on Python 3.14.8 in a fresh clone (normal and `-O`). CI: local only.
+
+## Documentation
+
+See [docs/README.md](docs/README.md): requirements, architecture, interface control, verification matrix, configuration management.
+
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `foundation_refrigeration/` | Domain package |
+| `foundation_refrigeration_bridge/` | stdio JSON-RPC bridge and schemas |
+| `tests/` | Unit and bridge tests |
+| `tools/` | Manifest and data tools |
+| `docs/` | Requirements, architecture, ICD, verification, configuration, guides |
+| `SOURCE-MANIFEST.json` | SHA-256 of every shipped file |
+| `golden/` | Generated reference points |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+
+## License
+
+This project is available under the GNU General Public License v3.0 only (GPL-3.0-only). If you want to use it to create a product or service under different terms, commercial licenses are available from Refrigeration.AI. Contact craig@nh3.biz.

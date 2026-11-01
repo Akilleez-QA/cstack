@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv --python 3.12 .venv && echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - run: uv pip install --python .venv -r requirements.txt -r ci/requirements.txt
+      - run: python -B -m unittest discover -s tests
+      - run: bash ci/run-local.sh python links
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: curl -fsSL https://github.com/trufflesecurity/trufflehog/releases/download/v3.99.7/trufflehog_3.99.7_linux_amd64.tar.gz | tar -xz -C "$RUNNER_TEMP" trufflehog
+      - run: PATH="$RUNNER_TEMP:$PATH" bash ci/scan-secrets.sh

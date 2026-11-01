@@ -1,0 +1,99 @@
+{
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "class_values": [
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ]
+  ],
+  "request": {
+    "expectation": {
+      "classification": "genuine",
+      "equals": {}
+    },
+    "expression": {
+      "left": {
+        "label": "W",
+        "op": "irrep"
+      },
+      "op": "subtract",
+      "right": {
+        "label": "W",
+        "op": "irrep"
+      }
+    },
+    "schema": "fm-character-request-v1"
+  },
+  "request_sha256": "b8faaacc3394206fa2bc3e1806638cb7e019903d40f68b04603ae316cdd7b34b",
+  "result": {
+    "center_parity": "zero",
+    "classification": "genuine",
+    "dimension": 0,
+    "even_dimension": 0,
+    "multiplicities": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "negative_multiplicities": {},
+    "odd_dimension": 0
+  },
+  "schema": "fm-character-certificate-v1",
+  "scope": "universal_representation_arithmetic_only"
+}

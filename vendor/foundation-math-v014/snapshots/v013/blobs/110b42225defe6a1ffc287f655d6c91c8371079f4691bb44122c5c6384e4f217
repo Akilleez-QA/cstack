@@ -1,0 +1,221 @@
+"""Static JSON Schema 2020-12 tool contracts; semantic bounds remain runtime checks."""
+from __future__ import annotations
+
+from copy import deepcopy
+
+DRAFT = "https://json-schema.org/draft/2020-12/schema"
+NAME = {"type": "string", "pattern": r"^[A-Za-z][A-Za-z0-9_]{0,31}(?![\s\S])"}
+INTEGER = {"type": "integer", "description": "Exact JSON integer; booleans, decimals, strings and coercion are rejected. Tool bit limits apply."}
+
+
+def obj(properties: dict) -> dict:
+    return {"type": "object", "properties": properties, "required": list(properties), "additionalProperties": False}
+
+
+def array(items: dict, low: int, high: int) -> dict:
+    return {"type": "array", "items": items, "minItems": low, "maxItems": high}
+
+
+def _defs() -> dict:
+    rational = obj({"type": {"const": "rational"}, "numerator": INTEGER,
+                    "denominator": {**INTEGER, "not": {"const": 0}}})
+    variable = obj({"type": {"const": "variable"}, "name": NAME})
+    binary = obj({"type": {"enum": ["add", "multiply"]}, "operands": array({"$ref": "#/$defs/expression"}, 2, 2)})
+    predicate = obj({"relation": {"enum": ["lt", "le", "eq", "ne", "ge", "gt"]},
+                     "left": {"$ref": "#/$defs/expression"}, "right": {"$ref": "#/$defs/expression"}})
+    search = obj({"domain": {"const": "finite_integer_box"}, "coefficient_field": {"const": "Q"},
+                  "variables": {**array(NAME, 0, 8), "uniqueItems": True},
+                  "bounds": {"type": "object", "propertyNames": NAME, "maxProperties": 8,
+                             "additionalProperties": obj({"lower": INTEGER, "upper": INTEGER})},
+                  "constraints": array({"$ref": "#/$defs/predicate"}, 0, 16),
+                  "assertion": {"$ref": "#/$defs/predicate"}})
+    return {"expression": {"oneOf": [rational, variable, binary]}, "predicate": predicate, "search": search}
+
+
+def _scalar() -> dict:
+    rational = obj({"numerator": INTEGER, "denominator": {**INTEGER, "not": {"const": 0}}})
+    schema = obj({"domain": {"enum": ["Z", "Q"]},
+                  "operation": {"enum": ["add", "subtract", "multiply", "divide", "power", "negate"]},
+                  "operands": array({"oneOf": [INTEGER, rational]}, 1, 2)})
+    schema["allOf"] = [
+        {"if": {"properties": {"operation": {"const": "negate"}}},
+         "then": {"properties": {"operands": {"minItems": 1, "maxItems": 1}}},
+         "else": {"properties": {"operands": {"minItems": 2, "maxItems": 2}}}},
+        {"if": {"properties": {"domain": {"const": "Z"}}},
+         "then": {"properties": {"operands": {"items": INTEGER}}}},
+    ]
+    return {"$schema": DRAFT, **schema}
+
+
+def _polynomial() -> dict:
+    return {"$schema": DRAFT, **obj({"domain": {"const": "polynomial_ring"},
+            "coefficient_field": {"const": "Q"}, "variables": {**array(NAME, 0, 8), "uniqueItems": True},
+            "operation": {"const": "verify_identity"}, "operands": array({"$ref": "#/$defs/expression"}, 2, 2)}),
+            "$defs": _defs()}
+
+
+def _search() -> dict:
+    definitions = _defs()
+    return {"$schema": DRAFT, **definitions["search"], "$defs": definitions}
+
+
+def _check() -> dict:
+    return {"$schema": DRAFT, **obj({"request": {"$ref": "#/$defs/search"},
+            "assignment": {"type": "object", "propertyNames": NAME, "maxProperties": 8,
+                           "additionalProperties": INTEGER}}), "$defs": _defs()}
+
+
+def _matrix_defs() -> dict:
+    """Structural contracts only; canonical arithmetic and shape checks run below the bridge."""
+    coefficient = {"oneOf": [INTEGER, obj({
+        "num": {**INTEGER, "not": {"const": 0}},
+        "den": {**INTEGER, "minimum": 2}})],
+        "description": "Canonical exact coefficient: integer, or reduced num/den with nonzero num and den>1. "
+                       "Runtime checks gcd=1 and bit limits; integers and zero must use integer tokens."}
+    dimension = {"type": "integer", "minimum": 0, "maximum": 16}
+    index = {"type": "integer", "minimum": 0, "maximum": 15}
+    indices = {**array(index, 0, 16), "uniqueItems": True}
+    matrix = obj({"domain": {"enum": ["Z", "Q"]}, "rows": dimension, "cols": dimension,
+                  "entries": array(array({"$ref": "#/$defs/coefficient"}, 0, 16), 0, 16)})
+    matrix["allOf"] = [{"if": {"properties": {"domain": {"const": "Z"}}},
+                         "then": {"properties": {"entries": {"items": {"items": INTEGER}}}}}]
+    matrix["description"] = ("One explicit matrix, at most 16 rows/columns and 256 cells. Runtime requires exactly rows entry lists "
+                             "of exactly cols coefficients, including empty shapes, and input coefficient components <=128 bits. "
+                             "Z restricts input tokens to integers; all computation and nullspace claims are over Q.")
+    q_matrix = deepcopy(matrix)
+    q_matrix["properties"]["domain"] = {"const": "Q"}
+    q_matrix.pop("allOf")
+    q_matrix["description"] = ("Explicit Q matrix with exact declared shape; certificate coefficient components <=2048 bits. "
+                               "Runtime checks canonical fractions and the shape required by the original matrix and rank.")
+    nonzero = {"allOf": [{"$ref": "#/$defs/coefficient"}, {"not": {"const": 0}}]}
+    operation = {"oneOf": [
+        obj({"op": {"const": "swap"}, "i": index, "j": index}),
+        obj({"op": {"const": "scale"}, "i": index, "factor": nonzero}),
+        obj({"op": {"const": "add"}, "target": index, "source": index, "factor": nonzero})],
+        "description": "Invertible elementary row operation. Runtime checks row bounds and distinct rows for swap/add."}
+    certificate = obj({
+        "schema": {"const": "foundation-math-rational-matrix/1"}, "matrix": {"$ref": "#/$defs/matrix"},
+        "rref": {"$ref": "#/$defs/q_matrix"}, "transform": {"$ref": "#/$defs/q_matrix"},
+        "rank": dimension, "pivots": indices, "free_columns": indices,
+        "nullspace": {"$ref": "#/$defs/q_matrix"}, "operations": array(operation, 0, 1024),
+        "determinant": {"oneOf": [{"$ref": "#/$defs/coefficient"}, {"type": "null"}]}})
+    certificate["description"] = ("Certificate bound to the identical original matrix, including input domain and explicit shape. "
+                                  "For m by n input: rref is m by n, transform is m by m, nullspace is n by (n-rank). "
+                                  "Runtime replays invertible operations, checks U*A=R, RREF/rank/ordered pivot complement, "
+                                  "A*N=0 and free-row identity for a complete Q-kernel basis, and determinant (null iff nonsquare). "
+                                  "Schema conformance alone never verifies a certificate.")
+    verification = obj({"accepted": {"const": True}, "scope": {"const": "one_explicit_matrix"},
+                        "computational_field": {"const": "Q"}, "rows": dimension, "cols": dimension,
+                        "rank": dimension, "pivots": indices, "free_columns": indices,
+                        "determinant": {"oneOf": [{"$ref": "#/$defs/coefficient"}, {"type": "null"}]}})
+    return {"coefficient": coefficient, "matrix": matrix, "q_matrix": q_matrix,
+            "certificate": certificate, "verification": verification}
+
+
+def _matrix_input(check: bool) -> dict:
+    properties = {"matrix": {"$ref": "#/$defs/matrix"}}
+    if check:
+        properties["certificate"] = {"$ref": "#/$defs/certificate"}
+    return {"$schema": DRAFT, **obj(properties), "$defs": _matrix_defs()}
+
+
+_SCOPE = " No Lean or independent proof-kernel check; no runtime goal acceptance. Hashes bind content, not authenticity."
+_MATRIX_SCOPE = (" Only one explicit matrix over Q, including Z-input coefficients; no integer-lattice basis, symbolic parameters, "
+                 "generic rank, geometric identification or family theorem. At most 16 rows/columns, 256 cells per matrix, "
+                 "128-bit input coefficient components, 2048-bit stored intermediate/certificate components, 1024 row operations "
+                 "and 2000000 charged work units per stage. Exact arithmetic/resource rejection is not a negative mathematical verdict. "
+                 "Bridge frames remain limited to 65536 input bytes, 1048576 output bytes and 16384 JSON nodes; a standalone-valid "
+                 "certificate can be too large to check through this bridge. No caller-specified limits, paths, code or commands." + _SCOPE)
+_TOOLS = [
+    {"name": "exact_scalar", "description":
+     "Exact bounded Z or Q scalar arithmetic. Z division must be integral; power exponents must be integers; 0^0 is undefined. "
+     "Input integers <=4096 bits, result <=12000 bits, absolute exponent <=10000; conservative rejection is possible. "
+     "A successful computation concerns only this request, not an unrestricted theorem." + _SCOPE,
+     "inputSchema": _scalar()},
+    {"name": "polynomial_identity", "description":
+     "Decide coefficient equality in the declared formal commutative polynomial ring Q[variables], not a quotient, rational function field, "
+     "analytic domain or sample test. Ordered distinct variables are algebraically independent. False identities return isError=false "
+     "with assessment=formal_polynomial_identity_not_equal and an exact nonzero coefficient witness. "
+     "At most 8 variables, depth 32, 1024 AST nodes, degree 32, 256 terms, 256-bit inputs, 2048-bit coefficients and 100000 arithmetic steps. "
+     "Only rational literals, variables, binary add and multiply; no source strings." + _SCOPE,
+     "inputSchema": _polynomial()},
+    {"name": "finite_box_search", "description":
+     "Search only the declared finite Cartesian box of INTEGER assignments for a point satisfying every constraint and violating the assertion. "
+     "Coefficients are exact Q, not a rational assignment domain. Exhaustion means no counterexample only in that finite box, never a universal proof. "
+     "Inclusive bounds must exactly bind variables; lower<=upper. Zero variables means one empty assignment. "
+     "At most 10000 points, 8 variables, 16 constraints, 1024 AST nodes, depth/degree 32, 256-bit inputs, 4096-bit values and 250000 evaluation steps. "
+     "Error, resource exhaustion or interruption is never finite exhaustion." + _SCOPE,
+     "inputSchema": _search()},
+    {"name": "check_finite_box_witness", "description":
+     "Fresh exact check from the ORIGINAL finite_integer_box request plus an integer assignment. Reparse bounds, constraints and assertion and "
+     "recompute values; producer verdicts/receipts are not accepted. The same finite-box search resource bounds apply. "
+     "The assignment must bind exactly the declared variables and lie inside the box; false checks are not tool errors. "
+     "Independent of a producer's verdict, NOT an independently implemented checker: search and check share parser and evaluator. "
+     "Does not establish exhaustive search or a universal theorem." + _SCOPE,
+     "inputSchema": _check()},
+    {"name": "certify_rational_matrix", "description":
+     "Produce and independently check a finite exact certificate for the supplied matrix: RREF, rational rank, complete rational "
+     "nullspace basis and determinant (null for nonsquare matrices). Output includes explicit shapes, invertible row-operation "
+     "trace and row transform. Acceptance verifies only this matrix, not a formal proof. "
+     "Input must be canonical exact JSON, never floating-point or source expressions." + _MATRIX_SCOPE,
+     "inputSchema": _matrix_input(False)},
+    {"name": "check_rational_matrix_certificate", "description":
+     "Freshly check an explicit MatrixCertificate against a separately supplied original matrix, including its input domain and shape. "
+     "Replay invertible row operations and check RREF, U*A=R, rank/pivots, complete Q-kernel basis and determinant. "
+     "No producer receipt, success label or hash substitutes for these inputs. Rejected certificates return isError=true with "
+     "assessment=tool_error and no accepted or partial result. The verifier does not import the producer or perform elimination; "
+     "they share canonical parsing, bounds and Python Fraction arithmetic, so this is not a diverse proof kernel." + _MATRIX_SCOPE,
+     "inputSchema": _matrix_input(True)},
+]
+
+# This schema names the bridge envelope. Detailed backend receipt schemas are
+# documented in the existing calculator/polynomial/counterexample contracts.
+_OUTPUT = obj({"tool": {"type": "string"}, "assessment": {"enum": [
+    "exact_scalar_result", "formal_polynomial_identity_equal", "formal_polynomial_identity_not_equal",
+    "counterexample_found", "no_counterexample_in_declared_finite_domain", "witness_valid", "witness_rejected", "tool_error"]},
+    "formal_proof": {"const": False}, "runtime_goal_acceptance": {"const": False},
+    "receipt": {"type": "object", "description": "Full backend receipt including exact domain, scope, limits and content hashes. See tool contracts."}})
+
+
+def _matrix_output(check: bool) -> dict:
+    name = "check_rational_matrix_certificate" if check else "certify_rational_matrix"
+    assessment = "rational_matrix_certificate_valid" if check else "rational_matrix_certified"
+    common = {"schema_version": {"const": 1}, "scope": {"const": "one_explicit_matrix"},
+              "computational_field": {"const": "Q"}, "formal_proof": {"const": False},
+              "runtime_goal_acceptance": {"const": False}}
+    digest = {"type": "string", "pattern": r"^[0-9a-f]{64}(?![\s\S])"}
+    sources = ("exact_linalg/__init__.py", "exact_linalg/contract.py", "exact_linalg/producer.py",
+               "exact_linalg/verifier.py", "exact_linalg/api.py", "foundation_math/linear_algebra.py")
+    result = {"ok": {"const": True}, "verification": {"$ref": "#/$defs/verification"}}
+    if not check:
+        result["certificate"] = {"$ref": "#/$defs/certificate"}
+    success = obj({**common, "status": {"const": "success"}, "operation": {"const": "verify" if check else "certify"},
+                   "request_sha256": digest, "implementation": obj({
+                       "name": {"const": "foundation-math-exact-linear-algebra"}, "version": {"type": "string"},
+                       "source_sha256": obj({source: digest for source in sources})}), "result": obj(result)})
+    error = obj({**common, "status": {"const": "error"}, "error": obj({
+        "code": {"type": "string"}, "message": {"type": "string"}, "path": {"type": "string"}})})
+    schema = obj({"tool": {"const": name}, "assessment": {"enum": [assessment, "tool_error"]},
+                  "formal_proof": {"const": False}, "runtime_goal_acceptance": {"const": False},
+                  "receipt": {"oneOf": [success, error]}})
+    schema["allOf"] = [{"if": {"properties": {"receipt": {"properties": {"status": {"const": "success"}}}}},
+                         "then": {"properties": {"assessment": {"const": assessment}}},
+                         "else": {"properties": {"assessment": {"const": "tool_error"}}}}]
+    return {"$schema": DRAFT, **schema, "$defs": _matrix_defs()}
+
+
+def tool_definitions() -> list[dict]:
+    tools = deepcopy(_TOOLS)
+    for tool in tools:
+        if tool["name"] in ("certify_rational_matrix", "check_rational_matrix_certificate"):
+            tool["outputSchema"] = _matrix_output(tool["name"] == "check_rational_matrix_certificate")
+        else:
+            tool["outputSchema"] = {"$schema": DRAFT, **deepcopy(_OUTPUT)}
+        tool["readOnly"] = True
+    from .polynomial_witness_schemas import tool_definitions as polynomial_witness_tools
+    from .linear_systems_schemas import tool_definitions as linear_systems_tools
+    from .character_ring_schemas import tool_definitions as character_ring_tools
+    from .split_bundle_schemas import tool_definitions as split_bundle_tools
+    from .claim_ledger_schemas import tool_definitions as claim_ledger_tools
+    from .hypothesis_scope_schemas import tool_definitions as hypothesis_scope_tools
+    return tools + polynomial_witness_tools(_polynomial()) + linear_systems_tools() + character_ring_tools() + split_bundle_tools() + claim_ledger_tools() + hypothesis_scope_tools()

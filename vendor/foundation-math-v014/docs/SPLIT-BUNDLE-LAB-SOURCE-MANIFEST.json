@@ -1,0 +1,51 @@
+{
+  "accepted_character_lab_source_manifest_sha256": "fbd2014cd2931db57964142c4af7bba09853a4fa6e191bf8a550fee9f1b2cb37",
+  "catalog_identification": "physical marking is assumed, not established by these hashes",
+  "files": [
+    {
+      "bytes": 522,
+      "path": "character_ring/__init__.py",
+      "sha256": "ccd5a3d9419574d33ce3a628f52639d741c2db3c4dd8dcfc827de38753825182",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 1294,
+      "path": "character_ring/__main__.py",
+      "sha256": "f77bbfbe0c410b28d88c5b4dd5e5963ec8b2fcfdba01fafff3146d27f3896314",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 16182,
+      "path": "character_ring/catalog.json",
+      "sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 4804,
+      "path": "character_ring/contract.py",
+      "sha256": "15414a9671f66d0ee7ed1ba1b681f611de392f1f87c920611631f444b3a92c4b",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 3765,
+      "path": "character_ring/producer.py",
+      "sha256": "20993a7288b37e1b3a384b1c4046cae375c287f5bc5759078da41b1df5bf3ca0",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 1407,
+      "path": "character_ring/types.py",
+      "sha256": "e25eb3799b2e16f8ceefe9c8f02ec25a3ac3898968ee04b65ebf0ce8fe29bccb",
+      "unchanged_from_frozen_v09": true
+    },
+    {
+      "bytes": 11934,
+      "path": "character_ring/verifier.py",
+      "sha256": "d5ba4f472d8783d706ae4919fe86e77804c86abcf52574ca7959d9f432257115",
+      "unchanged_from_frozen_v09": true
+    }
+  ],
+  "frozen_source_manifest_sha256": "b39a8986aea180d8c24ced0606e1354ea0af53bc5f52ee7b22458e36c0e03c41",
+  "schema": "fm-split-bundle-source-manifest-v1",
+  "source": "frozen Foundation Math character-ring v0.9"
+}

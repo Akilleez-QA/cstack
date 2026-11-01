@@ -1,0 +1,6 @@
+interface:
+  display_name: "POODO"
+  short_description: "Reason from possibility to verified orchestration"
+  default_prompt: "Use $poodo to analyze this situation and orchestrate a verified course forward."
+policy:
+  allow_implicit_invocation: false

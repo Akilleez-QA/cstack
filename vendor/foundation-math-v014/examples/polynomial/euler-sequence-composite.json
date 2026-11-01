@@ -1,0 +1,57 @@
+{
+  "domain": "polynomial_ring",
+  "coefficient_field": "Q",
+  "variables": [
+    "x",
+    "y"
+  ],
+  "operation": "verify_identity",
+  "operands": [
+    {
+      "type": "add",
+      "operands": [
+        {
+          "type": "multiply",
+          "operands": [
+            {
+              "type": "variable",
+              "name": "x"
+            },
+            {
+              "type": "multiply",
+              "operands": [
+                {
+                  "type": "rational",
+                  "numerator": -1,
+                  "denominator": 1
+                },
+                {
+                  "type": "variable",
+                  "name": "y"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "multiply",
+          "operands": [
+            {
+              "type": "variable",
+              "name": "y"
+            },
+            {
+              "type": "variable",
+              "name": "x"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "rational",
+      "numerator": 0,
+      "denominator": 1
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "class_values": [
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      1,
+      -1,
+      1
+    ],
+    [
+      0,
+      1,
+      -1,
+      1
+    ]
+  ],
+  "request": {
+    "expectation": {
+      "classification": "proper_virtual",
+      "equals": {
+        "A": 1,
+        "V": -1
+      }
+    },
+    "expression": {
+      "left": {
+        "label": "A",
+        "op": "irrep"
+      },
+      "op": "subtract",
+      "right": {
+        "label": "V",
+        "op": "irrep"
+      }
+    },
+    "schema": "fm-character-request-v1"
+  },
+  "request_sha256": "ed88100a911b2ba8bbe8925ac6241f52600dce9b97dbfa13c8709c3505bf7e5c",
+  "result": {
+    "center_parity": "even",
+    "classification": "proper_virtual",
+    "dimension": 0,
+    "even_dimension": 0,
+    "multiplicities": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      -1
+    ],
+    "negative_multiplicities": {
+      "V": -1
+    },
+    "odd_dimension": 0
+  },
+  "schema": "fm-character-certificate-v1",
+  "scope": "universal_representation_arithmetic_only"
+}

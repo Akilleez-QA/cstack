@@ -1,0 +1,276 @@
+{
+  "assumptions": {
+    "base": "P(W) with determinant-one W and standard O(1) linearization",
+    "catalog_identification": "fixed_physical_marking_assumed_not_proved",
+    "geometry": "no_active_research_bundle_identification_or_map_rank_inference",
+    "group": "SL2(F5) over C",
+    "splitting": "supplied_formal_equivariant_direct_sum_assumed"
+  },
+  "catalog_sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74",
+  "request": {
+    "bundle": [
+      {
+        "irrep": "1",
+        "multiplicity": 1,
+        "twist": -10
+      },
+      {
+        "irrep": "1",
+        "multiplicity": 1,
+        "twist": -8
+      },
+      {
+        "irrep": "V",
+        "multiplicity": 1,
+        "twist": -8
+      }
+    ],
+    "operation": "cohomology",
+    "schema": "fm-split-bundle-request-v1",
+    "twists": [
+      8
+    ]
+  },
+  "request_sha256": "45339789264561172a61a66df8a99e24906bd416dab8d6fc5d707b0350ef4917",
+  "result": {
+    "bundle": {
+      "degree": -42,
+      "rank": 5
+    },
+    "operation": "cohomology",
+    "twists": [
+      {
+        "degree": -2,
+        "euler": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              1,
+              0,
+              1
+            ],
+            [
+              -1,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              -1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ],
+            [
+              1,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 3,
+          "even_dimension": 3,
+          "multiplicities": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h0": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              4,
+              1,
+              0,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              -1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ],
+            [
+              3,
+              2,
+              1,
+              2
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 4,
+          "even_dimension": 4,
+          "multiplicities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "h1": {
+          "center_parity": "even",
+          "class_values": [
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0,
+              1
+            ]
+          ],
+          "classification": "genuine",
+          "dimension": 1,
+          "even_dimension": 1,
+          "multiplicities": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "negative_multiplicities": {},
+          "odd_dimension": 0
+        },
+        "rank": 5,
+        "twist": 8
+      }
+    ]
+  },
+  "schema": "fm-split-bundle-certificate-v1",
+  "scope": "formal_supplied_split_bundle_arithmetic_only"
+}

@@ -1,0 +1,156 @@
+{
+  "files": [
+    {
+      "bytes": 7942,
+      "path": "API.md",
+      "sha256": "1c38395d4ceffb68eb3e915bf472d908cb1017f3a4a07faa978da43dcf6f9bc9"
+    },
+    {
+      "bytes": 5693,
+      "path": "MATHEMATICS.md",
+      "sha256": "2d4327a0a43707c5ad81e0f161eee16e4d8776e0a9affbb6737ca7d18de1850d"
+    },
+    {
+      "bytes": 3402,
+      "path": "README.md",
+      "sha256": "d25bd1585b04149d33612016a7c80630a068c97a6d9b05a5671856ad6f98f87f"
+    },
+    {
+      "bytes": 2491,
+      "path": "SOURCE-PINS.json",
+      "sha256": "2705d07f62b6a7a2c6efc03fce78bbe2d26ef5036b7356eb69febb7173784b13"
+    },
+    {
+      "bytes": 2284,
+      "path": "VALIDATION.md",
+      "sha256": "dfdbe9e70776204f72825d3351af724808da02cef3011dd84c50a1f0e0efa122"
+    },
+    {
+      "bytes": 2123,
+      "path": "build_catalog.py",
+      "sha256": "3390a0cd75fec66cb0492672c80877241d691efc2ac922ebff2e6fed0135563f"
+    },
+    {
+      "bytes": 522,
+      "path": "character_ring/__init__.py",
+      "sha256": "ccd5a3d9419574d33ce3a628f52639d741c2db3c4dd8dcfc827de38753825182"
+    },
+    {
+      "bytes": 1294,
+      "path": "character_ring/__main__.py",
+      "sha256": "f77bbfbe0c410b28d88c5b4dd5e5963ec8b2fcfdba01fafff3146d27f3896314"
+    },
+    {
+      "bytes": 16182,
+      "path": "character_ring/catalog.json",
+      "sha256": "84ceb37bc32d10c4908e5b5f1f2f5994082074f2c2a9f36c846347750c79fa74"
+    },
+    {
+      "bytes": 4804,
+      "path": "character_ring/contract.py",
+      "sha256": "15414a9671f66d0ee7ed1ba1b681f611de392f1f87c920611631f444b3a92c4b"
+    },
+    {
+      "bytes": 3765,
+      "path": "character_ring/producer.py",
+      "sha256": "20993a7288b37e1b3a384b1c4046cae375c287f5bc5759078da41b1df5bf3ca0"
+    },
+    {
+      "bytes": 1407,
+      "path": "character_ring/types.py",
+      "sha256": "e25eb3799b2e16f8ceefe9c8f02ec25a3ac3898968ee04b65ebf0ce8fe29bccb"
+    },
+    {
+      "bytes": 11934,
+      "path": "character_ring/verifier.py",
+      "sha256": "d5ba4f472d8783d706ae4919fe86e77804c86abcf52574ca7959d9f432257115"
+    },
+    {
+      "bytes": 186,
+      "path": "cli.py",
+      "sha256": "0dfe2beae8f82dc552df7e5d1d10bb4713c3d6f86e08089bc8fc5e584af0e6da"
+    },
+    {
+      "bytes": 1436,
+      "path": "examples/distinct_doublets.certificate.json",
+      "sha256": "58a6b642e7f2861b565d208bc663ca672da72cd52e1c75b063916db2a5a9af9c"
+    },
+    {
+      "bytes": 325,
+      "path": "examples/distinct_doublets.request.json",
+      "sha256": "e14b83d6442e08236fd077c1f4a3cf6ec1922fe67ea16ad4df77093a5919d82a"
+    },
+    {
+      "bytes": 1434,
+      "path": "examples/distinct_three_spaces.certificate.json",
+      "sha256": "8ac261c39deec9cdde58709711e5d362d9c2d7d7f395033c7c3b69cf3cd9aa9a"
+    },
+    {
+      "bytes": 323,
+      "path": "examples/distinct_three_spaces.request.json",
+      "sha256": "40f82c2376b8c9a18a894becd846d7dce078612b3924d08fa0cf1978f5e1db34"
+    },
+    {
+      "bytes": 1396,
+      "path": "examples/mixed_parity.certificate.json",
+      "sha256": "9600aa366fd00fb710a279b8e228cef72dbd9b3b68eadf82d16410455fc765b5"
+    },
+    {
+      "bytes": 310,
+      "path": "examples/mixed_parity.request.json",
+      "sha256": "66b8f141a2ae367b5f15f1eb5ccc83968050ec72593e3852082ad5a06e3bf406"
+    },
+    {
+      "bytes": 1402,
+      "path": "examples/physical_tensor.certificate.json",
+      "sha256": "c17b0fd7802266a26f4a076e44292bc79bd9c4b404cba6fd626f33bdf9841684"
+    },
+    {
+      "bytes": 315,
+      "path": "examples/physical_tensor.request.json",
+      "sha256": "42a97456032692d721ecb96f59885c57e4ae1715b63c68fb6b96196d56fe0123"
+    },
+    {
+      "bytes": 1361,
+      "path": "examples/positive_dimension_virtual.certificate.json",
+      "sha256": "6575ed72c145de7428820f61e41aa01a326125cdc103a2be8730efd7af65a71a"
+    },
+    {
+      "bytes": 256,
+      "path": "examples/positive_dimension_virtual.request.json",
+      "sha256": "2b03a4c1ce3787417e417bd37fe87f018e673a8fcff95c0af3ddb3ca6aec2e6c"
+    },
+    {
+      "bytes": 1271,
+      "path": "examples/symmetric_square.certificate.json",
+      "sha256": "b38c5349cf5f20be857368d520ca203d958c4367a484ba5b2c4df6cdad1959a5"
+    },
+    {
+      "bytes": 202,
+      "path": "examples/symmetric_square.request.json",
+      "sha256": "039ecc56d3b2bd8130054a625db74cca4c1ac3161d9021ab69313fece2fff9f6"
+    },
+    {
+      "bytes": 1359,
+      "path": "examples/zero.certificate.json",
+      "sha256": "c8565d141194577ba5eca475dfb5588c02c4c1bafbe276177e00f4dd00692d11"
+    },
+    {
+      "bytes": 283,
+      "path": "examples/zero.request.json",
+      "sha256": "16cde1796fb70bf33afd9e8c33f76a255eb06e85db9e2c2c7820f26a21ca7e86"
+    },
+    {
+      "bytes": 1932,
+      "path": "reproduce.py",
+      "sha256": "931f3f2a79dfee6ed710ff6b44ed408523faf85a193628bff0754a820155439f"
+    },
+    {
+      "bytes": 12265,
+      "path": "run_tests.py",
+      "sha256": "a97f279d7cc3a7daf39301171dc5adb0bbaa78d06abae9947bb18032da411884"
+    }
+  ],
+  "schema": "fm-character-source-manifest-v1",
+  "scope": "standalone exact physical representation arithmetic only"
+}

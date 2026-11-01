@@ -1,0 +1,10 @@
+{
+  "foundation_math/split_bundle.py": "a7a161b322f51a82aa793feb19a613401215eabf8ac821f71b8a04c3ef9b89f4",
+  "foundation_math_bridge/split_bundle_schemas.py": "9efc278a185db38f1cf367bf6c2ed5ae7becb67626dfc35b310bb138c0437b48",
+  "foundation_math_bridge/server.py": "c059fd0656108bac03f8f14b5126ff2fdcbfac97c4c45cdc1afbff30455222c3",
+  "foundation_math_bridge/schemas.py": "13a1b8bb2025fa8e6d027f042968f9e6e8554cbaffd07804841caf5f2a33f5b1",
+  "foundation_math/cli.py": "119d4e303a1c3d65a257eabeebaa1606406928dc291c1cb79a854da3c1b15dc0",
+  "tools/build_split_bundle_release.py": "4a6f4840eb554fd07f0fd8757e8b6c381ad3b3e206051ca6dcde0d8103cdae2a",
+  "tools/run_split_bundle_validation.py": "94ca3be8392404b9a03f744a91ec62addaf7edce4d507ed7fdaefceac8abc4e5",
+  "review/v010_review.py": "7277ace6485630637dcb84a716ed3824e1ee3f768d945944c080614c01be7ee5"
+}

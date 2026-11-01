@@ -1,0 +1,232 @@
+"""Portable offline command line for the Foundation Math vertical slice."""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+from .orchestrator import Runtime, WorkflowError, validate_receipt_chain
+
+
+def demo_workflow() -> dict:
+    request = {"domain": "Q", "operation": "add", "operands": [
+        {"numerator": 1, "denominator": 2}, {"numerator": 1, "denominator": 3}]}
+    return {"schema_version": 1,
+            "problem": {"id": "exact-addition", "domain": "Q", "assumptions": [],
+                        "goal": "Compute one half plus one third exactly.", "goal_request": request},
+            "goal_task_id": "verify-sum", "max_total_attempts": 8,
+            "tasks": [
+                {"id": "propose-sum", "role": "proposer", "dependencies": [], "payload": {
+                    "request": request, "expected": {"domain": "Q", "numerator": 5, "denominator": 6},
+                    "rationale": "An untrusted candidate, accepted only after exact recomputation."}},
+                {"id": "calculate-sum", "role": "calculator", "dependencies": ["propose-sum"]},
+                {"id": "verify-sum", "role": "verifier", "dependencies": ["propose-sum", "calculate-sum"]},
+                {"id": "audit-scope", "role": "critic", "dependencies": ["verify-sum"]},
+                {"id": "formalize-sum", "role": "formalizer", "dependencies": ["verify-sum"]},
+            ]}
+
+
+def _unique_object(pairs: list[tuple[str, object]]) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise WorkflowError(f"Duplicate JSON object field: {key}")
+        result[key] = value
+    return result
+
+
+def _reject_constant(value: str) -> object:
+    raise WorkflowError(f"Non-JSON numeric constant is not allowed: {value}")
+
+
+def _read_json(path: Path) -> object:
+    if path.stat().st_size > 1024 * 1024:
+        raise WorkflowError("Input file exceeds the 1 MiB limit")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object,
+                          parse_constant=_reject_constant)
+    except RecursionError as exc:
+        raise WorkflowError("JSON nesting exceeds the supported limit") from exc
+
+
+def main(argv: list[str] | None = None) -> int:
+    actual_args = sys.argv[1:] if argv is None else argv
+    # New exact-domain commands keep the lab's JSON stderr/exit semantics.
+    # All historical command paths remain unchanged.
+    if actual_args and actual_args[0] in ('exterior-calculate', 'exterior-check'):
+        from .exterior import exterior_cli
+        return exterior_cli(actual_args)
+    if actual_args and actual_args[0] == 'validation-evidence-plan':
+        from .validation_evidence import validation_evidence_cli
+        return validation_evidence_cli(actual_args)
+    if actual_args and actual_args[0] == 'hypothesis-scope-check':
+        from .hypothesis_scope import hypothesis_scope_cli
+        return hypothesis_scope_cli(actual_args)
+    if actual_args and actual_args[0] == 'claim-ledger-replay':
+        from .claim_ledger import claim_ledger_cli
+        return claim_ledger_cli(actual_args)
+    if actual_args and actual_args[0] in ('split-bundle-calculate', 'split-bundle-check'):
+        from .split_bundle import split_bundle_cli
+        return split_bundle_cli(actual_args)
+    if actual_args and actual_args[0] in ('character-calculate', 'character-check'):
+        from .character_ring import character_cli
+        return character_cli(actual_args)
+    parser = argparse.ArgumentParser(prog="foundation-math", description="Offline agentic math seed. Exact computation is not a general proof.")
+    commands = parser.add_subparsers(dest="command", required=True)
+    demo = commands.add_parser("demo", help="Run the exact rational arithmetic workflow")
+    demo.add_argument("--output", type=Path, help="Create a new JSON report; existing files are not overwritten")
+    run = commands.add_parser("run", help="Run a structured JSON workflow without network or arbitrary code")
+    run.add_argument("workflow", type=Path)
+    run.add_argument("--output", type=Path)
+    check = commands.add_parser("check-receipts", help="Check hash-chain integrity only, not mathematical truth or provenance")
+    check.add_argument("report", type=Path)
+    polynomial = commands.add_parser("polynomial", help="Compute exact Q-polynomials or decide a formal polynomial identity")
+    polynomial.add_argument("request", type=Path)
+    polynomial.add_argument("--output", type=Path, help="Create a new JSON receipt; existing files are not overwritten")
+    counterexample_search = commands.add_parser("counterexample-search", help="Search only an explicit finite integer box; never prove a universal goal")
+    counterexample_search.add_argument("request", type=Path)
+    counterexample_search.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    counterexample_check = commands.add_parser("counterexample-check", help="Recheck a supplied assignment against the original finite-box request")
+    counterexample_check.add_argument("request", type=Path)
+    counterexample_check.add_argument("assignment", type=Path)
+    counterexample_check.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    matrix_certify = commands.add_parser("matrix-certify", help="Certify one explicit matrix over Q, not an integer lattice or symbolic family")
+    matrix_certify.add_argument("matrix", type=Path)
+    matrix_certify.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    matrix_check = commands.add_parser("matrix-check", help="Check one matrix certificate against an explicit expected matrix")
+    matrix_check.add_argument("matrix", type=Path)
+    matrix_check.add_argument("certificate", type=Path)
+    matrix_check.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    witness_construct = commands.add_parser("polynomial-witness", help="Construct a small integer mismatch for an unrestricted formal Q-polynomial identity")
+    witness_construct.add_argument("request", type=Path)
+    witness_construct.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    witness_check = commands.add_parser("polynomial-witness-check", help="Check a supplied small-integer witness against the original formal polynomial request")
+    witness_check.add_argument("request", type=Path)
+    witness_check.add_argument("witness", type=Path)
+    witness_check.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    system_solve = commands.add_parser("system-solve", help="Solve one explicit rational system with a checked solution-space or inconsistency certificate")
+    system_solve.add_argument("system", type=Path)
+    system_solve.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    system_check = commands.add_parser("system-check", help="Check one system certificate against separately supplied expected A,b")
+    system_check.add_argument("system", type=Path)
+    system_check.add_argument("certificate", type=Path)
+    system_check.add_argument("--output", type=Path, help="Create a new receipt; never overwrite")
+    commands.add_parser("character-calculate", help="Produce and check fixed physical character arithmetic; not runtime/formal evidence")
+    commands.add_parser("character-check", help="Check fixed character arithmetic against a separately supplied request")
+    commands.add_parser("claim-ledger-replay", help="Replay bounded dependency applicability from stdin; never proof acceptance")
+    commands.add_parser("hypothesis-scope-check", help="Match explicitly bound authored premises from stdin; not mathematical truth")
+    commands.add_parser("lean-status", help="Report local Lean availability without running proof source")
+    args = parser.parse_args(argv)
+    try:
+        if args.command in ("system-solve", "system-check"):
+            from .linear_systems import (MAX_INPUT_BYTES, MathError, solve_system,
+                                         check_system_certificate, system_error_receipt)
+            from exact_systems.contract import loads_bounded
+            try:
+                with args.system.open("rb") as source:
+                    system = loads_bounded(source.read(MAX_INPUT_BYTES + 1))
+                if args.command == "system-check":
+                    with args.certificate.open("rb") as source:
+                        certificate = loads_bounded(source.read(MAX_INPUT_BYTES + 1))
+                    report = check_system_certificate(system, certificate)
+                else:
+                    report = solve_system(system)
+            except MathError as error:
+                report = system_error_receipt(error)
+            except Exception:
+                report = system_error_receipt(MathError('INTERNAL_ERROR', 'Unexpected internal failure.'))
+            serialized = json.dumps(report, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
+            if args.output:
+                with args.output.open("x", encoding="utf-8") as output:
+                    output.write(serialized)
+            print(serialized, end="")
+            return 0 if report["status"] == "success" else 2
+        if args.command in ("polynomial-witness", "polynomial-witness-check"):
+            from .polynomial_witness import (MAX_INPUT_BYTES, WitnessError, construct_polynomial_witness,
+                                              check_polynomial_witness, witness_error_receipt)
+            from polynomial_witness.contract import strict_json
+            try:
+                with args.request.open("rb") as source:
+                    request = strict_json(source.read(MAX_INPUT_BYTES + 1))
+                if args.command == "polynomial-witness-check":
+                    with args.witness.open("rb") as source:
+                        witness = strict_json(source.read(MAX_INPUT_BYTES + 1))
+                    report = check_polynomial_witness(request, witness)
+                else:
+                    report = construct_polynomial_witness(request)
+            except WitnessError as error:
+                report = witness_error_receipt(error)
+            serialized = json.dumps(report, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
+            if args.output:
+                with args.output.open("x", encoding="utf-8") as output:
+                    output.write(serialized)
+            print(serialized, end="")
+            return {"success": 0, "rejected": 1, "error": 2}[report["status"]]
+        if args.command in ("matrix-certify", "matrix-check"):
+            from .linear_algebra import (MAX_INPUT_BYTES, MathError, certify_matrix,
+                                         check_matrix_certificate, matrix_error_receipt)
+            from exact_linalg.contract import loads_bounded
+            try:
+                with args.matrix.open("rb") as source:
+                    matrix = loads_bounded(source.read(MAX_INPUT_BYTES + 1))
+                if args.command == "matrix-check":
+                    with args.certificate.open("rb") as source:
+                        certificate = loads_bounded(source.read(MAX_INPUT_BYTES + 1))
+                    report = check_matrix_certificate(matrix, certificate)
+                else:
+                    report = certify_matrix(matrix)
+            except MathError as error:
+                report = matrix_error_receipt(error)
+            serialized = json.dumps(report, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
+            if args.output:
+                with args.output.open("x", encoding="utf-8") as output:
+                    output.write(serialized)
+            print(serialized, end="")
+            return 0 if report["status"] == "success" else 2
+        if args.command in ("counterexample-search", "counterexample-check"):
+            from bounded_counterexample.__main__ import main as counterexample_main
+            delegated_args = ["search" if args.command == "counterexample-search" else "check-witness", str(args.request)]
+            if args.command == "counterexample-check":
+                delegated_args.append(str(args.assignment))
+            if args.output:
+                delegated_args.extend(["--output", str(args.output)])
+            return counterexample_main(delegated_args)
+        if args.command == "polynomial":
+            from .polynomial import MAX_INPUT_BYTES, calculate_polynomial_json
+            with args.request.open("rb") as source:
+                raw = source.read(MAX_INPUT_BYTES + 1)
+            report = calculate_polynomial_json(raw)
+            serialized = json.dumps(report, indent=2, allow_nan=False) + "\n"
+            if args.output:
+                with args.output.open("x", encoding="utf-8") as output:
+                    output.write(serialized)
+            print(serialized, end="")
+            if report["status"] != "success":
+                return 2
+            return 1 if report["result"].get("equal") is False else 0
+        if args.command == "check-receipts":
+            report = _read_json(args.report)
+            valid = isinstance(report, dict) and validate_receipt_chain(report.get("receipts"))
+            print(json.dumps({"integrity_valid": valid, "provenance_verified": False, "mathematical_truth_verified": False}, indent=2))
+            return 0 if valid else 1
+        if args.command == "lean-status":
+            from .lean_adapter import LeanAdapter
+            availability = LeanAdapter(Path.cwd()).status()
+            print(json.dumps({**availability, "verification": "not_run", "formal_proof": False}, indent=2))
+            return 0
+        workflow = demo_workflow() if args.command == "demo" else _read_json(args.workflow)
+        report = Runtime.from_dict(workflow).run()
+        serialized = json.dumps(report, indent=2, allow_nan=False) + "\n"
+        if args.output:
+            with args.output.open("x", encoding="utf-8") as output:
+                output.write(serialized)
+        print(serialized, end="")
+        return 0 if report["goal_status"] == "exact_result_verified" else 1
+    except (OSError, json.JSONDecodeError, WorkflowError, TypeError, ValueError, RecursionError) as exc:
+        print(f"foundation-math: {exc}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

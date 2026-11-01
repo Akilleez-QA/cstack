@@ -1,0 +1,106 @@
+"""Versioned local single-run driver, NOT MCP and NOT a public network server."""
+import json
+import sys
+
+from adapters.wire import WireFailure, decode, encode
+from bootstrap import DOMAINS, build_domain
+from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
+                       exact_fields)
+
+CLI_SCHEMA = "cstack.run/0.1"
+MAX_OUTPUT = 33 * 1024 * 1024
+
+
+def run_document(document):
+    exact_fields(document, {"schema", "goal", "checkpoints", "calls"})
+    if document["schema"] != CLI_SCHEMA:
+        raise ContractError("Unsupported local driver version")
+    goal = GoalContract.from_dict(document["goal"])
+    calls, checkpoints = document["calls"], document["checkpoints"]
+    if type(calls) is not list or not 1 <= len(calls) <= 64 or type(checkpoints) is not list or len(checkpoints) != 4:
+        raise ContractError("Driver requires 1..64 calls and four preauthored phase checkpoints")
+    # The host's registered read-only profiles are fixed; JSON names a domain, never a grant or path.
+    core, _ = build_domain(goal.domain_id, goal.goal_id)
+    core.start_goal(goal)
+    parsed = []
+    for data in checkpoints:
+        exact_fields(data, {"checkpoint_id", "rationale", "research_references", "option_ids"})
+        if type(data["research_references"]) is not list or type(data["option_ids"]) is not list:
+            raise ContractError("Checkpoint arrays required")
+        parsed.append(PhaseCheckpoint(data["checkpoint_id"], data["rationale"],
+            tuple(data["research_references"]), tuple(data["option_ids"])))
+    for phase, checkpoint in zip((Phase.OBSERVE, Phase.ORIENT, Phase.DECIDE), parsed[:3]):
+        core.advance(goal.goal_id, phase, checkpoint)
+    decisions = []
+    for call in calls:
+        exact_fields(call, {"request", "precommitment"})
+        precommit = exact_fields(call["precommitment"], {"expected_observation", "success_boundary", "failure_meaning",
+                                                        "oracle_id", "oracle_version"})
+        request = CapabilityRequest.from_dict(call["request"])
+        core.decide(request, Precommitment(**precommit))
+        decisions.append(request.decision_id)
+    core.advance(goal.goal_id, Phase.ORCHESTRATE, parsed[3])
+    stopped = None
+    for index, decision in enumerate(decisions):
+        try:
+            core.execute(decision)
+        except ContractError:
+            # A later pre-dispatch gate must not hide earlier completed calls.
+            acted = any(e["kind"] == "action" and e["data"].get("decision_id") == decision for e in core.ledger())
+            stopped = {"decision_id": decision, "execution_certainty": "unknown" if acted else "not_dispatched",
+                       "reason": "core_contract_or_retention_gate", "later_not_dispatched": decisions[index+1:]}
+            break
+    return {"schema": "cstack.run-result/0.1", "goal": core.snapshot(goal.goal_id).to_dict(),
+        "events": core.ledger(), "run_status": "stopped" if stopped else "completed", "stopped": stopped,
+        "mcp_compatible": False, "endoforge_implemented": False,
+        "note": "Preauthored checkpoint records were structurally checked, not researched or reasoned by this driver."}
+
+
+def _goal_domain(value):
+    domain_id = value["goal"].get("domain_id") if type(value) is dict and type(value.get("goal")) is dict else None
+    return domain_id if type(domain_id) is str else None
+
+
+def _decode_for_domain(raw):
+    """Each registered domain's own numeric profile; a domain without one uses Math's exact integer-only decode."""
+    for domain in DOMAINS.values():
+        if domain.decode is None:
+            continue
+        try:
+            document = domain.decode(raw)
+        except WireFailure:
+            continue
+        if _goal_domain(document) == domain.domain_id:
+            return document
+    document = decode(raw)
+    own = DOMAINS.get(_goal_domain(document))
+    if own is not None and own.decode is not None:
+        raise WireFailure("A document must satisfy its own domain's numeric profile")
+    return document
+
+
+def main():
+    if len(sys.argv) != 1:
+        sys.stderr.write("No command-line options, paths or executable selections are accepted. Supply structured JSON on stdin.\n")
+        return 2
+    try:
+        raw = sys.stdin.buffer.read(65_537)
+        if len(raw) > 65_536:
+            raise ContractError("Local driver input exceeds 65,536 bytes")
+        result = run_document(_decode_for_domain(raw))
+        output = encode(result)
+        if len(output) > MAX_OUTPUT:
+            raise ContractError("Complete driver output exceeds budget; output withheld")
+        sys.stdout.buffer.write(output + b"\n")
+        return 0
+    except (ContractError, WireFailure, ValueError, TypeError, KeyError):
+        sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": "invalid_or_unsupported_request",
+            "formal_proof": False, "runtime_goal_acceptance": False}) + "\n")
+        return 2
+    except BrokenPipeError:
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

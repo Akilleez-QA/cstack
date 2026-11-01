@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "title": "Deliberately invalid: claiming formal verification without evidence",
+  "claims": [
+    {
+      "id": "unsupported.formal",
+      "statement": "An intentionally schematic statement in an invalid structural example.",
+      "assumptions": [],
+      "dependencies": [],
+      "status": "formally_checked",
+      "closure": "open",
+      "evidence": [],
+      "verification": {
+        "scope": "Invalid example only; no mathematical verification is asserted.",
+        "reviewers": [],
+        "trust": []
+      }
+    }
+  ]
+}

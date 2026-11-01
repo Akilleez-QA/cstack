@@ -1,0 +1,24 @@
+{
+  "left_nullvector": [
+    0,
+    1
+  ],
+  "outcome": "inconsistent",
+  "rhs_pairing": 2,
+  "schema": "foundation-math-rational-linear-system/1",
+  "system": {
+    "matrix": {
+      "cols": 0,
+      "domain": "Z",
+      "entries": [
+        [],
+        []
+      ],
+      "rows": 2
+    },
+    "rhs": [
+      0,
+      2
+    ]
+  }
+}

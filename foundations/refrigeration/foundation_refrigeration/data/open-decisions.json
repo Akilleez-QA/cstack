@@ -1,0 +1,136 @@
+{
+  "data": {
+    "decisions": [
+      {
+        "also": "Orange has four values in use (#ff8200, #f08a24, #ff8a2a and a vendor-named coating).",
+        "census": "an internal census section 1.2 (marker colour conflict) and section 7",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Recorded from the census; IIAR Bulletin 114 itself was not read for this release."
+          },
+          "dispute": "Two incompatible band schemes (yellow body with orange liquid band, against orange body with yellow liquid band) and four orange values.",
+          "status": "DISPUTED"
+        },
+        "id": "b114-marker-colour-scheme",
+        "positions": [
+          {
+            "source": "an internal animation project",
+            "summary": "Safety-yellow marker body #f5cf1f; orange liquid band #f08a24; blue vapour band #2d6fd2; HIGH red #d6312d; LOW green #2f9e44."
+          },
+          {
+            "source": "a training course look guide (census section 1.2)",
+            "summary": "Orange body reading AMMONIA; yellow liquid band; blue vapour band; red above 70 psig, green at or below 70 psig."
+          },
+          {
+            "source": "a downstream application",
+            "summary": "Marker plates #ff8200; HIGH/LOW from the service's side; intermediate pressure shown as LOW (CHECK)."
+          }
+        ],
+        "topic": "IIAR Bulletin 114 pipe-marker colour and band scheme"
+      },
+      {
+        "census": "an internal census section 1.2 and section 7",
+        "chosen": null,
+        "decider": "Refrigeration SME",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Recorded from the census; no source for the 70 psig figure was read."
+          },
+          "dispute": "A 70 psig threshold exists only in one source; the others classify by system side.",
+          "status": "DISPUTED"
+        },
+        "id": "b114-70-psig-split",
+        "positions": [
+          {
+            "source": "a training course look guide (census section 1.2)",
+            "summary": "Red above 70 psig, green at or below 70 psig."
+          },
+          {
+            "source": "an internal application canvas services and marker rules",
+            "summary": "HIGH/LOW follows the service's side of the system, not a pressure threshold; intermediate shown as LOW (CHECK)."
+          },
+          {
+            "source": "an internal animation project",
+            "summary": "HIGH/LOW per line from its service, no threshold."
+          }
+        ],
+        "topic": "HIGH/LOW pressure band split at 70 psig"
+      },
+      {
+        "census": "an internal census section 1.5 and section 7",
+        "chosen": null,
+        "decider": "Platform owner",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Recorded from the census; no reference-plant/1 projection exists until one topology is chosen."
+          },
+          "dispute": "At least four different reference plant topologies and two discharge pressures (162 vs 164 psig).",
+          "status": "DISPUTED"
+        },
+        "id": "canonical-reference-plant",
+        "positions": [
+          {
+            "source": "an internal application",
+            "summary": "8-compressor tagged site (125-600 HP); vessels MAWP 300 psig at 300 degF."
+          },
+          {
+            "source": "an internal application",
+            "summary": "Single-stage parallel plant, 2 loads; every value null, provenance missing."
+          },
+          {
+            "source": "an internal application canvas timeline fixture and canvas DESIGN.md",
+            "summary": "Two-stage with booster: -38 degC SST, -7 degC intermediate, 35 degC SCT."
+          },
+          {
+            "source": "an internal application canvas schematic fixture",
+            "summary": "Two-stage, 20 assets."
+          },
+          {
+            "source": "an internal application simulator demo profile NC and booth tests",
+            "summary": "Discharge 162 psig (simulator) against 164 psig (booth tests); the '117 psig' figure has no source on the branches read."
+          }
+        ],
+        "topic": "Which reference plant demo/reference plant is canonical"
+      },
+      {
+        "census": "an internal census section 1.9 and section 7",
+        "chosen": null,
+        "decider": "Platform owner",
+        "evidence": {
+          "basis": {
+            "kind": "practice",
+            "note": "Recorded from the census. This Foundation neither bans nor requires the word; its tools make no alarm or detection claim."
+          },
+          "dispute": "Banned in one expression, required in another; the underlying rule is about product claims, not vocabulary.",
+          "status": "DISPUTED"
+        },
+        "id": "alarm-wording",
+        "positions": [
+          {
+            "source": "an internal animation project",
+            "summary": "'alarm' is in the BANNED word list (monitoring-only claim rules)."
+          },
+          {
+            "source": "a training course content README (census section 1.9)",
+            "summary": "'alarms (beacon and sounder) only' is required wording."
+          },
+          {
+            "source": "an internal application",
+            "summary": "No wording check implemented; ADR-303 (Proposed) designs one."
+          }
+        ],
+        "topic": "Whether 'alarm' is banned wording"
+      }
+    ],
+    "rule": "An open SME decision is recorded as DISPUTED with every position. Nothing here is chosen, and no tool presents one position as settled."
+  },
+  "generatedBy": "Authored from an internal census sections 1.2, 1.5, 1.9 and 7 (read 2026-10-24); names replaced by a role description.",
+  "owner": "foundation_refrigeration.decisions",
+  "schema": "open-decisions/1",
+  "version": "1.0.0"
+}

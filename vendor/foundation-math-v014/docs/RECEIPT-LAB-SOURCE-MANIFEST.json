@@ -1,0 +1,169 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 3387,
+      "sha256": "2e791a5019bc9cae23cc1daa87687b13c5b79ba7d21c19b2452caf37b64df77d"
+    },
+    "SELECTED-FILES.json": {
+      "bytes": 1449,
+      "sha256": "d6e7cb031446008a7c20be04f3fcb8ef50c98a3f3019027ee6c32391a21cf402"
+    },
+    "docs/CONTRACT.md": {
+      "bytes": 12161,
+      "sha256": "da459d29801efd2b8a51dd909f99369e6b31ab920e5cabf7c43e9d3a9ad82573"
+    },
+    "docs/DESIGN.md": {
+      "bytes": 4550,
+      "sha256": "f6c7c2ba0f33b418bfeb0652098f300d4b0ed1c6d0e40e537e7944076682338d"
+    },
+    "docs/VALIDATION.md": {
+      "bytes": 2405,
+      "sha256": "4dd950696032796564c4dbfd068c52c0f899badcd6d42dd01f8b9947fc5d940c"
+    },
+    "examples/README.md": {
+      "bytes": 2141,
+      "sha256": "2a65c7400ad480c875c039a26a66c80f99dcae3c9de3dd2d36e8fd38b19f2718"
+    },
+    "examples/all-pins-match.expected.json": {
+      "bytes": 3793,
+      "sha256": "f695e163fc051e215e8ce2e09ad76afc88a22e82c289b2e10860d1a5ebdc0a04"
+    },
+    "examples/all-pins-match.input.json": {
+      "bytes": 10826,
+      "sha256": "e2ffa7418fcfcc58163d4c3de825c706993a34e93ec08bb0d8710b596817e32f"
+    },
+    "examples/input-drift-chain.expected.json": {
+      "bytes": 5275,
+      "sha256": "7866a6bf532e94b6acca7ee752f021b98974f37011ff152104a19a91bd212803"
+    },
+    "examples/input-drift-chain.input.json": {
+      "bytes": 10851,
+      "sha256": "3cff96cb662fc2c3f50190ab871f8841f83900aad0aba6e5147b7171d9bcb056"
+    },
+    "examples/mandatory-fresh-policy.expected.json": {
+      "bytes": 8666,
+      "sha256": "1852cba98375da414dfa3533c72752c52ebbdc7bd40f80d185d7fb7302fbab40"
+    },
+    "examples/mandatory-fresh-policy.input.json": {
+      "bytes": 22647,
+      "sha256": "16777a573d9024a382cadf2b5b7261c328e35fe4a6658d6d9a3b120eeb603291"
+    },
+    "examples/no-implicit-latest.expected.json": {
+      "bytes": 3604,
+      "sha256": "d01a838a846ece261d292c823b3ea39b2b097fb037509c4f024f5f9460c89251"
+    },
+    "examples/no-implicit-latest.input.json": {
+      "bytes": 9342,
+      "sha256": "8d9183b42488d892cdef52f04189a0094bc77022306847e5c04833430c25f61a"
+    },
+    "examples/unestablished-closure-chain.expected.json": {
+      "bytes": 5442,
+      "sha256": "d4cc3b0563d0c947416814f42b3fa6f2bf3ff035bacaed87704c16da0debc369"
+    },
+    "examples/unestablished-closure-chain.input.json": {
+      "bytes": 10809,
+      "sha256": "fcd3bd406051d8ee0dac1df7f826197300c620f39cbcca1135cea3fbf5e6d996"
+    },
+    "examples/unknown-environment-chain.expected.json": {
+      "bytes": 5436,
+      "sha256": "0873935790d0674b5c49b52bf21e1540541cdd54f52db6f467eab21c2ff581bc"
+    },
+    "examples/unknown-environment-chain.input.json": {
+      "bytes": 10764,
+      "sha256": "e740e61ce168acadca88d7e4c62d28cc00ce49fdf53816ff89f6d6f0cb639a2e"
+    },
+    "examples/withdrawn-receipt-chain.expected.json": {
+      "bytes": 5482,
+      "sha256": "53ed2af4af2bb73a9cd7876628a9b5a05963ef7e0aaf8d4bdeebac0816558f6d"
+    },
+    "examples/withdrawn-receipt-chain.input.json": {
+      "bytes": 10827,
+      "sha256": "049e36eb6a9e910db1f7aeb47de48a100b7145152f49b5b1871076eff24e5f64"
+    },
+    "reference/PROVENANCE.json": {
+      "bytes": 2739,
+      "sha256": "92a0c8b93142259e399f8600970744e19a19784f3c707e5acda443985a493e3a"
+    },
+    "reference/claim-revision-contract.md": {
+      "bytes": 8496,
+      "sha256": "f8f196d4d63c753b3d0f2d5834851ea02e7b37b5bf7c6d50247e76e5c9342d60"
+    },
+    "reference/hypothesis-scope-contract.md": {
+      "bytes": 12450,
+      "sha256": "ff27743fd534a2939ee19cd97c5c13bbd57150cd6cb37029d018d5536eb7e187"
+    },
+    "reference/v013-delivery-replay.json": {
+      "bytes": 12892,
+      "sha256": "aa95627ebb6d1d7138d23ad50a031d7aa3a100f8a3086c35a9d32fc6e2159bfc"
+    },
+    "reference/v013-timing-summary.json": {
+      "bytes": 16313,
+      "sha256": "167f1a5efbcd24a63a60840c994dc038bf84cd12a42de30286dc00bd35155377"
+    },
+    "reference/v013-validation-contract.md": {
+      "bytes": 2361,
+      "sha256": "c69c173986f5e424dc061a9f40e9a84ce1221734b16c77a3773cb9ea8c2855b9"
+    },
+    "review/README.md": {
+      "bytes": 1427,
+      "sha256": "d8489a595294ef38c156d6e627675b4f5f9267cd5392cdf0ee9fc99a6160aec4"
+    },
+    "review/mutations.py": {
+      "bytes": 5090,
+      "sha256": "849bbd876b80cf0429e606ed57c5f41ea4d439323b91edd92202f439e3a4796a"
+    },
+    "review/verify.py": {
+      "bytes": 32895,
+      "sha256": "372a0b56f28458c9c549057b776ff39d8feb95d4ae9edf74da0f80ee67e2c7dd"
+    },
+    "schema/input.schema.json": {
+      "bytes": 10188,
+      "sha256": "cc32c0def3799df8056a62e3f3177115c8c672ac07a376c1a5b5bad403e2c422"
+    },
+    "tests/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/fixtures.py": {
+      "bytes": 3331,
+      "sha256": "b8f495054a80da1d6464fdfddbd5fb214c6b785f3c9959af9c8cc462c896fb0f"
+    },
+    "tests/test_planner.py": {
+      "bytes": 19803,
+      "sha256": "30c13594f3059dc160a9910607eebb4bc77ce22a90ba8f1ae0c4528ed39210f2"
+    },
+    "tools/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tools/generate_assets.py": {
+      "bytes": 4599,
+      "sha256": "19ac33a37c1c263f973c21da7ff39592e020086dbe76819e941cf06b2048f9b6"
+    },
+    "tools/mutations.py": {
+      "bytes": 4151,
+      "sha256": "02c71aa70f8bd988890813c19e2da0ec6dde070d7f50c8024188a38284eea9b6"
+    },
+    "tools/package.py": {
+      "bytes": 4169,
+      "sha256": "259d53451d420eb4a24581c8e7e2baad5619b9ea5a0f047bfdd67dca0c6ead30"
+    },
+    "tools/validate.py": {
+      "bytes": 4396,
+      "sha256": "6935b6fea87deea2bc71ea8db14a154463e944de470f89fffd608d339f9a80ee"
+    },
+    "validation_receipt/__init__.py": {
+      "bytes": 163,
+      "sha256": "b01e952e0d1e1af6c4cc7865ec4616fe434c1dd9d42773579aba94985e3e7d25"
+    },
+    "validation_receipt/__main__.py": {
+      "bytes": 756,
+      "sha256": "2ffc622b8c9c3b6638354321f6ea49f8e9ae78d11a41fefc372fe028147eecd2"
+    },
+    "validation_receipt/core.py": {
+      "bytes": 18471,
+      "sha256": "9508bc57c57fa79bf31d538df48a08549b720f6a9e83935650f80371639c3305"
+    }
+  },
+  "schema": "foundation-math-validation-receipt-lab-source/1"
+}

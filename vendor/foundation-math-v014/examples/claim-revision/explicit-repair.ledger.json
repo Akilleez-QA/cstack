@@ -1,0 +1,161 @@
+{
+  "events": [
+    {
+      "id": "revise_lemma",
+      "kind": "revise",
+      "reason": "Synthetic recorded correction.",
+      "replacement": {
+        "content": {
+          "assumptions": [
+            "Synthetic declared hypotheses only."
+          ],
+          "authored_status": "draft",
+          "non_claims": [
+            "No application theorem."
+          ],
+          "scope": "conditional",
+          "statement": "A revised synthetic statement with a retained extra hypothesis."
+        },
+        "content_sha256": "6ef7c9c6a4bb3d87198897c2d194bef9136e1168c3a7b53fdeea3d023fe29a6a",
+        "dependencies": [],
+        "id": "synthetic_lemma",
+        "kind": "claim",
+        "revision": 2,
+        "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+      },
+      "target": {
+        "id": "synthetic_lemma",
+        "revision": 1,
+        "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+      }
+    },
+    {
+      "id": "revise_review",
+      "kind": "revise",
+      "reason": "Synthetic recorded correction.",
+      "replacement": {
+        "content": {
+          "authored_status": "draft",
+          "requirement": "Review synthetic obligation synthetic_review."
+        },
+        "content_sha256": "df0d7bee660bd659b7f7f415e8252b1e092b85287c3fb78be71130c9ca94b21a",
+        "dependencies": [
+          {
+            "id": "synthetic_lemma",
+            "revision": 2,
+            "revision_sha256": "1114484b052e1d92a6fdcdc967cc70c2d55698c5c3a427c512a9b8ad58ba0394"
+          }
+        ],
+        "id": "synthetic_review",
+        "kind": "obligation",
+        "revision": 2,
+        "revision_sha256": "b72c10daeb2f814124edf93f777cf4a003158b2d6971d54dac46e9d01ff5c30f"
+      },
+      "target": {
+        "id": "synthetic_review",
+        "revision": 1,
+        "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+      }
+    },
+    {
+      "id": "revise_conclusion",
+      "kind": "revise",
+      "reason": "Synthetic recorded correction.",
+      "replacement": {
+        "content": {
+          "assumptions": [
+            "Synthetic declared hypotheses only."
+          ],
+          "authored_status": "draft",
+          "non_claims": [
+            "No application theorem."
+          ],
+          "scope": "conditional",
+          "statement": "Synthetic statement synthetic_conclusion."
+        },
+        "content_sha256": "7a880c2afde117db5fb967cefd3c79e3f6a50a244bf355aed490dec47738cc31",
+        "dependencies": [
+          {
+            "id": "synthetic_review",
+            "revision": 2,
+            "revision_sha256": "b72c10daeb2f814124edf93f777cf4a003158b2d6971d54dac46e9d01ff5c30f"
+          }
+        ],
+        "id": "synthetic_conclusion",
+        "kind": "claim",
+        "revision": 2,
+        "revision_sha256": "d3f3a107a4cd6a7dd50017c4ea411c6d5af7ab51415b6f37a7f6c6c9c50dad2b"
+      },
+      "target": {
+        "id": "synthetic_conclusion",
+        "revision": 1,
+        "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+      }
+    }
+  ],
+  "records": [
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement synthetic_lemma."
+      },
+      "content_sha256": "bce27e3278c7e229d84a41b1596431624e8cf35a2fe9dea65faa0020aec52d38",
+      "dependencies": [],
+      "id": "synthetic_lemma",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+    },
+    {
+      "content": {
+        "authored_status": "draft",
+        "requirement": "Review synthetic obligation synthetic_review."
+      },
+      "content_sha256": "df0d7bee660bd659b7f7f415e8252b1e092b85287c3fb78be71130c9ca94b21a",
+      "dependencies": [
+        {
+          "id": "synthetic_lemma",
+          "revision": 1,
+          "revision_sha256": "dfb9a00235ad0ddeda38dd91438d012a5be227298a71054d2fdc9e8ade8b4755"
+        }
+      ],
+      "id": "synthetic_review",
+      "kind": "obligation",
+      "revision": 1,
+      "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+    },
+    {
+      "content": {
+        "assumptions": [
+          "Synthetic declared hypotheses only."
+        ],
+        "authored_status": "draft",
+        "non_claims": [
+          "No application theorem."
+        ],
+        "scope": "conditional",
+        "statement": "Synthetic statement synthetic_conclusion."
+      },
+      "content_sha256": "7a880c2afde117db5fb967cefd3c79e3f6a50a244bf355aed490dec47738cc31",
+      "dependencies": [
+        {
+          "id": "synthetic_review",
+          "revision": 1,
+          "revision_sha256": "de962e781c64bfb0c7065d2ce7ae3c8061a3be3e272cdade324163d4e5f05a25"
+        }
+      ],
+      "id": "synthetic_conclusion",
+      "kind": "claim",
+      "revision": 1,
+      "revision_sha256": "18bb8cdbbd5af2de682627192e94e053850371e8b836c76381f40a6ea90a1fdb"
+    }
+  ],
+  "schema": "foundation-math-claim-revision/1"
+}

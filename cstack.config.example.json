@@ -1,0 +1,11 @@
+{
+ "owner": "Your Name",
+ "approver": "owner-via-approver",
+ "contact_email": "owner@example.invalid",
+ "github_org": "your-org",
+ "hosts": {"primary": "example-host", "secondary": "example-peer"},
+ "tailnet_cidr": "100.64.0.0/10",
+ "scratch_dir": "/srv/scratch",
+ "fleet_file": "aors/fleet.json",
+ "merge_train": {"wip_limit_per_lane": 10, "policy": "low-risk"}
+}

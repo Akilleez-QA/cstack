@@ -1,0 +1,13 @@
+{
+  "schema": "fm-research-problem/1",
+  "problem_id": "2i-regression",
+  "title": "Exact labeled 2I regression",
+  "objective": "Check finite representation computations and explicit matrix ranks.",
+  "repo": {"name": "your-org/read-em-and-weep", "commit": "unpinned-example"},
+  "roles": {"builder": "null", "reviewer": "Mr. Slop", "verifier": "High School Diploma"},
+  "assumptions": ["The pinned physical character catalog identifies the intended 2I representations."],
+  "exclusions": ["No surrounding research argument or geometric realization is proved."],
+  "claims": [
+    {"id": "sym10", "statement": "Sym10 W = A+V+P (deliberately false)", "kind": "computed", "depends_on": [], "check": {"kernel": "twoi.decompose_sym_W", "args": {"n": 10}, "expect": "A+V+P"}}
+  ]
+}

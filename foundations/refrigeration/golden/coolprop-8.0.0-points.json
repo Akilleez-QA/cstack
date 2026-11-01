@@ -1,0 +1,351 @@
+{
+  "by_pressure": [
+    {
+      "bubble_temperature_c": -33.577428,
+      "dew_temperature_c": -33.577428,
+      "fluid": "NH3",
+      "pressure_kpa_a": 100.0
+    },
+    {
+      "bubble_temperature_c": -9.217911,
+      "dew_temperature_c": -9.217911,
+      "fluid": "NH3",
+      "pressure_kpa_a": 300.0
+    },
+    {
+      "bubble_temperature_c": 30.954545,
+      "dew_temperature_c": 30.954545,
+      "fluid": "NH3",
+      "pressure_kpa_a": 1200.0
+    },
+    {
+      "bubble_temperature_c": -40.12175,
+      "dew_temperature_c": -40.12175,
+      "fluid": "CO2",
+      "pressure_kpa_a": 1000.0
+    },
+    {
+      "bubble_temperature_c": -5.55213,
+      "dew_temperature_c": -5.55213,
+      "fluid": "CO2",
+      "pressure_kpa_a": 3000.0
+    },
+    {
+      "bubble_temperature_c": -31.094025,
+      "dew_temperature_c": -24.71511,
+      "fluid": "R448A",
+      "pressure_kpa_a": 200.0
+    },
+    {
+      "bubble_temperature_c": 30.799166,
+      "dew_temperature_c": 36.102488,
+      "fluid": "R448A",
+      "pressure_kpa_a": 1500.0
+    }
+  ],
+  "by_temperature": [
+    {
+      "bubble_kpa_a": 40.776012,
+      "dew_kpa_a": 40.776012,
+      "fluid": "NH3",
+      "temperature_c": -50.0
+    },
+    {
+      "bubble_kpa_a": 71.633273,
+      "dew_kpa_a": 71.633273,
+      "fluid": "NH3",
+      "temperature_c": -40.0
+    },
+    {
+      "bubble_kpa_a": 119.375598,
+      "dew_kpa_a": 119.375598,
+      "fluid": "NH3",
+      "temperature_c": -30.0
+    },
+    {
+      "bubble_kpa_a": 190.0261,
+      "dew_kpa_a": 190.0261,
+      "fluid": "NH3",
+      "temperature_c": -20.0
+    },
+    {
+      "bubble_kpa_a": 290.639516,
+      "dew_kpa_a": 290.639516,
+      "fluid": "NH3",
+      "temperature_c": -10.0
+    },
+    {
+      "bubble_kpa_a": 429.247799,
+      "dew_kpa_a": 429.247799,
+      "fluid": "NH3",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 614.790209,
+      "dew_kpa_a": 614.790209,
+      "fluid": "NH3",
+      "temperature_c": 10.0
+    },
+    {
+      "bubble_kpa_a": 857.039771,
+      "dew_kpa_a": 857.039771,
+      "fluid": "NH3",
+      "temperature_c": 20.0
+    },
+    {
+      "bubble_kpa_a": 1166.536063,
+      "dew_kpa_a": 1166.536063,
+      "fluid": "NH3",
+      "temperature_c": 30.0
+    },
+    {
+      "bubble_kpa_a": 1554.533228,
+      "dew_kpa_a": 1554.533228,
+      "fluid": "NH3",
+      "temperature_c": 40.0
+    },
+    {
+      "bubble_kpa_a": 2032.972672,
+      "dew_kpa_a": 2032.972672,
+      "fluid": "NH3",
+      "temperature_c": 50.0
+    },
+    {
+      "bubble_kpa_a": 2458.730202,
+      "dew_kpa_a": 2458.730202,
+      "fluid": "NH3",
+      "temperature_c": 57.5
+    },
+    {
+      "bubble_kpa_a": 682.341615,
+      "dew_kpa_a": 682.341615,
+      "fluid": "CO2",
+      "temperature_c": -50.0
+    },
+    {
+      "bubble_kpa_a": 1004.495728,
+      "dew_kpa_a": 1004.495728,
+      "fluid": "CO2",
+      "temperature_c": -40.0
+    },
+    {
+      "bubble_kpa_a": 1969.628002,
+      "dew_kpa_a": 1969.628002,
+      "fluid": "CO2",
+      "temperature_c": -20.0
+    },
+    {
+      "bubble_kpa_a": 3485.140758,
+      "dew_kpa_a": 3485.140758,
+      "fluid": "CO2",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 5729.052581,
+      "dew_kpa_a": 5729.052581,
+      "fluid": "CO2",
+      "temperature_c": 20.0
+    },
+    {
+      "bubble_kpa_a": 6891.816765,
+      "dew_kpa_a": 6891.816765,
+      "fluid": "CO2",
+      "temperature_c": 28.0
+    },
+    {
+      "bubble_kpa_a": 56.817191,
+      "dew_kpa_a": 56.817191,
+      "fluid": "R134a",
+      "temperature_c": -38.0
+    },
+    {
+      "bubble_kpa_a": 132.734979,
+      "dew_kpa_a": 132.734979,
+      "fluid": "R134a",
+      "temperature_c": -20.0
+    },
+    {
+      "bubble_kpa_a": 292.803182,
+      "dew_kpa_a": 292.803182,
+      "fluid": "R134a",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 665.380933,
+      "dew_kpa_a": 665.380933,
+      "fluid": "R134a",
+      "temperature_c": 25.0
+    },
+    {
+      "bubble_kpa_a": 1317.90549,
+      "dew_kpa_a": 1317.90549,
+      "fluid": "R134a",
+      "temperature_c": 50.0
+    },
+    {
+      "bubble_kpa_a": 89.051124,
+      "dew_kpa_a": 89.051124,
+      "fluid": "R290",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 474.457543,
+      "dew_kpa_a": 474.457543,
+      "fluid": "R290",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1369.420385,
+      "dew_kpa_a": 1369.420385,
+      "fluid": "R290",
+      "temperature_c": 40.0
+    },
+    {
+      "bubble_kpa_a": 82.917216,
+      "dew_kpa_a": 82.917216,
+      "fluid": "R22",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 497.987892,
+      "dew_kpa_a": 497.987892,
+      "fluid": "R22",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1533.579712,
+      "dew_kpa_a": 1533.579712,
+      "fluid": "R22",
+      "temperature_c": 40.0
+    },
+    {
+      "bubble_kpa_a": 107.398094,
+      "dew_kpa_a": 103.646908,
+      "fluid": "R404A",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 207.779206,
+      "dew_kpa_a": 202.232184,
+      "fluid": "R404A",
+      "temperature_c": -30.0
+    },
+    {
+      "bubble_kpa_a": 610.191935,
+      "dew_kpa_a": 600.329712,
+      "fluid": "R404A",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1428.328866,
+      "dew_kpa_a": 1414.384322,
+      "fluid": "R404A",
+      "temperature_c": 30.0
+    },
+    {
+      "bubble_kpa_a": 139.12985,
+      "dew_kpa_a": 138.601887,
+      "fluid": "R410A",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 270.296141,
+      "dew_kpa_a": 269.348943,
+      "fluid": "R410A",
+      "temperature_c": -30.0
+    },
+    {
+      "bubble_kpa_a": 800.701959,
+      "dew_kpa_a": 798.053622,
+      "fluid": "R410A",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1889.33614,
+      "dew_kpa_a": 1883.529302,
+      "fluid": "R410A",
+      "temperature_c": 30.0
+    },
+    {
+      "bubble_kpa_a": 110.107709,
+      "dew_kpa_a": 110.103314,
+      "fluid": "R507A",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 212.892936,
+      "dew_kpa_a": 212.842121,
+      "fluid": "R507A",
+      "temperature_c": -30.0
+    },
+    {
+      "bubble_kpa_a": 624.382667,
+      "dew_kpa_a": 623.958114,
+      "fluid": "R507A",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1460.007964,
+      "dew_kpa_a": 1458.734352,
+      "fluid": "R507A",
+      "temperature_c": 30.0
+    },
+    {
+      "bubble_kpa_a": 107.269184,
+      "dew_kpa_a": 77.482607,
+      "fluid": "R448A",
+      "temperature_c": -45.0
+    },
+    {
+      "bubble_kpa_a": 209.324455,
+      "dew_kpa_a": 159.048444,
+      "fluid": "R448A",
+      "temperature_c": -30.0
+    },
+    {
+      "bubble_kpa_a": 623.342753,
+      "dew_kpa_a": 510.627438,
+      "fluid": "R448A",
+      "temperature_c": 0.0
+    },
+    {
+      "bubble_kpa_a": 1469.681045,
+      "dew_kpa_a": 1273.583379,
+      "fluid": "R448A",
+      "temperature_c": 30.0
+    },
+    {
+      "bubble_kpa_a": 2654.93911,
+      "dew_kpa_a": 2402.085277,
+      "fluid": "R448A",
+      "temperature_c": 55.0
+    }
+  ],
+  "census_nh3_anchor_points": [
+    {
+      "fluid": "NH3",
+      "pressure_psia": 30.389365,
+      "pressure_psig_standard_atmosphere": 15.693416,
+      "temperature_f": 0.0
+    },
+    {
+      "fluid": "NH3",
+      "pressure_psia": 48.181121,
+      "pressure_psig_standard_atmosphere": 33.485172,
+      "temperature_f": 20.0
+    },
+    {
+      "fluid": "NH3",
+      "pressure_psia": 195.799743,
+      "pressure_psig_standard_atmosphere": 181.103794,
+      "temperature_f": 95.0
+    }
+  ],
+  "generatedBy": "uvx --from CoolProp==8.0.0 python -I foundations/refrigeration/tools/compute_golden.py --date 2026-10-24",
+  "generated_on": "2026-10-24",
+  "note": "Computed directly by CoolProp, independent of the table generator's code path. Agreement checks consistency with the oracle, not experimental accuracy.",
+  "oracle": "CoolProp 8.0.0 PropsSI (HEOS; blends via predefined .mix)",
+  "schema": "refrigerant-saturation-golden/1",
+  "standard_atmosphere_kpa": 101.325,
+  "version": "1.0.0"
+}

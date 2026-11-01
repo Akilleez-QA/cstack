@@ -1,0 +1,20 @@
+{
+  "assertion": {
+    "left": {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    },
+    "relation": "gt",
+    "right": {
+      "denominator": 1,
+      "numerator": 0,
+      "type": "rational"
+    }
+  },
+  "bounds": {},
+  "coefficient_field": "Q",
+  "constraints": [],
+  "domain": "finite_integer_box",
+  "variables": []
+}

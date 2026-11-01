@@ -1,0 +1,395 @@
+{
+  "$defs": {
+    "binding": {
+      "additionalProperties": false,
+      "properties": {
+        "receipt": {
+          "$ref": "#/$defs/pin"
+        },
+        "task": {
+          "$ref": "#/$defs/pin"
+        }
+      },
+      "required": [
+        "task",
+        "receipt"
+      ],
+      "type": "object"
+    },
+    "pin": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256"
+      ],
+      "type": "object"
+    },
+    "receipt": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "additionalProperties": false,
+          "properties": {
+            "availability": {
+              "enum": [
+                "supplied",
+                "withdrawn"
+              ]
+            },
+            "dependency_receipts": {
+              "items": {
+                "$ref": "#/$defs/binding"
+              },
+              "maxItems": 32,
+              "minItems": 0,
+              "type": "array"
+            },
+            "result": {
+              "additionalProperties": false,
+              "properties": {
+                "exit_code": {
+                  "anyOf": [
+                    {
+                      "maximum": 255,
+                      "minimum": -255,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "outcome": {
+                  "enum": [
+                    "declared_pass",
+                    "declared_fail",
+                    "unknown"
+                  ]
+                },
+                "output_sha256": {
+                  "anyOf": [
+                    {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "outcome",
+                "exit_code",
+                "output_sha256"
+              ],
+              "type": "object"
+            },
+            "task": {
+              "$ref": "#/$defs/pin"
+            }
+          },
+          "required": [
+            "task",
+            "availability",
+            "result",
+            "dependency_receipts"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256",
+        "content"
+      ],
+      "type": "object"
+    },
+    "task": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "additionalProperties": false,
+          "properties": {
+            "closure": {
+              "additionalProperties": false,
+              "properties": {
+                "clock": {
+                  "enum": [
+                    "none",
+                    "unknown"
+                  ]
+                },
+                "declaration": {
+                  "enum": [
+                    "caller_declares_complete",
+                    "unknown"
+                  ]
+                },
+                "external_state": {
+                  "enum": [
+                    "none",
+                    "unknown"
+                  ]
+                },
+                "files": {
+                  "enum": [
+                    "exact_selected_manifest",
+                    "unknown"
+                  ]
+                },
+                "process_state": {
+                  "enum": [
+                    "pinned_environment_and_stdin",
+                    "unknown"
+                  ]
+                },
+                "randomness": {
+                  "enum": [
+                    "none",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "declaration",
+                "files",
+                "process_state",
+                "external_state",
+                "randomness",
+                "clock"
+              ],
+              "type": "object"
+            },
+            "dependencies": {
+              "items": {
+                "$ref": "#/$defs/pin"
+              },
+              "maxItems": 32,
+              "minItems": 0,
+              "type": "array"
+            },
+            "environment": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "maxLength": 1024,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "environment_sha256": {
+                  "anyOf": [
+                    {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "runner_sha256": {
+                  "anyOf": [
+                    {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "runner_sha256",
+                "environment_sha256",
+                "description"
+              ],
+              "type": "object"
+            },
+            "inputs": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "bytes": {
+                    "maximum": 2147483647,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "path": {
+                    "maxLength": 512,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "anyOf": [
+                      {
+                        "pattern": "^[0-9a-f]{64}$",
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "path",
+                  "bytes",
+                  "sha256"
+                ],
+                "type": "object"
+              },
+              "maxItems": 256,
+              "minItems": 0,
+              "type": "array"
+            },
+            "invocation": {
+              "additionalProperties": false,
+              "properties": {
+                "argv": {
+                  "items": {
+                    "maxLength": 1024,
+                    "type": "string"
+                  },
+                  "maxItems": 32,
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "cwd": {
+                  "maxLength": 512,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "stdin_sha256": {
+                  "anyOf": [
+                    {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "argv",
+                "cwd",
+                "stdin_sha256"
+              ],
+              "type": "object"
+            },
+            "role": {
+              "enum": [
+                "historical_component",
+                "archival_full_replay",
+                "current_runtime",
+                "new_adapter"
+              ]
+            }
+          },
+          "required": [
+            "role",
+            "invocation",
+            "inputs",
+            "environment",
+            "closure",
+            "dependencies"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 1000000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "revision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "revision_sha256",
+        "content"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:foundation-math:validation-receipt-plan:1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Structural shape only. The pure planner enforces integrity, exact Python types, references, DAGs, order and aggregate budgets. No external schema resources are loaded.",
+  "properties": {
+    "receipts": {
+      "items": {
+        "$ref": "#/$defs/receipt"
+      },
+      "maxItems": 64,
+      "minItems": 0,
+      "type": "array"
+    },
+    "schema": {
+      "const": "foundation-math-validation-receipt-plan/1"
+    },
+    "selections": {
+      "items": {
+        "$ref": "#/$defs/binding"
+      },
+      "maxItems": 32,
+      "minItems": 0,
+      "type": "array"
+    },
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/task"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "tasks",
+    "receipts",
+    "selections"
+  ],
+  "type": "object"
+}
