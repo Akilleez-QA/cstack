@@ -99,6 +99,16 @@ Copy `foundations/template`, rename it, add tools and their pins, and register i
 
 No business data, no user or site data, and no engineering, safety or compliance determination. The example domains are references to learn from, not certified tools.
 
+### Initial template limits
+
+The original template recorded these limits. The first two are superseded by
+configured Endoforge evidence routing described in [Related projects](#related-projects).
+Agent running and caching remain future work; foundation-engine remains linked only.
+
+- POODO does not run on Endoforge.
+- `EndoforgePort` is reserved and unimplemented.
+- foundation-engine is linked only.
+
 ## Measured
 
 Measured on Python 3.14 on Linux before the initial public release:
