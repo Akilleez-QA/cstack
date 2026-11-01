@@ -32,13 +32,16 @@ The entries below name existing unittest methods inspected at the baseline. They
 | CS-REQ-014 | `tests/test_bootstrap.py` | `LedgerBindingTests.test_distinct_ports_over_same_canonical_path_are_refused_before_construction` | Ledger ownership; inspect `bootstrap.py` for the full stated obligation. |
 | CS-REQ-015 | `tests/test_math_adapter.py` | `MathAdapterTests.test_unknown_or_formal_capability_is_not_dispatched` | Unavailable engine; inspect `extensions/foundation_math.py; adapters/math_stdio.py` for the full stated obligation. |
 | CS-REQ-016 | `tests/test_claim_gate.py` | `Cli.test_unavailable_atom_registry_fails_closed` | Empty and nonempty atom references yield exit status 2, a structured Registry error on stderr and empty stdout. |
-| CS-REQ-020 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_protocol_surface`, `test_append_and_filter_preserve_evidence`, `test_reject_unbound_or_invalid_input` | Typed contract, preservation and binding in a fake; durable append pending. |
-| CS-REQ-021 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_corruption_fails_closed` | Fake rejects tampering; inspect ICD section 5; I/O failure, witness and dispatch gating pending. |
-| CS-REQ-022 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_append_and_filter_preserve_evidence`, `test_reject_unbound_or_invalid_input` | Filters, ordering, detached reads and missing-filter rejection; adapter isolation pending. |
+| CS-REQ-020 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_protocol_surface`, `test_append_and_filter_preserve_evidence`, `test_reject_unbound_or_invalid_input` | Typed contract, preservation and binding in a fake; file adapter evidence is mapped under CS-REQ-024. |
+| CS-REQ-021 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_corruption_fails_closed` | Fake rejects tampering; inspect ICD section 5; file I/O evidence is mapped under CS-REQ-025; independent witnessing and dispatch gating pending. |
+| CS-REQ-022 | `tests/test_endoforge_port.py` | `EndoforgePortTests.test_append_and_filter_preserve_evidence`, `test_reject_unbound_or_invalid_input` | Filters, ordering, detached reads and missing-filter rejection; file adapter retrieval evidence is mapped under CS-REQ-026. |
 | CS-REQ-023 | `docs/icd/icd-endoforge.md`, `poodo_core/ports.py`, `cli.py` | Inspection | POODO policy / Endoforge storage allocation; CLI still reports unimplemented; no integration claim. |
 
 | CS-REQ-017 | `tests/test_cli_approver.py` | `CliApproverTests.test_approve_dispatches_through_core`, `test_deny_and_missing_approver_never_dispatch`, `test_missing_or_mismatched_file_answer_denies` | Exact approval dispatch and fail-closed refusal; core binding cases also covered in `tests/test_approval_policy.py`. |
 | CS-REQ-018 | `tests/test_cli_approver.py` | `CliApproverTests.test_consumption_survives_new_adapter`, `test_terminal_answer_and_unavailable_terminal` | Single-use durable consumption, explicit terminal answer and missing terminal. Inspect expiry, grant restriction and host-only configuration. |
+| CS-REQ-024 | `tests/test_endoforge_ledger.py` | `EndoforgeLedgerTests.test_protocol_and_reopen`, `test_unmatched_and_invalid_inputs_do_not_append`, `test_concurrent_writer_refused` | Durable reopen, envelope hashes, binding and process/hard-link exclusion; deployment qualification pending. |
+| CS-REQ-025 | `tests/test_endoforge_ledger.py` | `EndoforgeLedgerTests.test_corruption_fails_closed`, `test_io_errors_and_uncertain_acknowledgement` | Whole-chain rejection, short writes, write/fsync/read errors and uncertain acknowledgement; external witnessing and dispatch gating pending. |
+| CS-REQ-026 | `tests/test_endoforge_ledger.py` | `EndoforgeLedgerTests.test_append_and_filter_preserve_evidence`, `test_unmatched_and_invalid_inputs_do_not_append` | Reused port conformance: filters, ordering, detached reads and missing-filter rejection. |
 
 ## Additional assertions and gaps
 

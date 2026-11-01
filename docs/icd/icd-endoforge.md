@@ -1,18 +1,19 @@
 # Cstack–Endoforge interface control document
 
 Status: contract baseline 0.1; approval is through repository review. The Python
-protocol is specified; the adapter and runtime seam remain **unimplemented**.
+protocol and local file adapter are implemented; the runtime seam remains **unimplemented**.
 This document follows the repository's NASA-style interface-control structure;
 it does not assert NASA compliance, qualification or independent verification.
 
 ## 1. Purpose, scope and references
 
-This ICD controls witnessed evidence storage between POODO and a future
+This ICD controls witnessed evidence storage between POODO and an
 Endoforge adapter. It specifies synchronous, in-process Python calls, not a wire
 transport, agent runner, caching service or synthesis lifecycle.
 
 Controlled sources: `poodo_core/ports.py`, `poodo_core/models.py` and
-`tests/test_endoforge_port.py`. Related baselines are the
+`tests/test_endoforge_port.py`, `adapters/endoforge_ledger.py` and
+`tests/test_endoforge_ledger.py`. Related baselines are the
 [requirements](../requirements/requirements.md),
 [design](../architecture/architecture.md),
 [verification matrix](../verification/verification-matrix.md) and
@@ -55,7 +56,7 @@ with its original certainty and evidence ceiling.
 At least one read filter is required. Each supplied id is an exact match; two
 filters mean intersection. Unknown ids return an empty tuple. Reads verify the
 whole chain before filtering and return a consistent snapshot, never partial
-results. Host calls must be serialized; the future adapter must provide atomic
+results. Host calls must be serialized; the adapter must provide atomic
 append and exclusive writer ownership across processes.
 
 ## 4. Data formats and identity
@@ -88,6 +89,23 @@ and linkage, not signature authentication or proof of external execution.
 Physical storage and external witnessing mechanisms remain adapter decisions;
 a hash chain alone cannot detect deletion of an otherwise valid final suffix.
 
+### Local file adapter
+
+`EndoforgeLedger(path)` binds a trusted host-selected path in an existing directory.
+It holds a nonblocking exclusive `flock` on the file until `close()` or context
+manager exit; competing opens, including hard-link aliases, raise `OSError`.
+The host serializes calls and must not replace, unlink or externally modify the
+file while open. Deployment requires a local POSIX filesystem supporting flock,
+atomic append positioning and fsync. Each canonical ASCII JSON record occupies
+one newline-terminated line, submitted in one `O_APPEND` write. The file and its
+parent directory are synced at open, and each append is synced before its hash
+is returned. Local fsync acknowledgement is this adapter's durable witness;
+there is no independent external witness or suffix-rollback protection.
+Short writes and torn tails fail closed without truncation, repair or retry.
+Power-loss qualification and recovery procedures remain deployment work.
+The pinned vendor slice has no storage ledger or append-receipt primitive;
+its qualification receipt concerns artifact evaluation, not storage acknowledgement.
+
 ## 5. Errors and fail-closed behavior
 
 Malformed inputs, missing read filters and unmatched outcomes raise
@@ -107,15 +125,16 @@ witness acknowledgement.
 
 ## 6. Verification, configuration and open work
 
-CS-REQ-020 through CS-REQ-023 allocate this contract. The in-memory fake exercises
+CS-REQ-020 through CS-REQ-023 allocate the port contract; CS-REQ-024 through
+CS-REQ-026 allocate the local file adapter. The in-memory fake exercises
 method signatures, payload preservation, correlation, filters and tamper
-rejection. It supplies no persistence, external witness, concurrency or crash
-recovery evidence. Runtime Protocol checks only detect member presence.
+rejection. Adapter tests reuse conformance assertions and exercise reopen,
+cross-process exclusion, corruption, short writes and acknowledgement failures.
+Runtime Protocol checks only detect member presence.
 
 Change signatures, envelope version, requirements and matrix together through
 repository review. Incompatible payload/hash changes require a new schema
 version and migration rules; silently reinterpreting stored records is forbidden.
-Adapter implementation, durable-witness qualification, storage failures,
-concurrent access, recovery and POODO dispatch gating remain open acceptance
-work for a later PR. The seam must remain reported as unimplemented until that
-work supplies evidence.
+Independent witnessing, deployment durability qualification, recovery and POODO
+dispatch gating remain open acceptance work. The runtime seam must remain
+reported as unimplemented until integration supplies evidence.
