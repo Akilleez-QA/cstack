@@ -11,7 +11,7 @@ ENGINE_TOOL_NAMES = ("validate_render_mask", "validate_scene_output")
 ENGINE_CAPABILITY = CapabilityDescriptor(ENGINE_DOMAIN_ID, "foundation-engine-v020", ENGINE_TOOL_NAMES,
                                          lane="ToolFace")
 ENGINE_DOMAIN = DomainDescriptor(ENGINE_DOMAIN_ID, "0.2.0", (ENGINE_CAPABILITY,),
-    "Bounded JSON integers and strings only; no floating, exponent or nonfinite numbers, so exposure is an integer.")
+    "Bounded JSON integers, strings and finite decimal literals; no exponent or nonfinite input numbers.")
 
 INTERPRETATION_LIMITS = (
     "A validated value is the pinned engine's reading of the supplied input; no scene, renderer or game is assessed.",
