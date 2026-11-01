@@ -69,18 +69,18 @@ Copied from `contracts/SOURCE-PINS.json`. That file is the source of truth.
 
 | Foundation | Path | Files | Manifest SHA-256 | Inventory SHA-256 |
 |---|---|---|---|---|
-| `foundation_refrigeration` | `foundations/refrigeration` | 62 | `9e06bdff615aa14c72593ec91a3bac723260aa47e9c1fa8856ce77da95500990` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
-| `foundation_film` | `foundations/film` | 41 | `17d99d48ff3853ef12018f4ee294731dcf23fbcbe3b6a35d1079b1520a92b177` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
-| `foundation_robotics` | `foundations/robotics` | 44 | `7f7c4b76c986f0bba09362c3a65974cce0cc4dbb53cc2f4505dcab43f3b2f903` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
-| `foundation_template` | `foundations/template` | 34 | `11fadb42e49d0366daebad982a5334b763b0f0f050ff8ca911bdb25f5db92a93` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
+| `foundation_refrigeration` | `foundations/refrigeration` | 63 | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
+| `foundation_film` | `foundations/film` | 42 | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
+| `foundation_robotics` | `foundations/robotics` | 45 | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
+| `foundation_template` | `foundations/template` | 35 | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
 
 ### Upstream source commits
 
-The vendored snapshots exclude `.git/` and `.github/workflows/`; manifests are rebuilt locally with each Foundation's `tools/build_manifest.py`.
+The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and every listed file, including `.github/workflows/ci.yml`, are copied byte-for-byte from the public main commits below. The 2026-11-01 refresh adds the upstream CI workflows running on `ubuntu-latest`; runtime code, tool inventories and interface semantics are unchanged.
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_template` | `96671fa6c8249727727cbdb8451c297c401493a8` |
-| `foundation_film` | `97254034333f4d8db02a6d3ac1d3494181796155` |
-| `foundation_robotics` | `86f228073b2c6817c553cb24e3357c7690da1f83` |
-| `foundation_refrigeration` | `b83adb0787a23cee6a430ddb5cba76c14115b018` |
+| `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
+| `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
+| `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
+| `foundation_refrigeration` | `3fe90a939f85aeb4e4aa6913b0993374e115f176` |
