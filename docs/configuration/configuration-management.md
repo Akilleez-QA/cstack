@@ -27,6 +27,7 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 | `foundations/template/SOURCE-MANIFEST.json` | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` |
 | `foundations/refrigeration/SOURCE-MANIFEST.json` | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` |
 | `foundations/robotics/SOURCE-MANIFEST.json` | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` |
+| `vendor/endoforge/SOURCE-MANIFEST.json` | `1cbda3d9357b44e926666287ba95dc9b5f6035148d5f3be868d8a2d361d26b10` |
 | `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
 
 ## Upstream sources
@@ -43,6 +44,18 @@ These public main heads were copied on 2026-11-01. Each source manifest and ever
 | `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
 | `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
 | `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
+
+### Endoforge lifecycle source
+
+The lifecycle-only selection was refreshed from Endoforge main on 2026-11-01 at
+`4ede82329c64f3f72026dea57ac66095324ec1c4`. Control its three selected paths,
+upstream and exported hashes, and `contracts/SOURCE-PINS.json` together as described
+in [the source-pin ICD](../icd/icd-endoforge-pin.md). Python comment tokens are
+removed mechanically during export. The restructured engine and retired domain
+trees are outside this selection. No runtime interface or requirement changes.
+Rollback restores the previous vendor slice and pin records from Git together.
+The export listing refresh covers only the repin files; historical entries and
+coverage gaps are retained, so it is not a complete inventory of this candidate.
 
 ## POODO skill snapshot
 

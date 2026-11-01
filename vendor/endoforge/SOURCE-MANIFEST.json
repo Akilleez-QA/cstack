@@ -1,16 +1,16 @@
 {
  "schema": "endoforge-source-manifest/1",
  "repository": "https://github.com/Akilleez-QA/endoforge",
- "commit": "cebd463ea9828dfd9bbf09181a631ee604eac8cf",
+ "commit": "4ede82329c64f3f72026dea57ac66095324ec1c4",
  "strip_python_comments": true,
  "upstream_files": {
   "core/__init__.py": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
   "core/lifecycle.py": "f44a569b571d28f987cd5863a84197fbb6fde3660dbf1f96d9ffccd92f3c634b",
-  "tests/test_endoforge_core_boundary.py": "f28afbd030fe8b8551840844aad9f7cf0ff670bb434bd8bc94c583622ea18bf8"
+  "tests/test_endoforge_core_boundary.py": "c3cf526f13e0723754ae7bd4f8be1c9bc8394176c011623ea65ec5a76c3df822"
  },
  "files": {
   "core/__init__.py": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
   "core/lifecycle.py": "42e3c4b3ffa19ddc0c6ce5a583245fb175d9ceac82380dc12e52cc534fd0b330",
-  "tests/test_endoforge_core_boundary.py": "aa435a0415d3a22d725a15cad572b87bca0a7011542efc824209f9c1936cb716"
+  "tests/test_endoforge_core_boundary.py": "c3cf526f13e0723754ae7bd4f8be1c9bc8394176c011623ea65ec5a76c3df822"
  }
 }

@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CORE = ROOT / "core"
 STDLIB_ALLOWLIST = frozenset({"__future__", "dataclasses", "enum", "hashlib", "json", "re", "typing"})
 TEST_ONLY = frozenset({"unittest"})
+LEDGER_STDLIB = frozenset({"argparse", "contextlib", "pathlib", "sqlite3"})
+LEDGER_TEST_ONLY = frozenset({"concurrent", "copy", "subprocess", "sys", "tempfile"})
 
 
 def imports(path):
@@ -32,6 +34,12 @@ class EndoforgeCoreBoundaryTests(unittest.TestCase):
         self.assertTrue(any(f.name == "lifecycle.py" for f in files))
         for path in files:
             allowed = STDLIB_ALLOWLIST | (TEST_ONLY if path.name.startswith("test_") else frozenset())
+            if path.is_relative_to(CORE / "ledger"):
+                allowed |= LEDGER_STDLIB
+                if path.name.startswith("test_"):
+                    allowed |= LEDGER_TEST_ONLY
+            if path == CORE / "engine" / "frozen.py":
+                allowed |= {"core", "pathlib", "sys"}
             found, escapes = imports(path)
             with self.subTest(path=str(path.relative_to(ROOT))):
                 self.assertEqual(found - allowed, set())
