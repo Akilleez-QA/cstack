@@ -29,6 +29,9 @@ The entries below name existing unittest methods inspected at the baseline. They
 | CS-REQ-015 | `tests/test_math_adapter.py` | `MathAdapterTests.test_unknown_or_formal_capability_is_not_dispatched` | Unavailable engine; inspect `extensions/foundation_math.py; adapters/math_stdio.py` for the full stated obligation. |
 | CS-REQ-016 | `tests/test_claim_gate.py` | `Cli.test_unavailable_atom_registry_fails_closed` | Empty and nonempty atom references yield exit status 2, a structured Registry error on stderr and empty stdout. |
 
+| CS-REQ-017 | `tests/test_cli_approver.py` | `CliApproverTests.test_approve_dispatches_through_core`, `test_deny_and_missing_approver_never_dispatch`, `test_missing_or_mismatched_file_answer_denies` | Exact approval dispatch and fail-closed refusal; core binding cases also covered in `tests/test_approval_policy.py`. |
+| CS-REQ-018 | `tests/test_cli_approver.py` | `CliApproverTests.test_consumption_survives_new_adapter`, `test_terminal_answer_and_unavailable_terminal` | Single-use durable consumption, explicit terminal answer and missing terminal. Inspect expiry, grant restriction and host-only configuration. |
+
 ## Additional assertions and gaps
 
 - CS-REQ-002: `tests/test_inventory_crosscheck.py`, `InventoryCrossCheckTests.test_adapter_missing_from_inventory_refuses_to_start` and `test_unmapped_capability_refuses_to_start` cover the other rejection cases.

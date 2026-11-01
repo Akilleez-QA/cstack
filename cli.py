@@ -1,7 +1,10 @@
 """Versioned local single-run driver, NOT MCP and NOT a public network server."""
+import argparse
 import json
 import sys
+import time
 
+from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
 from bootstrap import DOMAINS, build_domain
 from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
@@ -11,7 +14,7 @@ CLI_SCHEMA = "cstack.run/0.1"
 MAX_OUTPUT = 33 * 1024 * 1024
 
 
-def run_document(document):
+def run_document(document, approver=None):
     exact_fields(document, {"schema", "goal", "checkpoints", "calls"})
     if document["schema"] != CLI_SCHEMA:
         raise ContractError("Unsupported local driver version")
@@ -19,8 +22,21 @@ def run_document(document):
     calls, checkpoints = document["calls"], document["checkpoints"]
     if type(calls) is not list or not 1 <= len(calls) <= 64 or type(checkpoints) is not list or len(checkpoints) != 4:
         raise ContractError("Driver requires 1..64 calls and four preauthored phase checkpoints")
-    # The host's registered read-only profiles are fixed; JSON names a domain, never a grant or path.
-    core, _ = build_domain(goal.domain_id, goal.goal_id)
+    ask_operations = []
+    for call in calls:
+        if type(call) is not dict:
+            raise ContractError("Call must be an object")
+        exact_fields(call, {"request", "precommitment", "effect"} if "effect" in call else {"request", "precommitment"})
+        if call.get("effect", "allow") not in ("allow", "ask"):
+            raise ContractError("Call effect must be allow or ask")
+        if call.get("effect") == "ask":
+            ask_operations.append(CapabilityRequest.from_dict(call["request"]).operation)
+    if ask_operations:
+        approver = approver or TerminalApprover()
+        core, _ = build_domain(goal.domain_id, goal.goal_id, ask_operations=tuple(ask_operations),
+                               approvals=approver, approver=APPROVER, clock=lambda: int(time.time()))
+    else:
+        core, _ = build_domain(goal.domain_id, goal.goal_id)
     core.start_goal(goal)
     parsed = []
     for data in checkpoints:
@@ -33,7 +49,6 @@ def run_document(document):
         core.advance(goal.goal_id, phase, checkpoint)
     decisions = []
     for call in calls:
-        exact_fields(call, {"request", "precommitment"})
         precommit = exact_fields(call["precommitment"], {"expected_observation", "success_boundary", "failure_meaning",
                                                         "oracle_id", "oracle_version"})
         request = CapabilityRequest.from_dict(call["request"])
@@ -43,9 +58,12 @@ def run_document(document):
     stopped = None
     for index, decision in enumerate(decisions):
         try:
+            if ask_operations:
+                request = CapabilityRequest.from_dict(calls[index]["request"])
+                if request.operation in ask_operations:
+                    approver.prepare(request)
             core.execute(decision)
         except ContractError:
-            # A later pre-dispatch gate must not hide earlier completed calls.
             acted = any(e["kind"] == "action" and e["data"].get("decision_id") == decision for e in core.ledger())
             stopped = {"decision_id": decision, "execution_certainty": "unknown" if acted else "not_dispatched",
                        "reason": "core_contract_or_retention_gate", "later_not_dispatched": decisions[index+1:]}
@@ -80,24 +98,24 @@ def _decode_for_domain(raw):
 
 
 def main():
-    if len(sys.argv) != 1:
-        sys.stderr.write("No command-line options, paths or executable selections are accepted. Supply structured JSON on stdin.\n")
-        return 2
+    parser = argparse.ArgumentParser(description="Supply structured JSON on stdin.")
+    parser.add_argument("--approver", nargs="?", const="terminal", default="deny", metavar="deny|file:PATH")
+    args = parser.parse_args()
     try:
         raw = sys.stdin.buffer.read(65_537)
         if len(raw) > 65_536:
             raise ContractError("Local driver input exceeds 65,536 bytes")
-        result = run_document(_decode_for_domain(raw))
+        result = run_document(_decode_for_domain(raw), TerminalApprover(args.approver))
         output = encode(result)
         if len(output) > MAX_OUTPUT:
             raise ContractError("Complete driver output exceeds budget; output withheld")
         sys.stdout.buffer.write(output + b"\n")
         return 0
-    except (ContractError, WireFailure, ValueError, TypeError, KeyError):
+    except BrokenPipeError:
+        return 2
+    except (ContractError, WireFailure, ValueError, TypeError, KeyError, OSError):
         sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": "invalid_or_unsupported_request",
             "formal_proof": False, "runtime_goal_acceptance": False}) + "\n")
-        return 2
-    except BrokenPipeError:
         return 2
 
 

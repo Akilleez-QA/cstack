@@ -145,6 +145,18 @@
    "notes": "LocalBridgeExecutor owns deadline, cancellation and output bounds for the fixed Foundation bridge modules. Adapter tests inject FakeExecutor through the module-local BridgeExecutor protocol."
   },
   {
+   "adapter_id": "terminal-approver",
+   "lane": "TruthFace",
+   "port": "ApprovalPort",
+   "vendor": "cstack (in-repo), controlling terminal or host answer file",
+   "kind": "python_module",
+   "path": "adapters/terminal_approver.py",
+   "fake": "fake.approver.memory",
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "Standalone CLI request-bound approval with durable exclusive consumption markers."
+  },
+  {
    "adapter_id": "approval-store",
    "lane": "TruthFace",
    "port": "ApprovalPort",

@@ -1,0 +1,17 @@
+{
+  "schema": "cstack.run/0.1",
+  "goal": {"goal_id": "synthetic-template", "revision": 1, "domain_id": "foundation_template", "objective": "Observe the placeholder Foundation Template tool through Cstack.", "assumptions": ["Synthetic supplied text only."], "exclusions": ["No domain determination, control action or goal acceptance."], "acceptance_version": "synthetic-v1", "acceptance_criteria": ["Each echo is a scoped observation with a receipt and Evidence."]},
+  "checkpoints": [
+    {"checkpoint_id": "checkpoint-1", "rationale": "Transparent preauthored fixture for the template domain; not autonomous reasoning.", "research_references": [], "option_ids": []},
+    {"checkpoint_id": "checkpoint-2", "rationale": "Transparent preauthored fixture for the template domain; not autonomous reasoning.", "research_references": ["foundations/template/README.md"], "option_ids": []},
+    {"checkpoint_id": "checkpoint-3", "rationale": "Transparent preauthored fixture for the template domain; not autonomous reasoning.", "research_references": [], "option_ids": ["bridge-harness", "direct-import", "current-mcp", "legacy-mcp", "projection-only", "echo-placeholder", "no-tool", "fake-domain", "integer-profile", "decimal-profile", "string-only", "pinned-manifest", "unpinned", "receipt-digest", "no-receipt", "evidence-always", "evidence-optional", "observation-only", "control-tool", "stop-boundary"]},
+    {"checkpoint_id": "checkpoint-4", "rationale": "Transparent preauthored fixture for the template domain; not autonomous reasoning.", "research_references": [], "option_ids": []}
+  ],
+  "calls": [
+    {
+      "effect": "ask",
+      "request": {"schema": "poodo.capability-request/0.1", "request_id": "request-1", "goal_id": "synthetic-template", "goal_revision": 1, "decision_id": "decision-1", "capability_id": "foundation_template", "operation": "echo_observation", "arguments": {"observation": "fixture reading 7"}, "required_evidence": "tool_observation"},
+      "precommitment": {"expected_observation": "The template echoes 'fixture reading 7' with Evidence, CHECK", "success_boundary": "Only the supplied synthetic input; no determination or goal closure.", "failure_meaning": "Integration behavior does not match the pinned Template contract.", "oracle_id": "template-v01-fixture", "oracle_version": "1"}
+    }
+  ]
+}

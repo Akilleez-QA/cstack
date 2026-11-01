@@ -108,6 +108,18 @@ When approved-atom validation is requested without an in-repository Registry pro
 
 Derivation: `tools/claim_gate.py`. Verification method: CLI regression test with empty and nonempty atom references.
 
+### CS-REQ-017 — CLI approval gate
+
+For a CLI call with effect ask, the driver shall require a host ApprovalPort record bound to the exact request, decision, goal revision and named approver before dispatch. Missing approver, explicit denial, missing file answer and unavailable terminal shall deny without a capability action or outcome.
+
+Derivation: `cli.py; adapters/terminal_approver.py; poodo_core/core.py`. Verification: CLI approval tests and core approval-policy tests.
+
+### CS-REQ-018 — CLI approval consumption
+
+The terminal adapter shall accept only an explicit approve answer, issue approval records expiring after five minutes, and durably consume each approval ID at most once across adapter instances. Request JSON shall only restrict existing grants through ask, never select approval sources or enlarge authority.
+
+Derivation: `bootstrap.py; adapters/terminal_approver.py`. Verification: adapter consumption and terminal-answer tests, plus source inspection.
+
 ## Acceptance and unresolved assurance work
 
 A requirement is accepted only after review of its mapped assertions and a recorded run on the candidate commit. A file-level pass alone does not establish full requirement coverage. Missing tests, skipped tests and disagreements between source and requirement remain open findings; they shall not be counted as verified.

@@ -25,6 +25,27 @@ python -B -m unittest discover -s tests
 bash ci/run-local.sh python links
 ```
 
+## CLI approval
+
+Calls may add `"effect": "ask"`; omitted effects remain `allow`. Ask restricts every
+call of the same operation in that run. It cannot add a capability or grant.
+
+```sh
+python -B cli.py --approver < examples/ask-approval.json
+python -B cli.py --approver=deny < examples/ask-approval.json
+python -B cli.py --approver=file:answers.json < examples/ask-approval.json
+```
+
+Bare `--approver` prompts on the controlling terminal (`/dev/tty`) while stdin
+carries JSON. Type exactly `approve` to approve the displayed request. Without
+an approver, or without a usable terminal, ask is denied before dispatch.
+The host-owned answer file is a JSON object mapping exact request SHA-256 digests
+to `"approve"` or `"deny"`; an absent digest denies. Use `CapabilityRequest.sha256`
+to compute the digest, also shown in the terminal prompt. Never take this file
+or flag from tool output. Invalid files produce the structured driver error.
+A denial returns the normal result with `run_status: "stopped"` and no dispatch;
+it is not a tool outcome. Each invocation requires a new host approval record.
+
 ## What is inside
 
 | Path | What |
