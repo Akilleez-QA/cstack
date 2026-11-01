@@ -35,6 +35,8 @@ Foundation Engine is linked as a sibling. The Math distribution is pinned indepe
 
 ## Controlled items and responsibilities
 
+Approved-atoms CLI validation is unavailable because no Registry provider is included. Any future enablement must control the provider source and dependency identity, update the claim-gate interface and CS-REQ-016 verification, and demonstrate atom validation before removing the explicit rejection. A sibling checkout or installed package does not enable this path.
+
 The change author identifies affected sources, schemas, inventory, pins, documentation and tests. The reviewer checks consistency and evidence; repository review establishes acceptance. This document assigns workflow roles, not a named organizational approval board. Keep requirements identifiers stable and record reasons for changed obligations.
 
 Control the Foundation source directories, their source manifests, per-domain adapters, extension descriptors, `bootstrap.py`, `contracts/ADAPTERS.json`, bridge tool schemas, fixtures and tests together. Runtime source identity checks cover manifest-listed files, not arbitrary extra files elsewhere in a checkout.

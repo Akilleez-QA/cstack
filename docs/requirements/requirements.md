@@ -102,6 +102,12 @@ The Math adapter shall refuse a foundation_engine capability request without dis
 
 Derivation: `extensions/foundation_math.py; adapters/math_stdio.py`. Verification method: automated test plus source inspection of the stated condition.
 
+### CS-REQ-016 — Unavailable approved-atoms registry
+
+When approved-atom validation is requested without an in-repository Registry provider, the claim-gate CLI shall fail closed with exit status 2, a JSON error on stderr identifying the unavailable Registry, and no success output.
+
+Derivation: `tools/claim_gate.py`. Verification method: CLI regression test with empty and nonempty atom references.
+
 ## Acceptance and unresolved assurance work
 
 A requirement is accepted only after review of its mapped assertions and a recorded run on the candidate commit. A file-level pass alone does not establish full requirement coverage. Missing tests, skipped tests and disagreements between source and requirement remain open findings; they shall not be counted as verified.
