@@ -4,6 +4,7 @@
     ".github/ISSUE_TEMPLATE/bug.md": "30373862be50eeba5d7b7d94be80b50244b00f6881a23bf676f451ed47836945",
     ".github/assets/social-preview.png": "e50380cc5f346ccd7fcd1bd177b1542c2ef54c0cea6fb316495ae27031cc9f74",
     ".github/pull_request_template.md": "6aa4d61712fd297fd703484793c2933fa85ddaaf43ab8cd07e5709db9454c406",
+    ".github/workflows/ci.yml": "3bc000f24a869b68cda75789d954bff315a29e892c13df3e3d01b80451c74202",
     ".gitignore": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
     ".gitleaks.toml": "27630a96d6c55755cc37620f3933d5cab94b1eb78a726a32e11212972525d76e",
     "CHANGELOG.md": "a4551fc855c4830a7e13f17f1221873d0e6999914ae02554fa2231ba25d9c0ca",

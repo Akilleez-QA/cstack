@@ -1,16 +1,11 @@
-"""Semantic Robotics capability mapped 1:1 to the pinned foundation-robotics-jsonrpc/1 bridge. NOT MCP.
-
-One BridgeProfile over the shared pinned-bridge machinery (adapters/foundation_stdio.py). The numeric profile reuses
-adapters/wire.py: bounded integers, no floats; every quantity is scaled to integer milli-SI units by the caller.
-"""
 from pathlib import Path
 
 from extensions.foundation_robotics import ROBOTICS_CAPABILITY
-from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure  # noqa: F401
+from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure
 from .wire import decode
 
-SOURCE_SHA256 = "7f7c4b76c986f0bba09362c3a65974cce0cc4dbb53cc2f4505dcab43f3b2f903"
-SOURCE_FILE_COUNT = 44
+SOURCE_SHA256 = "4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6"
+SOURCE_FILE_COUNT = 45
 INVENTORY_SHA256 = "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599"
 BRIDGE_PROTOCOL = "foundation-robotics-jsonrpc/1"
 BRIDGE_MODULE = "foundation_robotics_bridge"

@@ -1,22 +1,15 @@
-"""Semantic Refrigeration capability mapped 1:1 to the pinned foundation-refrigeration-jsonrpc/1 bridge.
-
-NOT MCP. No models, network, credentials, shell, caller paths, or source execution. The numeric
-profile is the Refrigeration Foundation's own (finite decimals with explicit units); it is not
-Foundation Math's integer-only profile, and adapters/wire.py is left unchanged for Math.
-The pinned-bridge machinery is shared (adapters/foundation_stdio.py); this module owns the profile.
-"""
 from __future__ import annotations
 import json
 from pathlib import Path
 import re
 
 from extensions.foundation_refrigeration import REFRIGERATION_CAPABILITY
-from .foundation_stdio import (BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure,  # noqa: F401
+from .foundation_stdio import (BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure,
                                arguments_sha256)
 from .wire import WireFailure
 
-SOURCE_SHA256 = "9e06bdff615aa14c72593ec91a3bac723260aa47e9c1fa8856ce77da95500990"
-SOURCE_FILE_COUNT = 62
+SOURCE_SHA256 = "a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e"
+SOURCE_FILE_COUNT = 63
 INVENTORY_SHA256 = "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b"
 BRIDGE_PROTOCOL = "foundation-refrigeration-jsonrpc/1"
 BRIDGE_MODULE = "foundation_refrigeration_bridge"
@@ -67,7 +60,6 @@ def _response_integer(token):
 
 
 def decode(raw: bytes, *, response=False):
-    """Strict Refrigeration JSON profile: duplicate keys, nonfinite numbers and over-budget frames fail closed."""
     byte_cap, depth_cap, node_cap, string_cap = ((1_048_576, 64, 250_000, 65_536) if response
                                                else (65_536, 32, 4096, 1024))
     if type(raw) is not bytes or len(raw) > byte_cap:
