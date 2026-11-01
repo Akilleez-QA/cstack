@@ -14,12 +14,14 @@ The target design makes Endoforge the core engine for running coding agents with
 
 ```mermaid
 flowchart TB
-    E[Endoforge: core engine] -. "EndoforgePort: reserved, unwired" .-> P[POODO: control and reasoning]
+    E[Endoforge: core engine] -. "EndoforgePort: specified, unwired" .-> P[POODO: control and reasoning]
     P --> A[Domain extensions and adapters]
     A --> F[Foundations]
 ```
 
-The dashed edge is intended, not implemented. `poodo_core/ports.py` reserves `EndoforgePort` without a callable synthesis method; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the source inclusion.
+The dashed edge is intended, not implemented. `poodo_core/ports.py` specifies `EndoforgePort` operations for precommit/outcome append, chain verification and goal/session retrieval; the storage adapter and runtime wiring remain unimplemented; `cli.py` reports `endoforge_implemented: False`. Cstack does not invoke Endoforge today, and POODO does not run on it. Existing Foundation calls follow the control flow below. The [Endoforge ICD](../icd/icd-endoforge.md) records the evidence and the limits of the source inclusion.
+
+POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The specified port reuses core records and returns immutable evidence documents. It is separate from the existing `LedgerPort`; no bootstrap or execution path is changed. The in-memory conformance fake does not establish durability or integration.
 
 ## Decomposition and allocation
 
