@@ -101,13 +101,15 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on Python 3.14 on Linux before the initial public release:
+Measured on 2026-11-01 with Python 3.14.8 on Linux at main commit
+`ec416f05fc5a2233899afd3645f64a61ebc3be3d`, with `requirements.txt` and
+`ci/requirements.txt` installed in `.venv`. CI: local only.
 
 | Check | Command | Result |
 |---|---|---|
-| Core test suite | `python -B -m unittest discover -s tests` | 506 tests, OK, 2 skipped |
-| Secret scans | `bash ci/scan-secrets.sh` (gitleaks and TruffleHog) | No findings |
-| Documentation links | `bash ci/run-local.sh python links` | 17 paths checked, 0 broken |
+| Core test suite | `python -B -m unittest discover -s tests` | 530 tests, OK, 2 skipped |
+| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; root 530 tests in normal and `-O` mode (2 skipped each); film 25, refrigeration 18, robotics 49, template 34, math 10 in each mode, all OK; 18 paths checked, 0 broken |
+| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified placeholder URLs, both in pip's vendored code inside the untracked `.venv` |
 
 ## Documentation
 
