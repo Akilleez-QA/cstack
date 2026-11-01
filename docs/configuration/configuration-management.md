@@ -75,3 +75,14 @@ The GitHub workflow runs root unittest discovery and `bash ci/run-local.sh pytho
 ## Licensing
 
 GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.
+
+## CLI approval configuration
+
+Control `cli.py`, `bootstrap.py`, `adapters/terminal_approver.py`, the ask example,
+approval tests and approval interface documentation together. Host-owned answer
+files are local inputs, never repository fixtures containing standing authority.
+Consumed approval markers persist under `$XDG_STATE_HOME/cstack/cli-approvals`
+(default `~/.local/state/cstack/cli-approvals`); each is private and uniquely named.
+Marker storage failure prevents approval dispatch. This path is separate from AOR
+approvals.db and does not add durability to the CLI ledger. Rolling back the code
+retains existing consumption records; do not reuse or remove them as a reset.

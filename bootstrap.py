@@ -130,7 +130,8 @@ def registered(domain_id):
     return DOMAINS[domain_id]
 
 
-def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None):
+def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,
+                 ask_operations=(), approvals=None, approver=None, clock=None):
     """Trusted HOST configuration only. No external JSON controls source_root/grants/inventory.
 
     Every registered Foundation is read-only observation: the grant names only its fixed tools.
@@ -138,10 +139,11 @@ def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_ro
     d = registered(domain_id)
     operations = d.tool_names if operations is None else operations
     grant = AuthorityGrant(d.grant_id, d.domain_id, d.domain_id, tuple(operations), (goal_id,), max_calls,
-                           lane="ToolFace")
+                           lane="ToolFace", ask_operations=ask_operations)
     grants = check_grants((grant,), inventory)
     capability = d.capability(d.source_root if source_root is None else source_root)
-    core = build_core(MemoryLedger(), lambda ledger: d.foundation(capability, grants, ledger))
+    host = dict(approvals=approvals, approver=approver, clock=clock) if ask_operations else {}
+    core = build_core(MemoryLedger(), lambda ledger: d.foundation(capability, grants, ledger, **host))
     return core, capability
 
 

@@ -74,3 +74,13 @@ Review import direction, grant checks, evidence interpretation and process clean
 ## Licensing
 
 GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.
+
+## Standalone CLI approval
+
+The driver translates optional ask effects into restrictions on the fixed host
+grant. Bootstrap supplies the ApprovalPort, named approver and clock to the core.
+TerminalApprover prepares exact request-bound answers; PoodoCore validates and
+consumes them before capability dispatch. Denial stops the run. Atomic exclusive
+marker creation and directory fsync persist consumption across adapter instances;
+records and the run ledger remain in memory. A new invocation creates new approval
+IDs and requires a fresh answer. File answers are trusted host configuration.

@@ -84,3 +84,20 @@ The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and
 | `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
 | `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
 | `foundation_refrigeration` | `3fe90a939f85aeb4e4aa6913b0993374e115f176` |
+
+## Local CLI approval interface
+
+The `cstack.run/0.1` call object accepts optional `effect`, either `allow` (default)
+or `ask`. An ask marks that operation as ask in the host's fixed read-only grant,
+including other calls of that operation. All existing core gates remain active.
+`--approver` selects the controlling-terminal adapter; `--approver=deny` is the
+default; `--approver=file:PATH` reads at most 65,536 bytes of integer-only strict
+JSON mapping request digests to `approve` or `deny`. Unknown modes and invalid
+files fail through the driver error interface. A missing digest denies.
+
+The adapter supplies ApprovalPort lookup and consume, with approver `cli-owner`,
+a fresh UUID approval ID and five-minute expiry. Core validation binds decision,
+request digest, goal and revision. The host flag and file remain outside request
+JSON. Terminal prompts display the full escaped request on `/dev/tty`; only
+`approve` authorizes. Missing terminal, EOF and other answers decline. A decline
+stops the run before dispatch with no action/outcome, preserving earlier history.
