@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "what": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "status": {
+        "type": "string",
+        "minLength": 1
+      },
+      "next_action": {
+        "type": "string",
+        "minLength": 1
+      },
+      "next_action_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "evidence_path": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id",
+      "what",
+      "amount",
+      "status",
+      "next_action",
+      "next_action_date"
+    ],
+    "additionalProperties": false
+  }
+}

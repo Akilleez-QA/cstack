@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "payee": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "due_day": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 31
+      },
+      "due_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "cadence": {
+        "enum": [
+          "monthly",
+          "weekly",
+          "yearly",
+          "once"
+        ]
+      },
+      "pay_from": {
+        "type": "string",
+        "minLength": 1
+      },
+      "autopay": {
+        "enum": [
+          "on",
+          "off",
+          "unknown"
+        ]
+      },
+      "autopay_source": {
+        "type": "string",
+        "minLength": 1
+      },
+      "shutoff_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "late_fee": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "grace_days": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 365
+      },
+      "notes": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id",
+      "payee",
+      "amount",
+      "cadence",
+      "pay_from",
+      "autopay"
+    ],
+    "additionalProperties": false,
+    "oneOf": [
+      {
+        "required": [
+          "due_day"
+        ],
+        "properties": {
+          "cadence": {
+            "enum": [
+              "monthly"
+            ]
+          }
+        }
+      },
+      {
+        "required": [
+          "due_date"
+        ],
+        "not": {
+          "required": [
+            "due_day"
+          ]
+        }
+      }
+    ]
+  }
+}

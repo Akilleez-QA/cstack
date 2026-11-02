@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "source": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "cadence": {
+        "enum": [
+          "weekly",
+          "biweekly",
+          "monthly"
+        ]
+      },
+      "weekday": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 6
+      },
+      "day": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 31
+      },
+      "deposit_to": {
+        "type": "string",
+        "minLength": 1
+      },
+      "lands": {
+        "enum": [
+          "same_day",
+          "prior_evening"
+        ]
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "required": [
+      "id",
+      "source",
+      "amount",
+      "cadence",
+      "deposit_to",
+      "lands"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "cadence": {
+              "enum": [
+                "monthly"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "day"
+          ]
+        },
+        "else": {
+          "required": [
+            "weekday"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "cadence": {
+              "enum": [
+                "biweekly"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "start_date"
+          ]
+        }
+      }
+    ]
+  }
+}

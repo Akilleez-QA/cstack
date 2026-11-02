@@ -4,3 +4,8 @@ node_modules/
 .env
 .venv/
 cstack.config.json
+
+# Finance Department private inputs and reports
+*.local.json
+data/
+out/

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "checking",
+    "name": "Example checking",
+    "kind": "checking",
+    "last4": "0001",
+    "balance": "100.00",
+    "as_of": "2026-02-01",
+    "floor": "50.00",
+    "overdraft_fee": "20.00"
+  },
+  {
+    "id": "wallet",
+    "name": "Example wallet",
+    "kind": "wallet",
+    "last4": "0002",
+    "balance": "0.00",
+    "as_of": "2026-02-01"
+  }
+]

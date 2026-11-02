@@ -1,0 +1,13 @@
+[
+  {
+    "id": "rent",
+    "payee": "Example housing",
+    "amount": "200.00",
+    "due_day": 31,
+    "cadence": "monthly",
+    "pay_from": "checking",
+    "autopay": "on",
+    "autopay_source": "wallet",
+    "shutoff_date": "2026-02-20"
+  }
+]

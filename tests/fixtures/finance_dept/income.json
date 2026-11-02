@@ -1,0 +1,11 @@
+[
+  {
+    "id": "wages",
+    "source": "Example employer",
+    "amount": "100.00",
+    "cadence": "weekly",
+    "weekday": 2,
+    "deposit_to": "checking",
+    "lands": "prior_evening"
+  }
+]
