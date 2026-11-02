@@ -81,7 +81,7 @@ class Phase2Tests(unittest.TestCase):
     def test_guard_retiming_and_fee(self):
         report = build_reports(self.guard_data(), TODAY, 1)['overdraft_guard']
         self.assertEqual(len(report['risk_days']), 2)
-        self.assertEqual(report['total_fee_saved'], D('50'))
+        self.assertEqual(report['total_fee_saved'], D('25'))
         move = report['recommendations'][0]
         self.assertEqual(move['suggested_date'], '2026-02-03')
         self.assertTrue(move['requires_approval'])

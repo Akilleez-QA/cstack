@@ -81,6 +81,12 @@ def overdraft_guard(data, forecast, calendar):
     balances = {key: [day['accounts'][key]['closing'] for day in days] for key in accounts}
     risk_days = [dict(date=d['date'], account=key, closing=d['accounts'][key]['closing'], flags=d['accounts'][key]['flags']) for d in days for key in accounts if d['accounts'][key]['flags']]
     bills = {b['id']: b for b in data['bills']}
+    from .core import build_reports
+    simulation = dict(data, bills=[])
+    for occurrence in calendar['occurrences']:
+        bill = dict(bills[occurrence['bill_id']], cadence='once', due_date=occurrence['date'])
+        bill.pop('due_day', None)
+        simulation['bills'].append(bill)
     recommendations = []
     for occurrence in calendar['occurrences']:
         key = occurrence['pay_from']
@@ -96,15 +102,20 @@ def overdraft_guard(data, forecast, calendar):
         target = next((i for i in range(start + 1, len(days)) if days[i]['accounts'][key]['income'] > 0), None)
         if target is None or date.fromisoformat(days[target]['date']) > deadline:
             continue
-        trial = list(balances[key])
-        for i in range(start, target):
-            trial[i] += occurrence['amount']
+        index = next(i for i, b in enumerate(simulation['bills']) if b['id'] == bill['id'] and b['due_date'] == occurrence['date'])
+        moved = dict(simulation['bills'][index], due_date=days[target]['date'])
+        trial_data = dict(simulation, bills=list(simulation['bills']))
+        trial_data['bills'][index] = moved
+        trial_days = build_reports(trial_data, date.fromisoformat(days[0]['date']), len(days) // 7, _include_guard=False)['cashflow']['days']
+        trial = [d['accounts'][key]['closing'] for d in trial_days]
         threshold = max(floor, ZERO)
         before = sum(b < threshold for b in balances[key])
         after = sum(b < threshold for b in trial)
         if after >= before or trial[target] < threshold:
             continue
-        avoided = sum(b < 0 for b in balances[key]) - sum(b < 0 for b in trial)
-        recommendations.append(dict(bill_id=bill['id'], account=key, original_date=occurrence['date'], suggested_date=days[target]['date'], amount=occurrence['amount'], fee_saved=avoided * accounts[key].get('overdraft_fee', ZERO), requires_approval=True))
-        balances[key] = trial
-    return dict(risk_days=risk_days, recommendations=recommendations, total_fee_saved=sum((r['fee_saved'] for r in recommendations), ZERO), fee_assumption='Estimated fee per negative forecast day; actual bank fee policies may differ.')
+        fee_saved = sum((d['accounts'][key]['fees'] for d in days), ZERO) - sum((d['accounts'][key]['fees'] for d in trial_days), ZERO)
+        recommendations.append(dict(bill_id=bill['id'], account=key, original_date=occurrence['date'], suggested_date=days[target]['date'], amount=occurrence['amount'], fee_saved=fee_saved, requires_approval=True))
+        simulation = trial_data
+        days = trial_days
+        balances = {k: [d['accounts'][k]['closing'] for d in days] for k in accounts}
+    return dict(risk_days=risk_days, recommendations=recommendations, total_fee_saved=sum((r['fee_saved'] for r in recommendations), ZERO), fee_assumption='Estimated fees on overdrawing debits; actual bank fee policies may differ.')

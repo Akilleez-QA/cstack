@@ -8,7 +8,7 @@ from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
-from products.finance_dept.core import build_reports, load_inputs, reject_secrets
+from products.finance_dept.core import build_reports, load_inputs, reject_secrets, markdown
 
 FIXTURES = Path(__file__).parent / 'fixtures' / 'finance_dept'
 
@@ -89,6 +89,38 @@ class FinanceCoreTests(unittest.TestCase):
         self.assertEqual(report['cashflow']['days'][0]['accounts']['checking']['flags'], ['below_floor', 'overdraft'])
         risk = next(r for r in report['cashflow']['risks'] if r['type'] == 'overdraft')
         self.assertEqual(risk['overdraft_fee'], Decimal('20.00'))
+
+    def test_per_debit_fees_and_cashflow_table(self):
+        self.data['income'] = []
+        self.data['accounts'][0].update(balance=Decimal('10'), overdraft_fee=Decimal('20'))
+        self.data['bills'] = [dict(id='one', payee='Synthetic bill', amount=Decimal('5'), cadence='once', due_date='2026-02-01', pay_from='checking', autopay='off')]
+        self.data['transfers'] = [dict(date='2026-02-01', **{'from': 'checking', 'to': 'wallet'}, amount=Decimal('15'), status='planned')]
+        report = self.report(weeks=1)
+        rows = report['cashflow']['days']
+        self.assertEqual(rows[0]['accounts']['checking']['fees'], Decimal('40'))
+        self.assertEqual(rows[0]['accounts']['checking']['closing'], Decimal('-50'))
+        self.assertEqual(rows[1]['accounts']['checking']['fees'], Decimal('0'))
+        self.assertEqual(rows[1]['accounts']['checking']['closing'], Decimal('-50'))
+        self.assertEqual([f['debit_type'] for f in report['cashflow']['fee_lines']], ['transfer', 'bill'])
+        table = markdown('cashflow', report['cashflow'])
+        self.assertIn('| Date | Opening | In | Transfers | Bills | Fees | Closing | Flags |', table)
+        self.assertIn('| 2026-02-01 | 10.00 | 0.00 | -15.00 | 5.00 | 40.00 | -50.00 |', table)
+        self.assertNotIn('```json', table)
+
+    def test_actions_rank_money_and_put_snapshot_notices_last(self):
+        self.data['income'] = []
+        self.data['accounts'][0].update(balance=Decimal('10'), as_of='2026-01-01')
+        base = dict(payee='Synthetic bill', cadence='once', pay_from='checking', autopay='on')
+        self.data['bills'] = [dict(base, id='small', amount=Decimal('5'), due_date='2026-02-01', autopay_source='wallet'), dict(base, id='large', amount=Decimal('300'), due_date='2026-02-02', shutoff_date='2026-02-01')]
+        report = self.report(weeks=1)
+        actions = report['daily']['actions']
+        self.assertEqual(len(actions), 3)
+        self.assertEqual([a['money_at_risk'] for a in actions], sorted([a['money_at_risk'] for a in actions], reverse=True))
+        self.assertTrue(any('shutoff' in a['action'] for a in actions))
+        self.assertTrue(all('snapshot_date' not in a['action'] for a in actions))
+        self.assertEqual(report['daily']['risks'][-1]['type'], 'snapshot_date')
+        self.data['bills'] = []
+        self.assertIn('snapshot_date', self.report(weeks=1)['daily']['actions'][0]['action'])
 
     def test_secret_rejection(self):
         for value in [{'Password': 'example'}, {'nested': [{'cvv': '000'}]}, {'notes': '1234567890123456'}, {'notes': 'example', 'dob': '2000-01-01'}]:

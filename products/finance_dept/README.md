@@ -28,10 +28,14 @@ income lands one calendar day before the nominal payday, including across month
 boundaries. No holiday or banking-day adjustments are assumed.
 
 Floors, negative balances, autopay conflicts, snapshot dates and bills after a
-shutoff date are reported as risks. Overdraft fees are disclosed with negative
-balance flags, not automatically charged. The guard uses grace days as the latest permitted delay; late fees are retained
+shutoff date are reported as risks. Each bill or outgoing transfer that posts to a negative balance incurs the
+configured overdraft fee once. Fee lines and daily fee totals reduce forecast
+closing balances; negative days without a debit incur no new fee. The guard uses grace days as the latest permitted delay; late fees are retained
 metadata because no payment history is available to determine late charges.
-Recommendations require human approval. Collections are validated but tracking
+Daily actions rank overdraft shortfalls including fees, shutoff exposure, and
+payment-path conflicts by money at risk. Snapshot notices appear last and are
+actions only when there are no actionable risks. Cashflow Markdown contains one
+daily table per cash account. Recommendations require human approval. Collections are validated but tracking
 and transaction reconciliation belong to later phases.
 
 Tests use synthetic fixtures copied to temporary directories. Private data and
@@ -59,7 +63,7 @@ proposed bill moves to the next income day in the same account. It skips bills
 with a shutoff date, requires the move to fit within `grace_days` (default zero),
 and only suggests moves reducing risk days with enough balance on the new date.
 Moves are evaluated together to avoid double-counting savings. Fee savings assume
-one configured overdraft fee per avoided negative day; actual bank policies vary.
+configured overdraft fees avoided by retiming debits; actual bank policies vary.
 Balances remain end-of-day projections. All recommendations require approval;
 nothing is rescheduled or paid. `all` includes every Phase 2 output. Subscription
 flags, like forecast risks, produce exit code 3.
