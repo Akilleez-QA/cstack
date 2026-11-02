@@ -42,6 +42,10 @@
    "sha256": "13dea0384082cbe8b3dffbb3d0106725cbed11b93878cc9e7a161b6948ccbbf9",
    "bytes": 153
   },
+  "AGENTS.md": {
+   "sha256": "d9a2785eb696290a3e27f887266514c6d4b626d614e0a23415b78a28b2a454aa",
+   "bytes": 3807
+  },
   "CHANGELOG.md": {
    "sha256": "832a77adcc5b025d501af50c58cdc6d9fd73cff65283678932a918ac1038659b",
    "bytes": 185
