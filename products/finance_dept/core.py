@@ -1,6 +1,8 @@
 """Validation and deterministic, offline projection calculations."""
 import calendar
+import csv
 import json
+import io
 import re
 from datetime import date, timedelta
 from decimal import Decimal, InvalidOperation
@@ -16,6 +18,8 @@ ZERO = Decimal('0.00')
 def reject_secrets(value):
     if isinstance(value, dict):
         for key, child in value.items():
+            if not isinstance(key, str):
+                raise ValueError('Invalid field name')
             if re.search(r'password|token|ssn|dob|cvv', key, re.I):
                 raise ValueError('Forbidden secret field')
             reject_secrets(key)
@@ -29,9 +33,9 @@ def reject_secrets(value):
 
 def load_inputs(directory):
     result = {}
-    for name in ('accounts', 'bills', 'income', 'transfers', 'collections'):
+    for name in ('accounts', 'bills', 'income', 'transfers', 'collections', 'subscriptions'):
         path = Path(directory) / f'{name}.json'
-        if not path.exists() and name in ('transfers', 'collections'):
+        if not path.exists() and name in ('transfers', 'collections', 'subscriptions'):
             result[name] = []
             continue
         # Check raw text too, before parsing can erase numeric digit runs.
@@ -61,13 +65,39 @@ def load_inputs(directory):
                     raise ValueError('Invalid money') from None
         result[name] = data
     accounts = {a['id'] for a in result['accounts']}
-    for name, fields in [('bills', ('pay_from', 'autopay_source')), ('income', ('deposit_to',)), ('transfers', ('from', 'to'))]:
+    for name, fields in [('bills', ('pay_from', 'autopay_source')), ('income', ('deposit_to',)), ('transfers', ('from', 'to')), ('subscriptions', ('account',))]:
         for row in result[name]:
             if any(row[f] not in accounts for f in fields if f in row):
                 raise ValueError('Unknown account reference')
     for row in result['income']:
         if row['cadence'] == 'biweekly' and date.fromisoformat(row['start_date']).weekday() != row['weekday']:
             raise ValueError('Biweekly anchor must match weekday')
+    result['transactions'] = []
+    for path in sorted((Path(directory) / 'transactions').glob('*')):
+        if path.suffix.lower() not in {'.json', '.csv'}:
+            continue
+        raw = path.read_text()
+        if re.search(r'\d{13,19}', raw):
+            raise ValueError('Forbidden long digit run')
+        if path.suffix.lower() == '.json':
+            rows = json.loads(raw, parse_float=Decimal)
+        else:
+            try:
+                rows = list(csv.DictReader(io.StringIO(raw), strict=True))
+            except csv.Error:
+                raise ValueError('Invalid transaction CSV') from None
+        reject_secrets(rows)
+        schema = json.loads((SCHEMAS / 'transactions.schema.json').read_text())
+        if next(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(rows), None):
+            raise ValueError('Invalid transactions input')
+        for row in rows:
+            amount = Decimal(str(row['amount']))
+            if not amount.is_finite() or amount != amount.quantize(Decimal('.01')):
+                raise ValueError('Invalid transaction amount')
+            row['amount'] = amount.quantize(Decimal('.01'))
+            if row['account'] not in accounts:
+                raise ValueError('Unknown transaction account')
+        result['transactions'].extend(rows)
     return result
 
 
@@ -101,7 +131,11 @@ def income_due(row, day):
     return True
 
 
-def build_reports(data, today, weeks=6):
+def build_reports(data, today, weeks=6, extra=ZERO):
+    from .phase2 import debt_plan, subscriptions, overdraft_guard
+    extra = Decimal(str(extra))
+    if not extra.is_finite() or extra < 0 or extra != extra.quantize(Decimal(".01")):
+        raise ValueError("Invalid extra monthly payment")
     if weeks <= 0:
         raise ValueError('weeks must be positive')
     accounts = {a['id']: a for a in data['accounts']}
@@ -164,7 +198,8 @@ def build_reports(data, today, weeks=6):
         action = dict(action=f"Review {risk['type']} for {risk.get('bill_id', risk.get('account', 'account'))}", requires_approval=True)
         if action not in actions and len(actions) < 3:
             actions.append(action)
-    return dict(ledger=ledger, bill_calendar=dict(occurrences=occurrences), cashflow=dict(days=days, risks=risks), daily=dict(date=today.isoformat(), cash=cash, due_next_7_days=[o for o in occurrences if o['date'] < (today+timedelta(days=7)).isoformat()], risks=risks, actions=actions))
+    phase2 = dict(debt_plan=debt_plan(data, today, extra), subscriptions=subscriptions(data, today), overdraft_guard=overdraft_guard(data, dict(days=days), dict(occurrences=occurrences)))
+    return dict(**phase2, ledger=ledger, bill_calendar=dict(occurrences=occurrences), cashflow=dict(days=days, risks=risks), daily=dict(date=today.isoformat(), cash=cash, due_next_7_days=[o for o in occurrences if o['date'] < (today+timedelta(days=7)).isoformat()], risks=risks, actions=actions))
 
 
 def json_text(value):

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "risk_days": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "account": {
+            "type": "string",
+            "minLength": 1
+          },
+          "closing": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "below_floor",
+                "overdraft"
+              ]
+            }
+          }
+        },
+        "required": [
+          "date",
+          "account",
+          "closing",
+          "flags"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bill_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "account": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "suggested_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "amount": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "fee_saved": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "requires_approval": {
+            "const": true
+          }
+        },
+        "required": [
+          "bill_id",
+          "account",
+          "original_date",
+          "suggested_date",
+          "amount",
+          "fee_saved",
+          "requires_approval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "total_fee_saved": {
+      "type": [
+        "string",
+        "number"
+      ],
+      "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+    },
+    "fee_assumption": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "risk_days",
+    "recommendations",
+    "total_fee_saved",
+    "fee_assumption"
+  ],
+  "additionalProperties": false
+}

@@ -10,10 +10,11 @@ from .core import build_reports, json_text, load_inputs, markdown
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('cmd', choices=['validate', 'ledger', 'calendar', 'forecast', 'daily', 'all'])
+    parser.add_argument('cmd', choices=['validate', 'ledger', 'calendar', 'forecast', 'daily', 'debts', 'subs', 'guard', 'all'])
     parser.add_argument('--data-dir', default=os.environ.get('FINANCE_DEPT_DATA', '~/.local/share/finance-dept'))
     parser.add_argument('--today', default=date.today().isoformat())
     parser.add_argument('--weeks', type=int, default=6)
+    parser.add_argument('--extra', '--extra-monthly', default='0.00', help='Extra monthly debt payment')
     args = parser.parse_args(argv)
     try:
         directory = Path(args.data_dir).expanduser().resolve()
@@ -24,10 +25,10 @@ def main(argv=None):
         if today.isoformat() != args.today or args.weeks < 1:
             raise ValueError('Invalid date or weeks')
         data = load_inputs(directory)
-        reports = build_reports(data, today, args.weeks)
+        reports = build_reports(data, today, args.weeks, args.extra)
         if args.cmd == 'validate':
             return 0
-        names = {'ledger': ['ledger'], 'calendar': ['bill_calendar'], 'forecast': ['cashflow'], 'daily': ['daily'], 'all': ['ledger', 'bill_calendar', 'cashflow', 'daily']}[args.cmd]
+        names = {'ledger': ['ledger'], 'calendar': ['bill_calendar'], 'forecast': ['cashflow'], 'daily': ['daily'], 'debts': ['debt_plan'], 'subs': ['subscriptions'], 'guard': ['overdraft_guard'], 'all': ['ledger', 'bill_calendar', 'cashflow', 'daily', 'debt_plan', 'subscriptions', 'overdraft_guard']}[args.cmd]
         out = directory / 'out'
         # Resolve output too so a symlink cannot place private reports in the repo.
         if out.resolve().is_relative_to(repo):
@@ -36,10 +37,10 @@ def main(argv=None):
         for name in names:
             if name != 'daily':
                 (out / f'{name}.json').write_text(json_text(reports[name]))
-            if name != 'ledger':
+            if name in {'bill_calendar', 'cashflow', 'daily', 'debt_plan'}:
                 filename = 'daily_report' if name == 'daily' else name
                 (out / f'{filename}.md').write_text(markdown(filename, reports[name]))
-        return 3 if reports['cashflow']['risks'] else 0
+        return 3 if reports['cashflow']['risks'] or reports['subscriptions']['recommendations'] else 0
     except (ValueError, OSError, ArithmeticError):
         # Never echo input fragments, filesystem paths, or secrets on failure.
         print('Invalid finance input or data directory.', file=sys.stderr)

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "extra_monthly": {
+      "type": [
+        "string",
+        "number"
+      ],
+      "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+    },
+    "avalanche_order": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "debts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "minLength": 1
+          },
+          "balance": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "apr": {
+            "anyOf": [
+              {
+                "type": [
+                  "string",
+                  "number"
+                ],
+                "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "min_payment": {
+            "anyOf": [
+              {
+                "type": [
+                  "string",
+                  "number"
+                ],
+                "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "monthly_interest": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "months_at_minimum": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "months_with_extra": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "missing_terms": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "apr",
+                "min_payment"
+              ]
+            }
+          },
+          "requires_approval": {
+            "const": true
+          }
+        },
+        "required": [
+          "account",
+          "balance",
+          "apr",
+          "min_payment",
+          "monthly_interest",
+          "months_at_minimum",
+          "months_with_extra",
+          "missing_terms",
+          "requires_approval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "total_monthly_interest": {
+      "type": [
+        "string",
+        "number"
+      ],
+      "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+    },
+    "months_at_minimum": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "months_with_extra": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "assumptions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requires_approval": {
+      "const": true
+    }
+  },
+  "required": [
+    "date",
+    "extra_monthly",
+    "avalanche_order",
+    "debts",
+    "total_monthly_interest",
+    "months_at_minimum",
+    "months_with_extra",
+    "assumptions",
+    "requires_approval"
+  ],
+  "additionalProperties": false
+}

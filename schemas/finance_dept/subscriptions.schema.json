@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "payee": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "cadence": {
+        "enum": [
+          "weekly",
+          "biweekly",
+          "monthly",
+          "quarterly",
+          "yearly",
+          "once"
+        ]
+      },
+      "next_renewal": {
+        "type": "string",
+        "format": "date"
+      },
+      "last_used": {
+        "type": "string",
+        "format": "date"
+      },
+      "keep": {
+        "type": "boolean"
+      },
+      "account": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "id",
+      "payee",
+      "amount",
+      "cadence",
+      "next_renewal",
+      "account"
+    ],
+    "additionalProperties": false
+  }
+}

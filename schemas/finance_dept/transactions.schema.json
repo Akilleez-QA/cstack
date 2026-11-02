@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "date": {
+        "type": "string",
+        "format": "date"
+      },
+      "payee": {
+        "type": "string",
+        "minLength": 1
+      },
+      "amount": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "account": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "date",
+      "payee",
+      "amount",
+      "account"
+    ],
+    "additionalProperties": false
+  }
+}

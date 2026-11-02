@@ -1,10 +1,10 @@
-# Finance Department, Phase 1
+# Finance Department, Phases 1–2
 
 Run `python -B -m products.finance_dept all --data-dir /path/outside/repo
 --today 2026-02-01 --weeks 6` (on one line). Commands are `validate`, `ledger`,
-`calendar`, `forecast`, `daily`, and `all`. The data directory defaults to
+`calendar`, `forecast`, `daily`, `debts`, `subs`, `guard`, and `all`. The data directory defaults to
 `FINANCE_DEPT_DATA`, then `~/.local/share/finance-dept`. Inputs follow the schemas
-in `schemas/finance_dept/`; transfers and collections may be omitted.
+in `schemas/finance_dept/`; transfers, collections, subscriptions, and transactions may be omitted.
 
 Reports are written to the data directory's `out/`. Exit codes are 0 for success,
 2 for invalid inputs or filesystem errors, and 3 for reported risks. `validate`
@@ -29,10 +29,37 @@ boundaries. No holiday or banking-day adjustments are assumed.
 
 Floors, negative balances, autopay conflicts, snapshot dates and bills after a
 shutoff date are reported as risks. Overdraft fees are disclosed with negative
-balance flags, not automatically charged. Grace days and late fees are retained
-input metadata; this phase has no payment history to determine late charges.
+balance flags, not automatically charged. The guard uses grace days as the latest permitted delay; late fees are retained
+metadata because no payment history is available to determine late charges.
 Recommendations require human approval. Collections are validated but tracking
 and transaction reconciliation belong to later phases.
 
 Tests use synthetic fixtures copied to temporary directories. Private data and
 reports must stay outside this public repository, even when ignored by Git.
+
+`debts --extra 50.00` (alias `--extra-monthly`) writes `debt_plan.json` and
+`debt_plan.md`. Debts sort by descending APR, then account ID. APR is a percent
+(e.g. 12 means 12%); monthly interest rounds half up to cents before payments.
+Minimums stay fixed; extra goes to the highest APR balance and spills to the next
+when paid off. Paid-off minimums are not rolled forward. Missing APR/minimums are
+listed and treated as zero; null payoff months means non-amortizing or beyond
+12,000 months. Estimates exclude new borrowing and changing rates.
+
+`subs` reads optional `subscriptions.json`, following its input schema, and writes
+`out/subscriptions.json` (schema `subscriptions_report.schema.json`). Candidates
+have missing usage or usage older than 60 days, a duplicate payee after case and
+punctuation/space normalization, or renewal from today through 14 days ahead.
+`keep: true` entries never appear as recommendations. Optional transaction exports
+in `transactions/*.json` (arrays) or `*.csv` use `date,payee,amount,account` with
+optional `id`. Matching payee/account charges provide evidence, not proof of use.
+Exports undergo the same secret, date, account-reference and cents validation.
+
+`guard` writes `overdraft_guard.json`: negative/below-floor forecast days and
+proposed bill moves to the next income day in the same account. It skips bills
+with a shutoff date, requires the move to fit within `grace_days` (default zero),
+and only suggests moves reducing risk days with enough balance on the new date.
+Moves are evaluated together to avoid double-counting savings. Fee savings assume
+one configured overdraft fee per avoided negative day; actual bank policies vary.
+Balances remain end-of-day projections. All recommendations require approval;
+nothing is rescheduled or paid. `all` includes every Phase 2 output. Subscription
+flags, like forecast risks, produce exit code 3.
