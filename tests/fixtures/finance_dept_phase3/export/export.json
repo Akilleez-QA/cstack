@@ -1,0 +1,8 @@
+{
+  "accounts":[{"id":"cash","name":"Synthetic Cash","opening_balance":"1000.00","as_of":"2026-02-01"}],
+  "transactions":[
+    {"id":"t1","date":"2026-02-01","amount":"300.00","description":"Synthetic project income","account_id":"cash","category":"Work"},
+    {"id":"t2","date":"2026-02-28","amount":"-80.00","description":"Synthetic supplies","account_id":"cash","category":"Supplies"},
+    {"id":"t3","date":"2026-02-15","amount":"-20.00","description":"Synthetic purchase","account_id":"cash"}
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "assumptions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "counterparty": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "tax_debt",
+              "receivable",
+              "asset_sale"
+            ]
+          },
+          "principal": {
+            "type": "string",
+            "pattern": "^-?\\d+\\.\\d{2}$"
+          },
+          "annual_rate": {
+            "type": [
+              "number",
+              "string"
+            ],
+            "pattern": "^\\d+(\\.\\d+)?$"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "interest_estimate": {
+            "type": "string",
+            "pattern": "^-?\\d+\\.\\d{2}$"
+          },
+          "penalty_estimate": {
+            "type": "string",
+            "pattern": "^-?\\d+\\.\\d{2}$"
+          },
+          "elapsed_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "penalty_months": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "exposure": {
+            "type": "string",
+            "pattern": "^-?\\d+\\.\\d{2}$"
+          },
+          "missing_annual_rate": {
+            "type": "boolean"
+          },
+          "draft_next_step": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requires_approval": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "counterparty",
+          "status",
+          "next_action",
+          "evidence",
+          "kind",
+          "principal",
+          "start_date",
+          "interest_estimate",
+          "penalty_estimate",
+          "elapsed_days",
+          "penalty_months",
+          "exposure",
+          "missing_annual_rate",
+          "draft_next_step",
+          "requires_approval"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "requires_approval": {
+      "const": true
+    }
+  },
+  "required": [
+    "date",
+    "assumptions",
+    "items",
+    "requires_approval"
+  ],
+  "additionalProperties": false
+}

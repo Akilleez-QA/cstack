@@ -8,16 +8,9 @@
         "type": "string",
         "minLength": 1
       },
-      "what": {
+      "counterparty": {
         "type": "string",
         "minLength": 1
-      },
-      "amount": {
-        "type": [
-          "string",
-          "number"
-        ],
-        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
       },
       "status": {
         "type": "string",
@@ -27,22 +20,45 @@
         "type": "string",
         "minLength": 1
       },
-      "next_action_date": {
-        "type": "string",
-        "format": "date"
-      },
-      "evidence_path": {
+      "evidence": {
         "type": "string",
         "minLength": 1
+      },
+      "kind": {
+        "enum": [
+          "tax_debt",
+          "receivable",
+          "asset_sale"
+        ]
+      },
+      "principal": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+      },
+      "annual_rate": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "pattern": "^\\d+(\\.\\d+)?$"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date"
       }
     },
     "required": [
       "id",
-      "what",
-      "amount",
+      "kind",
+      "counterparty",
+      "principal",
+      "start_date",
       "status",
       "next_action",
-      "next_action_date"
+      "evidence"
     ],
     "additionalProperties": false
   }

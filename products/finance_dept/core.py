@@ -11,7 +11,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator, FormatChecker
 
 SCHEMAS = Path(__file__).resolve().parents[2] / 'schemas' / 'finance_dept'
-MONEY = {'balance', 'amount', 'apr', 'credit_limit', 'min_payment', 'floor', 'overdraft_fee', 'late_fee'}
+MONEY = {'balance', 'amount', 'apr', 'credit_limit', 'min_payment', 'floor', 'overdraft_fee', 'late_fee', 'principal'}
 ZERO = Decimal('0.00')
 
 
@@ -63,6 +63,12 @@ def load_inputs(directory):
                     row[key] = amount.quantize(Decimal('.01'))
                 except InvalidOperation:
                     raise ValueError('Invalid money') from None
+        if name == 'collections':
+            for row in data:
+                rate = Decimal(str(row.get('annual_rate', 0)))
+                if not rate.is_finite() or rate < 0:
+                    raise ValueError('Invalid annual rate')
+                row['annual_rate'] = rate
         result[name] = data
     accounts = {a['id'] for a in result['accounts']}
     for name, fields in [('bills', ('pay_from', 'autopay_source')), ('income', ('deposit_to',)), ('transfers', ('from', 'to')), ('subscriptions', ('account',))]:

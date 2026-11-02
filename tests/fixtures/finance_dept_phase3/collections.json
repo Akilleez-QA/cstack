@@ -1,0 +1,5 @@
+[
+  {"id":"tax-example","kind":"tax_debt","counterparty":"Synthetic Tax Office","principal":"1000.00","annual_rate":"7.30","start_date":"2026-01-01","status":"open","next_action":"Request a statement for review","evidence":"synthetic notice reference"},
+  {"id":"invoice-example","kind":"receivable","counterparty":"Example Studio","principal":"400.00","start_date":"2026-01-15","status":"open","next_action":"Prepare an invoice reminder","evidence":"synthetic invoice reference"},
+  {"id":"sale-example","kind":"asset_sale","counterparty":"Example Buyer","principal":"200.00","start_date":"2026-02-01","status":"sold","next_action":"Verify receipt","evidence":"synthetic receipt reference"}
+]

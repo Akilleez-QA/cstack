@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "opening_balance": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "id",
+          "opening_balance",
+          "as_of"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "transactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "amount": {
+            "type": [
+              "string",
+              "number"
+            ],
+            "pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "account_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "date",
+          "amount",
+          "description",
+          "account_id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "accounts",
+    "transactions"
+  ],
+  "additionalProperties": false
+}

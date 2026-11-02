@@ -27,8 +27,9 @@ exported files, computes, and writes reports/JSON an assistant bot reads. It
   (example shape: weekly Wed deposit to checking + a split to a wallet the prior evening).
 - `transfers.json` (planned, human-executed): `[{date, from, to, amount, status:
   planned|done}]`
-- `collections.json` (money owed to the user): `[{id, what, amount, status,
-  next_action, next_action_date, evidence_path?}]`
+- `collections.json`: `[{id, kind: tax_debt|receivable|asset_sale, counterparty,
+  principal, annual_rate?, start_date, status, next_action, evidence}]`. Tax debt
+  is money at risk; receivables and asset sales are money recoverable.
 - `transactions/*.csv|json` (phase 2): bank/aggregator exports for reconciliation.
 
 ## Outputs (data dir `out/`)
@@ -41,11 +42,13 @@ exported files, computes, and writes reports/JSON an assistant bot reads. It
 - `daily_report.md`: cash position today, due next 7 days, risks, top 3 actions.
 - Later phases: `debt_plan.json` (avalanche order, monthly interest),
   `subscriptions.json` (recurring charges, unused/duplicate candidates),
-  `overdraft_guard.json`, `collections.md`, `close-YYYY-MM.json` (reconciliation).
+  `overdraft_guard.json`. Phase 3 writes `collections.json` + `.md` and
+  `close_YYYY-MM.json` + `.md` (reconciliation).
 
 ## CLI
 `python -m products.finance_dept <cmd> --data-dir D [--today YYYY-MM-DD] [--weeks N]`
-cmds: `validate`, `ledger`, `calendar`, `forecast`, `daily`, `all`. Exit 0 ok,
+cmds: `validate`, `ledger`, `calendar`, `forecast`, `daily`, `debts`, `subs`,
+`guard`, `collections`, `close`, `all`. Close requires `--month YYYY-MM --export DIR`. Exit 0 ok,
 2 invalid input, 3 risk flagged (still writes outputs).
 
 ## Phases
@@ -53,10 +56,35 @@ cmds: `validate`, `ledger`, `calendar`, `forecast`, `daily`, `all`. Exit 0 ok,
 2. Debt avalanche & interest tracker; subscription/unused-charge detector;
    overdraft-fee guard (suggest bill re-timing to avoid negative days).
 3. Collections tracker; monthly close/reconciliation from transaction exports;
-   variance vs. plan.
+   signed flows by category and month-end snapshot differences. Plan variance is
+   deferred until an actual category budget input contract exists.
 
 ## Tests (`tests/test_finance_dept_*.py`, unittest)
 Synthetic fixtures under `tests/fixtures/finance_dept/`. Cover: due-day rollover
 (31st in short months), weekly/prior-evening income, autopay conflict detection,
 floor/overdraft/shutoff flags, Decimal exactness, secret-field rejection,
 deterministic output with `--today`.
+
+
+## Phase 3 contracts
+
+See [the module README](../../products/finance_dept/README.md) for exact schemas,
+examples, sign conventions, status handling and CLI behavior. Phase 3 commands
+are standalone; `all` preserves its Phase 1–2 outputs. Collections sort by dollar
+exposure, then ID, and include approval-required next-step drafts. Tax amounts
+are explicitly estimates: principal × annual percentage / 100 × elapsed days /
+365 plus principal × min(0.005 × started calendar months, 0.25), each rounded
+half up to cents. Missing annual rate is flagged and treated as zero; future
+start dates accrue nothing. Calendar month anniversaries clamp to month end.
+No authoritative tax-policy lookup or network access occurs.
+
+The close export contract is a directory with `export.json`: an accounts list
+(`id`, optional `name`, `opening_balance`, first-of-month `as_of`) and transactions
+(`date`, signed `amount`, `description`, `account_id`, optional `category`/`id`).
+Close includes per-account opening/closing, income/spend by category, unmatched
+and uncategorized transactions, and differences against month-end `accounts.json`
+balances. Noncomparable dates/missing accounts have null differences and require
+review. No opening balances are inferred from closing balances. Unknown-account
+transactions never affect calculated balances. Transfers are not eliminated.
+All new input paths use secret rejection, date validation and Decimal arithmetic.
+All recommendations require approval; reports never trigger financial actions.
