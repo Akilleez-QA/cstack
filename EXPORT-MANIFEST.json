@@ -10,10 +10,6 @@
    "sha256": "ba537a220a480223fe6206cada2134cbd31b3d70df4b9fe6ca9a7abd0f4571c2",
    "bytes": 93
   },
-  ".github/PULL_REQUEST_TEMPLATE.md": {
-   "sha256": "5a26fd3aa2e9f793229dae82d4f7fb070d75ac1c248540adc0d59b62ae0cee04",
-   "bytes": 140
-  },
   ".github/assets/social-preview.png": {
    "sha256": "194f2d76f8193313e2d98bbd8236e7c58a2762dcea4a32956f06cc58a30f9626",
    "bytes": 47385
@@ -21,6 +17,10 @@
   ".github/dependabot.yml": {
    "sha256": "efe35b04741cc513b7fecc935d603508aff876b23c82979b0a3300f299c3ea37",
    "bytes": 193
+  },
+  ".github/pull_request_template.md": {
+   "sha256": "da3d0d793ae9ea8a52181e8bdb41145cd03b1c50b92d2488b760c3dd8fdf7dc0",
+   "bytes": 534
   },
   ".github/workflows/ci.yml": {
    "sha256": "3d41dff5a2cdb1010be2f369bd688c0c38309031d36e9f19d9353988c02b0afb",
@@ -77,6 +77,10 @@
   "SUPPORT.md": {
    "sha256": "ba37d7d99316e5bb951dbcbcf4fdee3b09742c52dd7ed431440cb68c7f4d3d2e",
    "bytes": 138
+  },
+  "TODELETE/.github/PULL_REQUEST_TEMPLATE.md": {
+   "sha256": "5a26fd3aa2e9f793229dae82d4f7fb070d75ac1c248540adc0d59b62ae0cee04",
+   "bytes": 140
   },
   "__init__.py": {
    "sha256": "b1764b3bbb826bd6a167fc19e881ef15a6f4684c76a5491152e4196cadd8b18d",
