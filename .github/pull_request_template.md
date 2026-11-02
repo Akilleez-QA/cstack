@@ -10,6 +10,9 @@ State the one concern this pull request addresses.
 
 List commands run and their results.
 
+- [ ] `python -B -m unittest discover -s tests`: result
+- [ ] `bash ci/run-local.sh python links`: result
+
 ## Checklist
 
 - [ ] One concern; about 400 changed lines maximum.
