@@ -7,4 +7,15 @@
 5. Never commit secrets. Run `pre-commit install` once per clone; it runs gitleaks with `.gitleaks.toml`.
 6. Put the reasoning in the PR body and commit message rather than in code comments.
 
+## Agent branches
+
+Each agent must use its own branch created from trunk (`main`). Never allow two
+agents to push to the same branch. Integrate agent work by rebasing onto trunk
+only; do not rebase onto another agent's branch or merge agent branches together.
+Preserve published history: if rebasing would require a force-push, create a fresh
+branch from trunk and replay the work before publishing it. Existing review and
+branch protection requirements still apply.
+
+See [the branch ownership proposal](https://github.com/Akilleez-QA/cstack/issues/40).
+
 By contributing you agree your work is licensed under GPL-3.0-only.
