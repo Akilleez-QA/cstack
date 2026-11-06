@@ -1,7 +1,7 @@
 """Launch the MCP stdio driving adapter for ONE bot's AOR on this device (ADR 003).
 
-Example Agent starts one of these per bot, from the host's own MCP configuration:
-    python -B tools/cstack_mcp.py --aor example-agent
+A host starts one of these per bot, from its own MCP configuration:
+    python -B tools/cstack_mcp.py --aor example --device example-host
 The AOR is fixed here, at launch; nothing a bot sends can change it. --fleet-mail adds the mail_* tools
 (adapters/fleet_mail.py), sent as this AOR; without it the server is unchanged. The device is this machine's tailnet
 name (first label of its DNSName), and state lives in ~/.local/state/cstack/ unless --state-root is given.

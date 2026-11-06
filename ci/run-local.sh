@@ -15,6 +15,7 @@ suite_python() {
   done
 }
 suite_links() { "$PY" -B tools/check_links.py; }
+suite_readme() { "$PY" -B tools/check_readme.py; }
 suite_refrigeration() { PYTHON="$PY" bash tools/e2e_refrigeration.sh; }
 suite_gitleaks() { gitleaks dir . --no-banner; }
 suite_trufflehog() { bash ci/scan-secrets.sh; }

@@ -14,11 +14,12 @@ This is an early template; verify the configuration and capabilities you choose.
 
 ## Quickstart
 
-Python 3.11 or newer on Linux or macOS.
+Python 3.11 or newer and Node 22 or newer on Linux or macOS. The spawn counter in the test suite needs Linux.
 
 ```sh
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt -r ci/requirements.txt
+npm ci --prefix adapters/workcell --ignore-scripts --no-audit --no-fund
 cp cstack.config.example.json cstack.config.json
 python -B cli.py < examples/scalar-and-negative.json
 python -B -m unittest discover -s tests
@@ -46,12 +47,28 @@ or flag from tool output. Invalid files produce the structured driver error.
 A denial returns the normal result with `run_status: "stopped"` and no dispatch;
 it is not a tool outcome. Each invocation requires a new host approval record.
 
+## Run a goal
+
+A goal runs through the POODO core and comes back with a witnessed receipt:
+
+```sh
+CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json
+```
+
+The core makes the decision under a host grant and witnesses it. EndoForge then runs in `IsolatePool` V8 workcells: a model transport returns source, the pinned AssemblyScript compiler builds it in the cell, the real gates and frozen evaluator judge it, and the kernel calls the Foundations it declared as in-process imports. The EndoForge ledger and the receipt name the decision, grant, compiler and Foundation versions.
+
+The controller and both ledgers stay outside the cohort. A lost cell, supervisor or controller is recorded as `outcome_unknown`, never as a pass, and isn't retried. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
+
+This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration. Cstack ships none yet. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
+
+Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegates them; the receipt says `cgroup: unavailable` where it doesn't.
+
 ## What is inside
 
 | Path | What |
 |---|---|
 | `poodo_core/`, `contracts/`, `schemas/` | The control core: goals, phases, authority grants, decisions, attempts and evidence receipts, with the JSON contracts they obey |
-| `adapters/`, `extensions/`, `bootstrap.py` | Capability ports: bounded stdio bridges from the core to each domain, registered once in `bootstrap.DOMAINS` |
+| `adapters/`, `extensions/`, `bootstrap.py` | Capability ports: bounded stdio bridges from the core to each domain, registered once in `bootstrap.DOMAINS`, and the EndoForge workcell runtime in `adapters/workcell/` |
 | `aors/`, `tools/` | The bot layer: areas of responsibility per bot, AOR sessions over MCP, fleet mail, approvals, a witnessed ledger, and the merge train |
 | `foundations/` | Vendored Foundations: math research layer, film, refrigeration, robotics and the template to copy |
 | `reasoning/poodo` | The POODO reasoning method the core enforces |
@@ -66,11 +83,11 @@ A Foundation is a domain package that Cstack runs through an adapter. Some are v
 |---|---|---|
 | [foundation-math](https://github.com/Akilleez-QA/foundation-math) | `vendor/foundation-math-v014/`, plus the research layer in `foundations/math/` | Vendored copy of v0.14, run through `adapters/math_stdio.py` and `extensions/foundation_math.py` |
 | foundation-film | [`foundations/film/`](foundations/film/) | Vendored copy, byte-pinned |
-| foundation-refrigeration | [`foundations/refrigeration/`](foundations/refrigeration/) | Vendored copy, byte-pinned |
+| foundation-refrigeration | [`foundations/refrigeration/`](foundations/refrigeration/) | Vendored copy, byte-pinned. Also an in-process kernel in workcells |
 | foundation-robotics | [`foundations/robotics/`](foundations/robotics/) | Vendored copy, byte-pinned |
-| foundation-template | [`foundations/template/`](foundations/template/) | Vendored copy, byte-pinned |
+| foundation-template | [`foundations/template/`](foundations/template/) | Vendored copy, byte-pinned. Also an in-process kernel in workcells |
 | [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | Not included | Linked only. No adapter or pin yet |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | [`vendor/endoforge/`](vendor/endoforge/), byte-pinned | Lifecycle core slice only; no runtime wiring |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | [`vendor/endoforge/`](vendor/endoforge/), byte-pinned | Lifecycle, gates, ledger and `IsolatePool`, run through `adapters/endoforge_workcell.py` |
 | [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Earlier snapshot of the skill that the core follows |
 
 ### How pins work
@@ -79,17 +96,32 @@ Cstack does not trust a vendored Foundation just because it is present. Each one
 
 ## Verification
 
-Run the root and Foundation unittest suites normally and with optimization enabled.
+Run the root and Foundation unittest suites normally and with optimization enabled. `python -B tools/check_readme.py` runs every command in this file on a fresh clone.
 
 ## Define your bots
 
 1. Edit `aors/fleet.json`. Each bot has a `slug`, the `slices` of the repo it owns, what it does not own, and `effects`. Anything that sends, pays, posts, files or deletes is `ask`, which routes to the one human approver.
 2. Choose branch lanes for your own workflow.
-3. Validate your registry with `adapters.aor_registry.load_fleet` against `contracts/aor.schema.json`.
+3. Validate your registry with `adapters.aor_registry.load_fleet` against `contracts/aor.schema.json`:
+
+   ```sh
+   python -B -c "from adapters.aor_registry import load_fleet; print(load_fleet('aors/fleet.json').approver)"
+   ```
+
+4. Start a bot's AOR session over MCP. The host picks the bot and device; nothing a bot sends can change them:
+
+   ```sh
+   python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state
+   ```
 
 ## Wire the merge train
 
-`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. `python3 tools/merge_train.py --wip` shows open PRs per lane. Run it from a timer against a fresh worktree of `main`.
+`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. It needs `gh` and a GitHub remote. Run it from a timer against a fresh worktree of `main`.
+
+```sh
+python3 tools/merge_train.py --wip
+python3 tools/merge_train.py --dry-run --policy low-risk
+```
 
 ## Add a domain
 
@@ -129,18 +161,23 @@ Measured on 2026-11-01 with Python 3.14.8 on Linux at main commit
 | [foundation-refrigeration](foundations/refrigeration/) | Refrigeration data and checks | Foundation |
 | [foundation-robotics](foundations/robotics/) | Physics checks for motion | Foundation |
 | [foundation-template](foundations/template/) | Minimal Foundation to copy for a new domain | Foundation |
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Core engine for coding agents, checks, caching and evidence receipts | Intended execution substrate |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | Core engine for coding agents, checks, caching and evidence receipts | Execution substrate for forge goals, byte-pinned |
 | [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
 
-The intended design places Endoforge at the engine layer: it runs coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters.
+Endoforge sits at the engine layer: forge goals run in its workcells with its gates and ledger. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters. Foundations judge: a kernel's result is checked against the pinned Foundation, and producers don't grade themselves.
 
-POODO uses its Foundation adapters for execution and can route witnessed evidence through `EndoforgePort`. Configure `endoforge.path` in repository-local `cstack.config.json` (see `cstack.config.example.json`); its parent directory must exist. Configured CLI runs witness precommits before dispatch and outcomes after execution, fail closed on storage errors, and report `endoforge_implemented: true`. Unconfigured runs report false. Agent running and caching remain future work. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
+POODO uses its Foundation adapters for execution and can route witnessed evidence through `EndoforgePort`. Configure `endoforge.path` in repository-local `cstack.config.json` (see `cstack.config.example.json`); its parent directory must exist. Configured CLI runs witness precommits before dispatch and outcomes after execution, fail closed on storage errors, and report `endoforge_implemented: true`. Unconfigured runs report false. Running real coding agents and EndoForge's caching aren't wired yet: forge goals here have no real model transport. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
 
 ```mermaid
 flowchart TB
     P[POODO: control and reasoning] -->|EndoforgePort: witnessed evidence| E[Endoforge local ledger]
+    P -->|decision, grant| R[Endoforge workcells: compile, gates, kernel]
+    R -->|proposals as data, through the host| P
+    R -->|receipts| L[Endoforge run ledger]
+    R -->|declared imports, in process| K[Foundation kernels]
     P --> A[Domain extensions and adapters]
     A --> F[Foundations]
+    K -.->|same pins, differential tests| F
 ```
 
 ## Layout
