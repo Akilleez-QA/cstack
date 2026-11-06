@@ -53,8 +53,8 @@ class Check:
 def approve_on_tty(check, command):
     result = subprocess.run(["python", "-B", "tools/tty_approve.py", command], cwd=check.clone, env=check.env, capture_output=True, text=True, timeout=120)
     try:
-        document = json.loads(result.stdout[result.stdout.index('{"'):])
-    except ValueError:
+        document = next(json.loads(line) for line in result.stdout.splitlines() if '"cstack.run-result/0.1"' in line and line.startswith("{"))
+    except (ValueError, StopIteration):
         check.record(command, False, f"driver exit {result.returncode}: {result.stdout[-120:]} {result.stderr[-160:]}")
         return
     outcomes = [e["data"]["outcome"]["assessment"] for e in document["events"] if e["kind"] == "outcome"]
