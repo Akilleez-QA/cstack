@@ -74,8 +74,15 @@ class Forge:
         result = subprocess.run(self.command(), input=json.dumps(document).encode(), capture_output=True, env=self.env, cwd=self.root, timeout=timeout)
         return json.loads(result.stdout)
 
+    def run_resume(self, document, decision_id, timeout=120):
+        return json.loads(self.raw(document, "--resume", decision_id, timeout=timeout).stdout)
+
     def raw(self, document, *extra, env=None, timeout=120):
         return subprocess.run(self.command(*extra), input=json.dumps(document).encode(), capture_output=True, env=env or self.env, cwd=self.root, timeout=timeout)
+
+    def witness_exists(self):
+        path = self.directory / "witness.jsonl"
+        return path.exists() and path.stat().st_size > 0
 
     def witness(self):
         return [json.loads(line) for line in (self.directory / "witness.jsonl").read_text().splitlines()]
