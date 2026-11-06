@@ -8,5 +8,12 @@
  "scratch_dir": "/srv/scratch",
  "fleet_file": "aors/fleet.json",
  "endoforge": {"path": "endoforge.jsonl"},
+ "workcell": {
+  "ledger": "forge.sqlite",
+  "transport": "adapters/workcell/stub-transport.mjs",
+  "foundation_imports": ["foundation_refrigeration", "foundation_template"],
+  "decision_operations": {"foundation_template": ["echo_observation"]},
+  "isolation": "process"
+ },
  "merge_train": {"wip_limit_per_lane": 10, "policy": "low-risk"}
 }

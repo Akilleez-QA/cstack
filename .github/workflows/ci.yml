@@ -13,6 +13,10 @@ jobs:
       - uses: astral-sh/setup-uv@v7
       - run: uv venv --python 3.12 .venv && echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
       - run: uv pip install --python .venv -r requirements.txt -r ci/requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci --prefix adapters/workcell --ignore-scripts --no-audit --no-fund
       - run: python -B -m unittest discover -s tests
       - run: bash ci/run-local.sh python links
   secrets:

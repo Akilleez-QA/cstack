@@ -5,3 +5,4 @@ node_modules/
 .venv/
 cstack.config.json
 endoforge.jsonl
+forge.sqlite

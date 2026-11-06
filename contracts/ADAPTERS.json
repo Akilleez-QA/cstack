@@ -143,6 +143,20 @@
    "notes": "EngineStdioCapability over foundation-engine-jsonrpc/1; read-only render-mask and scene-output validators as observations; results admitted by the engine result path; composed in bootstrap from the domain registry."
   },
   {
+   "adapter_id": "endoforge-workcell",
+   "lane": "RuntimeFace",
+   "port": "none",
+   "port_reason": "It has CapabilityPort's shape on the RuntimeFace lane; poodo_core/ports.py maps CapabilityPort to ToolFace, and ADR 005 item 12b leaves a runtime port open.",
+   "vendor": "EndoForge IsolatePool, gates and ledger (vendor/endoforge), run by adapters/workcell",
+   "kind": "python_module",
+   "path": "adapters/endoforge_workcell.py",
+   "fake": null,
+   "fake_reason": "Tests run the real pool with a stub model transport; no named RuntimeFace replaceability fake is registered.",
+   "status": "hard_wired",
+   "strategic_dependency_adr": null,
+   "notes": "Runs one decided goal in V8 workcells with Foundations as declared in-process imports. The controller and both ledgers stay outside the cohort; a lost cell or supervisor records outcome_unknown."
+  },
+  {
    "adapter_id": "local-bridge-executor",
    "lane": "RuntimeFace",
    "port": "none",
@@ -627,9 +641,24 @@
    "reason": "Builds the local export inventory without granting runtime authority."
   },
   {
+   "path": "extensions/cstack_forge.py",
+   "role": "core_seam",
+   "reason": "Implements DomainExtension, which ADR 005 decision 2 keeps in the core with no lane."
+  },
+  {
    "path": "tools/pin_endoforge.py",
    "role": "build_or_check_tool",
    "reason": "Rebuilds the byte-pinned EndoForge slice from one committed revision."
+  },
+  {
+   "path": "tools/spawncount.py",
+   "role": "build_or_check_tool",
+   "reason": "Counts real process creation under ptrace for the Foundation route measurements."
+  },
+  {
+   "path": "tools/measure_foundation_routes.py",
+   "role": "build_or_check_tool",
+   "reason": "Measures the Foundation routes for docs/verification."
   }
  ]
 }

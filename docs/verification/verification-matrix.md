@@ -93,3 +93,14 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | Requirement | Evidence | Acceptance boundary |
 |---|---|---|
 | CS-REQ-031; CS-REQ-017; CS-REQ-027 | `tests/test_refrigeration_e2e.py`: `test_approved`, `test_denied`; `tools/e2e_refrigeration.sh` | Real CLI and Foundation, ask decision, exact durable approval identity and consumption, same-session precommit/outcome ordering, verified chain, configured implementation status, decline without dispatch or outcome. Synthetic host verdict; no plant or engineering acceptance. |
+
+## Workcell runtime
+
+Acceptance is [frozen separately](wiring-acceptance.md). Route numbers are in [the Foundation routes](foundation-routes.md).
+
+| Requirement | Evidence | Acceptance boundary |
+|---|---|---|
+| CS-REQ-032 | `tests/test_workcell_run.py` | Real CLI, core, pool, gates and ledger, in process and thread cells, with a stub model transport. No real model call |
+| CS-REQ-033 | `tests/test_workcell_foundation_imports.py`, `tests/test_foundation_kernels.py`, `tools/spawncount.py` | ptrace count over the whole job on Linux for Refrigeration and Template. Differential vectors are a sample, not proof of equivalence |
+| CS-REQ-034 | `tests/test_workcell_refusals.py`, `tests/test_workcell_other_foundations.py` | Named hostile kernels, against the real core. A workcell isn't an OS sandbox |
+| CS-REQ-035 | `tests/test_workcell_kill.py`, `tests/test_core_crash.py` | Real SIGKILL at each process. Power loss isn't tested |
