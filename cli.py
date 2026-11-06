@@ -4,9 +4,11 @@ import json
 import sys
 import time
 
+from adapters.endoforge_ledger import DecisionReuseRefused
 from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
-from bootstrap import DOMAINS, RUNTIMES, build_domain, cli_approval_session, endoforge_session
+from bootstrap import DOMAINS, RUNTIMES, build_domain, cli_approval_session, endoforge_session, registered
+from extensions.cstack_forge import request_problem
 from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
                        exact_fields)
 
@@ -14,8 +16,17 @@ CLI_SCHEMA = "cstack.run/0.1"
 MAX_OUTPUT = 33 * 1024 * 1024
 
 
-def run_document(document, approver=None, *, config=None):
-    session = endoforge_session() if config is None else endoforge_session(config)
+class DriverRefusal(ContractError):
+    def __init__(self, code, detail):
+        super().__init__(detail)
+        self.code = code
+
+
+def run_document(document, approver=None, *, config=None, resume=None):
+    if resume is not None:
+        session = endoforge_session(config, resume=resume) if config else endoforge_session(resume=resume)
+    else:
+        session = endoforge_session() if config is None else endoforge_session(config)
     with session as host, cli_approval_session(approver) as approval_host:
         if isinstance(approver, str) and not approval_host:
             approver = TerminalApprover(approver)
@@ -31,6 +42,13 @@ def _run_document(document, host, approver):
     if document["schema"] != CLI_SCHEMA:
         raise ContractError("Unsupported local driver version")
     goal = GoalContract.from_dict(document["goal"])
+    if goal.domain_id in RUNTIMES:
+        if "workcell" not in host:
+            raise DriverRefusal("workcell_not_configured", "This host has no workcell section in its configuration")
+        for call in document["calls"] if type(document["calls"]) is list else ():
+            problem = request_problem(call["request"].get("arguments")) if type(call) is dict and type(call.get("request")) is dict else "a call needs a request"
+            if problem:
+                raise DriverRefusal("invalid_forge_request", problem)
     calls, checkpoints = document["calls"], document["checkpoints"]
     if type(calls) is not list or not 1 <= len(calls) <= 64 or type(checkpoints) is not list or len(checkpoints) != 4:
         raise ContractError("Driver requires 1..64 calls and four preauthored phase checkpoints")
@@ -44,7 +62,7 @@ def _run_document(document, host, approver):
         if call.get("effect") == "ask":
             ask_operations.append(CapabilityRequest.from_dict(call["request"]).operation)
     if "approvals" in host:
-        ask_operations = list(DOMAINS[goal.domain_id].tool_names)
+        ask_operations = list(registered(goal.domain_id).tool_names)
         core, _ = build_domain(goal.domain_id, goal.goal_id, ask_operations=tuple(ask_operations), **host)
     elif ask_operations:
         approver = approver or TerminalApprover()
@@ -120,18 +138,24 @@ def main():
     parser = argparse.ArgumentParser(description="Supply structured JSON on stdin.")
     parser.add_argument("--approver", nargs="?", const="terminal", default="deny", metavar="deny|file:PATH")
     parser.add_argument("--config")
+    parser.add_argument("--resume", metavar="DECISION_ID", help="run again a decision whose earlier outcome is unknown; host choice, never from the request")
     args = parser.parse_args()
     try:
         raw = sys.stdin.buffer.read(65_537)
         if len(raw) > 65_536:
             raise ContractError("Local driver input exceeds 65,536 bytes")
-        result = run_document(_decode_for_domain(raw), args.approver, config=args.config)
+        result = run_document(_decode_for_domain(raw), args.approver, config=args.config, resume=args.resume)
         output = encode(result)
         if len(output) > MAX_OUTPUT:
             raise ContractError("Complete driver output exceeds budget; output withheld")
         sys.stdout.buffer.write(output + b"\n")
         return 0
     except BrokenPipeError:
+        return 2
+    except (DecisionReuseRefused, DriverRefusal) as error:
+        code = error.code if isinstance(error, DriverRefusal) else "decision_reuse_refused"
+        sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": code, "detail": str(error),
+                                     "formal_proof": False, "runtime_goal_acceptance": False}) + "\n")
         return 2
     except (ContractError, WireFailure, ValueError, TypeError, KeyError, OSError, RuntimeError):
         sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": "invalid_or_unsupported_request",

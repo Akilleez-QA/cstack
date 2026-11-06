@@ -6,6 +6,7 @@ from pathlib import Path
 import signal
 import subprocess
 import sys
+import tempfile
 
 from extensions.cstack_forge import FORGE_CAPABILITY
 from poodo_core import ContractError, canonical, outcome_for
@@ -33,6 +34,10 @@ class SupervisorLost(RuntimeError):
     pass
 
 
+class NotExecuted(RuntimeError):
+    """Nothing ran: the run stopped before any candidate was released to a cell."""
+
+
 class Supervisor:
     """One node supervisor outside every cohort. Losing it loses attempts, never the task."""
     def __init__(self, config, on_call):
@@ -40,8 +45,13 @@ class Supervisor:
         self._next = 0
         argument = json.dumps({key: config[key] for key in ("size", "isolation", "foundations", "transport", "jobTimeoutMs", "cgroupRoot")
                                if config.get(key) is not None})
-        self.process = subprocess.Popen(["node", str(SUPERVISOR), argument], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                        stderr=subprocess.DEVNULL, start_new_session=True, cwd=ROOT)
+        self._stderr = tempfile.TemporaryFile()
+        try:
+            self.process = subprocess.Popen(["node", str(SUPERVISOR), argument], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                            stderr=self._stderr, start_new_session=True, cwd=ROOT)
+        except OSError as error:
+            self._stderr.close()
+            raise NotExecuted("node could not start; install Node 22 or newer and put it on PATH") from error
 
     def ask(self, op, payload=None):
         self._next += 1
@@ -50,12 +60,17 @@ class Supervisor:
         while True:
             line = self.process.stdout.readline(MAX_FRAME + 1)
             if not line.endswith(b"\n"):
-                raise SupervisorLost("supervisor closed its channel")
+                raise SupervisorLost("supervisor closed its channel: " + self.diagnostics())
             message = json.loads(line)
             if "call" in message:
                 self._answer(message)
             elif message.get("id") == ident:
                 return message
+
+    def diagnostics(self):
+        self._stderr.seek(0, os.SEEK_END)
+        self._stderr.seek(max(0, self._stderr.tell() - 400))
+        return self._stderr.read().decode("utf-8", "replace").strip()[-300:]
 
     def _answer(self, message):
         try:
@@ -88,6 +103,7 @@ class Supervisor:
                     stream.close()
                 except OSError:
                     pass
+            self._stderr.close()
 
 
 class WorkcellCapability:
@@ -108,8 +124,10 @@ class WorkcellCapability:
         run = _Run(self._host, request, attempt_id)
         try:
             report = run.execute()
-        except SupervisorLost as error:
-            report = run.lost(str(error))
+        except NotExecuted as error:
+            report = dict(status="unavailable", reason=str(error), candidates=[])
+        except Exception as error:
+            report = run.lost(str(error) or type(error).__name__)
         return run.outcome(report)
 
 
@@ -120,6 +138,7 @@ class _Run:
         self.proposals = []
         self.identity = None
         self.receipts = []
+        self.in_flight = False
 
     @property
     def granted(self):
@@ -168,15 +187,18 @@ class _Run:
     def _rounds(self, supervisor):
         ready = supervisor.ask("ready")
         if "error" in ready:
-            return dict(status="outcome_unknown", reason=ready["error"], candidates=[])
+            raise NotExecuted("the workcell did not start: " + str(ready["error"])[:300])
         self.compiler = ready["result"]["compiler"]
         diagnostics, candidates = [], []
         for number in range(self.arguments["max_candidates"]):
             generated = supervisor.ask("generate", self._prompt(diagnostics))
             if "error" in generated:
-                return dict(status="model_unavailable", reason=generated["error"][:200], candidates=candidates)
+                reason = "model transport: " + str(generated["error"])[:200]
+                return dict(status="rejected", reason=reason, candidates=candidates) if candidates else dict(status="model_unavailable", reason=reason, candidates=[])
             text, model = generated["result"]["text"], generated["result"]["model"]
             result = self._attempt(supervisor, number, text, model)
+            if result["status"] == "unavailable":
+                raise NotExecuted(result["reason"])
             candidates.append(result)
             if result["status"] != "rejected" or result["refused"]:
                 return dict(status="refused" if result["refused"] else result["status"], reason=result["reason"], candidates=candidates)
@@ -184,7 +206,7 @@ class _Run:
         return dict(status="rejected", reason="no candidate passed within max_candidates", candidates=candidates)
 
     def _attempt(self, supervisor, number, text, model):
-        candidate = "cand:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
+        candidate = "cand:" + hashlib.sha256(f"{self.task}\n{text}".encode("utf-8")).hexdigest()
         provenance = dict(origin="generated", upstream_identity="model transport", upstream_version=str(model["version"]),
                           input_scopes=[], derived_from=[self.admitted], model=dict(identity=str(model["identity"]), version=str(model["version"])))
         license_record = dict(expression="GPL-3.0-only", evidence_sha256=hashlib.sha256((ROOT / "LICENSE").read_bytes()).hexdigest())
@@ -193,7 +215,7 @@ class _Run:
             self.ledger.append(dict(version=1, kind="candidate", id=candidate, provenance=provenance, license=license_record,
                                     data=dict(task=self.task, admitted_input=self.admitted, content=text, proposer=str(model["identity"]))))
         environment = dict(decision_id=self.request.decision_id, grant_id=self.host["grant_id"], request_sha256=self.request.sha256,
-                           attempt_id=self.attempt_id, compiler=self.compiler, foundation_imports=self.granted)
+                           attempt_id=self.attempt_id, session_id=self.host["session_id"], compiler=self.compiler, foundation_imports=self.granted)
         receipt = dict(version=1, kind="receipt", id=f"{self._unique('receipt')}:{number}", provenance=provenance | dict(derived_from=[candidate]), license=license_record, data=dict(
             task=self.task, candidate=candidate, frozen_evaluator=self.frozen["id"],
             precommit=dict(observable="the candidate kernel's outputs and effects", acceptance_boundary="all gates and held-out Foundation checks pass",
@@ -203,14 +225,16 @@ class _Run:
             delivery_state="running", outcome_state="unobserved", observations=[]))
         reference = dict(ledger=self.host["config"]["ledger"], identity=self.frozen["id"], root=str(EVALUATOR_ROOT))
         job = dict(reference=reference, candidates=[candidate], receipts=[receipt],
-                   portOptions=dict(sources={candidate: text}, granted=self.granted, signature=self.arguments["signature"]))
+                   portOptions=dict(task=self.task, sources={candidate: text}, granted=self.granted, signature=self.arguments["signature"]))
+        self.in_flight = True
         answer = supervisor.ask("run", job)
+        self.in_flight = False
         return self._read_result(answer, candidate)
 
     def _read_result(self, answer, candidate):
         result = answer.get("result") or {}
         if "error" in answer and not result:
-            return dict(status="outcome_unknown", reason=answer["error"], candidate=candidate, refused=False, diagnostics=[])
+            return dict(status="unavailable", reason="the pool refused the job before dispatch: " + str(answer["error"])[:300], candidate=candidate, refused=False, diagnostics=[])
         evidence = result.get("evidence") or {}
         self.identity = evidence or self.identity
         receipts = [dict(id=r["record"]["id"], hash=r["hash"], delivery_state=r["record"]["data"]["delivery_state"],
@@ -233,6 +257,7 @@ class _Run:
         return dict(status=status, reason=result.get("reason") or (failures[0]["first_failure"] if failures else None), candidate=candidate, refused=refused,
                     diagnostics=diagnostics, isolation=result.get("isolation"), workcell=result.get("workcell"), cgroup=result.get("cgroup"),
                     wasm=evidence.get("artifacts", {}).get(candidate), attributions=evidence.get("broker", {}).get("attributions", []),
+                    attributions_omitted=evidence.get("broker", {}).get("attributions_omitted", 0),
                     calls=evidence.get("broker", {}).get("calls", 0), foundation_ns=evidence.get("broker", {}).get("foundation_ns"),
                     window_ns=evidence.get("window_ns"), runs=evidence.get("runs", []), broker_refusals=evidence.get("broker", {}).get("refusals", []),
                     proposals=evidence.get("proposals", []), receipts=receipts)
@@ -245,7 +270,7 @@ class _Run:
         return answer
 
     def lost(self, reason):
-        return dict(status="outcome_unknown", reason=reason, candidates=[])
+        return dict(status="outcome_unknown" if self.in_flight else "unavailable", reason=reason, candidates=[])
 
     def outcome(self, report):
         identity = self.identity or {}
@@ -257,6 +282,10 @@ class _Run:
                        compiler=identity.get("compiler") or getattr(self, "compiler", None), foundations=identity.get("foundations", {}),
                        candidates=report.get("candidates", []), receipts=self.receipts, proposals=self.proposals)
         status = report["status"]
+        if status in ("unavailable", "model_unavailable"):
+            assessment = "workcell_not_executed" if status == "unavailable" else "candidate_model_unavailable"
+            return outcome_for(self.request, self.attempt_id, "unavailable", assessment,
+                               limitations=("No candidate was released to a cell.", "Reason: " + str(report.get("reason"))[:300]))
         if status == "passed":
             return outcome_for(self.request, self.attempt_id, "completed", "candidate_passed", certainty="responded", raw_result=receipt,
                                scope="One candidate against one frozen evaluator.", limitations=("Passing is not goal acceptance.",))
