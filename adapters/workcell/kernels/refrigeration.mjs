@@ -43,6 +43,7 @@ class ThermoError extends ToolInputError {}
 const has = (list, value) => typeof value === 'string' && list.includes(value);
 
 function finiteNumber(value, name = 'value') {
+  if (value === Infinity || value === -Infinity) throw new KernelRefusal('integer_too_large', 'A number is beyond what a float can hold');
   if (typeof value !== 'number' || !Number.isFinite(value) || Math.abs(value) > 1e9) throw new UnitError(`${name} must be a finite decimal number`);
   return value;
 }
@@ -347,5 +348,6 @@ export function createKernel({ root }) {
       throw error;
     }
   };
-  return { foundation: 'foundation_refrigeration', version: VERSION, tools: TOOLS, run, projections: data };
+  return { foundation: 'foundation_refrigeration', version: VERSION, tools: TOOLS, run, projections: data,
+    numeric_tolerance: 'Math.exp, Math.log and ** can differ from the Python libm in the last place, so a rounded value can differ by one unit in its last printed place at a rounding boundary' };
 }

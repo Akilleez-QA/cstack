@@ -19,7 +19,7 @@ Python 3.11 or newer and Node 22 or newer on Linux or macOS. The spawn counter i
 ```sh
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt -r ci/requirements.txt
-npm ci --prefix adapters/workcell --ignore-scripts --no-audit --no-fund
+npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund
 cp cstack.config.example.json cstack.config.json
 python -B cli.py < examples/scalar-and-negative.json
 python -B -m unittest discover -s tests

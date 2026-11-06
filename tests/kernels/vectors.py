@@ -69,8 +69,71 @@ def refrigeration_vectors():
 
 
 def template_vectors():
-    out = [("echo_observation", _text({"observation": text})) for text in ("a", "fixture reading 7", "x" * 256, "x" * 257, "", 5, None)]
+    out = [("echo_observation", _text({"observation": text})) for text in ("a", "fixture reading 7", "x" * 256, "x" * 257, "", 5, None, "C:\\users", "\t")]
+    out += [("echo_observation", text) for text in ("[]", '["observation"]', "5", "null", '"observation"', '{"observation":"\\u0041"}', '{"__proto__":"x"}', '{"observation":"a","observation":"b"}')]
     return out + [("echo_observation", _text({})), ("echo_observation", _text({"observation": "a", "b": 1}))]
+
+
+QUANTITY = '{"fluid":"NH3","temperature":{"value":%s,"unit":"degC"}}'
+
+
+def lexical_vectors():
+    """Exact text, because JSON.parse hides what these do: signs, exponents, long numbers, duplicate keys, escapes, odd names."""
+    texts = [QUANTITY % v for v in ("-0", "-0.0", "1E1", "1e400", "-1e400", "1.0e-5", "0.00001", "1e22", "1.5e16", "10000000000000000", "1e308", "9" * 450, "-" + "9" * 450, "9" * 5000)]
+    texts += ['{"fluid":"NH3","fluid":"CO2","temperature":{"value":1,"unit":"degC"}}', '{"fluid":"NH3","temperature":{"value":1,"value":2,"unit":"degC"}}',
+              '{"__proto__":1,"fluid":"NH3","temperature":{"value":1,"unit":"degC"}}', '{"fluid":"NH3","temperature":{"value":1,"unit":"degC"},"constructor":1}',
+              '{"fluid":"N\\u0048","temperature":{"value":1,"unit":"degC"}}', '{"fluid":"NH\\u0033","temperature":{"value":1,"unit":"degC"}}', '{"fluid":"C:\\\\users","temperature":{"value":1,"unit":"degC"}}',
+              ' { "fluid" : "NH3" , "temperature" : { "unit" : "degC" , "value" : 1 } } ', '{"a":[' + "9" * 450 + '],"fluid":"NH3"}', '[1,2,' + "3" * 500 + "]",
+              "NaN", "Infinity", QUANTITY % "NaN", '{"":1}', '{"a\\"b":1,"a\\\\b":2,"a/b":3,"a\\/c":4}', '{"\\b":1,"\\t":"\\n"}', '{"\\u007f":1}', '"text"', "5", "null", "true", "[]", "{}", "[[[[1]]]]", "not json"]
+    return [("saturation_pressure", text) for text in texts]
+
+
+def units_vectors():
+    out = []
+    add = lambda tool, args: out.append((tool, _text(args)))
+    readings = {"degC": [-40.5, -10, 0, 25.25], "degF": [-40, 0, 20, 95, 212.5], "K": [233.15, 273.15, 300.5], "degR": [419.67, 491.67, 540.25]}
+    atmospheres = [None, {"basis": "standard"}, {"basis": "elevation", "elevation": {"value": 1500, "unit": "m"}}, {"basis": "elevation", "elevation": {"value": 5280.5, "unit": "ft"}},
+                   {"basis": "measured", "pressure": {"value": 95.5, "unit": "kPa(a)"}}]
+    for fluid in ("NH3", "CO2", "R134a", "R404A", "R448A"):
+        for side in ("bubble", "dew"):
+            for unit, values in readings.items():
+                for value in values:
+                    add("saturation_pressure", {"fluid": fluid, "temperature": {"value": value, "unit": unit}, "side": side})
+            for unit, value in (("kPa(a)", 290.5), ("kPa(g)", 188.25), ("psia", 42.125), ("psig", 27.5), ("bar(a)", 2.905), ("bar(g)", 1.88)):
+                for atmosphere in atmospheres:
+                    add("saturation_temperature", {"fluid": fluid, "pressure": {"value": value, "unit": unit}, "side": side, **({"atmosphere": atmosphere} if atmosphere else {})})
+        for unit, value in (("kPa(a)", 290.5), ("psig", 27.5), ("bar(g)", 1.88)):
+            for t_unit, values in readings.items():
+                for t in values:
+                    for atmosphere in atmospheres[:3]:
+                        add("check_reading_against_saturation", {"fluid": fluid, "pressure": {"value": value, "unit": unit}, "temperature": {"value": t, "unit": t_unit}, **({"atmosphere": atmosphere} if atmosphere else {})})
+    return out
+
+
+def boundary_vectors(count, seed=7):
+    """Temperatures within two units in the last place of a rounding boundary: the worst case for libm differences."""
+    import math
+    import random
+    from foundation_refrigeration import thermo
+    rng, out = random.Random(seed), []
+    for _ in range(count):
+        table = thermo.TABLES[rng.choice(("NH3", "CO2", "R134a", "R290", "R22"))]
+        start = rng.uniform(table.min_c + .1, min(table.max_c - .1, 60))
+        pressure, _unused = thermo.saturation_pressure_kpa(table, start, "bubble")
+        target = (math.floor(pressure * 1e4) + .5) / 1e4
+        low, high = max(start - 1, table.min_c), min(start + 1, table.max_c)
+        for _step in range(80):
+            middle = (low + high) / 2
+            if thermo.saturation_pressure_kpa(table, middle, "bubble")[0] < target:
+                low = middle
+            else:
+                high = middle
+        for step in (-2, -1, 0, 1, 2):
+            value = low
+            for _nudge in range(abs(step)):
+                value = math.nextafter(value, math.inf if step > 0 else -math.inf)
+            out.append(("saturation_pressure", json.dumps({"fluid": table.id, "temperature": {"value": value, "unit": "degC"}})))
+    return out
 
 
 def reference(foundation, vectors):
@@ -80,6 +143,10 @@ def reference(foundation, vectors):
         from foundation_template.tools import run
     rows = []
     for tool, text in vectors:
-        failed, assessment, receipt = run(tool, json.loads(text))
+        try:
+            failed, assessment, receipt = run(tool, json.loads(text))
+        except Exception as error:
+            rows.append({"tool": tool, "arguments": text, "python_exception": type(error).__name__})
+            continue
         rows.append({"tool": tool, "arguments": text, "failed": failed, "assessment": assessment, "receipt": receipt})
     return rows

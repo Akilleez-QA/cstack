@@ -9,6 +9,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "tests/kernels"), str(ROOT / "foundations/refrigeration"), str(ROOT / "foundations/template")]
+import fuzz_vectors  # noqa: E402
 import vectors  # noqa: E402
 
 
@@ -23,13 +24,32 @@ class Differential(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         report = json.loads(result.stdout)
         self.assertEqual(report["different"], 0, report["first"])
+        self.last = report
         return report["compared"]
 
     def test_refrigeration(self):
         self.assertGreater(self.compare("foundation_refrigeration", vectors.refrigeration_vectors(), "adapters/workcell/kernels/refrigeration.mjs", "foundations/refrigeration"), 3000)
 
     def test_template(self):
-        self.assertEqual(self.compare("foundation_template", vectors.template_vectors(), "adapters/workcell/kernels/template.mjs", "foundations/template"), 9)
+        self.assertEqual(self.compare("foundation_template", vectors.template_vectors(), "adapters/workcell/kernels/template.mjs", "foundations/template"), 19)
+
+    def refrigeration(self, source):
+        return self.compare("foundation_refrigeration", source, "adapters/workcell/kernels/refrigeration.mjs", "foundations/refrigeration")
+
+    def test_units_sides_and_atmospheres(self):
+        self.assertGreater(self.refrigeration(vectors.units_vectors()), 1000)
+        self.assertEqual(self.last["rounding"], 0)
+
+    def test_exact_text(self):
+        self.refrigeration(vectors.lexical_vectors())
+        self.assertGreater(self.last["refused"], 5)
+
+    def test_seeded_random_arguments(self):
+        self.assertEqual(self.refrigeration(fuzz_vectors.fuzz(20000, 11)), 20000)
+
+    def test_rounding_boundaries_differ_by_at_most_one_last_place(self):
+        self.assertEqual(self.refrigeration(vectors.boundary_vectors(400)), 2000)
+        self.assertLessEqual(self.last["worst"], 0.00015)
 
 
 class Pins(unittest.TestCase):

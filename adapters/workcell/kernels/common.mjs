@@ -16,6 +16,8 @@ export class KernelRefusal extends Error {
   }
 }
 
+export class KernelFault extends Error {}
+
 export const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 export const keysAre = (value, names) => {
   const keys = Object.keys(value);
@@ -56,10 +58,20 @@ export function pyFloat(value) {
 }
 
 const escape = text => JSON.stringify(text).replace(/[\u007f-￿]/g, c => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`);
+const NUMBER = /-?(?:0|[1-9][0-9]*)(\.[0-9]+)?([eE][-+]?[0-9]+)?/y;
+const MAX_INTEGER_DIGITS = 4300;
+const order = (a, b) => {
+  const x = [...a[0]], y = [...b[0]];
+  for (let i = 0; i < Math.min(x.length, y.length); i++) {
+    const d = x[i].codePointAt(0) - y[i].codePointAt(0);
+    if (d) return d;
+  }
+  return x.length - y.length;
+};
 
 export function canonicalPython(argumentsText) {
   let at = 0;
-  const space = () => { while (' \t\r\n'.includes(argumentsText[at]) && at < argumentsText.length) at++; };
+  const space = () => { while (at < argumentsText.length && ' \t\r\n'.includes(argumentsText[at])) at++; };
   const string = () => {
     const start = at++;
     while (argumentsText[at] !== '"') at += argumentsText[at] === '\\' ? 2 : 1;
@@ -70,7 +82,7 @@ export function canonicalPython(argumentsText) {
     const c = argumentsText[at];
     if (c === '{') {
       at++;
-      const fields = [];
+      const fields = new Map();
       space();
       if (argumentsText[at] === '}') { at++; return '{}'; }
       for (;;) {
@@ -78,19 +90,11 @@ export function canonicalPython(argumentsText) {
         const key = string();
         space();
         at++;
-        fields.push([key, value()]);
+        fields.set(key, value());
         space();
         if (argumentsText[at++] === '}') break;
       }
-      const order = (a, b) => {
-        const x = [...a[0]], y = [...b[0]];
-        for (let i = 0; i < Math.min(x.length, y.length); i++) {
-          const d = x[i].codePointAt(0) - y[i].codePointAt(0);
-          if (d) return d;
-        }
-        return x.length - y.length;
-      };
-      return `{${fields.sort(order).map(([k, v]) => `${escape(k)}:${v}`).join(',')}}`;
+      return `{${[...fields].sort(order).map(([k, v]) => `${escape(k)}:${v}`).join(',')}}`;
     }
     if (c === '[') {
       at++;
@@ -105,23 +109,39 @@ export function canonicalPython(argumentsText) {
       return `[${items.join(',')}]`;
     }
     if (c === '"') return escape(string());
-    const match = /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(\.[0-9]+)?([eE][-+]?[0-9]+)?)/.exec(argumentsText.slice(at, at + 400));
-    if (!match) throw new KernelRefusal('invalid_json', 'Foundation arguments must be JSON');
-    at += match[0].length;
-    if (match[1] === undefined && match[2] === undefined) return match[0];
-    return pyFloat(Number(match[0]));
+    for (const word of ['true', 'false', 'null']) {
+      if (argumentsText.startsWith(word, at)) { at += word.length; return word; }
+    }
+    NUMBER.lastIndex = at;
+    const match = NUMBER.exec(argumentsText);
+    at = NUMBER.lastIndex;
+    if (match[1] === undefined && match[2] === undefined) {
+      if (match[0].length > MAX_INTEGER_DIGITS) throw new KernelRefusal('input_too_large', 'Foundation arguments hold an integer over 4300 digits');
+      return match[0] === '-0' ? '0' : match[0];
+    }
+    const number = Number(match[0]);
+    if (!Number.isFinite(number)) throw new KernelRefusal('non_finite', 'Foundation arguments must be finite');
+    return pyFloat(number);
   };
-  const text = value();
-  space();
-  if (at !== argumentsText.length) throw new KernelRefusal('invalid_json', 'Foundation arguments must be one JSON value');
-  return text;
+  return value();
 }
+
+const asciiOnly = value => {
+  if (typeof value === 'string') return !/[^\x00-\x7f]/.test(value);
+  if (Array.isArray(value)) return value.every(asciiOnly);
+  if (value !== null && typeof value === 'object') return Object.entries(value).every(([key, item]) => asciiOnly(key) && asciiOnly(item));
+  return true;
+};
 
 export function parseArguments(argumentsText) {
   if (typeof argumentsText !== 'string' || argumentsText.length > 65536) throw new KernelRefusal('input_too_large', 'Foundation arguments exceed 65536 characters');
-  if (/[^\x00-\x7f]/.test(argumentsText) || /\\u/.test(argumentsText)) throw new KernelRefusal('non_ascii', 'This kernel route takes ASCII arguments only; use the pinned Foundation through a decision');
   let value;
-  try { value = JSON.parse(argumentsText, (key, item) => { if (key === '__proto__') throw new Error('reserved key'); return item; }); }
+  try { value = JSON.parse(argumentsText); }
   catch { throw new KernelRefusal('invalid_json', 'Foundation arguments must be JSON'); }
-  return { value, inputSha256: sha256(canonicalPython(argumentsText)) };
+  if (!asciiOnly(value)) throw new KernelRefusal('non_ascii', 'This kernel route takes ASCII arguments only; use the pinned Foundation through a decision');
+  try { return { value, inputSha256: sha256(canonicalPython(argumentsText)) }; }
+  catch (error) {
+    if (error instanceof RangeError) throw new KernelRefusal('input_too_deep', 'Foundation arguments are nested too deeply');
+    throw error;
+  }
 }

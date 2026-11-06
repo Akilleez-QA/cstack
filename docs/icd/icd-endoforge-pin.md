@@ -19,4 +19,4 @@ It rewrites `vendor/endoforge/` and the pin record. Review both, then run every 
 
 The slice is the fixed list in `tools/pin_endoforge.py`. It excludes `tools/` other than `tools/factory_quality/index.mjs`, the agent pool and all experiments. The pin doesn't prove the content is correct, and the draft branch can change upstream; a change needs a new pin.
 
-AssemblyScript 0.28.20 and its dependencies (binaryen, long; all Apache-2.0) are third-party npm packages, locked in `adapters/workcell/package-lock.json`, not vendored. `adapters/workcell/compiler.mjs` checks their hashes before every run.
+AssemblyScript 0.28.20 and its dependencies (binaryen, long; all Apache-2.0) are third-party npm packages, locked in `adapters/workcell-toolchain/package-lock.json`, not vendored. `adapters/workcell/compiler.mjs` checks their hashes before every run.

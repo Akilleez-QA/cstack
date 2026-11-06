@@ -91,7 +91,7 @@ def main():
         check = Check(clone, covered)
         check.plain("python3 -m venv .venv && . .venv/bin/activate")
         check.plain("pip install -r requirements.txt -r ci/requirements.txt")
-        check.plain("npm ci --prefix adapters/workcell --ignore-scripts --no-audit --no-fund")
+        check.plain("npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund")
         check.plain("cp cstack.config.example.json cstack.config.json")
         check.run_status("python -B cli.py < examples/scalar-and-negative.json", "completed")
         check.plain("python -B -m unittest discover -s tests", timeout=1800)

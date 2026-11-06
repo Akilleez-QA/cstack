@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const COMPILER = Object.freeze({ name: 'assemblyscript', version: '0.28.20' });
-const modules = fileURLToPath(new URL('node_modules/', import.meta.url));
+const modules = fileURLToPath(new URL('../workcell-toolchain/node_modules/', import.meta.url));
 const pins = Object.freeze({
   'assemblyscript/dist/asc.js': 'ebce85ca33b6e2d901ad2f9fe2daf4f98a42217a0bcbbb40fd98991ababd3891',
   'assemblyscript/dist/assemblyscript.js': 'b0ea444edfff355fe2981451358c5b8b24996f5e9190e02bceae60c94adeea19',
