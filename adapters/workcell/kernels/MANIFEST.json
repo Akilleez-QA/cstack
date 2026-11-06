@@ -1,0 +1,7 @@
+{
+ "schema": "cstack.foundation-kernels/0.1",
+ "kernels": {
+  "foundation_refrigeration": {"route": "js-port", "module": "refrigeration.mjs", "pin": "foundation_refrigeration", "package": "foundation_refrigeration"},
+  "foundation_template": {"route": "js-port", "module": "template.mjs", "pin": "foundation_template", "package": "foundation_template"}
+ }
+}
