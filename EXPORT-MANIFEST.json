@@ -31,8 +31,8 @@
    "bytes": 1046
   },
   ".gitignore": {
-   "sha256": "60047c1ffee6dfdea94234ff1de7c078f29fe4f7576a6949a6f75fb9dfcf48fe",
-   "bytes": 93
+   "sha256": "936ccfd2d825104dadde8759a2652cc0f3483d75b560f7617328ea64d6b64bc5",
+   "bytes": 121
   },
   ".gitleaks.toml": {
    "sha256": "e44d9f57de1c3f8e70f2c519a8aac7feae5ed4474527411b57df11542dec6a33",
@@ -71,8 +71,8 @@
    "bytes": 709
   },
   "README.md": {
-   "sha256": "ab3e715815d830731e2e05fab985d8d437c6ddbf5473e804df0481d2c3e1a57e",
-   "bytes": 13658
+   "sha256": "b1fcffad462d22d1602d6a1d85d31e815536db052862a5f10200a168fb914faa",
+   "bytes": 13941
   },
   "SECURITY.md": {
    "sha256": "3f9c3a83c11a80271cd41705ce11fd1096d225a5f2fb5023d7b1a935a69b922f",

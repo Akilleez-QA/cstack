@@ -135,17 +135,17 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, on a fresh clone at commit
-`b51f9945c494efe3f5fd9eb1193b50c35a18954a` of the unmerged draft stack. CI: not yet run on this.
+Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37` of the unmerged draft stack. GitHub CI hasn't run on it.
 
 | Check | Command | Result |
 |---|---|---|
-| Every README command | `python -B tools/check_readme.py` | 15 commands, 0 failed, 0 uncovered |
-| Core test suite | `python -B -m unittest discover -s tests` | 615 tests, OK, 2 skipped |
-| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; 38 paths checked, 0 broken |
-| Secret scan | `gitleaks git --staged`, per commit | No leaks. `bash ci/scan-secrets.sh` (TruffleHog) wasn't run |
+| Every README command, on a fresh clone | `python -B tools/check_readme.py --source https://github.com/Akilleez-QA/cstack --branch harden-tools` | 16 commands, 0 failed, 0 uncovered, 0 skipped. The forge goal ran twice and passed both times |
+| Core test suite, optimized | `python -B -O -m unittest discover -s tests` | 663 tests, OK, 2 skipped |
+| Core test suite and all suites | `python -B -m unittest discover -s tests`, `bash ci/run-local.sh python links`, inside the check above | Both exit 0; 38 paths checked, 0 broken |
+| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified, in pip's vendored code in the untracked `.venv` |
+| Secret scan | `gitleaks git`, over the stack | No leaks |
 
-Foundation route numbers are in [the routes](docs/verification/foundation-routes.md).
+Foundation route numbers are in [the routes](docs/verification/foundation-routes.md), from their own run.
 
 ## Documentation
 
