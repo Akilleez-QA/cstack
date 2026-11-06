@@ -57,9 +57,11 @@ CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.p
 
 The core makes the decision under a host grant and witnesses it. EndoForge then runs in `IsolatePool` V8 workcells: a model transport returns source, the pinned AssemblyScript compiler builds it in the cell, the real gates and frozen evaluator judge it, and the kernel calls the Foundations it declared as in-process imports. The EndoForge ledger and the receipt name the decision, grant, compiler and Foundation versions.
 
-The controller and both ledgers stay outside the cohort. A lost cell, supervisor or controller is recorded as `outcome_unknown`, never as a pass, and isn't retried. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
+The command can run again, and each run gets its own task and candidate. A goal's decision binds one request: a different request under it is refused. Numbers in a goal can be decimal literals.
 
-This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration. Cstack ships none yet. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
+The controller and both ledgers stay outside the cohort. A lost cell or supervisor is recorded as `outcome_unknown`, never as a pass, and isn't retried; a rerun then takes `python -B cli.py --resume DECISION_ID`. A lost controller is reconciled against the run ledger by the next run, which lists anything unresolved. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
+
+This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration, and gets its full instructions in `prompt.text`. Cstack ships none yet; that wiring waits on EndoForge experiment P-50. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
 
 Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegates them; the receipt says `cgroup: unavailable` where it doesn't.
 
@@ -116,7 +118,7 @@ Run the root and Foundation unittest suites normally and with optimization enabl
 
 ## Wire the merge train
 
-`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. It needs `gh` and a GitHub remote. Run it from a timer against a fresh worktree of `main`.
+`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. It needs `gh`, signed in, and a GitHub remote; without them it says so and exits 2, and `tools/check_readme.py` reports these two commands as skipped. Run it from a timer against a fresh worktree of `main`.
 
 ```sh
 python3 tools/merge_train.py --wip

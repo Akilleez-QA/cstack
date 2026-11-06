@@ -31,7 +31,10 @@ WIP_LIMIT = 10
 
 
 def gh(*a, check=True):
-    r = subprocess.run(['gh', *a], capture_output=True, text=True)
+    try:
+        r = subprocess.run(['gh', *a], capture_output=True, text=True)
+    except FileNotFoundError:
+        raise RuntimeError('gh is not installed') from None
     if check and r.returncode:
         raise RuntimeError(f"gh {' '.join(a)}: {r.stderr.strip()}")
     return r.stdout
@@ -207,4 +210,8 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except RuntimeError as e:
+        print(f'merge_train needs gh, signed in, in a clone with a GitHub remote: {str(e)[:300]}', file=sys.stderr)
+        sys.exit(2)
