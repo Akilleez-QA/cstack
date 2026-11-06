@@ -225,7 +225,9 @@ def endoforge_session(config_path=_HERE / "cstack.config.json"):
         raise ContractError("Endoforge requires a trusted storage path")
     workcell = _workcell_config(config, config_path.parent.resolve())
     with EndoforgeLedger(config_path.parent / path) as port:
-        yield {"endoforge": port, "session_id": uuid4().hex, **({"workcell": workcell} if workcell else {})}
+        session_id = uuid4().hex
+        yield {"endoforge": port, "session_id": session_id, "reconciled": port.reconcile(session_id),
+               **({"workcell": workcell} if workcell else {})}
 
 
 def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,

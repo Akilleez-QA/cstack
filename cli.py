@@ -19,7 +19,10 @@ def run_document(document, approver=None, *, config=None):
     with session as host, cli_approval_session(approver) as approval_host:
         if isinstance(approver, str) and not approval_host:
             approver = TerminalApprover(approver)
-        return _run_document(document, {**host, **approval_host}, approver)
+        host = dict(host)
+        reconciled = host.pop("reconciled", ())
+        result = _run_document(document, {**host, **approval_host}, approver)
+        return {**result, "reconciled_outcome_unknown": list(reconciled)} if reconciled else result
 
 
 def _run_document(document, host, approver):
