@@ -625,6 +625,11 @@
    "path": "tools/build_export_manifest.py",
    "role": "build_or_check_tool",
    "reason": "Builds the local export inventory without granting runtime authority."
+  },
+  {
+   "path": "tools/pin_endoforge.py",
+   "role": "build_or_check_tool",
+   "reason": "Rebuilds the byte-pinned EndoForge slice from one committed revision."
   }
  ]
 }
