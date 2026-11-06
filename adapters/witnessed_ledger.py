@@ -200,9 +200,18 @@ class WitnessedLedger:
             with self._open() as log:
                 if anchor and len(anchor) == 5 and self._tip_at(log, anchor[0]) != anchor[3:]:
                     raise ContractError("Witnessed ledger failed verification: stream differs from its anchor")
+                self._restore_intents(log)
         except BaseException:
             self.close()
             raise
+
+    def _restore_intents(self, log):
+        """A new process keeps recording against this stream's intents, so a late outcome is a result on its own intent."""
+        for entry in log.entries:
+            body = entry.get("body")
+            if entry["writer"] == self._writer and entry["kind"] == "intent" and type(body) is dict \
+                    and body.get("stream") == self._stream and "event_json" in body:
+                self._intents[_decode(body)["data"]["request"]["decision_id"]] = entry["hash"]
 
     def _claim_stream(self):
         """Exclusive, non-blocking flock on <log>.streams/<stream>.lock for this instance's lifetime."""
