@@ -45,6 +45,7 @@ class Forge:
         process = subprocess.Popen(self.command(), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=self.env, cwd=ROOT)
         process.stdin.write(json.dumps(document).encode())
         process.stdin.close()
+        process.stdin = None
         return process
 
     def run(self, document, timeout=120):
