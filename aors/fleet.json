@@ -3,7 +3,7 @@
   "approver": "owner-via-approver",
   "source": {
     "generated_by": "example",
-    "inputs": []
+    "inputs": ["aors/README.md"]
   },
   "bots": [
     {
