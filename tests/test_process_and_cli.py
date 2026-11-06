@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import tempfile
 import sys
 import threading
 import unittest
@@ -99,12 +100,16 @@ class ExecutorTests(unittest.TestCase):
 
 
 class CliTests(unittest.TestCase):
+    def run_cli_without_host_config(self, raw):
+        with tempfile.TemporaryDirectory() as tmp:
+            return self.run_cli(raw, ("--config", str(Path(tmp) / "absent.json")))
+
     def run_cli(self, raw, args=()):
         return subprocess.run([sys.executable, "-B", *(["-O"] if sys.flags.optimize else []), "cli.py", *args],
             cwd=ROOT, input=raw, capture_output=True, timeout=30)
 
     def test_real_local_harness_process(self):
-        result = self.run_cli((ROOT / "examples/scalar-and-negative.json").read_bytes())
+        result = self.run_cli_without_host_config((ROOT / "examples/scalar-and-negative.json").read_bytes())
         self.assertEqual(result.returncode, 0, result.stderr)
         document = json.loads(result.stdout)
         outcomes = [e["data"]["outcome"] for e in document["events"] if e["kind"] == "outcome"]
@@ -150,7 +155,9 @@ class CliTests(unittest.TestCase):
                                                        (goal_id,), 2, lane="ToolFace"),), MemoryLedger(max_bytes=2_500_000))
             return core, cap
         with patch("cli.build_domain", limited_host):
-            result = run_document(json.loads((ROOT/"examples/scalar-and-negative.json").read_text()))
+            with tempfile.TemporaryDirectory() as tmp:
+                result = run_document(json.loads((ROOT/"examples/scalar-and-negative.json").read_text()),
+                                      config=Path(tmp) / "absent.json")
         self.assertEqual(result["run_status"], "stopped")
         self.assertEqual(result["stopped"]["execution_certainty"], "not_dispatched")
         self.assertEqual(result["stopped"]["decision_id"], "decision-2")
