@@ -22,7 +22,7 @@ from adapters.adapter_inventory import load_inventory
 from adapters.math_stdio import MathStdioCapability
 from adapters.memory_ledger import MemoryLedger
 from adapters.endoforge_ledger import EndoforgeLedger
-from adapters.endoforge_workcell import WorkcellCapability
+from adapters.endoforge_workcell import WorkcellCapability, decode_forge
 from adapters.template_stdio import TemplateStdioCapability
 from adapters.engine_stdio import EngineStdioCapability
 from extensions.cstack_forge import CstackForge, FORGE_DOMAIN_ID, FORGE_TOOL_NAMES
@@ -92,7 +92,7 @@ if DEFAULT_FILM_ROOT.is_dir():
 CAPABILITY_ADAPTERS = {d.domain_id: d.adapter_id for d in DOMAINS.values()}
 # Runtimes are not Foundations: AOR sessions compose DOMAINS, so a bot gets no run authority by being on the registry.
 RUNTIMES = {FORGE_DOMAIN_ID: Domain(FORGE_DOMAIN_ID, CstackForge, WorkcellCapability, _HERE / "vendor/endoforge", FORGE_TOOL_NAMES,
-                                    "endoforge-workcell", "local-forge-run", lane="RuntimeFace")}
+                                    "endoforge-workcell", "local-forge-run", decode=decode_forge, lane="RuntimeFace")}
 RUNTIME_ADAPTERS = {d.domain_id: d.adapter_id for d in RUNTIMES.values()}
 
 _LEDGER_CORES = WeakValueDictionary()
