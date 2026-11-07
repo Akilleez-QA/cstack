@@ -3,11 +3,13 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import subprocess
 import sys
 import tempfile
 
+from adapters.wire import WireFailure, decode
 from extensions.cstack_forge import FORGE_CAPABILITY
 from poodo_core import ContractError, canonical, outcome_for
 from poodo_core.models import Document
@@ -21,6 +23,20 @@ MAX_FRAME = 8 * 1024 * 1024
 INVARIANTS = ["declared_imports", "foundation_pins"]
 RESULT_LIMITS = {"wallMs": 30000, "memoryBytes": 16777216, "fuel": 4096}
 ALLOWED_DECISION_EFFECT = "decision:accepted"
+
+
+_DECIMAL = re.compile(r"-?(0|[1-9][0-9]*)\.[0-9]+\Z")
+
+
+def _input_decimal(token):
+    if len(token) > 24 or _DECIMAL.fullmatch(token) is None:
+        raise WireFailure("Input numbers must be finite decimal literals without exponent")
+    return float(token)
+
+
+def decode_forge(raw):
+    """Decimal literals round-trip exactly through a double's shortest text. Exponents and nonfinite tokens stay refused."""
+    return decode(raw, parse_float=_input_decimal)
 
 
 def _ledger_module():

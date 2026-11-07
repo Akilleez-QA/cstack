@@ -1,6 +1,7 @@
 import { createInterface } from 'node:readline';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { compilerIdentity, trustedWasmModules, workcellLimits } from './compiler.mjs';
+import { renderPrompt, stripFences } from './coder-prompt.mjs';
 import { IsolatePool } from '../../vendor/endoforge/core/runtime/isolate-pool.mjs';
 
 const config = JSON.parse(process.argv[2]);
@@ -19,7 +20,10 @@ const { generate } = config.transport ? await import(pathToFileURL(config.transp
 
 const commands = {
   ready: async () => { await pool.ready(); return { compiler: compilerIdentity() }; },
-  generate: request => generate(request),
+  generate: async request => {
+    const answer = await generate({ ...request, text: renderPrompt(request) });
+    return { ...answer, text: stripFences(answer.text) };
+  },
   run: job => pool.run(job),
 };
 
