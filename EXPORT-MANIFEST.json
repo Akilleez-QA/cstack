@@ -155,16 +155,16 @@
    "bytes": 3945
   },
   "adapters/durable_ledger.py": {
-   "sha256": "1b0ff157eed3fa7c441dcaa476f70d61d840fa0a1342af7acc1e722f9a1410aa",
-   "bytes": 1187
+   "sha256": "12b51dd8297fec6aac8d2fe1056bbd3d90b5890bc29444d837d456b92fce38e0",
+   "bytes": 2708
   },
   "adapters/endoforge_ledger.py": {
    "sha256": "a5b2009d30f1952a6df8f4e4dddcd71e16a74c256542bdabc94d1d4869f2ecb6",
    "bytes": 12310
   },
   "adapters/endoforge_workcell.py": {
-   "sha256": "c907ea1ef2594e7d55cd8839e3e71a19d2377f82fc4edb5ad23a17c0d30e06a1",
-   "bytes": 22227
+   "sha256": "85280c5ca9e876f656e03dd16e32c38e9cd64cc01ca8152d0aa30bc8b077aaf9",
+   "bytes": 22260
   },
   "adapters/engine_stdio.py": {
    "sha256": "842e4a46e49ce63412f8098e17e7521a7f20bec25986ac68bf9fd821c28ee5b3",
@@ -179,8 +179,8 @@
    "bytes": 1359
   },
   "adapters/fleet_mail.py": {
-   "sha256": "2e3cc2fc2e7df68efde65ddd07aa7d14b0e5584587aef79ad2d825329c542ee5",
-   "bytes": 36820
+   "sha256": "7d65e1c09627c6eba0481db0949041f18c3a332d106ea419ab1fe34b4c0be314",
+   "bytes": 38041
   },
   "adapters/foundation_stdio.py": {
    "sha256": "cd8cabcba2739b2aac95c3798710707605791950a34fceba73eb7ccd28392837",
@@ -255,8 +255,8 @@
    "bytes": 4858
   },
   "adapters/relay_outbox.py": {
-   "sha256": "1d5a66bdf1fe4a15319bb44663d36bce7924fc5c71749a758d2315ffe667f735",
-   "bytes": 5332
+   "sha256": "8afb4b37e162a8ac54ce30bf4e8ce9b10246f0ffdded1e8a4915965063a780c9",
+   "bytes": 6319
   },
   "adapters/robotics_stdio.py": {
    "sha256": "3f510ee5fdcb6d9f2cb879586f0bccd2d8f1f2258a91b7875ceb8c13f88347e1",
@@ -443,7 +443,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "1e6488e2c07f291e846b9f4862a6ccc76594db07e900678aa9bb329f3f2f8234",
+   "sha256": "853dc371507905e5ca5be82ca2a95bc5ae730dc7594b8ecd857a84c9a378810c",
    "bytes": 8264
   },
   "contracts/adapters.schema.json": {
@@ -495,8 +495,8 @@
    "bytes": 448
   },
   "docs/icd/icd-endoforge-pin.md": {
-   "sha256": "c670d2f03e44154dfb9578ed6bfcf2e2d986d28a19f24d3274103c765972ae40",
-   "bytes": 1719
+   "sha256": "157d0fccee383d02989760cbb8c24fe608e87105a2e2664c75099e1e61dde5a7",
+   "bytes": 1794
   },
   "docs/icd/icd-endoforge.md": {
    "sha256": "4c4e47378843c8d19346f4f47f83ac61b83791ad0e11f8f32f13ad1886925d03",
@@ -1818,6 +1818,10 @@
    "sha256": "feab251f5862c1dfa412ec34582cd653e6bd61abdad5f774716785d6e9c88f41",
    "bytes": 5535
   },
+  "tests/test_durable_ledger.py": {
+   "sha256": "111e1c9994cb65a5b9937452a6c67b49ce9bbc2cda2430ee6deb9dfcd8812d37",
+   "bytes": 4020
+  },
   "tests/test_e2e_agent_ledger.py": {
    "sha256": "24ee550800482075b38a3c27bc8f187792eac59da1356504012d7b91944647b3",
    "bytes": 2659
@@ -1853,6 +1857,10 @@
   "tests/test_fleet_mail.py": {
    "sha256": "195bb022f35b6f9a1a6f06f914c6545124724b6fc87cb9b9d4b80ecd1c1d25f8",
    "bytes": 27897
+  },
+  "tests/test_fleet_mail_budget.py": {
+   "sha256": "39bac88d15171a8d2f60953ba9a7ea848b6001cbee4d0927c46e5b672e7c1fbd",
+   "bytes": 2651
   },
   "tests/test_forge_identity.py": {
    "sha256": "6e0303dd9ea15f31e9cf517d9b574980ee5382ef44505c25ebff26fe2d617911",
@@ -1949,6 +1957,10 @@
   "tests/test_refrigeration_e2e.py": {
    "sha256": "60ace74b18e142633b50d473057b433a59ff596a93c5a69e0eb468cf5a9a7140",
    "bytes": 5427
+  },
+  "tests/test_relay_outbox.py": {
+   "sha256": "4a2a4038104f7fd9658a53494fc9a75afe8db274d1bf150a8bf749d7ec6cd948",
+   "bytes": 2951
   },
   "tests/test_robotics_conformance.py": {
    "sha256": "f14e2388ce3bf7c7e6c4af59780a6c9795819e676190c1f2da7c77378f1b52a6",
@@ -2063,8 +2075,8 @@
    "bytes": 9762
   },
   "tools/pin_endoforge.py": {
-   "sha256": "b49d1017b3b6b180724629b87e64cfa0a23d57b286f42ad699e8c345a9057283",
-   "bytes": 3488
+   "sha256": "ad4e8e87725b02ad013090fa793dc0b9752eeeca8057e59ed78870ebfcd1e415",
+   "bytes": 3514
   },
   "tools/pin_workcell.py": {
    "sha256": "e7740a583e385324a5730f17da45a9682871475161d7000d35d4143f1a7be629",
@@ -2103,40 +2115,40 @@
    "bytes": 35149
   },
   "vendor/endoforge/SOURCE-MANIFEST.json": {
-   "sha256": "33badc7ea280b51123532557f05472048cf5028a0d4a148975ef2f48f6130e11",
-   "bytes": 3814
+   "sha256": "1d54d4be4c87c6fc4eb38596c5ee4b7dbfe5dd8fd6fded9b3375eb9cc098f6c6",
+   "bytes": 4006
   },
   "vendor/endoforge/core/__init__.py": {
    "sha256": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
    "bytes": 456
   },
   "vendor/endoforge/core/engine/evaluator.mjs": {
-   "sha256": "9a4f7072b1859911e6a17c85630e39d3ca29d3bbe94d9cc2cd9aedd3b8fafe8f",
-   "bytes": 6684
+   "sha256": "6bd1e9c1d624cb57a015dbdcd8be5d287b2dcafbec8a96d316a6ade3c9d6bef3",
+   "bytes": 7486
   },
   "vendor/endoforge/core/engine/frozen.py": {
-   "sha256": "ae9337586cd743bd3c998ade9ab822f0676a4bf1c9b1ec76f5faaa9c04c3372c",
-   "bytes": 970
+   "sha256": "0fc675bea640ba51f874b1561a8e7139fe6b047394c9faa5e02c9f26c603bc21",
+   "bytes": 1341
   },
   "vendor/endoforge/core/engine/gates.mjs": {
-   "sha256": "ea8fee25f4089f5ac199dd739965c971da0a209fdca8d79b32c21dda81563881",
-   "bytes": 7054
+   "sha256": "b7e94461d5d46d93a0301dc983cbaf16cce5a05b770cceb4d96bfa1bee555298",
+   "bytes": 7212
   },
   "vendor/endoforge/core/ledger/__init__.py": {
    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
    "bytes": 0
   },
   "vendor/endoforge/core/ledger/frozen.py": {
-   "sha256": "eddd38ff5911682b430c8ca090c746d22eae09c5e325f8b0ec3eceee5290b949",
-   "bytes": 7046
+   "sha256": "ed00f30823f28d7997877005f1830c07a8df6806b325d57730a6e60cc6c3413e",
+   "bytes": 7296
   },
   "vendor/endoforge/core/ledger/ledger.py": {
-   "sha256": "1a600e948c8dd507a497aab7b13f324a844b860ffefcc8d1c89e04b4ae76e14f",
-   "bytes": 8935
+   "sha256": "c48c29c6058c5dbc0bb429bc8e2bf4010e4457b456c747207aa9d5472508b8a6",
+   "bytes": 8995
   },
   "vendor/endoforge/core/ledger/record.schema.json": {
-   "sha256": "3b3675be16d1368e303b5baa4f4bf32b2f4695d5f4331a62abc81481f141c054",
-   "bytes": 6532
+   "sha256": "3b619371b7dbee084a223fd11c2cde41b5c4898f59abfbc12989c13bbd8b95b6",
+   "bytes": 6551
   },
   "vendor/endoforge/core/lifecycle.py": {
    "sha256": "42e3c4b3ffa19ddc0c6ce5a583245fb175d9ceac82380dc12e52cc534fd0b330",
@@ -2147,24 +2159,24 @@
    "bytes": 2533
   },
   "vendor/endoforge/core/runtime/isolate-ledger.mjs": {
-   "sha256": "9653fbf3838008a033ab255a424ecf99066423c3713a06fb5c629ca72813134f",
-   "bytes": 8383
+   "sha256": "82584b718359900d7396401162f328669b016ca9472171a9f917d57357f7f7d5",
+   "bytes": 7581
   },
   "vendor/endoforge/core/runtime/isolate-pool.mjs": {
-   "sha256": "6defa9eddc18a5840c2ac6c5689f6dc77693902a38a7f023085e06c9dc7a23e8",
-   "bytes": 16546
+   "sha256": "a0e678150f413c376fdcff9022bc3b33b81b3c5afe6c303c05204a3f8e167159",
+   "bytes": 19758
   },
   "vendor/endoforge/core/runtime/isolate-wasm-compile.mjs": {
    "sha256": "9644689bd4f48ba88ca2c3216b57af35772e5a03530ac7c933cdce5072789c32",
    "bytes": 653
   },
   "vendor/endoforge/core/runtime/isolate-wasm.mjs": {
-   "sha256": "212c64be3297a20f69bc82d1aefdd09b297c61208ca649fa508a95b4434292ca",
-   "bytes": 14585
+   "sha256": "b6dc03955db4aefbe2c1f6a7f7d554afb96ec79ee6d8a1f0b13626d88ae439ca",
+   "bytes": 14524
   },
   "vendor/endoforge/core/runtime/isolate-workcell.mjs": {
-   "sha256": "1f2ade84b5f2d09d6c0edb097f1b2a663f6ea18a2841f223526a58128256648a",
-   "bytes": 3274
+   "sha256": "722d3b68ae1a8b9c02f086f79fb7fec40ba31a6cd301ddd79a47fec8cba29ed8",
+   "bytes": 3647
   },
   "vendor/endoforge/tests/test_endoforge_core_boundary.py": {
    "sha256": "c3cf526f13e0723754ae7bd4f8be1c9bc8394176c011623ea65ec5a76c3df822",
@@ -2173,6 +2185,10 @@
   "vendor/endoforge/tools/factory_quality/index.mjs": {
    "sha256": "3779ac6c6b48a273186200612a556d9bf3f5e00f541e1e2dff3812775231bf31",
    "bytes": 13551
+  },
+  "vendor/endoforge/tools/ledger_writer.py": {
+   "sha256": "82594835c5ac6d231ef71464ad1044a1d456e2a015c9f2e3ce4a75df29c4d979",
+   "bytes": 19275
   },
   "vendor/foundation-engine-v020/SOURCE-MANIFEST.json": {
    "sha256": "edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e",
