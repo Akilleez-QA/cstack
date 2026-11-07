@@ -125,11 +125,26 @@ class Forged(unittest.TestCase):
         _, final = self.run_goal(BOTH.replace('field(timing, "result.leg_swing_period_ms")', '"1"'), goal(**arguments()))
         self.assertEqual(final["assessment"], "candidate_rejected")
 
-    def test_a_held_out_check_the_port_refuses_cannot_pass(self):
+    def rejected_with_repair(self, check, code):
         document = arguments()
-        document["checks"][0]["arguments"] = {"height_mm": 1.5}
-        _, final = self.run_goal(BOTH, goal(**document))
-        self.assertNotEqual(final["assessment"], "candidate_passed")
+        document["checks"] = [dict(document["checks"][0], **check)]
+        document["max_candidates"] = 2
+        forge = Forge(BOTH, BOTH + "\n// repaired\n", imports=IMPORTS)
+        self.addCleanup(forge.close)
+        final = outcome(forge.run(goal(**document)))
+        self.assertEqual((final["execution_status"], final["assessment"]), ("tool_error", "candidate_rejected"), final["limitations"])
+        candidates = final["raw_result"]["candidates"]
+        self.assertEqual([c["status"] for c in candidates], ["rejected", "rejected"], "repair stays allowed")
+        self.assertEqual(candidates[0]["diagnostics"][0]["check"], "residual")
+        self.assertIn(code, candidates[0]["diagnostics"][0]["reasons"][0])
+        self.assertEqual([r["data"]["outcome_state"] for r in forge.receipts()], ["failed", "failed"])
+
+    def test_a_held_out_check_the_port_refuses_is_a_rejection_that_allows_repair(self):
+        self.rejected_with_repair(dict(arguments={"height_mm": 1.5}), "not_integer")
+
+    def test_a_numeric_boundary_in_a_held_out_check_is_a_rejection_that_allows_repair(self):
+        tie = {"kind": "gear_mesh", "driver_teeth": 12, "driven_teeth": 36, "mesh": "external", "frames": [{"driver_mrad": 300, "driven_mrad": -100}, {"driver_mrad": 600, "driven_mrad": -210}]}
+        self.rejected_with_repair(dict(tool="mechanism_check", arguments=tie, path="result.detail.worst_frame"), "numeric_boundary")
 
     @unittest.skipUnless(sys.platform == "linux", "ptrace counting is Linux only")
     def test_the_whole_job_spawns_nothing(self):

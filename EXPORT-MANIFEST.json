@@ -1983,8 +1983,8 @@
    "bytes": 23004
   },
   "tests/test_workcell_film_robotics.py": {
-   "sha256": "da7fa6812ebead88aaca7c598e3ad6161c5f065feccbadb9c6ffb7df6434ae62",
-   "bytes": 8860
+   "sha256": "0f66b5c9094d4b0a4e2da41af42cb7658be7e50290c160a27addf5c70ae71d4f",
+   "bytes": 10073
   },
   "tests/test_workcell_foundation_imports.py": {
    "sha256": "767bb6360a9ae261db23b047c84dbfff5e52e6b663bacd5833083273717c64c7",
