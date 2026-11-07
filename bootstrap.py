@@ -13,6 +13,7 @@ from contextlib import contextmanager
 import json
 from uuid import uuid4
 from functools import partial
+from hashlib import sha256
 from pathlib import Path
 from threading import Lock
 from typing import Callable
@@ -150,7 +151,7 @@ def registered(domain_id):
     return DOMAINS[domain_id]
 
 
-_WORKCELL_FIELDS = {"ledger", "transport", "foundation_imports", "decision_operations", "isolation", "size", "jobTimeoutMs", "cgroupRoot"}
+_WORKCELL_FIELDS = {"ledger", "transport", "foundation_imports", "decision_operations", "decision_ask_operations", "isolation", "size", "jobTimeoutMs", "cgroupRoot"}
 
 
 def _workcell_config(config, parent):
@@ -177,7 +178,7 @@ def _coder_decisions(config, endoforge, session_id):
     """A coder's proposal gets its own goal and its own core, so the run's core stays single-caller and re-entry stays refused."""
     def propose(run, proposal):
         number = len(run.proposals) + 1
-        scope = f"{run.request.decision_id}.{run.attempt_id}.{number}"
+        scope = sha256(f"{session_id}|{run.request.decision_id}|{run.attempt_id}|{number}".encode()).hexdigest()[:32]
         if number > _MAX_PROPOSALS_PER_RUN:
             return {"accepted": False, "reason": "proposal_limit", "number": number}
         if type(proposal) is not dict or set(proposal) != _PROPOSAL_FIELDS:
@@ -188,7 +189,9 @@ def _coder_decisions(config, endoforge, session_id):
         operations = tuple(config.get("decision_operations", {}).get(domain, ()))
         if not operations:
             return {"accepted": False, "reason": "no_decision_grant", "number": number}
-        goal_id = f"coder.{scope}"[:128]
+        if proposal["operation"] in config.get("decision_ask_operations", {}).get(domain, ()):
+            return {"accepted": False, "reason": "approval_not_routed_to_coders", "number": number}
+        goal_id = f"coder.{scope}"
         try:
             core, _ = build_domain(domain, goal_id, operations=operations, max_calls=1, endoforge=endoforge, session_id=session_id)
             goal = GoalContract(goal_id, 1, domain, f"A coder's proposal under decision {run.request.decision_id}.", (), ("No authority beyond the host grant.",),
@@ -198,21 +201,25 @@ def _coder_decisions(config, endoforge, session_id):
             core.advance(goal_id, Phase.OBSERVE, checkpoint(1))
             core.advance(goal_id, Phase.ORIENT, checkpoint(2, ("the proposal itself",)))
             core.advance(goal_id, Phase.DECIDE, checkpoint(3, (), tuple(f"option-{i}" for i in range(20))))
-            request = CapabilityRequest.from_dict({"schema": REQUEST_VERSION, "request_id": f"coder-request.{scope}"[:128], "goal_id": goal_id, "goal_revision": 1,
-                                                   "decision_id": f"coder-decision.{scope}"[:128], "capability_id": domain, "operation": proposal["operation"],
+            request = CapabilityRequest.from_dict({"schema": REQUEST_VERSION, "request_id": f"coder-request.{scope}", "goal_id": goal_id, "goal_revision": 1,
+                                                   "decision_id": f"coder-decision.{scope}", "capability_id": domain, "operation": proposal["operation"],
                                                    "arguments": proposal["arguments"], "required_evidence": "tool_observation"})
             record = core.decide(request, Precommitment(proposal["expected_observation"], proposal["success_boundary"], proposal["failure_meaning"], "workcell-broker", "1"))
             core.advance(goal_id, Phase.ORCHESTRATE, checkpoint(4))
             outcome = core.execute(request.decision_id).to_dict()
         except ContractError as error:
             return {"accepted": False, "reason": "core_refused", "detail": str(error)[:200], "number": number}
-        return {"accepted": True, "number": number, "decision_id": request.decision_id, "grant_id": record.grant_id, "execution_status": outcome["execution_status"],
+        if outcome["execution_certainty"] == "unknown":
+            raise RuntimeError("a coder decision's outcome is unknown")
+        if outcome["execution_status"] not in ("completed", "tool_error"):
+            return {"accepted": False, "reason": "not_executed:" + outcome["execution_status"], "number": number, "decision_id": request.decision_id}
+        return {"accepted": True, "number": number, "parent_decision_id": run.request.decision_id, "decision_id": request.decision_id, "grant_id": record.grant_id, "execution_status": outcome["execution_status"],
                 "assessment": outcome["assessment"], "source_manifest_sha256": outcome["source_manifest_sha256"], "result": outcome["raw_result"]}
     return propose
 
 
 @contextmanager
-def endoforge_session(config_path=_HERE / "cstack.config.json"):
+def endoforge_session(config_path=_HERE / "cstack.config.json", resume=None):
     config_path = Path(config_path)
     try:
         config = json.loads(config_path.read_text())
@@ -227,7 +234,7 @@ def endoforge_session(config_path=_HERE / "cstack.config.json"):
     if type(path) is not str or not path.strip():
         raise ContractError("Endoforge requires a trusted storage path")
     workcell = _workcell_config(config, config_path.parent.resolve())
-    with EndoforgeLedger(config_path.parent / path) as port:
+    with EndoforgeLedger(config_path.parent / path, resume=resume) as port:
         session_id = uuid4().hex
         yield {"endoforge": port, "session_id": session_id, "reconciled": port.reconcile(session_id),
                **({"workcell": workcell} if workcell else {})}
