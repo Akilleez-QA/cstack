@@ -1,0 +1,179 @@
+{
+ "schema": "cstack.run/0.1",
+ "goal": {
+  "goal_id": "forge-ammonia-saturation",
+  "revision": 1,
+  "domain_id": "cstack_forge",
+  "objective": "Make a kernel that reports ammonia saturation pressure from the pinned refrigeration Foundation.",
+  "assumptions": [
+   "Synthetic inputs only; no plant or sensor."
+  ],
+  "exclusions": [
+   "No engineering, safety or compliance determination, and no goal acceptance."
+  ],
+  "acceptance_version": "forge-v1",
+  "acceptance_criteria": [
+   "The kernel's outputs equal the pinned Foundation's own result on held-out checks."
+  ]
+ },
+ "checkpoints": [
+  {
+   "checkpoint_id": "checkpoint-1",
+   "rationale": "Preauthored fixture for the forge domain; not autonomous reasoning.",
+   "research_references": [],
+   "option_ids": []
+  },
+  {
+   "checkpoint_id": "checkpoint-2",
+   "rationale": "Preauthored fixture for the forge domain; not autonomous reasoning.",
+   "research_references": [
+    "foundations/refrigeration/README.md"
+   ],
+   "option_ids": []
+  },
+  {
+   "checkpoint_id": "checkpoint-3",
+   "rationale": "Preauthored fixture for the forge domain; not autonomous reasoning.",
+   "research_references": [],
+   "option_ids": [
+    "option-0",
+    "option-1",
+    "option-2",
+    "option-3",
+    "option-4",
+    "option-5",
+    "option-6",
+    "option-7",
+    "option-8",
+    "option-9",
+    "option-10",
+    "option-11",
+    "option-12",
+    "option-13",
+    "option-14",
+    "option-15",
+    "option-16",
+    "option-17",
+    "option-18",
+    "option-19"
+   ]
+  },
+  {
+   "checkpoint_id": "checkpoint-4",
+   "rationale": "Preauthored fixture for the forge domain; not autonomous reasoning.",
+   "research_references": [],
+   "option_ids": []
+  }
+ ],
+ "calls": [
+  {
+   "request": {
+    "schema": "poodo.capability-request/0.1",
+    "request_id": "forge-request-1",
+    "goal_id": "forge-ammonia-saturation",
+    "goal_revision": 1,
+    "decision_id": "forge-decision-1",
+    "capability_id": "cstack_forge",
+    "operation": "run_goal",
+    "required_evidence": "tool_observation",
+    "arguments": {
+     "need": "Return the saturation pressure of ammonia in kPa(a) for an input temperature in degC.",
+     "declared_imports": [
+      "foundation_refrigeration"
+     ],
+     "signature": {
+      "version": 1,
+      "name": "ammonia_saturation_pressure",
+      "inputs": [
+       {
+        "path": "temperature_c",
+        "type": "number",
+        "unit": "degC",
+        "domain": [
+         -70,
+         100
+        ]
+       }
+      ],
+      "output": {
+       "type": "number",
+       "unit": "kPa(a)"
+      }
+     },
+     "cases": [
+      {
+       "id": "t0",
+       "inputs": {
+        "temperature_c": -10
+       }
+      },
+      {
+       "id": "t1",
+       "inputs": {
+        "temperature_c": 0
+       }
+      },
+      {
+       "id": "t2",
+       "inputs": {
+        "temperature_c": 25
+       }
+      }
+     ],
+     "checks": [
+      {
+       "case": "t0",
+       "foundation": "foundation_refrigeration",
+       "tool": "saturation_pressure",
+       "arguments": {
+        "fluid": "NH3",
+        "temperature": {
+         "value": -10,
+         "unit": "degC"
+        }
+       },
+       "path": "result.pressure.value",
+       "tolerance": 0
+      },
+      {
+       "case": "t1",
+       "foundation": "foundation_refrigeration",
+       "tool": "saturation_pressure",
+       "arguments": {
+        "fluid": "NH3",
+        "temperature": {
+         "value": 0,
+         "unit": "degC"
+        }
+       },
+       "path": "result.pressure.value",
+       "tolerance": 0
+      },
+      {
+       "case": "t2",
+       "foundation": "foundation_refrigeration",
+       "tool": "saturation_pressure",
+       "arguments": {
+        "fluid": "NH3",
+        "temperature": {
+         "value": 25,
+         "unit": "degC"
+        }
+       },
+       "path": "result.pressure.value",
+       "tolerance": 0
+      }
+     ],
+     "max_candidates": 1
+    }
+   },
+   "precommitment": {
+    "expected_observation": "One candidate passes the gates and the held-out Foundation checks.",
+    "success_boundary": "Only this candidate against this frozen evaluator.",
+    "failure_meaning": "The candidate is not accepted; nothing else follows.",
+    "oracle_id": "forge-frozen-evaluator",
+    "oracle_version": "cstack-workcell-1"
+   }
+  }
+ ]
+}

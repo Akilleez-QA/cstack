@@ -31,6 +31,7 @@ with uv and installs the pinned root and CI dependencies:
 uv venv --python 3.12 .venv
 . .venv/bin/activate
 uv pip install --python .venv -r requirements.txt -r ci/requirements.txt
+npm ci --prefix adapters/workcell --ignore-scripts --no-audit --no-fund
 ```
 
 Run the same checks as CI:
