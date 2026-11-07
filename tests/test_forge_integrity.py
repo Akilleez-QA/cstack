@@ -59,11 +59,11 @@ class Refusals(unittest.TestCase):
         source = HEADER + """
 export function reduce(): void {
   const input = event();
-  robotics("scale_timing", "{\\"height_mm\\":6000}");
+  math("exact_scalar", "{}");
   emit("{\\"value\\":" + right(input) + "}");
 }
 """
-        attempt = self.rejected(source, goal(declared_imports=["foundation_refrigeration", "foundation_robotics"]), imports=("foundation_refrigeration", "foundation_robotics"))
+        attempt = self.rejected(source, goal(declared_imports=["foundation_refrigeration", "foundation_math"]), imports=("foundation_refrigeration", "foundation_math"))
         self.assertEqual(attempt["broker_refusals"][0]["code"], "not_granted")
 
 

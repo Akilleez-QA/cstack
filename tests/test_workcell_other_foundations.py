@@ -26,16 +26,16 @@ class OtherFoundations(unittest.TestCase):
         kernel = HEADER + """
 export function reduce(): void {
   const input = event();
-  const answer = robotics("scale_timing", "{\\"height_mm\\":6000}");
-  emit("{\\"value\\":" + field(answer, "result.leg_swing_period_ms") + "}");
+  const answer = math("exact_scalar", "{}");
+  emit("{\\"value\\":" + field(answer, "result.value") + "}");
 }
 """
         forge = Forge(kernel, imports=ALL)
         self.addCleanup(forge.close)
-        final = outcome(forge.run(goal(declared_imports=["foundation_refrigeration", "foundation_robotics"])))
+        final = outcome(forge.run(goal(declared_imports=["foundation_refrigeration", "foundation_math"])))
         self.assertEqual(final["assessment"], "candidate_rejected")
         attempt = final["raw_result"]["candidates"][0]
-        self.assertEqual(attempt["broker_refusals"][0], {"foundation": "foundation_robotics", "tool": "scale_timing", "code": "not_granted"})
+        self.assertEqual(attempt["broker_refusals"][0], {"foundation": "foundation_math", "tool": "exact_scalar", "code": "not_granted"})
         self.assertEqual(attempt["attributions"], [])
 
 

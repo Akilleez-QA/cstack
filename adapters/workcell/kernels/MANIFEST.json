@@ -3,6 +3,7 @@
  "kernels": {
   "foundation_refrigeration": {"route": "js-port", "module": "refrigeration.mjs", "pin": "foundation_refrigeration", "package": "foundation_refrigeration"},
   "foundation_template": {"route": "js-port", "module": "template.mjs", "pin": "foundation_template", "package": "foundation_template"},
-  "foundation_film": {"route": "js-port", "module": "film.mjs", "pin": "foundation_film", "package": "foundation_film", "shared": ["integer-profile.mjs"]}
+  "foundation_film": {"route": "js-port", "module": "film.mjs", "pin": "foundation_film", "package": "foundation_film", "shared": ["integer-profile.mjs"]},
+  "foundation_robotics": {"route": "js-port", "module": "robotics.mjs", "pin": "foundation_robotics", "package": "foundation_robotics", "shared": ["integer-profile.mjs", "robotics-numeric.mjs", "robotics-motion.mjs"]}
  }
 }
