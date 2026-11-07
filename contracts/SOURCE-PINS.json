@@ -163,7 +163,7 @@
    "kernels/common.mjs": "f816b80c1fa797f519893e6c84d8d19ce0cf405026bb505748d5e3be7328fae9",
    "kernels/film.mjs": "cb27458f9ed969eb4eb586d06d14399c2a81fdedb082d1909a797f34899c1214",
    "kernels/integer-profile.mjs": "e61970682224dc772110eb80a71818369dee3847600d53011342082cc796acd3",
-   "kernels/judge.mjs": "1b21639c44abe7b3f2cbca545b5d92e97438ee3ef2514cdf1c1eca17299d1269",
+   "kernels/judge.mjs": "8688394342c10cca4de9355d87e15015ed6693cf9b7de94f214ef15cc9cdbb50",
    "kernels/refrigeration.mjs": "bb9064e19adab626fa99e7b1f06f710f0de9a5dbaf0dd2c828f316850d5d9dbd",
    "kernels/registry.mjs": "bf430de94ccbe20857c8ea678c7ede251af9696cec568d17d9011e6a4abe1a5d",
    "kernels/robotics-motion.mjs": "65cb5d173fee7c3c4d01172d6708009e0e3a4f84a941169ec41e7cf21e086618",
