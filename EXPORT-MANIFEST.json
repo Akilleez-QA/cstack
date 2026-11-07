@@ -319,8 +319,8 @@
    "bytes": 6883
   },
   "adapters/workcell/kernels/judge.mjs": {
-   "sha256": "1b21639c44abe7b3f2cbca545b5d92e97438ee3ef2514cdf1c1eca17299d1269",
-   "bytes": 1699
+   "sha256": "8688394342c10cca4de9355d87e15015ed6693cf9b7de94f214ef15cc9cdbb50",
+   "bytes": 1998
   },
   "adapters/workcell/kernels/refrigeration.mjs": {
    "sha256": "bb9064e19adab626fa99e7b1f06f710f0de9a5dbaf0dd2c828f316850d5d9dbd",
@@ -443,7 +443,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "117419152e1fe5f7f295857e10d8168d171dc96c452f31a86eab554ff1e74611",
+   "sha256": "1e6488e2c07f291e846b9f4862a6ccc76594db07e900678aa9bb329f3f2f8234",
    "bytes": 8264
   },
   "contracts/adapters.schema.json": {
@@ -1863,8 +1863,8 @@
    "bytes": 5678
   },
   "tests/test_forge_integrity.py": {
-   "sha256": "8ac0624fc73da33d5ba9f0c730f633815b09111b6195f932c45ec12139a2c3da",
-   "bytes": 6857
+   "sha256": "7d6128554866e3443e046f1901b58168313a1593538abfcc021baddca6a90d03",
+   "bytes": 8194
   },
   "tests/test_forge_recovery.py": {
    "sha256": "9eeb515ca35abc660884a46c6379739ee328f0f293ae9cfe0d5ac0543fa64d1c",
