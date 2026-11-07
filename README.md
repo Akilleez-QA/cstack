@@ -14,7 +14,7 @@ This is an early template; verify the configuration and capabilities you choose.
 
 ## Quickstart
 
-Python 3.11 or newer and Node 22 or newer on Linux or macOS. The spawn counter in the test suite needs Linux.
+Python 3.12 or newer and Node 22 or newer on Linux or macOS. The pinned numpy doesn't install on 3.11. The spawn counter in the test suite needs Linux.
 
 ```sh
 python3 -m venv .venv && . .venv/bin/activate
@@ -135,12 +135,13 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37` of the unmerged draft stack. GitHub CI hasn't run on it.
+Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37` of the unmerged draft stack, except where the table says otherwise. GitHub CI results are on the pull requests.
 
 | Check | Command | Result |
 |---|---|---|
 | Every README command, on a fresh clone | `python -B tools/check_readme.py --source https://github.com/Akilleez-QA/cstack --branch harden-tools` | 16 commands, 0 failed, 0 uncovered, 0 skipped. The forge goal ran twice and passed both times |
 | Core test suite, optimized | `python -B -O -m unittest discover -s tests` | 663 tests, OK, 2 skipped |
+| Core test suite, Python 3.12.14 on two cores, normal and optimized | `taskset -c 0,1 python -B [-O] -m unittest discover -s tests`, at `7225ae9` | 663 tests, OK, 2 skipped, each |
 | Core test suite and all suites | `python -B -m unittest discover -s tests`, `bash ci/run-local.sh python links`, inside the check above | Both exit 0; 38 paths checked, 0 broken |
 | Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified, in pip's vendored code in the untracked `.venv` |
 | Secret scan | `gitleaks git`, over the stack | No leaks |
