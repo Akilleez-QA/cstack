@@ -303,12 +303,20 @@
    "bytes": 9622
   },
   "adapters/workcell/kernels/MANIFEST.json": {
-   "sha256": "82ae725f64ee1ff41c60d3adfa5056b0a6cf3bb2b21796082abb258c92357873",
-   "bytes": 358
+   "sha256": "37b2b3e4806545688ef6df396eee0d60f824a95cfa34d54cf8446cd443cf16d1",
+   "bytes": 514
   },
   "adapters/workcell/kernels/common.mjs": {
    "sha256": "f816b80c1fa797f519893e6c84d8d19ce0cf405026bb505748d5e3be7328fae9",
    "bytes": 5345
+  },
+  "adapters/workcell/kernels/film.mjs": {
+   "sha256": "cb27458f9ed969eb4eb586d06d14399c2a81fdedb082d1909a797f34899c1214",
+   "bytes": 31514
+  },
+  "adapters/workcell/kernels/integer-profile.mjs": {
+   "sha256": "e61970682224dc772110eb80a71818369dee3847600d53011342082cc796acd3",
+   "bytes": 6883
   },
   "adapters/workcell/kernels/judge.mjs": {
    "sha256": "8688394342c10cca4de9355d87e15015ed6693cf9b7de94f214ef15cc9cdbb50",
@@ -319,8 +327,8 @@
    "bytes": 27690
   },
   "adapters/workcell/kernels/registry.mjs": {
-   "sha256": "0d6f6a000e456ef52ad8eb5b1ec4badc895a6ed02b539f3edd0679e1b8963d1e",
-   "bytes": 2194
+   "sha256": "bf430de94ccbe20857c8ea678c7ede251af9696cec568d17d9011e6a4abe1a5d",
+   "bytes": 2365
   },
   "adapters/workcell/kernels/template.mjs": {
    "sha256": "7b330cb909ca6b76e4afc918375a3490606cc356803db28a0bbcfa06aa5b78c1",
@@ -419,8 +427,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "e354d072262773f0cdf2f24b3941071e229b6c0d62649a3f53f5de8d29c3f0b1",
-   "bytes": 7667
+   "sha256": "dbb7093e1fc4bbe315c561c83da3104fe7eee4ad237a5415daa5a105fec56cbf",
+   "bytes": 7860
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -1674,6 +1682,14 @@
    "sha256": "ea4c5919b4d036e3977863bd1a5605c425311d69e35b7ded078c1e4d2d52af44",
    "bytes": 6469
   },
+  "tests/kernels/port_differential.mjs": {
+   "sha256": "a59618d921c7753517424ddcfb944ade28c0160a7b0a19e38107c11142f2ddd1",
+   "bytes": 3039
+  },
+  "tests/kernels/port_reference.py": {
+   "sha256": "eda5d1e4d5006a424beef148d734907664a96b36ba602c418c421c21114ed80b",
+   "bytes": 2998
+  },
   "tests/kernels/vectors.py": {
    "sha256": "5bf2da77b7e76885c73e939629fdb9b7ececed9d0f21e64dca8e7f065a8c64f4",
    "bytes": 10377
@@ -1797,6 +1813,10 @@
   "tests/test_film_conformance.py": {
    "sha256": "4df1b1f827f15d7ed42034e9f33e00e979fe1873a8e1d232a7d251ca47be5ec3",
    "bytes": 9778
+  },
+  "tests/test_film_kernel.py": {
+   "sha256": "3c4c48a7c8a3a852e88c7d9cf623a508ded2acbf184c43f3163bdb8c3b1a8edf",
+   "bytes": 760
   },
   "tests/test_fleet_mail.py": {
    "sha256": "195bb022f35b6f9a1a6f06f914c6545124724b6fc87cb9b9d4b80ecd1c1d25f8",
