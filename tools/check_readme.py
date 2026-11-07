@@ -10,6 +10,18 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+FORGE = "CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json"
+FORGE_RUNS = 2
+NEEDS_GH = ("python3 tools/merge_train.py --wip", "python3 tools/merge_train.py --dry-run --policy low-risk")
+
+
+def gh_unavailable(env):
+    """Why the commands that need gh can't run here, or None."""
+    try:
+        result = subprocess.run(["gh", "auth", "status"], env=env, capture_output=True, text=True, timeout=30)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return "gh is not installed"
+    return None if result.returncode == 0 else "gh is not signed in"
 
 
 def readme_commands(text):
@@ -39,7 +51,7 @@ class Check:
         self.record(command, passed, f"exit {result.returncode}: {tail[0][:160]}")
         return result
 
-    def run_status(self, command, status):
+    def run_status(self, command, status, assessment=None):
         result = self.shell(command)
         try:
             document = json.loads(result.stdout)
@@ -47,7 +59,8 @@ class Check:
         except (json.JSONDecodeError, KeyError) as error:
             self.record(command, False, f"exit {result.returncode}: {error}")
             return
-        self.record(command, actual[0] == status and result.returncode == 0, f"exit {result.returncode}: run_status {actual[0]}, outcomes {actual[1]}")
+        passed = actual[0] == status and result.returncode == 0 and (assessment is None or actual[1] == [assessment])
+        self.record(command, passed, f"exit {result.returncode}: run_status {actual[0]}, outcomes {actual[1]}")
 
 
 def approve_on_tty(check, command):
@@ -102,16 +115,24 @@ def main():
                                  cwd=clone, env={**check.env, "PATH": check.env["PATH"]}, capture_output=True, text=True, executable=str(clone / ".venv/bin/python"))
         (clone / "answers.json").write_text(json.dumps({request.stdout.strip(): "approve"}))
         check.run_status("python -B cli.py --approver=file:answers.json < examples/ask-approval.json", "completed")
-        check.run_status("CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json", "completed")
+        for _ in range(FORGE_RUNS):
+            check.run_status(FORGE, "completed", "candidate_passed")
         check.plain("python -B -c \"from adapters.aor_registry import load_fleet; print(load_fleet('aors/fleet.json').approver)\"", lambda out: out.strip() == "owner-via-approver")
         mcp_session(check, "python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state")
-        check.plain("python3 tools/merge_train.py --wip")
-        check.plain("python3 tools/merge_train.py --dry-run --policy low-risk", lambda out: isinstance(json.loads(out), dict))
+        skipped = gh_unavailable(check.env)
+        for command in NEEDS_GH:
+            if skipped:
+                covered.add(command)
+                print(f"skip  {command}\n      needs gh: {skipped}", flush=True)
+            elif command.endswith("--wip"):
+                check.plain(command)
+            else:
+                check.plain(command, lambda out: isinstance(json.loads(out), dict))
         missing = [command for command in commands if command not in covered and command not in {"python -B tools/pin_endoforge.py --source ENDOFORGE_CLONE --commit FULL_COMMIT"}]
     for command in missing:
         print("FAIL  no check covers README command: " + command)
     failed = [row for row in check.rows if not row["passed"]]
-    print(json.dumps(dict(commands=len(check.rows), failed=len(failed), uncovered=len(missing))))
+    print(json.dumps(dict(commands=len(check.rows), failed=len(failed), uncovered=len(missing), skipped_needs_gh=len(NEEDS_GH) if skipped else 0)))
     return 1 if failed or missing else 0
 
 

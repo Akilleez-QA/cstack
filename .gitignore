@@ -6,3 +6,5 @@ node_modules/
 cstack.config.json
 endoforge.jsonl
 forge.sqlite
+forge.sqlite.core/
+*.torn-*

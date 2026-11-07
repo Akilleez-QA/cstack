@@ -78,6 +78,13 @@ class TornWitness(unittest.TestCase):
         self.assertEqual(torn["bytes"], len(raw[:-200]) - raw[:-200].rfind(b"\n") - 1)
         self.assertEqual(path.read_bytes()[:raw[:-200].rfind(b"\n") + 1], raw[:raw[:-200].rfind(b"\n") + 1])
 
+    def test_a_torn_outcome_is_resolved_from_the_run_ledger(self):
+        forge, path = self.forge_with_a_run()
+        path.write_bytes(path.read_bytes()[:-200])
+        result = forge.run(GOAL)
+        self.assertEqual(result["reconciled"][0]["status"], "candidate_passed_recovered")
+        self.assertEqual(outcome(result)["assessment"], "candidate_passed")
+
     def test_a_broken_chain_in_the_middle_fails_closed_and_says_so(self):
         forge, path = self.forge_with_a_run()
         lines = path.read_bytes().splitlines(keepends=True)
