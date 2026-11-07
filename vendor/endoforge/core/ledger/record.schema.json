@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Endoforge Ledger v0/v1 record",
+  "type": "object",
+  "required": ["version", "id", "kind", "data"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"type": "integer", "enum": [0, 1]},
+    "id": {"$ref": "#/$defs/text"},
+    "kind": {"enum": ["task", "admitted_input", "frozen_evaluator", "candidate", "receipt"]},
+    "data": {"type": "object"},
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "license": {"$ref": "#/$defs/license"}
+  },
+  "allOf": [{"oneOf": [
+    {"properties": {"version": {"enum": [0]}, "provenance": false, "license": false}},
+    {"properties": {"version": {"enum": [1]}}, "required": ["provenance", "license"]}
+  ]}],
+  "oneOf": [
+    {"properties": {"kind": {"enum": ["task"]}, "data": {"$ref": "#/$defs/task"}}},
+    {"properties": {"kind": {"enum": ["admitted_input"]}, "data": {"$ref": "#/$defs/admitted_input"}}},
+    {"properties": {"kind": {"enum": ["frozen_evaluator"]}, "data": {"$ref": "#/$defs/frozen_evaluator"}}},
+    {"properties": {"kind": {"enum": ["candidate"]}, "data": {"$ref": "#/$defs/candidate"}}},
+    {"properties": {"kind": {"enum": ["receipt"]}, "data": {"$ref": "#/$defs/receipt"}}}
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "nonblank": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["origin", "upstream_identity", "upstream_version", "input_scopes", "derived_from"],
+      "properties": {
+        "origin": {"enum": ["authored", "generated", "imported", "pre-built-wasm"]},
+        "upstream_identity": {"$ref": "#/$defs/nonblank"},
+        "upstream_version": {"$ref": "#/$defs/nonblank"},
+        "input_scopes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonblank"}},
+        "derived_from": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "model": {
+          "type": "object", "additionalProperties": false, "required": ["identity", "version"],
+          "properties": {"identity": {"$ref": "#/$defs/nonblank"}, "version": {"$ref": "#/$defs/nonblank"}}
+        }
+      },
+      "oneOf": [
+        {"properties": {"origin": {"enum": ["generated"]}}, "required": ["model"]},
+        {"properties": {"origin": {"enum": ["authored", "imported", "pre-built-wasm"]}}}
+      ]
+    },
+    "license": {
+      "type": "object", "additionalProperties": false, "required": ["expression", "evidence_sha256"],
+      "properties": {
+        "expression": {"$ref": "#/$defs/nonblank"},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "minLength": 64, "maxLength": 64}
+      }
+    },
+    "task": {
+      "type": "object", "additionalProperties": false, "required": ["intent", "acceptance"],
+      "properties": {
+        "intent": {"$ref": "#/$defs/text"}, "acceptance": {"$ref": "#/$defs/text"},
+        "precommit": {
+          "type": "object", "additionalProperties": false, "required": ["no_unknown_licenses"],
+          "properties": {"no_unknown_licenses": {"type": "boolean"}}
+        }
+      }
+    },
+    "admitted_input": {
+      "type": "object", "additionalProperties": false, "required": ["task", "content", "origin"],
+      "properties": {"task": {"$ref": "#/$defs/text"}, "content": {"type": "string"}, "origin": {"$ref": "#/$defs/text"}}
+    },
+    "frozen_evaluator": {
+      "type": "object", "additionalProperties": false, "required": ["task", "admitted_input", "content", "confirmed_by"],
+      "properties": {
+        "task": {"$ref": "#/$defs/text"}, "admitted_input": {"$ref": "#/$defs/text"},
+        "content": {"$ref": "#/$defs/text"}, "confirmed_by": {"$ref": "#/$defs/text"},
+        "freeze": {"$ref": "#/$defs/freeze"}, "revision": {"$ref": "#/$defs/revision"}
+      }
+    },
+    "freeze": {
+      "type": "object", "additionalProperties": false,
+      "required": ["digest", "qualification", "synthesis_context"],
+      "properties": {
+        "digest": {"$ref": "#/$defs/text"}, "qualification": {"$ref": "#/$defs/text"},
+        "synthesis_context": {
+          "type": "object", "additionalProperties": false, "required": ["id", "candidate_blind", "inputs"],
+          "properties": {
+            "id": {"$ref": "#/$defs/text"}, "candidate_blind": {"enum": ["confirmed"]},
+            "inputs": {"type": "array", "items": {"$ref": "#/$defs/text"}}
+          }
+        }
+      }
+    },
+    "revision": {
+      "type": "object", "additionalProperties": false, "required": ["of", "reason", "evidence"],
+      "properties": {
+        "of": {"$ref": "#/$defs/text"},
+        "reason": {"enum": ["specification_correction", "independent_qualification"]},
+        "evidence": {"$ref": "#/$defs/text"}
+      }
+    },
+    "candidate": {
+      "type": "object", "additionalProperties": false, "required": ["task", "admitted_input", "content", "proposer"],
+      "properties": {
+        "task": {"$ref": "#/$defs/text"}, "admitted_input": {"$ref": "#/$defs/text"},
+        "content": {"type": "string"}, "proposer": {"$ref": "#/$defs/text"}
+      }
+    },
+    "precommit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observable", "acceptance_boundary", "oracle", "oracle_version", "artifact_identity", "environment", "failure_meaning", "stop_condition"],
+      "properties": {
+        "observable": {"$ref": "#/$defs/text"}, "acceptance_boundary": {"$ref": "#/$defs/text"},
+        "oracle": {"$ref": "#/$defs/text"}, "oracle_version": {"$ref": "#/$defs/text"},
+        "artifact_identity": {"$ref": "#/$defs/text"}, "environment": {"type": "object"},
+        "failure_meaning": {"$ref": "#/$defs/text"}, "stop_condition": {"$ref": "#/$defs/text"}
+      }
+    },
+    "receipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task", "candidate", "frozen_evaluator", "precommit", "delivery_state", "outcome_state", "observations"],
+      "properties": {
+        "task": {"$ref": "#/$defs/text"}, "candidate": {"$ref": "#/$defs/text"}, "frozen_evaluator": {"$ref": "#/$defs/text"},
+        "precommit": {"$ref": "#/$defs/precommit"},
+        "delivery_state": {"enum": ["admitted", "authorized", "running", "finished", "outcome_unknown", "reconciled", "aborted"]},
+        "outcome_state": {"enum": ["unobserved", "observed", "passed", "failed", "failed_with_test_concern", "invalid", "inconclusive"]},
+        "observations": {"type": "array", "items": {"type": "object"}}
+      }
+    }
+  }
+}
