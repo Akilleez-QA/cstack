@@ -32,5 +32,12 @@
       "status": "CHECK"
     }
   ],
-  "devices": []
+  "devices": [
+    {
+      "hostname": "example-host",
+      "owner": "example",
+      "guest_effects": {"read": "allow", "write_slice": "deny", "execute": "ask", "config": "ask", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    }
+  ]
 }
