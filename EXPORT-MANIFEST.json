@@ -303,8 +303,8 @@
    "bytes": 9622
   },
   "adapters/workcell/kernels/MANIFEST.json": {
-   "sha256": "37b2b3e4806545688ef6df396eee0d60f824a95cfa34d54cf8446cd443cf16d1",
-   "bytes": 514
+   "sha256": "33b5b47fc9c46d8ab3e0083350b8330db8b7e58702bb35c19a0eb27510716623",
+   "bytes": 733
   },
   "adapters/workcell/kernels/common.mjs": {
    "sha256": "f816b80c1fa797f519893e6c84d8d19ce0cf405026bb505748d5e3be7328fae9",
@@ -329,6 +329,18 @@
   "adapters/workcell/kernels/registry.mjs": {
    "sha256": "bf430de94ccbe20857c8ea678c7ede251af9696cec568d17d9011e6a4abe1a5d",
    "bytes": 2365
+  },
+  "adapters/workcell/kernels/robotics-motion.mjs": {
+   "sha256": "65cb5d173fee7c3c4d01172d6708009e0e3a4f84a941169ec41e7cf21e086618",
+   "bytes": 17771
+  },
+  "adapters/workcell/kernels/robotics-numeric.mjs": {
+   "sha256": "decadfd6c004edf281a35318bdffcba15f3c12764630c4dec52e6d40572151ff",
+   "bytes": 4835
+  },
+  "adapters/workcell/kernels/robotics.mjs": {
+   "sha256": "be8dc6ff50147dddc1063073347da21ef462ca2b5e4d696970e4a90cf94cf177",
+   "bytes": 11419
   },
   "adapters/workcell/kernels/template.mjs": {
    "sha256": "7b330cb909ca6b76e4afc918375a3490606cc356803db28a0bbcfa06aa5b78c1",
@@ -427,8 +439,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "dbb7093e1fc4bbe315c561c83da3104fe7eee4ad237a5415daa5a105fec56cbf",
-   "bytes": 7860
+   "sha256": "6bdf7979891be5d6a3f7cfdc9618144de348322f8e3eefcab598f9626d0e00ed",
+   "bytes": 8160
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -1839,8 +1851,8 @@
    "bytes": 5678
   },
   "tests/test_forge_integrity.py": {
-   "sha256": "75b372eb05ee905520a4f23ba473cef8fd933bbcc16cf1477046e67ed97b8e21",
-   "bytes": 8157
+   "sha256": "7d6128554866e3443e046f1901b58168313a1593538abfcc021baddca6a90d03",
+   "bytes": 8194
   },
   "tests/test_forge_recovery.py": {
    "sha256": "9eeb515ca35abc660884a46c6379739ee328f0f293ae9cfe0d5ac0543fa64d1c",
@@ -1963,8 +1975,8 @@
    "bytes": 9113
   },
   "tests/test_workcell_other_foundations.py": {
-   "sha256": "be7425e469afade266ad222c62ba22d9766487cb559333ba786fc2b3c2feeace",
-   "bytes": 2566
+   "sha256": "28bfd31e01b9cec4f7ccdcbd0328f6a2c29417a8144a99a36a4169291ae002a9",
+   "bytes": 2589
   },
   "tests/test_workcell_refusals.py": {
    "sha256": "b280b629f55eded78a67b7362c0173710bfada9db3675240170ab6d99edec698",
