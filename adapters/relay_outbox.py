@@ -10,6 +10,7 @@ sign of life, both rewritten atomically.
 Not an approval path: approvals never pass through the cockpit (ADR 005 decision 5). The agent refuses a message that
 reads as one and says why in a failed receipt.
 """
+from contextlib import contextmanager
 import fcntl
 import json
 import os
@@ -33,14 +34,24 @@ class RelayStore:
         self.root, self.clock = root, clock
         self.outbox, self.receipts = os.path.join(root, "outbox.jsonl"), os.path.join(root, "receipts.jsonl")
 
-    def _append(self, path, record):
+    @contextmanager
+    def _locked(self):
         os.makedirs(self.root, exist_ok=True)
         with open(os.path.join(self.root, ".lock"), "a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
-            with open(path, "a", encoding="utf-8") as fh:
-                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-                fh.flush()
-                os.fsync(fh.fileno())
+            yield
+
+    @staticmethod
+    def _append(path, record):
+        with open(path, "a+b") as fh:
+            fh.seek(0, os.SEEK_END)
+            if fh.tell():
+                fh.seek(-1, os.SEEK_END)
+                if fh.read(1) != b"\n":
+                    fh.write(b"\n")
+            fh.write((json.dumps(record, ensure_ascii=False) + "\n").encode("utf-8"))
+            fh.flush()
+            os.fsync(fh.fileno())
 
     def _replace(self, name, obj):
         os.makedirs(self.root, exist_ok=True)
@@ -50,12 +61,31 @@ class RelayStore:
         os.replace(tmp, os.path.join(self.root, name))
 
     @staticmethod
-    def _lines(path):
+    def _parsed(path):
+        rows, unreadable = [], 0
         try:
-            with open(path, encoding="utf-8") as fh:
-                return [json.loads(line) for line in fh if line.strip()]
+            with open(path, "rb") as fh:
+                for line in fh:
+                    if not line.strip():
+                        continue
+                    try:
+                        row = json.loads(line.decode("utf-8"))
+                    except ValueError:
+                        row = None
+                    if type(row) is dict:
+                        rows.append(row)
+                    else:
+                        unreadable += 1
         except FileNotFoundError:
-            return []
+            pass
+        return rows, unreadable
+
+    @classmethod
+    def _lines(cls, path):
+        return cls._parsed(path)[0]
+
+    def unreadable(self):
+        return self._parsed(self.outbox)[1] + self._parsed(self.receipts)[1]
 
     def messages(self):
         return self._lines(self.outbox)
@@ -73,22 +103,25 @@ class RelayStore:
             raise RelayError("empty message")
         if len(text) > MAX_TEXT or len(to) > MAX_TO:
             raise RelayError("message too long")
-        if client_id:
-            for m in self.messages():
-                if m.get("client_id") == client_id:
-                    return m
-        m = {"id": "m-" + secrets.token_hex(6), "at": round(self.clock(), 3), "from": "owner (cockpit)", "to": to,
-             "about": (about or None) and str(about)[:80], "text": text, "client_id": client_id and str(client_id)[:64]}
-        self._append(self.outbox, m)
+        client_id = client_id and str(client_id)[:64]
+        with self._locked():
+            if client_id:
+                for m in self.messages():
+                    if m.get("client_id") == client_id:
+                        return m
+            m = {"id": "m-" + secrets.token_hex(6), "at": round(self.clock(), 3), "from": "owner (cockpit)", "to": to,
+                 "about": (about or None) and str(about)[:80], "text": text, "client_id": client_id}
+            self._append(self.outbox, m)
         return m
 
     def receipt(self, mid, state, **fields):
         if state not in ("claimed", "delivered", "reply", "failed"):
             raise RelayError(f"unknown receipt state {state}")
-        if not any(m["id"] == mid for m in self.messages()):
-            raise RelayError(f"no message {mid}")
-        r = {"id": mid, "state": state, "at": round(self.clock(), 3), **{k: v for k, v in fields.items() if v is not None}}
-        self._append(self.receipts, r)
+        with self._locked():
+            if not any(m["id"] == mid for m in self.messages()):
+                raise RelayError(f"no message {mid}")
+            r = {"id": mid, "state": state, "at": round(self.clock(), 3), **{k: v for k, v in fields.items() if v is not None}}
+            self._append(self.receipts, r)
         return r
 
     def pending(self, stale_claim_s=600):
