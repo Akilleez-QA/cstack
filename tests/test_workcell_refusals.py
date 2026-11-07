@@ -150,6 +150,23 @@ export function reduce(): void {
         final = self.assert_no_pass(forge, forge.run(GOAL), "candidate_refused")
         self.assertTrue(all(p["accepted"] is False for p in final["raw_result"]["proposals"]))
 
+    def test_proposals_are_bounded_per_run(self):
+        flood = HEADER + """
+export function reduce(): void {
+  const input = event();
+  let effects = "";
+  for (let i = 0; i < 8; i++) {
+    effects += (i ? "," : "") + "{\\"capability\\":\\"poodo\\",\\"operation\\":\\"propose_decision\\",\\"payload\\":{\\"capability_id\\":\\"foundation_template\\",\\"operation\\":\\"echo_observation\\",\\"arguments\\":{\\"observation\\":\\"n" + i.toString() + "\\"},\\"expected_observation\\":\\"" + input.length.toString() + "\\",\\"success_boundary\\":\\"x\\",\\"failure_meaning\\":\\"y\\"}}";
+  }
+  emit("{\\"effects\\":[" + effects + "]}");
+}
+"""
+        forge = self.forge(flood)
+        final = self.assert_no_pass(forge, forge.run(goal(declared_imports=["foundation_refrigeration", "foundation_template"])), "candidate_refused")
+        proposals = final["raw_result"]["proposals"]
+        self.assertEqual(sum(p["accepted"] is True for p in proposals), 16)
+        self.assertEqual(proposals[-1]["reason"], "proposal_limit")
+
     def test_a_kernel_claiming_its_own_pass_changes_nothing(self):
         claim = HEADER + """
 export function reduce(): void {

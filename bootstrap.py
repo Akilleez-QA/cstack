@@ -169,6 +169,7 @@ def _workcell_config(config, parent):
     return resolved
 
 
+_MAX_PROPOSALS_PER_RUN = 16
 _PROPOSAL_FIELDS = {"capability_id", "operation", "arguments", "expected_observation", "success_boundary", "failure_meaning"}
 
 
@@ -177,6 +178,8 @@ def _coder_decisions(config, endoforge, session_id):
     def propose(run, proposal):
         number = len(run.proposals) + 1
         scope = f"{run.request.decision_id}.{run.attempt_id}.{number}"
+        if number > _MAX_PROPOSALS_PER_RUN:
+            return {"accepted": False, "reason": "proposal_limit", "number": number}
         if type(proposal) is not dict or set(proposal) != _PROPOSAL_FIELDS:
             return {"accepted": False, "reason": "proposal_outside_closed_schema", "number": number}
         domain = proposal["capability_id"]
