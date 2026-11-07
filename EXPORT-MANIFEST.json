@@ -407,8 +407,8 @@
    "bytes": 8089
   },
   "contracts/ADAPTERS.json": {
-   "sha256": "79be5b6c25c2dbc7ed665d6f53432ae61739835414faf9861bc5865353c3c663",
-   "bytes": 30722
+   "sha256": "8d207a4179161060e092d19786b39101e9d8c94205280d02eb0e4ad93ef00416",
+   "bytes": 30898
   },
   "contracts/CONTRACT.json": {
    "sha256": "05848bff545d839bdcc9e30f4c8d2352f768e0298129e4bc57cbb68ed9e0c0c5",
@@ -1714,6 +1714,14 @@
    "sha256": "eda5d1e4d5006a424beef148d734907664a96b36ba602c418c421c21114ed80b",
    "bytes": 2998
   },
+  "tests/kernels/robotics_boundaries.json": {
+   "sha256": "a3d938adad9a5528037993b0af52150221e6afea04ec505052b00282c4c67166",
+   "bytes": 2416
+  },
+  "tests/kernels/robotics_vectors.py": {
+   "sha256": "8f8f40f8de2f14457fb272aede5a99fb0a333938a82490d94630fd729d7412f1",
+   "bytes": 19596
+  },
   "tests/kernels/vectors.py": {
    "sha256": "5bf2da77b7e76885c73e939629fdb9b7ececed9d0f21e64dca8e7f065a8c64f4",
    "bytes": 10377
@@ -1946,6 +1954,10 @@
    "sha256": "f14e2388ce3bf7c7e6c4af59780a6c9795819e676190c1f2da7c77378f1b52a6",
    "bytes": 9561
   },
+  "tests/test_robotics_kernel.py": {
+   "sha256": "368a9c5a83d1e4bc95ad05c7ba03bfc0b1c1cd23aad1b86f28a870448d1a82ee",
+   "bytes": 2247
+  },
   "tests/test_runtime_watch.py": {
    "sha256": "80645b19929c1bfdbdedfd025e735c00d2c74068378c9c7da5a23261b9456dbc",
    "bytes": 29589
@@ -2025,6 +2037,10 @@
   "tools/e2e_refrigeration.sh": {
    "sha256": "4c49f50eecf4d51140b308d08e5f7192c69c99a647f611d3cc3ea02219b4717f",
    "bytes": 133
+  },
+  "tools/fuzz_ports.py": {
+   "sha256": "1b38686b291fe83230226353dcafb936684e653ac9b820e7b823ecb1c6531a20",
+   "bytes": 9540
   },
   "tools/generate_aors.py": {
    "sha256": "074408a18c9ae94751b4693bd58cf82e784e2c84a4af75be9ee6977c710c382e",
