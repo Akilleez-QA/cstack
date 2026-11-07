@@ -291,8 +291,8 @@
    "bytes": 5242
   },
   "adapters/workcell/coder-prompt.mjs": {
-   "sha256": "30abf3650eb8ee3c1c41d1ea9e387afedf0fcd2f6a329550e6aac5c784e40eda",
-   "bytes": 4991
+   "sha256": "98c2084b732077a10cc28fe8306673e880206279f9cb6087fafff45eb8fcc1ee",
+   "bytes": 8533
   },
   "adapters/workcell/compiler.mjs": {
    "sha256": "9539d1b41c9215d3a0a784c3d1b70d39c707292c76d711e654129cea04d0a3dc",
@@ -443,7 +443,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "6657383d8148e00d9ee3a62aa954e80b687f6606eff17e12642674db38a46af4",
+   "sha256": "117419152e1fe5f7f295857e10d8168d171dc96c452f31a86eab554ff1e74611",
    "bytes": 8264
   },
   "contracts/adapters.schema.json": {
@@ -519,12 +519,12 @@
    "bytes": 220
   },
   "docs/verification/foundation-routes.md": {
-   "sha256": "fa1e4fb6f481e791752984d1a9b71351c43cb4a735a6cdd77d178b47ffe4d0cd",
-   "bytes": 6493
+   "sha256": "53e0fa163ca660558aa851da85531b768d607b5ab78eb397d26388b880120068",
+   "bytes": 11233
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "a118112dd0ce9cc80c3ca196cc2a4cee986225255934d8be4c3723e1b70f70a3",
-   "bytes": 13546
+   "sha256": "2147d6aa96cf2a81509eabc8b834c7ce0c5068c5fb4dced2946c29aff2f4d8bf",
+   "bytes": 13664
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -1982,6 +1982,10 @@
    "sha256": "fdd0dd815cdba00a9ce7b8c46d95b5337d14837e09c6057420e73467662e9dd9",
    "bytes": 23004
   },
+  "tests/test_workcell_film_robotics.py": {
+   "sha256": "da7fa6812ebead88aaca7c598e3ad6161c5f065feccbadb9c6ffb7df6434ae62",
+   "bytes": 8860
+  },
   "tests/test_workcell_foundation_imports.py": {
    "sha256": "767bb6360a9ae261db23b047c84dbfff5e52e6b663bacd5833083273717c64c7",
    "bytes": 6057
@@ -2047,8 +2051,8 @@
    "bytes": 5253
   },
   "tools/measure_foundation_routes.py": {
-   "sha256": "7d5b6e73ec1bf9a046fd568c55424a9c0120ffcdb5f5574e35c7ef6406c02e98",
-   "bytes": 6143
+   "sha256": "27e3e578e9c77a6c5214e835d2a1a17476cbcb5571c1241c61d2c1255d52ecaf",
+   "bytes": 6410
   },
   "tools/measure_routes_pyodide.mjs": {
    "sha256": "b6dda2ed643bd72f483c3f36be87167892d853ea4bd0fca2116f30ae128b2c87",

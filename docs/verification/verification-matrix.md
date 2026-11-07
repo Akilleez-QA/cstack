@@ -101,6 +101,6 @@ Acceptance is [frozen separately](wiring-acceptance.md). Route numbers are in [t
 | Requirement | Evidence | Acceptance boundary |
 |---|---|---|
 | CS-REQ-032 | `tests/test_workcell_run.py` | Real CLI, core, pool, gates and ledger, in process and thread cells, with a stub model transport. No real model call |
-| CS-REQ-033 | `tests/test_workcell_foundation_imports.py`, `tests/test_foundation_kernels.py`, `tools/spawncount.py` | ptrace count over the whole job on Linux for Refrigeration and Template. Differential vectors are a sample, not proof of equivalence |
+| CS-REQ-033 | `tests/test_workcell_foundation_imports.py`, `tests/test_foundation_kernels.py`, `tests/test_film_kernel.py`, `tests/test_robotics_kernel.py`, `tests/test_workcell_film_robotics.py`, `tools/spawncount.py` | ptrace count over the whole job on Linux for Refrigeration, Template, Film and Robotics. Differential vectors are a sample, not proof of equivalence |
 | CS-REQ-034 | `tests/test_workcell_refusals.py`, `tests/test_workcell_other_foundations.py` | Named hostile kernels, against the real core. A workcell isn't an OS sandbox |
 | CS-REQ-035 | `tests/test_workcell_kill.py`, `tests/test_core_crash.py` | Real SIGKILL at each process. Power loss isn't tested |

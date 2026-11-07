@@ -8,6 +8,8 @@ Import what you use from "./cstack":
   field(json: string, path: string): string   the raw JSON text at a dotted path, or "null"
   refrigeration(tool: string, args: string): string   calls that Foundation with JSON text arguments and returns its receipt as JSON text
   template(tool: string, args: string): string
+  film(tool: string, args: string): string
+  robotics(tool: string, args: string): string
 Use only the Foundations declared below. Calling any other one fails the run, and so does a call the Foundation refuses, even if you ignore the answer.
 
 Export exactly these two functions and nothing else:
@@ -29,6 +31,20 @@ const TOOLS = {
   Pressure units: kPa(a), kPa(g), psia, psig, bar(a), bar(g). Temperature units: degC, degF, K, degR.`,
   foundation_template: `foundation_template, called with template(tool, args).
   echo_observation {"observation":"text"}. Result: result.observation.`,
+  foundation_film: `foundation_film, called with film(tool, args). Every number is a JSON integer in milli-units; a float, an exponent, a repeated key or a unicode escape is refused, and a refusal fails the run. Every receipt has status, assessment, result and error; assessment is thresholds_met, thresholds_not_met, not_scored or tool_error.
+  reference_bands {"shots":[{"start_ms":0,"end_ms":7000,"camera":"static","metrics":{"sharp":500}}]}. Cameras: static, pan, tilt, push/pull. Result: result.bands.moving_share, result.bands.metrics.<name>, result.duration_ms.
+  cinematic_gate {"shots":[...],"bands":{...}} or {"shots":[...],"rules":[{"metric":"sharp","op":">=","target":300}]}, optional "segments":[{"id":"s1","start_ms":0,"end_ms":9000}]. Result: result.verdict, result.segments, result.failing_segments.
+  audio_gate {"integrated_lufs":-16500,"true_peak_dbtp":-1200,"voice_over_bed_db":14000,"cuts":50,"cuts_with_hit":40,"heard":["Speech","Music"],"line_wer":[{"line":"l1","wer_permille":20}]}; each may be null, all are required. Optional "contract". Result: result.verdict, result.failing.
+  drift_verdict {"frames":{"edge_f1":[980,80]}}, optional mask_iou, depth_error, identity_similarity series and "thresholds". Result: result.verdict, result.first_failing_frame, result.metrics.
+  cue_vocabulary_check {"provided":[{"id":"a","t_ms":1000}],"lanes":[{"lane":"l1","references":["a"]}]}, optional "aliases", "orders", "min_gaps". Result: result.verdict, result.missing_ids.
+  look_gate {"frames":[{"id":"f1","metrics":{"palette_ab":5000,"palette_L":7000,"median_L":9000,"range_L":14000,"clip_white":30,"clip_black":70,"detail_ratio":990,"chroma_ratio":1000}}]}, optional "thresholds". Result: result.verdict, result.failing_frames.`,
+  foundation_robotics: `foundation_robotics, called with robotics(tool, args). Every number is a JSON integer in milli-SI units; a float, an exponent, a repeated key or a unicode escape is refused, and a refusal fails the run. So is a result too close to a rounding boundary to match the pinned Python (numeric_boundary), and a coordinate over 33554432 mm in balance_check or ik_check. Every receipt has status, assessment, result and error.
+  scale_timing {"height_mm":6000} or {"leg_length_mm":928}, optional gravity_mm_s2, froude_permille, appendages, drop_heights_mm. Result: result.leg_swing_period_ms, result.walk, result.factors.time_permille.
+  gait_check {"leg_length_mm":928,"speed_mm_s":1348,"stride_mm":1617,"cycle_ms":1200,"feet":[{"id":"l","stance_ms":633,"slide_mean_mm_s":3}]}, optional gait walk|run|stand, up_axis y|z, foot "track" with fps_milli. Result: result.verdict, result.measured.
+  balance_check {"fps_milli":24000,"frames":[{"com_mm":[0,900,0],"support_mm":[[-200,0,-200],[200,0,-200],[200,0,200]]}],"mode":"static"}, mode static|dynamic|stop. Result: result.verdict, result.worst, result.first_failing_frame.
+  ik_check {"joints":[{"id":"hip","type":"revolute","axis":[0,0,1],"origin_mm":[0,0,0],"min":-2000,"max":2000}],"tip_mm":[400,0,0],"poses":[{"q":[100],"target_mm":[400,40,0]}]}; revolute q is in mrad. Result: result.verdict, result.poses, result.reach_mm.
+  mechanism_check {"kind":"rotor_strobe","blades":5,"speed_mrad_s":62832,"fps_milli":24000}; kinds gear_train, gear_mesh, slider_crank, four_bar, rotor_strobe. Result: result.verdict, result.detail.
+  squash_check {"frames":[{"scale_permille":[1180,780,1180]}]}. Result: result.verdict, result.worst_frame.`,
 };
 
 const EXAMPLE = `Example shape, for a different task:
