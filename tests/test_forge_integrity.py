@@ -56,14 +56,14 @@ class Refusals(unittest.TestCase):
                 self.assertTrue(attempt["broker_refusals"])
 
     def test_a_kernel_cannot_ignore_a_foundation_with_no_route(self):
-        source = HEADER + """
+        source = HEADER.replace("import {", "import { math as foundationMath,", 1) + """
 export function reduce(): void {
   const input = event();
-  robotics("scale_timing", "{\\"height_mm\\":6000}");
+  foundationMath("exact_scalar", "{}");
   emit("{\\"value\\":" + right(input) + "}");
 }
 """
-        attempt = self.rejected(source, goal(declared_imports=["foundation_refrigeration", "foundation_robotics"]), imports=("foundation_refrigeration", "foundation_robotics"))
+        attempt = self.rejected(source, goal(declared_imports=["foundation_refrigeration", "foundation_math"]), imports=("foundation_refrigeration", "foundation_math"))
         self.assertEqual(attempt["broker_refusals"][0]["code"], "not_granted")
 
 
