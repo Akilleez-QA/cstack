@@ -87,8 +87,8 @@ class PoodoCore:
                       "_admit_outcome", "_record_outcome", "_authorize", "_check_request", "_admission",
                       "_check_denied", "_check_approval", "_asks", "__init_subclass__", "ledger",
                       "record_liveness", "liveness", "goals_without_live_path", "budget", "lift_budget_pause",
-                      "_check_budget", "_cost", "_settle", "_check_lane", "_capacity", "_check_capacity",
-                      "_queued", "_witness",
+                      "_check_budget", "_cost", "_settle", "_pause_at_limit", "_check_lane", "_capacity", "_check_capacity",
+                      "_queued", "_witness", "_recover", "_replay", "unresolved_attempts",
                       # Attribute hooks would let a subclass fake or clear the re-entrancy guard.
                       "__getattribute__", "__getattr__", "__setattr__", "__delattr__"}
     # Core state a subclass must not shadow with a class attribute or property (ADR 003 review, S5).
@@ -97,7 +97,7 @@ class PoodoCore:
                    "_grant_uses", "_ledger", "_goals", "_decisions", "_used_requests", "_consumed",
                    "_attempt_number", "_busy", "_guard", "_interrupted", "_liveness", "_costs", "_budget_units", "_budget_limits",
                    "_spent", "_held", "_paused", "_budget_noted", "_lanes_noted", "MAX_NOTED",
-                   "_capacity_port", "_capacity_noted", "_live", "_endoforge", "_session_id", "_witness_failed"}
+                   "_capacity_port", "_capacity_noted", "_live", "_endoforge", "_session_id", "_witness_failed", "_prior_decisions"}
     MAX_NOTED = 256
 
     def __init_subclass__(cls, **kwargs):
@@ -217,7 +217,70 @@ class PoodoCore:
         # Last: until construction finishes, there is no guard to take, so every operation is refused.
         self._busy: str | None = None
         self._interrupted: BaseException | None = None
+        self._prior_decisions: set[str] = set()
+        self._recover()
         self._guard = [True]
+
+    def _replay(self, event, requests, open_attempts, unsettled, outcomes):
+        kind, data = event["kind"], event["data"]
+        if kind == "decision" and data.get("action") == "precommit":
+            requests[data["request"]["decision_id"]] = data["request"]
+            self._used_requests.add(data["request"]["request_id"])
+            self._prior_decisions.add(data["request"]["decision_id"])
+        elif kind == "action":
+            open_attempts[data["attempt_id"]] = data
+            if data.get("aor_id") in self._held:
+                unsettled[data["attempt_id"]] = data
+            self._consumed.add(data["decision_id"])
+            self._attempt_number = max(self._attempt_number, int(data["attempt_id"].rsplit("-", 1)[1]))
+            for grant in self._grants:
+                if grant.grant_id == data["grant_id"] and data["goal_id"] in grant.goal_ids:
+                    self._grant_uses[grant.grant_id] += 1
+        elif kind == "outcome":
+            attempt_id = data["outcome"]["attempt_id"]
+            open_attempts.pop(attempt_id, None)
+            if attempt_id in unsettled:
+                outcomes[attempt_id] = CapabilityOutcome.from_dict(data["outcome"])
+        elif data.get("action") == "budget_settled" and data["aor_id"] in self._spent:
+            self._spent[data["aor_id"]] = data["spent"]
+            unsettled.pop(data["attempt_id"], None)
+        elif data.get("action") == "budget_paused" and data["aor_id"] in self._spent:
+            self._paused[data["aor_id"]] = data["reason"]
+        elif data.get("action") == "budget_pause_lifted" and data["aor_id"] in self._spent:
+            self._budget_limits[data["aor_id"]] = max(self._budget_limits[data["aor_id"]], data["limit"])
+            self._paused.pop(data["aor_id"], None)
+
+    def _recover(self):
+        """A new core on a used ledger: identities stay used and accounting continues. An attempt the last process left
+        with no outcome is recorded as unknown, keeps its whole cost hold, and is never run again. An attempt with an outcome
+        and no settlement is settled on that outcome. Goals are not restored."""
+        requests, open_attempts, unsettled, outcomes = {}, {}, {}, {}
+        for event in self._ledger.read():
+            self._replay(event, requests, open_attempts, unsettled, outcomes)
+        for attempt_id, action in open_attempts.items():
+            request = CapabilityRequest.from_dict(requests[action["decision_id"]])
+            result = outcome_for(request, attempt_id, "indeterminate", "process_ended_before_outcome", certainty="unknown",
+                                 limitations=("No automatic retry; execution may have occurred.",))
+            self._ledger.append("outcome", {"outcome": result.to_dict(), "interpretation": {
+                "evidence_kind": "unassessed", "covered_scope": "No accepted result",
+                "limitations": ["No proof or goal acceptance."], "formal_proof": False,
+                "runtime_goal_acceptance": False}, "goal_closed": False})
+            outcomes[attempt_id] = result
+        for attempt_id, action in unsettled.items():
+            aor, reserved = action["aor_id"], action["cost_reserved"]
+            self._held[aor] += reserved
+            self._settle(aor, reserved, CapabilityRequest.from_dict(requests[action["decision_id"]]), attempt_id,
+                         outcomes[attempt_id])
+        for aor in sorted(self._spent):
+            self._pause_at_limit(aor)
+
+    @_query
+    def unresolved_attempts(self) -> tuple[dict, ...]:
+        """Every attempt whose recorded outcome is unknown, read from the ledger on each call, so no restart can lose one.
+        The host reconciles them. The core has no resolve record, so an attempt stays listed for the life of the ledger."""
+        return tuple({key: event["data"]["outcome"][key] for key in ("attempt_id", "decision_id", "request_sha256", "goal_id")}
+                     for event in self._ledger.read() if event["kind"] == "outcome"
+                     and event["data"]["outcome"]["execution_certainty"] == "unknown")
 
     def descriptor(self):
         return self._descriptor
@@ -546,6 +609,9 @@ class PoodoCore:
         self._spent[aor] += charge
         self._ledger.append("observation", {"action": "budget_settled", "aor_id": aor, "attempt_id": attempt_id,
             "reserved": estimate, "charged": charge, "priced": priced, "spent": self._spent[aor]})
+        self._pause_at_limit(aor)
+
+    def _pause_at_limit(self, aor):
         if self._spent[aor] >= self._budget_limits[aor] and aor not in self._paused:
             self._paused[aor] = "hard_stop"
             self._ledger.append("decision", {"action": "budget_paused", "aor_id": aor, "reason": "hard_stop",
@@ -577,7 +643,8 @@ class PoodoCore:
         request, goal = self._check_request(request)
         if goal.phase != Phase.DECIDE:
             raise ContractError("Decisions require the Decide phase")
-        if request.decision_id in self._decisions or request.request_id in self._used_requests:
+        if (request.decision_id in self._decisions or request.decision_id in self._prior_decisions
+                or request.request_id in self._used_requests):
             raise ContractError("Decision and request identities must be new")
         if len(self._decisions) >= self.MAX_DECISIONS:
             raise ContractError("Retained decision budget exhausted")
