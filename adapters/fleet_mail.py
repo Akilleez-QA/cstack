@@ -27,6 +27,7 @@ anyone holding that token can write any issue, label or header.
 """
 from __future__ import annotations
 
+import contextlib
 import copy
 from dataclasses import dataclass
 import fcntl
@@ -342,17 +343,50 @@ class SendBudget:
             raise ContractError("Fleet mail budget must be 0..1000 per hour")
         self._path, self._limit, self._clock = Path(path), limit, clock
 
-    def _locked(self, update):
+    @staticmethod
+    def _open(path, flags, missing=False):
         try:
-            fd = os.open(self._path, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+            return os.open(path, flags | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+        except FileNotFoundError:
+            if missing:
+                return None
+            raise ContractError("Fleet mail budget file refused: No such file or directory") from None
         except OSError as error:
             raise ContractError(f"Fleet mail budget file refused: {error.strerror}") from None
-        with os.fdopen(fd, "r+") as handle:
-            fcntl.flock(handle, fcntl.LOCK_EX)
-            raw = handle.read()
+
+    def _read(self):
+        fd = self._open(self._path, os.O_RDONLY, missing=True)
+        if fd is None:
+            return None
+        with os.fdopen(fd) as stream:
+            return stream.read()
+
+    def _write(self, encoded):
+        temporary = self._path.with_name(f".{self._path.name}.{os.getpid()}.tmp")
+        try:
+            with os.fdopen(self._open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC), "w") as stream:
+                stream.write(encoded)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temporary, self._path)
+        except BaseException:
+            with contextlib.suppress(OSError):
+                os.unlink(temporary)
+            raise
+        directory = os.open(self._path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+
+    def _locked(self, update):
+        lock = self._open(self._path.with_name(self._path.name + ".lock"), os.O_RDWR | os.O_CREAT)
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            raw = self._read()
             try:
                 state = {"sent": [], "all_bots": [], "reads": [], "refused": 0, "refusal_logged": 0, "seen": {},
-                         **(json.loads(raw) if raw else {})}
+                         **(json.loads(raw) if raw is not None else {})}
                 now = self._clock()
                 for key in ("sent", "all_bots", "reads"):
                     state[key] = [t for t in state[key] if type(t) is int and t > now - WINDOW_SECONDS]
@@ -362,10 +396,10 @@ class SendBudget:
             except (ValueError, TypeError, KeyError):
                 raise ContractError("Fleet mail budget file is unreadable; refusing to send") from None
             result = update(state, now)
-            handle.seek(0)
-            handle.truncate()
-            handle.write(json.dumps(state))
+            self._write(json.dumps(state))
             return result
+        finally:
+            os.close(lock)
 
     def take(self, all_bots=False):
         """(allowed, first refusal in this window)."""
