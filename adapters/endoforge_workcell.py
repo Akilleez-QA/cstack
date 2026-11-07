@@ -15,7 +15,8 @@ from poodo_core.models import Document
 ROOT = Path(__file__).resolve().parent.parent
 VENDOR = ROOT / "vendor/endoforge"
 SUPERVISOR = ROOT / "adapters/workcell/supervisor.mjs"
-EVALUATOR_ROOT = ROOT / "adapters/workcell/kernels"
+EVALUATOR_ROOT = ROOT / "adapters/workcell"
+PINS = ROOT / "contracts/SOURCE-PINS.json"
 MAX_FRAME = 8 * 1024 * 1024
 INVARIANTS = ["declared_imports", "foundation_pins"]
 RESULT_LIMITS = {"wallMs": 30000, "memoryBytes": 16777216, "fuel": 4096}
@@ -36,6 +37,25 @@ class SupervisorLost(RuntimeError):
 
 class NotExecuted(RuntimeError):
     """Nothing ran: the run stopped before any candidate was released to a cell."""
+
+
+def verify_runtime():
+    """Check the JS that judges and the vendored engine against their pins, before anything starts. Returns their identity."""
+    pins = json.loads(PINS.read_text())
+    pinned = pins.get("workcell_runtime", {}).get("files")
+    if not pinned:
+        raise NotExecuted("the workcell runtime has no pin")
+    actual = {p.relative_to(EVALUATOR_ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in EVALUATOR_ROOT.rglob("*") if p.is_file()}
+    changed = sorted(name for name in pinned.keys() | actual.keys() if pinned.get(name) != actual.get(name))
+    if changed:
+        raise NotExecuted("the workcell runtime differs from its pin: " + ", ".join(changed)[:200])
+    raw = (VENDOR / "SOURCE-MANIFEST.json").read_bytes()
+    if hashlib.sha256(raw).hexdigest() != pins["endoforge"]["source_manifest_sha256"]:
+        raise NotExecuted("the vendored EndoForge manifest differs from its pin")
+    for name, expected in json.loads(raw)["files"].items():
+        if hashlib.sha256((VENDOR / name).read_bytes()).hexdigest() != expected:
+            raise NotExecuted("the vendored EndoForge differs from its pin: " + name)
+    return hashlib.sha256(canonical({"workcell": pinned, "endoforge": pins["endoforge"]["source_manifest_sha256"]}).encode("ascii")).hexdigest()
 
 
 class Supervisor:
@@ -139,6 +159,7 @@ class _Run:
         self.identity = None
         self.receipts = []
         self.in_flight = False
+        self.runtime_pin = None
 
     @property
     def granted(self):
@@ -150,6 +171,7 @@ class _Run:
         undeclared = [name for name in declared if name not in self.host["config"]["foundation_imports"]]
         if undeclared:
             return dict(status="refused", reason="declared_import_not_granted", refused=undeclared, candidates=[])
+        self.runtime_pin = verify_runtime()
         Ledger, Frozen = _ledger_module()
         self.ledger = Ledger(self.host["config"]["ledger"])
         self.frozen = self._freeze(Ledger, Frozen)
@@ -215,7 +237,7 @@ class _Run:
             self.ledger.append(dict(version=1, kind="candidate", id=candidate, provenance=provenance, license=license_record,
                                     data=dict(task=self.task, admitted_input=self.admitted, content=text, proposer=str(model["identity"]))))
         environment = dict(decision_id=self.request.decision_id, grant_id=self.host["grant_id"], request_sha256=self.request.sha256,
-                           attempt_id=self.attempt_id, session_id=self.host["session_id"], compiler=self.compiler, foundation_imports=self.granted)
+                           attempt_id=self.attempt_id, session_id=self.host["session_id"], runtime_pin_sha256=self.runtime_pin, compiler=self.compiler, foundation_imports=self.granted)
         receipt = dict(version=1, kind="receipt", id=f"{self._unique('receipt')}:{number}", provenance=provenance | dict(derived_from=[candidate]), license=license_record, data=dict(
             task=self.task, candidate=candidate, frozen_evaluator=self.frozen["id"],
             precommit=dict(observable="the candidate kernel's outputs and effects", acceptance_boundary="all gates and held-out Foundation checks pass",
@@ -276,7 +298,7 @@ class _Run:
         identity = self.identity or {}
         receipt = dict(schema="cstack.forge-receipt/0.1", status=report["status"], reason=report.get("reason"),
                        decision_id=self.request.decision_id, grant_id=self.host["grant_id"], request_sha256=self.request.sha256,
-                       attempt_id=self.attempt_id, session_id=self.host["session_id"],
+                       attempt_id=self.attempt_id, session_id=self.host["session_id"], runtime_pin_sha256=self.runtime_pin,
                        task=getattr(self, "task", None), frozen_evaluator=(getattr(self, "frozen", None) or {}).get("id"),
                        oracle_digest=(getattr(self, "frozen", None) or {"data": {"freeze": {"digest": None}}})["data"]["freeze"]["digest"],
                        compiler=identity.get("compiler") or getattr(self, "compiler", None), foundations=identity.get("foundations", {}),

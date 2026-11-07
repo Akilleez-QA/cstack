@@ -2,12 +2,14 @@ import { compile, compilerIdentity, warmCompiler } from './compiler.mjs';
 import { admit, Broker, instantiate } from './broker.mjs';
 import { judge } from './kernels/judge.mjs';
 import { loadFoundation } from './kernels/registry.mjs';
-import { KernelRefusal, sha256 } from './kernels/common.mjs';
+import { KernelFault, KernelRefusal, sha256 } from './kernels/common.mjs';
 
 const MAX_STEPS = 8;
 const MAX_TRANSITION = 1048576;
 const EFFECT_FIELDS = ['capability', 'operation', 'payload'];
 const PROPOSAL_FIELDS = ['capability_id', 'operation', 'arguments', 'expected_observation', 'success_boundary', 'failure_meaning'];
+const kernelFailure = error => error instanceof SyntaxError || error instanceof WebAssembly.RuntimeError || error instanceof WebAssembly.LinkError ||
+  error instanceof RangeError || error instanceof KernelRefusal || error instanceof KernelFault;
 const closedObject = (value, fields) => value !== null && typeof value === 'object' && !Array.isArray(value) &&
   Object.keys(value).length === fields.length && fields.every(field => Object.hasOwn(value, field));
 
@@ -38,8 +40,14 @@ export async function createPort({ task, sources, granted, signature, allowDecis
     if (wasm) {
       record.wasm = wasm;
       record.wasm_sha256 = sha256(wasm);
-      record.module = new WebAssembly.Module(wasm);
-      record.admission = admit(record.module, granted);
+      try {
+        record.module = new WebAssembly.Module(wasm);
+        record.admission = admit(record.module, granted);
+      } catch (error) {
+        if (!(error instanceof WebAssembly.CompileError)) throw error;
+        record.wasm = null;
+        diagnostics[candidate] = error.message.slice(0, 400);
+      }
     } else diagnostics[candidate] = text;
     compiled.set(candidate, record);
     return record;
@@ -83,7 +91,7 @@ export async function createPort({ task, sources, granted, signature, allowDecis
       let out;
       try { out = step(record, JSON.stringify(event)); }
       catch (error) {
-        if (error instanceof SyntaxError || error instanceof WebAssembly.RuntimeError || error instanceof KernelRefusal) {
+        if (kernelFailure(error)) {
           names.push('kernel:invalid');
           return { memoryBytes, output: { caseId: item.id, error: { path: 'kernel', reason: error.message.slice(0, 200) } } };
         }
@@ -116,7 +124,7 @@ export async function createPort({ task, sources, granted, signature, allowDecis
         cell.exports.signature();
         return JSON.parse(cell.emitted());
       } catch (error) {
-        if (error instanceof SyntaxError || error instanceof WebAssembly.RuntimeError) return { version: 1, name: 'signature_failed', inputs: [], output: { type: 'object', unit: 'diagnostics' } };
+        if (kernelFailure(error)) return { version: 1, name: 'signature_failed', inputs: [], output: { type: 'object', unit: 'diagnostics' } };
         throw error;
       }
     },
@@ -131,11 +139,13 @@ export async function createPort({ task, sources, granted, signature, allowDecis
       const results = [];
       let memoryBytes = 0;
       const callsBefore = broker.calls;
+      const refusedBefore = broker.refused;
       for (const item of cases) {
         const { output, memoryBytes: used } = await runCase(candidate, record, item, names);
         results.push(output);
         memoryBytes = Math.max(memoryBytes, used);
       }
+      if (broker.refused > refusedBefore) names.push('foundation:refused');
       outputs.set(candidate, results);
       runs.push({ candidate, wall_ms: performance.now() - started, calls: broker.calls - callsBefore });
       return { status: 'completed', outputs: results,
