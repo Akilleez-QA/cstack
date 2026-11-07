@@ -143,7 +143,10 @@ class Supervisor:
 
 
 def core_events(path):
-    return [json.loads(line) for line in path.read_bytes().splitlines() if line.endswith(b"}")] if path.exists() else []
+    if not path.exists():
+        return []
+    raw = path.read_bytes()
+    return [json.loads(line) for line in raw[:raw.rfind(b"\n") + 1].splitlines()]
 
 
 def resolver(config, core_directory):
