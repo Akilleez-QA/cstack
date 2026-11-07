@@ -1,15 +1,15 @@
 # Cstack–Endoforge interface control document
 
-Status: contract baseline 0.2; approval is through repository review. The protocol,
-local file adapter and host-configured POODO/CLI evidence routing are **implemented**.
+Status: contract baseline 0.3; approval is through repository review. The protocol,
+local file adapter, host-configured POODO/CLI evidence routing and the workcell runtime are **implemented**.
 This document follows the repository's NASA-style interface-control structure;
 it does not assert NASA compliance, qualification or independent verification.
 
 ## 1. Purpose, scope and references
 
 This ICD controls witnessed evidence storage between POODO and an
-Endoforge adapter. It specifies synchronous, in-process Python calls, not a wire
-transport, agent runner, caching service or synthesis lifecycle.
+Endoforge adapter, and the runtime in section 7. Sections 2 to 6 specify synchronous, in-process Python calls, not a wire
+transport, agent runner or caching service.
 
 Controlled sources: `poodo_core/ports.py`, `poodo_core/models.py` and
 `tests/test_endoforge_port.py`, `adapters/endoforge_ledger.py` and
@@ -30,12 +30,11 @@ ledger and session; request data cannot select storage roots or implementations.
 
 `EndoforgePort` is separate from `LedgerPort`; this change replaces neither the
 existing ledger nor its adapter. `cli.py` reports `endoforge_implemented: True`
-when host configuration binds this port, otherwise `False`. The pinned lifecycle-core slice contains no
-runtime wiring and establishes no compatibility with this new contract.
+when host configuration binds this port, otherwise `False`.
 
 The current claim-gate CLI rejects `--atoms`, `--atom-refs` and `--consumer` requests with exit status 2 and a `cstack.claim-gate/0.1` JSON error on stderr stating that the approved-atoms Registry is unavailable. It emits no verdict on stdout. The pinned lifecycle slice does not provide that Registry; the dead optional import has been removed. Calls without atom options retain the ledger-only interface.
 
-[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice contains data and lifecycle rules plus an import-boundary test. It has no agent runner, caching implementation or runtime wiring. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
+[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin adds the gates, ledger and `IsolatePool` that section 7 runs. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
 
 ## 3. Operations and sequencing
 
@@ -116,8 +115,7 @@ is returned. Local fsync acknowledgement is this adapter's durable witness;
 there is no independent external witness or suffix-rollback protection.
 Short writes and torn tails fail closed without truncation, repair or retry.
 Power-loss qualification and recovery procedures remain deployment work.
-The pinned vendor slice has no storage ledger or append-receipt primitive;
-its qualification receipt concerns artifact evaluation, not storage acknowledgement.
+The pinned slice's own SQLite ledger holds the run's records; this file adapter stays the host's witness.
 
 ## 5. Errors and fail-closed behavior
 
@@ -159,7 +157,7 @@ Other hosts must explicitly inject the port and session; AOR composition is unch
 Change signatures, envelope version, requirements and matrix together through
 repository review. Incompatible payload/hash changes require a new schema
 version and migration rules; silently reinterpreting stored records is forbidden.
-Independent witnessing, deployment durability qualification and recovery remain
+Independent witnessing and deployment durability qualification remain
 open acceptance work. Evidence routing does not implement an Endoforge agent runner or cache.
 
 ### Refrigeration CLI acceptance interface
@@ -167,3 +165,19 @@ open acceptance work. Evidence routing does not implement an Endoforge agent run
 `python -B cli.py --config <host.json> --approver=file:<approvals.db>` consumes `examples/refrigeration-e2e.json` on stdin. The explicit config follows the existing `endoforge.path` contract. For CS-REQ-031, the SQLite file approver requires an existing ApprovalWriter SQLite store containing an exact request-bound verdict from `owner-via-approver`; selecting it makes all domain operations ask. No option creates an approval. Missing, expired, mismatched or spent approvals cannot dispatch. The SQLite header selects this reader; JSON file answers retain the existing TerminalApprover behavior, as do terminal and deny modes.
 
 `tools/e2e_refrigeration.sh` runs the approved acceptance and prints JSON fields `endoforge_implemented`, `approval_id`, `ledger_events`, and `verify_chain`. Two precommits represent the prospective decision and the approval-bearing execution gate; the outcome follows both in the same session. The deny acceptance uses a declined approval and retains no action or outcome.
+
+## 7. Workcell runtime
+
+A goal in the `cstack_forge` domain is one capability call on the RuntimeFace lane. `adapters/endoforge_workcell.py` runs inside `core.execute`, under its decision and grant. It freezes the evaluator in the pinned EndoForge ledger, starts one Node supervisor (`adapters/workcell/supervisor.mjs`) outside every cohort, and exchanges JSON lines with it. `RUNTIMES` is separate from `DOMAINS`, so AOR sessions gain no run authority. `workcell` in host configuration selects the ledger, transport, importable Foundations and decision operations. Request data can name a Foundation; it can't add one.
+
+| Boundary | Rule |
+|---|---|
+| Candidate | Model text, compiled in the cell by the pinned AssemblyScript 0.28.20, to a WASM kernel exporting exactly `signature`, `reduce` and `memory` |
+| Foundation import | Module `foundation_<name>`, function `call`, read from the binary and not from a manifest. It must be declared in the request and allowed by host configuration. Anything else fails the `forbidden_effects` gate |
+| Foundation result | A host-owned buffer read by handle. The kernel gets no pointer into trusted state. Attribution names the version, route, port hash, source manifest hash, input and output hashes |
+| Decision proposal | An effect, returned as data: `{capability: "poodo", operation: "propose_decision", payload}` with a closed payload. The host fills every identity. Each gets its own goal and core, so the running core stays single-caller |
+| Judgement | The held-out checks run against the pinned Foundation kernel, and the candidate never sees them |
+| Refusal | A refused or invalid effect adds a name the frozen evaluator doesn't allow, so the gate fails whatever the kernel returns. A refusal ends the run; it isn't repaired past |
+| Lost cell, supervisor or controller | `outcome_unknown`: an inconclusive receipt where a pool survives, `indeterminate`/`unknown` in the outcome, no retry. The next session records a controller's lost attempt once, from its gated precommit |
+
+Limits, and what the runtime doesn't prove: V8 has no instruction fuel, so `fuel` counts Foundation calls per round and a hung kernel stops at `jobTimeoutMs`. Workcells aren't an OS sandbox and cgroups are host-dependent. Foundation kernels other than Refrigeration and Template aren't shipped; see [the routes](../verification/foundation-routes.md). The witness is this file's local fsync, not an independent quorum. `CapabilityPort` maps to ToolFace in `poodo_core/ports.py`, so the runtime's inventory row names no port until ADR 005 item 12b is settled.

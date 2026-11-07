@@ -6,7 +6,7 @@ import time
 
 from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
-from bootstrap import DOMAINS, build_domain, cli_approval_session, endoforge_session
+from bootstrap import DOMAINS, RUNTIMES, build_domain, cli_approval_session, endoforge_session
 from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment,
                        exact_fields)
 
@@ -23,6 +23,7 @@ def run_document(document, approver=None, *, config=None):
 
 
 def _run_document(document, host, approver):
+    host = {k: v for k, v in host.items() if k != "workcell" or document.get("goal", {}).get("domain_id") in RUNTIMES}
     exact_fields(document, {"schema", "goal", "checkpoints", "calls"})
     if document["schema"] != CLI_SCHEMA:
         raise ContractError("Unsupported local driver version")
@@ -82,6 +83,9 @@ def _run_document(document, host, approver):
             break
     return {"schema": "cstack.run-result/0.1", "goal": core.snapshot(goal.goal_id).to_dict(),
         "events": core.ledger(), "run_status": "stopped" if stopped else "completed", "stopped": stopped,
+        "outcome_unknown": [{"decision_id": e["data"]["outcome"]["decision_id"], "attempt_id": e["data"]["outcome"]["attempt_id"],
+                             "assessment": e["data"]["outcome"]["assessment"]} for e in core.ledger() if e["kind"] == "outcome"
+                            and e["data"]["outcome"]["execution_certainty"] == "unknown"],
         "mcp_compatible": False, "endoforge_implemented": "endoforge" in host,
         "note": "Preauthored checkpoint records were structurally checked, not researched or reasoned by this driver."}
 

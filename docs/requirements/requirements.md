@@ -212,3 +212,19 @@ This baseline has no allocated availability target, throughput target, deploymen
 ## Licensing
 
 GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.
+
+### CS-REQ-032 — One governed goal through the workcell runtime
+
+A `cstack_forge` goal runs through a host grant and POODO decision, real EndoForge gates and ledger in `IsolatePool` workcells, and a witnessed receipt naming the decision, grant, compiler and Foundation versions. Producers don't judge themselves; the pinned Foundation does.
+
+### CS-REQ-033 — Foundations as declared in-process imports
+
+A kernel reaches a Foundation only through an import that its binary carries, its request declares and host configuration allows. Pure computation on a shipped route starts no process, and each result is attributable to pinned bytes.
+
+### CS-REQ-034 — Authority stays with the core
+
+A candidate proposes decisions only as data, through its host, and the core accepts or refuses them. It can't grant itself authority, reach an undeclared Foundation, pass after a refusal, or record a pass from a refused or unknown run.
+
+### CS-REQ-035 — Outcome unknown is a state
+
+A kill of a workcell, supervisor or controller during a run records `outcome_unknown`, with no pass and no automatic retry. A later session records a controller's lost attempt once.

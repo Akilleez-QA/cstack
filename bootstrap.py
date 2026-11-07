@@ -21,12 +21,15 @@ from adapters.adapter_inventory import load_inventory
 from adapters.math_stdio import MathStdioCapability
 from adapters.memory_ledger import MemoryLedger
 from adapters.endoforge_ledger import EndoforgeLedger
+from adapters.endoforge_workcell import WorkcellCapability
 from adapters.template_stdio import TemplateStdioCapability
 from adapters.engine_stdio import EngineStdioCapability
+from extensions.cstack_forge import CstackForge, FORGE_DOMAIN_ID, FORGE_TOOL_NAMES
 from extensions.foundation_math import FoundationMath, TOOL_NAMES
 from extensions.foundation_template import FoundationTemplate, TEMPLATE_TOOL_NAMES
 from extensions.foundation_engine import FoundationEngine, ENGINE_TOOL_NAMES
-from poodo_core import AuthorityGrant, ContractError
+from poodo_core import AuthorityGrant, CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment
+from poodo_core.models import REQUEST_VERSION
 
 _HERE = Path(__file__).resolve().parent
 DEFAULT_MATH_ROOT = _HERE / "vendor/foundation-math-v014"
@@ -48,6 +51,7 @@ class Domain:
     adapter_id: str             # its contracts/ADAPTERS.json row
     grant_id: str
     decode: Callable | None = None  # the domain's own driver numeric profile; None means adapters/wire.decode
+    lane: str = "ToolFace"
 
 
 DOMAINS = {}
@@ -85,6 +89,10 @@ if DEFAULT_FILM_ROOT.is_dir():
 
 # Host table: capability id -> the inventory adapter_id that provides it. Explicit, never inferred.
 CAPABILITY_ADAPTERS = {d.domain_id: d.adapter_id for d in DOMAINS.values()}
+# Runtimes are not Foundations: AOR sessions compose DOMAINS, so a bot gets no run authority by being on the registry.
+RUNTIMES = {FORGE_DOMAIN_ID: Domain(FORGE_DOMAIN_ID, CstackForge, WorkcellCapability, _HERE / "vendor/endoforge", FORGE_TOOL_NAMES,
+                                    "endoforge-workcell", "local-forge-run", lane="RuntimeFace")}
+RUNTIME_ADAPTERS = {d.domain_id: d.adapter_id for d in RUNTIMES.values()}
 
 _LEDGER_CORES = WeakValueDictionary()
 _LEDGER_BUILDING = set()
@@ -123,7 +131,7 @@ def check_grants(grants, inventory=None):
     grant whose lane is not the providing adapter's inventory lane refuses to start."""
     inventory = load_inventory() if inventory is None else inventory
     for grant in grants:
-        adapter_id = CAPABILITY_ADAPTERS.get(grant.capability_id)
+        adapter_id = CAPABILITY_ADAPTERS.get(grant.capability_id) or RUNTIME_ADAPTERS.get(grant.capability_id)
         if adapter_id is None:
             raise ContractError(f"No inventory adapter is mapped for capability {grant.capability_id}")
         lanes = inventory.lanes_for(adapter_id)
@@ -135,9 +143,69 @@ def check_grants(grants, inventory=None):
 
 def registered(domain_id):
     """The registered Domain, or ContractError: an absent or unknown domain never falls back to another."""
+    if domain_id in RUNTIMES:
+        return RUNTIMES[domain_id]
     if domain_id not in DOMAINS:
         raise ContractError(f"Domain {domain_id} is not registered on this host")
     return DOMAINS[domain_id]
+
+
+_WORKCELL_FIELDS = {"ledger", "transport", "foundation_imports", "decision_operations", "isolation", "size", "jobTimeoutMs", "cgroupRoot"}
+
+
+def _workcell_config(config, parent):
+    """The trusted host section. Paths resolve against the config file; request data never reaches here."""
+    section = config.get("workcell")
+    if section is None:
+        return None
+    if type(section) is not dict or not section.keys() <= _WORKCELL_FIELDS or type(section.get("ledger")) is not str:
+        raise ContractError("Invalid workcell host configuration")
+    resolved = dict(section)
+    resolved["ledger"] = str(parent / section["ledger"])
+    if section.get("transport") is not None:
+        resolved["transport"] = str(parent / section["transport"])
+    if type(section.get("foundation_imports")) is not list or type(section.get("decision_operations", {})) is not dict:
+        raise ContractError("Invalid workcell grant configuration")
+    return resolved
+
+
+_PROPOSAL_FIELDS = {"capability_id", "operation", "arguments", "expected_observation", "success_boundary", "failure_meaning"}
+
+
+def _coder_decisions(config, endoforge, session_id):
+    """A coder's proposal gets its own goal and its own core, so the run's core stays single-caller and re-entry stays refused."""
+    def propose(run, proposal):
+        number = len(run.proposals) + 1
+        scope = f"{run.request.decision_id}.{run.attempt_id}.{number}"
+        if type(proposal) is not dict or set(proposal) != _PROPOSAL_FIELDS:
+            return {"accepted": False, "reason": "proposal_outside_closed_schema", "number": number}
+        domain = proposal["capability_id"]
+        if domain not in run.granted or domain not in DOMAINS:
+            return {"accepted": False, "reason": "undeclared_foundation", "number": number}
+        operations = tuple(config.get("decision_operations", {}).get(domain, ()))
+        if not operations:
+            return {"accepted": False, "reason": "no_decision_grant", "number": number}
+        goal_id = f"coder.{scope}"[:128]
+        try:
+            core, _ = build_domain(domain, goal_id, operations=operations, max_calls=1, endoforge=endoforge, session_id=session_id)
+            goal = GoalContract(goal_id, 1, domain, f"A coder's proposal under decision {run.request.decision_id}.", (), ("No authority beyond the host grant.",),
+                                "coder-proposal-v1", ("The core accepts or refuses this exact request.",))
+            core.start_goal(goal)
+            checkpoint = lambda n, refs=(), options=(): PhaseCheckpoint(f"coder-{n}", "Host-authored checkpoint for a coder proposal.", refs, options)
+            core.advance(goal_id, Phase.OBSERVE, checkpoint(1))
+            core.advance(goal_id, Phase.ORIENT, checkpoint(2, ("the proposal itself",)))
+            core.advance(goal_id, Phase.DECIDE, checkpoint(3, (), tuple(f"option-{i}" for i in range(20))))
+            request = CapabilityRequest.from_dict({"schema": REQUEST_VERSION, "request_id": f"coder-request.{scope}"[:128], "goal_id": goal_id, "goal_revision": 1,
+                                                   "decision_id": f"coder-decision.{scope}"[:128], "capability_id": domain, "operation": proposal["operation"],
+                                                   "arguments": proposal["arguments"], "required_evidence": "tool_observation"})
+            record = core.decide(request, Precommitment(proposal["expected_observation"], proposal["success_boundary"], proposal["failure_meaning"], "workcell-broker", "1"))
+            core.advance(goal_id, Phase.ORCHESTRATE, checkpoint(4))
+            outcome = core.execute(request.decision_id).to_dict()
+        except ContractError as error:
+            return {"accepted": False, "reason": "core_refused", "detail": str(error)[:200], "number": number}
+        return {"accepted": True, "number": number, "decision_id": request.decision_id, "grant_id": record.grant_id, "execution_status": outcome["execution_status"],
+                "assessment": outcome["assessment"], "source_manifest_sha256": outcome["source_manifest_sha256"], "result": outcome["raw_result"]}
+    return propose
 
 
 @contextmanager
@@ -155,12 +223,13 @@ def endoforge_session(config_path=_HERE / "cstack.config.json"):
     path = config["endoforge"]["path"]
     if type(path) is not str or not path.strip():
         raise ContractError("Endoforge requires a trusted storage path")
+    workcell = _workcell_config(config, config_path.parent.resolve())
     with EndoforgeLedger(config_path.parent / path) as port:
-        yield {"endoforge": port, "session_id": uuid4().hex}
+        yield {"endoforge": port, "session_id": uuid4().hex, **({"workcell": workcell} if workcell else {})}
 
 
 def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,
-                 ask_operations=(), approvals=None, approver=None, clock=None, endoforge=None, session_id=None):
+                 ask_operations=(), approvals=None, approver=None, clock=None, endoforge=None, session_id=None, workcell=None):
     """Trusted HOST configuration only. No external JSON controls source_root/grants/inventory.
 
     Every registered Foundation is read-only observation: the grant names only its fixed tools.
@@ -168,9 +237,14 @@ def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_ro
     d = registered(domain_id)
     operations = d.tool_names if operations is None else operations
     grant = AuthorityGrant(d.grant_id, d.domain_id, d.domain_id, tuple(operations), (goal_id,), max_calls,
-                           lane="ToolFace", ask_operations=ask_operations)
+                           lane=d.lane, ask_operations=ask_operations)
     grants = check_grants((grant,), inventory)
     capability = d.capability(d.source_root if source_root is None else source_root)
+    if domain_id in RUNTIMES and workcell is not None:
+        if endoforge is None:
+            raise ContractError("A workcell run requires the witnessed Endoforge ledger")
+        capability.bind(grant_id=grant.grant_id, config=workcell, endoforge=endoforge, session_id=session_id,
+                        propose=_coder_decisions(workcell, endoforge, session_id))
     host = dict(approvals=approvals, approver=approver, clock=clock) if ask_operations else {}
     if endoforge is not None or session_id is not None:
         host.update(endoforge=endoforge, session_id=session_id)
