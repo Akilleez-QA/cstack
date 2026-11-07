@@ -67,11 +67,13 @@ def pyodide_arm(path, calls):
 
 def js_port_arm():
     from tests.forge_fixtures import Forge, goal, outcome
+    from tests.test_workcell_film_robotics import FILM_LOOP, IMPORTS, ROBOTICS_LOOP, arguments
     from tests.test_workcell_foundation_imports import REFRIGERATION, TEMPLATE, TEMPLATE_ARGUMENTS, traced
     rows = []
-    for foundation, source, document in (("foundation_refrigeration", REFRIGERATION, goal()), ("foundation_template", TEMPLATE, goal(**TEMPLATE_ARGUMENTS))):
+    for foundation, source, document in (("foundation_refrigeration", REFRIGERATION, goal()), ("foundation_template", TEMPLATE, goal(**TEMPLATE_ARGUMENTS)),
+                                         ("foundation_film", FILM_LOOP, goal(**arguments())), ("foundation_robotics", ROBOTICS_LOOP, goal(**arguments()))):
         for isolation in ("process", "thread"):
-            forge = Forge(source, isolation=isolation)
+            forge = Forge(source, isolation=isolation, imports=IMPORTS)
             try:
                 _, result, events = traced(forge, document)
             finally:
