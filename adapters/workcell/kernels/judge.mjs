@@ -1,3 +1,4 @@
+import { KernelRefusal } from './common.mjs';
 import { loadFoundation } from './registry.mjs';
 
 const pick = (value, path) => path.split('.').reduce((node, name) => (node === null || node === undefined ? undefined : node[name]), value);
@@ -22,7 +23,13 @@ export async function judge(checks, outputs) {
     if (!output) return { passed: false, reason: `no output for case ${check.case}` };
     const foundation = await loadFoundation(check.foundation);
     if (!foundation) return { passed: false, reason: `judge has no Foundation ${check.foundation}` };
-    const expected = pick(foundation.run(check.tool, JSON.stringify(check.arguments)), check.path);
+    let receipt;
+    try { receipt = foundation.run(check.tool, JSON.stringify(check.arguments)); }
+    catch (error) {
+      if (!(error instanceof KernelRefusal)) throw error;
+      return { passed: false, reason: `case ${check.case}: the Foundation refused its held-out check (${error.code})` };
+    }
+    const expected = pick(receipt, check.path);
     const agrees = typeof expected === 'number' ? typeof output.value === 'number' && withinTolerance(output.value, expected, check.tolerance)
       : typeof expected === 'string' && output.value === expected;
     if (!agrees) return { passed: false, reason: `case ${check.case} differs from the Foundation's own result` };
