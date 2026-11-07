@@ -118,7 +118,7 @@ def _goal_domain(value):
 
 def _decode_for_domain(raw):
     """Each registered domain's own numeric profile; a domain without one uses Math's exact integer-only decode."""
-    for domain in DOMAINS.values():
+    for domain in (*DOMAINS.values(), *RUNTIMES.values()):
         if domain.decode is None:
             continue
         try:
@@ -128,7 +128,7 @@ def _decode_for_domain(raw):
         if _goal_domain(document) == domain.domain_id:
             return document
     document = decode(raw)
-    own = DOMAINS.get(_goal_domain(document))
+    own = DOMAINS.get(_goal_domain(document)) or RUNTIMES.get(_goal_domain(document))
     if own is not None and own.decode is not None:
         raise WireFailure("A document must satisfy its own domain's numeric profile")
     return document
