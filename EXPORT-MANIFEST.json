@@ -1851,8 +1851,8 @@
    "bytes": 5678
   },
   "tests/test_forge_integrity.py": {
-   "sha256": "43b46e13003f4a9c2b4316f0acf000e370f69b1d4a4a1dbdfee5cb2216cfbbdc",
-   "bytes": 6788
+   "sha256": "8ac0624fc73da33d5ba9f0c730f633815b09111b6195f932c45ec12139a2c3da",
+   "bytes": 6857
   },
   "tests/test_forge_recovery.py": {
    "sha256": "9eeb515ca35abc660884a46c6379739ee328f0f293ae9cfe0d5ac0543fa64d1c",
@@ -1975,8 +1975,8 @@
    "bytes": 9113
   },
   "tests/test_workcell_other_foundations.py": {
-   "sha256": "8b84dab59090709e73d2c0560546ca57db7d309959e13692e8bbe3b97b1937bc",
-   "bytes": 2520
+   "sha256": "28bfd31e01b9cec4f7ccdcbd0328f6a2c29417a8144a99a36a4169291ae002a9",
+   "bytes": 2589
   },
   "tests/test_workcell_refusals.py": {
    "sha256": "b280b629f55eded78a67b7362c0173710bfada9db3675240170ab6d99edec698",

@@ -56,10 +56,10 @@ class Refusals(unittest.TestCase):
                 self.assertTrue(attempt["broker_refusals"])
 
     def test_a_kernel_cannot_ignore_a_foundation_with_no_route(self):
-        source = HEADER + """
+        source = HEADER.replace("import {", "import { math as foundationMath,", 1) + """
 export function reduce(): void {
   const input = event();
-  math("exact_scalar", "{}");
+  foundationMath("exact_scalar", "{}");
   emit("{\\"value\\":" + right(input) + "}");
 }
 """

@@ -23,10 +23,10 @@ class OtherFoundations(unittest.TestCase):
                 self.assertRegex(answer["source_manifest_sha256"], "^[0-9a-f]{64}$")
 
     def test_a_kernel_gets_a_refusal_where_no_route_is_shipped(self):
-        kernel = HEADER + """
+        kernel = HEADER.replace("import {", "import { math as foundationMath,", 1) + """
 export function reduce(): void {
   const input = event();
-  const answer = math("exact_scalar", "{}");
+  const answer = foundationMath("exact_scalar", "{}");
   emit("{\\"value\\":" + field(answer, "result.value") + "}");
 }
 """
