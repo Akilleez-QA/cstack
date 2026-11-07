@@ -5,7 +5,7 @@ import signal
 import time
 import unittest
 
-from tests.forge_fixtures import Forge, GOAL, args_of, descendants, outcome, wait_for
+from tests.forge_fixtures import Forge, GOAL, SATURATION, args_of, descendants, outcome, wait_for
 
 HANG = """
 import { emit } from "./cstack";
@@ -71,25 +71,25 @@ class Kill(unittest.TestCase):
         self.assertEqual(forge.receipts(), [])
         wait_for(lambda: not alive(cell), 5)
 
-    def test_sigkill_of_the_controller_is_reconciled_by_the_next_run(self):
+    def test_sigkill_of_the_controller_is_reconciled_and_the_next_run_needs_resume(self):
         forge, process, supervisor, cell = self.begin()
         os.kill(process.pid, signal.SIGKILL)
         process.wait()
         wait_for(lambda: not alive(supervisor) and not alive(cell), 5)
+        first_session = forge.witness()[0]["session_id"]
         self.assertEqual([r["kind"] for r in forge.witness()], ["precommit", "precommit"])
-        forge_next = Forge(directory=forge.directory)
-        document = json.loads((forge.directory / "witness.jsonl").read_text().splitlines()[0])
-        result = forge_next.run(json.loads(json.dumps(GOAL)))
-        self.assertEqual(result["reconciled_outcome_unknown"][0]["decision_id"], "forge-decision-1")
-        self.assertEqual(result["reconciled_outcome_unknown"][0]["status"], "outcome_unknown")
-        records = forge.witness()
-        unknown = [r for r in records if r["kind"] == "outcome" and r["session_id"] == document["session_id"]]
-        self.assertEqual(unknown[0]["payload"]["execution_certainty"], "unknown")
-        self.assertEqual(unknown[0]["payload"]["assessment"], "process_ended_before_outcome")
-        self.assertEqual(sum(1 for r in records if r["kind"] == "outcome" and r["session_id"] == document["session_id"]), 1)
 
-        third = forge_next.run(json.loads(json.dumps(GOAL)))
-        self.assertNotIn("reconciled_outcome_unknown", third, "it is recorded once")
+        next_run = Forge(SATURATION, directory=forge.directory)
+        refused = next_run.raw(GOAL)
+        self.assertEqual(refused.returncode, 2)
+        self.assertEqual(json.loads(refused.stdout)["error"], "decision_reuse_refused")
+        unknown = [r for r in forge.witness() if r["kind"] == "outcome" and r["session_id"] == first_session]
+        self.assertEqual(len(unknown), 1)
+        self.assertEqual((unknown[0]["payload"]["execution_certainty"], unknown[0]["payload"]["assessment"]), ("unknown", "process_ended_before_outcome"))
+
+        resumed = json.loads(next_run.raw(GOAL, "--resume", "forge-decision-1").stdout)
+        self.assertEqual(outcome(resumed)["assessment"], "candidate_passed", "the next run really executes a candidate")
+        self.assertEqual(sum(1 for r in forge.witness() if r["kind"] == "outcome" and r["session_id"] == first_session), 1, "recorded once")
 
 
 if __name__ == "__main__":
