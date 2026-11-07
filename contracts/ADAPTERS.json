@@ -656,6 +656,16 @@
    "reason": "Counts real process creation under ptrace for the Foundation route measurements."
   },
   {
+   "path": "tools/check_readme.py",
+   "role": "build_or_check_tool",
+   "reason": "Runs every README command on a fresh clone."
+  },
+  {
+   "path": "tools/tty_approve.py",
+   "role": "build_or_check_tool",
+   "reason": "Types an approval on a real pty for the README check."
+  },
+  {
    "path": "tools/measure_foundation_routes.py",
    "role": "build_or_check_tool",
    "reason": "Measures the Foundation routes for docs/verification."
