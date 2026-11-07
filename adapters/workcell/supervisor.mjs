@@ -19,7 +19,13 @@ const pool = new IsolatePool({ hostPort: fileURLToPath(new URL('host-port.mjs', 
 const { generate } = config.transport ? await import(pathToFileURL(config.transport).href) : { generate: () => { throw new Error('no model transport is configured'); } };
 
 const commands = {
-  ready: async () => { await pool.ready(); return { compiler: compilerIdentity() }; },
+  ready: async () => {
+    let compiler;
+    try { compiler = compilerIdentity(); }
+    catch (error) { throw new Error(`the compiler isn't installed or differs from its pin; run npm ci --prefix adapters/workcell-toolchain --ignore-scripts: ${error.message}`); }
+    await pool.ready();
+    return { compiler };
+  },
   generate: async request => {
     const answer = await generate({ ...request, text: renderPrompt(request) });
     return { ...answer, text: stripFences(answer.text) };

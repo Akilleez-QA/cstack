@@ -50,6 +50,17 @@ class NotExecuted(unittest.TestCase):
         self.assert_not_executed(final)
         self.assertIn("node", json.dumps(final["limitations"]))
 
+    def test_missing_node_modules_says_how_to_fix_it(self):
+        from tests.forge_fixtures import RepoCopy
+        copy = RepoCopy()
+        self.addCleanup(copy.close)
+        (copy.root / "adapters/workcell-toolchain/node_modules").unlink()
+        forge = Forge(SATURATION, root=copy.root)
+        self.addCleanup(forge.close)
+        final = outcome(forge.run(GOAL))
+        self.assert_not_executed(final)
+        self.assertIn("npm ci", json.dumps(final["limitations"]))
+
     def test_a_host_without_a_transport_ran_nothing(self):
         forge = Forge(transport=False)
         self.addCleanup(forge.close)

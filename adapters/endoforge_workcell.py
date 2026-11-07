@@ -149,7 +149,8 @@ def core_events(path):
 def resolver(config, core_directory):
     """What the run ledger durably proves about a lost forge attempt. A candidate with no receipt, or an inconclusive one, proves nothing."""
     def resolve(request, session_id):
-        action = next((e["data"] for e in core_events(core_directory / f"{session_id}.jsonl") if e["kind"] == "action" and e["data"]["decision_id"] == request.decision_id), None)
+        events = [e for path in sorted(core_directory.glob(f"{session_id}.*")) for e in core_events(path)]
+        action = next((e["data"] for e in events if e["kind"] == "action" and e["data"]["decision_id"] == request.decision_id), None)
         attempt_id = action["attempt_id"] if action else "attempt-unknown"
         if request.capability_id != "cstack_forge" or action is None:
             return attempt_id, None

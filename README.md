@@ -14,7 +14,7 @@ This is an early template; verify the configuration and capabilities you choose.
 
 ## Quickstart
 
-Python 3.11 or newer and Node 22 or newer on Linux or macOS. The spawn counter in the test suite needs Linux.
+Python 3.12 or newer and Node 22 or newer on Linux or macOS. The pinned numpy doesn't install on 3.11. The spawn counter in the test suite needs Linux.
 
 ```sh
 python3 -m venv .venv && . .venv/bin/activate
@@ -57,9 +57,11 @@ CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.p
 
 The core makes the decision under a host grant and witnesses it. EndoForge then runs in `IsolatePool` V8 workcells: a model transport returns source, the pinned AssemblyScript compiler builds it in the cell, the real gates and frozen evaluator judge it, and the kernel calls the Foundations it declared as in-process imports. The EndoForge ledger and the receipt name the decision, grant, compiler and Foundation versions.
 
-The controller and both ledgers stay outside the cohort. A lost cell, supervisor or controller is recorded as `outcome_unknown`, never as a pass, and isn't retried. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
+The command can run again, and each run gets its own task and candidate. A goal's decision binds one request: a different request under it is refused. Numbers in a goal can be decimal literals.
 
-This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration. Cstack ships none yet. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
+The controller and both ledgers stay outside the cohort. A lost cell or supervisor is recorded as `outcome_unknown`, never as a pass, and isn't retried; a rerun then takes `python -B cli.py --resume DECISION_ID`. A lost controller is reconciled against the run ledger by the next run, which lists anything unresolved. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
+
+This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration, and gets its full instructions in `prompt.text`. Cstack ships none yet; that wiring waits on EndoForge experiment P-50. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
 
 Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegates them; the receipt says `cgroup: unavailable` where it doesn't.
 
@@ -116,7 +118,7 @@ Run the root and Foundation unittest suites normally and with optimization enabl
 
 ## Wire the merge train
 
-`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. It needs `gh` and a GitHub remote. Run it from a timer against a fresh worktree of `main`.
+`tools/merge_train.py` merges open PRs in dependency order. A PR merges only when its body lists the local checks that were run, it stays inside its bot's slice, and it merges cleanly. It never deletes branches or force-pushes. It needs `gh`, signed in, and a GitHub remote; without them it says so and exits 2, and `tools/check_readme.py` reports these two commands as skipped. Run it from a timer against a fresh worktree of `main`.
 
 ```sh
 python3 tools/merge_train.py --wip
@@ -133,17 +135,18 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, on a fresh clone at commit
-`b51f9945c494efe3f5fd9eb1193b50c35a18954a` of the unmerged draft stack. CI: not yet run on this.
+Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37` of the unmerged draft stack, except where the table says otherwise. GitHub CI results are on the pull requests.
 
 | Check | Command | Result |
 |---|---|---|
-| Every README command | `python -B tools/check_readme.py` | 15 commands, 0 failed, 0 uncovered |
-| Core test suite | `python -B -m unittest discover -s tests` | 615 tests, OK, 2 skipped |
-| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; 38 paths checked, 0 broken |
-| Secret scan | `gitleaks git --staged`, per commit | No leaks. `bash ci/scan-secrets.sh` (TruffleHog) wasn't run |
+| Every README command, on a fresh clone | `python -B tools/check_readme.py --source https://github.com/Akilleez-QA/cstack --branch harden-tools` | 16 commands, 0 failed, 0 uncovered, 0 skipped. The forge goal ran twice and passed both times |
+| Core test suite, optimized | `python -B -O -m unittest discover -s tests` | 663 tests, OK, 2 skipped |
+| Core test suite, Python 3.12.14 on two cores, normal and optimized | `taskset -c 0,1 python -B [-O] -m unittest discover -s tests`, at `7225ae9` | 663 tests, OK, 2 skipped, each |
+| Core test suite and all suites | `python -B -m unittest discover -s tests`, `bash ci/run-local.sh python links`, inside the check above | Both exit 0; 38 paths checked, 0 broken |
+| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified, in pip's vendored code in the untracked `.venv` |
+| Secret scan | `gitleaks git`, over the stack | No leaks |
 
-Foundation route numbers are in [the routes](docs/verification/foundation-routes.md).
+Foundation route numbers are in [the routes](docs/verification/foundation-routes.md), from their own run.
 
 ## Documentation
 
