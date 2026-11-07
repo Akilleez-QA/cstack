@@ -133,15 +133,17 @@ No business data, no user or site data, and no engineering, safety or compliance
 
 ## Measured
 
-Measured on 2026-11-01 with Python 3.14.8 on Linux at main commit
-`ec416f05fc5a2233899afd3645f64a61ebc3be3d`, with `requirements.txt` and
-`ci/requirements.txt` installed in `.venv`. CI: local only.
+Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, on a fresh clone at commit
+`b51f9945c494efe3f5fd9eb1193b50c35a18954a` of the unmerged draft stack. CI: not yet run on this.
 
 | Check | Command | Result |
 |---|---|---|
-| Core test suite | `python -B -m unittest discover -s tests` | 530 tests, OK, 2 skipped |
-| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; root 530 tests in normal and `-O` mode (2 skipped each); film 25, refrigeration 18, robotics 49, template 34, math 10 in each mode, all OK; 18 paths checked, 0 broken |
-| Secret scan | `bash ci/scan-secrets.sh` (TruffleHog) | 0 verified secrets; 2 unverified placeholder URLs, both in pip's vendored code inside the untracked `.venv` |
+| Every README command | `python -B tools/check_readme.py` | 15 commands, 0 failed, 0 uncovered |
+| Core test suite | `python -B -m unittest discover -s tests` | 615 tests, OK, 2 skipped |
+| Python suites and documentation links | `bash ci/run-local.sh python links` | Exit 0; 38 paths checked, 0 broken |
+| Secret scan | `gitleaks git --staged`, per commit | No leaks. `bash ci/scan-secrets.sh` (TruffleHog) wasn't run |
+
+Foundation route numbers are in [the routes](docs/verification/foundation-routes.md).
 
 ## Documentation
 
