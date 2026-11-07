@@ -2,11 +2,12 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { KernelRefusal, ToolInputError, sha256 } from './common.mjs';
 import { boundedOutput, evidence, parseProfile } from './integer-profile.mjs';
+import { createMachines } from './robotics-machines.mjs';
 import { createMotion } from './robotics-motion.mjs';
 import { guarded } from './robotics-numeric.mjs';
 
 const VERSION = '0.1.0';
-const TOOLS = ['scale_timing', 'gait_check', 'balance_check'];
+const TOOLS = ['scale_timing', 'gait_check', 'balance_check', 'ik_check', 'mechanism_check', 'squash_check'];
 const BOUNDARY = { observation_only: true, acceptance_decision: false, control_action: false };
 const NUMERIC_TOLERANCE = 'Results match the pinned Python exactly or are refused. sin, cos, atan2, pow and math.dist can differ from the Python libm in the last places, so each call using them is repeated under eight patterns of relative nudges of 2^-49 on those functions, and any change in the integer results refuses the call with numeric_boundary. Python 3.12 or later is the reference, because its sum() is compensated.';
 const DEFAULTS_FILE = 'foundation_robotics/data/defaults.json';
@@ -44,6 +45,7 @@ export function createKernel({ root, numericGuard = true }) {
   const defaults = (section, keys) => Object.fromEntries(keys.map(key => [key, value(section, key)]));
   const data = { value, defaults };
   const { scaleTiming, gaitCheck, balanceCheck } = createMotion(data);
+  const { ikCheck, mechanismCheck, squashCheck } = createMachines(data);
 
   const thresholdEvidence = (section, result, note) => {
     const entries = [];
@@ -81,6 +83,26 @@ export function createKernel({ root, numericGuard = true }) {
         cited('result.frames', 'capture_point', 'A body stops without stepping only if its capture point is inside the support polygon.'),
         cited('result.checks', 'newton', 'Frames with no support must fall at g.'),
         ...thresholdEvidence('balance', result, 'Margins and the flight tolerance are not yet calibrated on captured motion; the suite tries them on constructed standing, leaning, swaying and falling cases only (I3).')]];
+    },
+    ik_check(args) {
+      const [assessment, result] = ikCheck(args);
+      return [assessment, result, [cited('result.poses', 'lynch_park', 'Forward kinematics as a product of exponentials and the positional geometric Jacobian, both computed from the supplied chain.'),
+        cited('result.checks', 'yoshikawa', `Singular values of the Jacobian: their ratio measures how far the pose is from a singularity, where IK needs unbounded joint speed and pops.${result.mixed_joint_types ? ' This chain mixes revolute and prismatic joints, so the ratio mixes units.' : ''}`, 'CHECK'),
+        ...thresholdEvidence('ik', result, 'The tolerance and the singularity ratio are tried on constructed two-link legs (bent knee passes, straight knee, out-of-reach target and limit violation fail), not on character rigs (I3).')]];
+    },
+    mechanism_check(args) {
+      const [assessment, result] = mechanismCheck(args);
+      const source = { gear_train: 'stosic', rotor_strobe: 'shannon' }[result.kind] ?? 'norton';
+      const notes = { gear_train: 'Equal pitch-line speed at every mesh; screw rotors mesh like gears with lobes as teeth.', gear_mesh: 'Meshing members keep their phase modulo one tooth pitch.', slider_crank: 'Closed-form slider position from crank angle, rod length and offset.',
+        four_bar: 'Grashof classification and the loop-closure output angle.', rotor_strobe: 'Sampled at the frame rate, rotation reads true only below half a blade pitch per frame.' };
+      const entries = [cited('result.detail', source, notes[result.kind])];
+      if (source !== 'norton') entries.push(cited('result.detail', 'norton', 'Gear-train and mechanism kinematics.'));
+      return [assessment, result, [...entries, ...thresholdEvidence('mechanism', result, 'Tolerances are tried on constructed exact and perturbed mechanisms only (I3).')]];
+    },
+    squash_check(args) {
+      const [assessment, result] = squashCheck(args);
+      return [assessment, result, [cited('result.frames', 'thomas_johnston', 'Squash and stretch keeps the volume: scale x times y times z stays 1; conserving_lateral_permille is the side scale that would.'),
+        ...thresholdEvidence('squash', result, 'The tolerance is a starting value tried on constructed cases and the the giant character squeeze (+8.6 % volume), not yet judged by a person (I3).')]];
     },
   };
 
