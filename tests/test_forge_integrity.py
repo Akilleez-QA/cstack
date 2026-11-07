@@ -93,6 +93,24 @@ class Faults(unittest.TestCase):
                 self.assertEqual([r["data"]["outcome_state"] for r in forge.receipts()], ["failed", "passed"])
 
 
+class RefusedChecks(unittest.TestCase):
+    def test_a_refused_held_out_check_is_a_rejection_that_allows_repair(self):
+        arguments = GOAL["calls"][0]["request"]["arguments"]
+        for name, change in (("unknown tool", dict(tool="no_such_tool")),
+                             ("non-ASCII argument", dict(arguments={"fluid": "NH3\u00e9", "temperature": {"value": -10, "unit": "degC"}}))):
+            with self.subTest(name):
+                checks = [dict(arguments["checks"][0], **change), *arguments["checks"][1:]]
+                forge = Forge(SATURATION, SATURATION + "\n// repaired\n")
+                self.addCleanup(forge.close)
+                final = outcome(forge.run(goal(checks=checks, max_candidates=2)))
+                self.assertEqual((final["execution_status"], final["assessment"]), ("tool_error", "candidate_rejected"), final["limitations"])
+                candidates = final["raw_result"]["candidates"]
+                self.assertEqual([c["status"] for c in candidates], ["rejected", "rejected"], "repair stays allowed")
+                self.assertEqual(candidates[0]["diagnostics"][0]["check"], "residual")
+                self.assertIn("refused", candidates[0]["diagnostics"][0]["reasons"][0])
+                self.assertEqual([r["data"]["outcome_state"] for r in forge.receipts()], ["failed", "failed"])
+
+
 class Attribution(unittest.TestCase):
     def test_a_receipt_says_when_it_omitted_attributions(self):
         source = SATURATION.replace('const receipt = refrigeration(', 'let receipt = ""; for (let i = 0; i < 100; i++) receipt = refrigeration(')
