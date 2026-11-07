@@ -4,7 +4,7 @@ import json
 import sys
 import time
 
-from adapters.endoforge_ledger import DecisionReuseRefused
+from adapters.endoforge_ledger import DecisionReuseRefused, WitnessChainBroken
 from adapters.terminal_approver import APPROVER, TerminalApprover
 from adapters.wire import WireFailure, decode, encode
 from bootstrap import DOMAINS, RUNTIMES, build_domain, cli_approval_session, endoforge_session, registered
@@ -31,9 +31,10 @@ def run_document(document, approver=None, *, config=None, resume=None):
         if isinstance(approver, str) and not approval_host:
             approver = TerminalApprover(approver)
         host = dict(host)
-        reconciled = host.pop("reconciled", ())
+        notes = {"reconciled": list(host.pop("reconciled", ())), "unresolved_attempts": host.pop("unresolved", []), "witness_quarantined": host.pop("quarantined", [])}
         result = _run_document(document, {**host, **approval_host}, approver)
-        return {**result, "reconciled_outcome_unknown": list(reconciled)} if reconciled else result
+        unknown = [row for row in notes["reconciled"] if row["status"] == "outcome_unknown"]
+        return {**result, **{k: v for k, v in notes.items() if v}, **({"reconciled_outcome_unknown": unknown} if unknown else {})}
 
 
 def _run_document(document, host, approver):
@@ -152,8 +153,8 @@ def main():
         return 0
     except BrokenPipeError:
         return 2
-    except (DecisionReuseRefused, DriverRefusal) as error:
-        code = error.code if isinstance(error, DriverRefusal) else "decision_reuse_refused"
+    except (DecisionReuseRefused, DriverRefusal, WitnessChainBroken) as error:
+        code = error.code if isinstance(error, DriverRefusal) else "witness_chain_broken" if isinstance(error, WitnessChainBroken) else "decision_reuse_refused"
         sys.stdout.write(json.dumps({"schema": "cstack.driver-error/0.1", "error": code, "detail": str(error),
                                      "formal_proof": False, "runtime_goal_acceptance": False}) + "\n")
         return 2

@@ -567,6 +567,19 @@
    "status": "hard_wired",
    "strategic_dependency_adr": null,
    "notes": "Squash-merges in-scope PRs in dependency order, retargets children and reports WIP. Checks declared local results and path policy, re-reads PR state before acting and serializes trains with a host lock; never deletes branches or force-pushes."
+  },
+  {
+   "adapter_id": "forge-core-ledger",
+   "lane": "EvidenceFace",
+   "port": "LedgerPort",
+   "vendor": "cstack (in-repo), local JSON lines",
+   "kind": "python_module",
+   "path": "adapters/durable_ledger.py",
+   "fake": null,
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "One file per forge session, so a later session's core can replay a lost controller's attempts. Local fsync only.",
+   "fake_reason": "MemoryLedger is the EvidenceFace fake; this adds only file persistence."
   }
  ],
  "not_an_adapter": [

@@ -113,7 +113,7 @@ one newline-terminated line, submitted in one `O_APPEND` write. The file and its
 parent directory are synced at open, and each append is synced before its hash
 is returned. Local fsync acknowledgement is this adapter's durable witness;
 there is no independent external witness or suffix-rollback protection.
-Short writes and torn tails fail closed without truncation, repair or retry.
+A short write fails closed. At open, a last line with no newline is a write that was never acknowledged: its bytes move to `<ledger>.torn-<hash>`, the file is cut back to the last whole line, and the run result reports `witness_quarantined`. A complete record that fails its chain raises `WitnessChainBroken`, naming the record, with no repair. The CLI reports `witness_chain_broken` and runs nothing.
 Power-loss qualification and recovery procedures remain deployment work.
 The pinned slice's own SQLite ledger holds the run's records; this file adapter stays the host's witness.
 
@@ -125,6 +125,8 @@ Malformed inputs, missing read filters and unmatched outcomes raise
 `verify_chain` return `False`. No exception becomes an empty read, valid chain
 or successful receipt. Verification I/O failure raises rather than returning
 `True`. Append/read must validate chain integrity at the operation boundary.
+
+A goal's decision binds one request for the life of the ledger: a different request under the same goal and decision raises `DecisionReuseRefused`. An identical request may run again after a known outcome. After an unknown outcome it runs again only with the host's `cli.py --resume DECISION_ID`. This is goal-scoped, because the shipped examples reuse decision ids across goals.
 
 An append failure may occur after persistence but before acknowledgement; callers
 must retain uncertainty and reconcile by session/goal before any explicit retry.
@@ -172,12 +174,15 @@ A goal in the `cstack_forge` domain is one capability call on the RuntimeFace la
 
 | Boundary | Rule |
 |---|---|
-| Candidate | Model text, compiled in the cell by the pinned AssemblyScript 0.28.20, to a WASM kernel exporting exactly `signature`, `reduce` and `memory` |
+| Candidate | Model text, identified by a hash of its task and source, compiled in the cell by the pinned AssemblyScript 0.28.20, to a WASM kernel exporting exactly `signature`, `reduce` and `memory`. Bad handles, out-of-bounds addresses, traps and top-level host calls are kernel failures that allow repair |
 | Foundation import | Module `foundation_<name>`, function `call`, read from the binary and not from a manifest. It must be declared in the request and allowed by host configuration. Anything else fails the `forbidden_effects` gate |
-| Foundation result | A host-owned buffer read by handle. The kernel gets no pointer into trusted state. Attribution names the version, route, port hash, source manifest hash, input and output hashes |
+| Foundation result | A host-owned buffer read by handle. The kernel gets no pointer into trusted state. Attribution names the version, route, port hash, source manifest hash, input and output hashes, for the first 64 calls; the receipt counts the rest in `attributions_omitted`. A refused call fails the run whatever the kernel does with it |
 | Decision proposal | An effect, returned as data: `{capability: "poodo", operation: "propose_decision", payload}` with a closed payload. The host fills every identity. Each gets its own goal and core, so the running core stays single-caller |
-| Judgement | The held-out checks run against the pinned Foundation kernel, and the candidate never sees them |
+| Judgement | Every case needs a held-out check. Checks run against the pinned Foundation kernel, compare as exact decimals, and never reach the prompt |
 | Refusal | A refused or invalid effect adds a name the frozen evaluator doesn't allow, so the gate fails whatever the kernel returns. A refusal ends the run; it isn't repaired past |
-| Lost cell, supervisor or controller | `outcome_unknown`: an inconclusive receipt where a pool survives, `indeterminate`/`unknown` in the outcome, no retry. The next session records a controller's lost attempt once, from its gated precommit |
+| Lost cell or supervisor | `outcome_unknown`: an inconclusive receipt where a pool survives, `indeterminate`/`unknown` in the outcome, no retry. If nothing was in flight, or a failure came before dispatch, the outcome is `unavailable`/`not_dispatched` and says nothing ran |
+| Lost controller | The next session reads the run ledger. A durable receipt with no candidate left in flight becomes `candidate_passed_recovered` or `candidate_rejected_recovered`; anything else is recorded `process_ended_before_outcome`/`unknown`, once. Each forge session keeps a core ledger in `<ledger>.core/`, the next session's core replays a lost one, and the run result lists `unresolved_attempts` |
+| Runtime pin | A run verifies `contracts/SOURCE-PINS.json` for every file in `adapters/workcell` and the vendored engine before starting, and `adapters/workcell` is the frozen tree. A local writer who changes the pins too isn't caught |
+| Coder approvals | Approvals don't reach coder cores. An operation in `workcell.decision_ask_operations` is refused for a coder (`approval_not_routed_to_coders`) instead of running unapproved |
 
 Limits, and what the runtime doesn't prove: V8 has no instruction fuel, so `fuel` counts Foundation calls per round and a hung kernel stops at `jobTimeoutMs`. Workcells aren't an OS sandbox and cgroups are host-dependent. Foundation kernels other than Refrigeration and Template aren't shipped; see [the routes](../verification/foundation-routes.md). The witness is this file's local fsync, not an independent quorum. `CapabilityPort` maps to ToolFace in `poodo_core/ports.py`, so the runtime's inventory row names no port until ADR 005 item 12b is settled.

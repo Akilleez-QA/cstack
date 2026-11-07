@@ -142,6 +142,42 @@ class Supervisor:
             self._stderr.close()
 
 
+def core_events(path):
+    return [json.loads(line) for line in path.read_bytes().splitlines() if line.endswith(b"}")] if path.exists() else []
+
+
+def resolver(config, core_directory):
+    """What the run ledger durably proves about a lost forge attempt. A candidate with no receipt, or an inconclusive one, proves nothing."""
+    def resolve(request, session_id):
+        action = next((e["data"] for e in core_events(core_directory / f"{session_id}.jsonl") if e["kind"] == "action" and e["data"]["decision_id"] == request.decision_id), None)
+        attempt_id = action["attempt_id"] if action else "attempt-unknown"
+        if request.capability_id != "cstack_forge" or action is None:
+            return attempt_id, None
+        task = f"task:{session_id}:{request.decision_id}:{attempt_id}"
+        try:
+            Ledger, _ = _ledger_module()
+            records = Ledger(config["ledger"]).records()
+        except Exception:
+            return attempt_id, None
+        candidates = {r["id"] for r in records if r["kind"] == "candidate" and r["data"]["task"] == task}
+        receipts = [r for r in records if r["kind"] == "receipt" and r["data"]["task"] == task]
+        if not receipts or candidates - {r["data"]["candidate"] for r in receipts}:
+            return attempt_id, None
+        state = receipts[-1]["data"]["outcome_state"]
+        rows = [dict(id=r["id"], delivery_state=r["data"]["delivery_state"], outcome_state=r["data"]["outcome_state"]) for r in receipts]
+        raw = dict(schema="cstack.forge-receipt/0.1", status=state, recovered=True, decision_id=request.decision_id, request_sha256=request.sha256,
+                   attempt_id=attempt_id, session_id=session_id, task=task, receipts=rows)
+        note = ("Recovered from the run ledger after the controller was lost.",)
+        if state == "passed":
+            return attempt_id, outcome_for(request, attempt_id, "completed", "candidate_passed_recovered", certainty="responded", raw_result=raw,
+                                           scope="One candidate against one frozen evaluator.", limitations=(*note, "Passing is not goal acceptance."))
+        if state == "failed":
+            return attempt_id, outcome_for(request, attempt_id, "tool_error", "candidate_rejected_recovered", certainty="responded", raw_result=raw,
+                                           scope="One candidate against one frozen evaluator.", limitations=(*note, "A refused or rejected run records no pass."))
+        return attempt_id, None
+    return resolve
+
+
 class WorkcellCapability:
     """Runs a goal in IsolatePool workcells. Bound once by bootstrap; request data cannot select any of this."""
     def __init__(self, source_root=None):
