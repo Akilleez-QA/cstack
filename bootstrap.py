@@ -21,8 +21,9 @@ from weakref import WeakValueDictionary
 from adapters.adapter_inventory import load_inventory
 from adapters.math_stdio import MathStdioCapability
 from adapters.memory_ledger import MemoryLedger
+from adapters.durable_ledger import DurableLedger
 from adapters.endoforge_ledger import EndoforgeLedger
-from adapters.endoforge_workcell import WorkcellCapability, decode_forge
+from adapters.endoforge_workcell import WorkcellCapability, core_events, decode_forge, resolver
 from adapters.template_stdio import TemplateStdioCapability
 from adapters.engine_stdio import EngineStdioCapability
 from extensions.cstack_forge import CstackForge, FORGE_DOMAIN_ID, FORGE_TOOL_NAMES
@@ -170,6 +171,43 @@ def _workcell_config(config, parent):
     return resolved
 
 
+def _core_directory(workcell):
+    directory = Path(workcell["ledger"] + ".core")
+    directory.mkdir(exist_ok=True)
+    return directory
+
+
+def _unresolved_in(path):
+    return [{**{k: e["data"]["outcome"][k] for k in ("attempt_id", "decision_id", "request_sha256", "goal_id")}, "session_id": path.stem}
+            for e in core_events(path) if e["kind"] == "outcome" and e["data"]["outcome"]["execution_certainty"] == "unknown"]
+
+
+def _recover_lost_cores(directory, port):
+    """A core file left open means its controller was lost. Give it what the witness now knows, let the core's own recovery
+    record the rest as unknown, and list what's unresolved. Runs on every session, so a crash during this repeats safely."""
+    for path in sorted(directory.glob("*.jsonl")):
+        events = core_events(path)
+        requests = [e["data"]["request"] for e in events if e["kind"] == "decision" and e["data"].get("action") == "precommit"]
+        if not requests:
+            path.rename(path.with_suffix(".closed"))
+            continue
+        ledger = DurableLedger(path)
+        finished = {e["data"]["outcome"]["attempt_id"] for e in events if e["kind"] == "outcome"}
+        witnessed = [r.read()["payload"] for r in port.read_records(session_id=path.stem)]
+        for action in (e["data"] for e in events if e["kind"] == "action" and e["data"]["attempt_id"] not in finished):
+            for payload in witnessed:
+                if payload.get("attempt_id") == action["attempt_id"] and payload["execution_certainty"] != "unknown":
+                    ledger.append("outcome", {"outcome": payload, "interpretation": {"evidence_kind": "tool_observation" if payload["execution_status"] == "completed" else "unassessed",
+                                              "covered_scope": "Recovered from the run ledger", "limitations": list(payload["limitations"]), "formal_proof": False,
+                                              "runtime_goal_acceptance": False}, "goal_closed": False})
+        core, _ = build_domain(FORGE_DOMAIN_ID, requests[0]["goal_id"], ledger=ledger)
+        path.rename(path.with_suffix(".recovered" if core.unresolved_attempts() else ".closed"))
+    rows = []
+    for path in sorted(directory.glob("*.recovered")):
+        rows.extend(_unresolved_in(path))
+    return rows[:64]
+
+
 _MAX_PROPOSALS_PER_RUN = 16
 _PROPOSAL_FIELDS = {"capability_id", "operation", "arguments", "expected_observation", "success_boundary", "failure_meaning"}
 
@@ -236,12 +274,22 @@ def endoforge_session(config_path=_HERE / "cstack.config.json", resume=None):
     workcell = _workcell_config(config, config_path.parent.resolve())
     with EndoforgeLedger(config_path.parent / path, resume=resume) as port:
         session_id = uuid4().hex
-        yield {"endoforge": port, "session_id": session_id, "reconciled": port.reconcile(session_id),
-               **({"workcell": workcell} if workcell else {})}
+        host = {"endoforge": port, "session_id": session_id, "quarantined": list(port.quarantined)}
+        core_directory = None
+        if workcell:
+            core_directory = _core_directory(workcell)
+            host.update(workcell=workcell, reconciled=port.reconcile(session_id, resolver(workcell, core_directory)), unresolved=_recover_lost_cores(core_directory, port))
+        else:
+            host["reconciled"] = port.reconcile(session_id)
+        try:
+            yield host
+        finally:
+            if core_directory is not None and (core_directory / f"{session_id}.jsonl").exists():
+                (core_directory / f"{session_id}.jsonl").rename(core_directory / f"{session_id}.closed")
 
 
 def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,
-                 ask_operations=(), approvals=None, approver=None, clock=None, endoforge=None, session_id=None, workcell=None):
+                 ask_operations=(), approvals=None, approver=None, clock=None, endoforge=None, session_id=None, workcell=None, ledger=None):
     """Trusted HOST configuration only. No external JSON controls source_root/grants/inventory.
 
     Every registered Foundation is read-only observation: the grant names only its fixed tools.
@@ -260,7 +308,9 @@ def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_ro
     host = dict(approvals=approvals, approver=approver, clock=clock) if ask_operations else {}
     if endoforge is not None or session_id is not None:
         host.update(endoforge=endoforge, session_id=session_id)
-    core = build_core(MemoryLedger(), lambda ledger: d.foundation(capability, grants, ledger, **host))
+    if ledger is None:
+        ledger = DurableLedger(_core_directory(workcell) / f"{session_id}.jsonl") if domain_id in RUNTIMES and workcell is not None else MemoryLedger()
+    core = build_core(ledger, lambda bound: d.foundation(capability, grants, bound, **host))
     return core, capability
 
 

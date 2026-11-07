@@ -1,4 +1,5 @@
 import fcntl
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -13,13 +14,19 @@ class DecisionReuseRefused(ContractError):
     """A goal's decision binds one request for the life of this ledger."""
 
 
+class WitnessChainBroken(RuntimeError):
+    """A complete record fails its chain. Nothing is repaired; the host has to look."""
+
+
 class EndoforgeLedger:
     def __init__(self, path, *, resume=None):
         self.path = Path(path).resolve()
         self._resume = resume
+        self.quarantined = []
         self._fd = os.open(self.path, os.O_RDWR | os.O_CREAT | os.O_APPEND, 0o600)
         try:
             fcntl.flock(self._fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._quarantine_torn_tail()
             os.fsync(self._fd)
             parent = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY)
             try:
@@ -29,6 +36,23 @@ class EndoforgeLedger:
         except BaseException:
             self.close()
             raise
+
+    def _quarantine_torn_tail(self):
+        """A last line with no newline is a write that was never acknowledged. Keep its bytes aside, and record that."""
+        size = os.fstat(self._fd).st_size
+        if not size or os.pread(self._fd, 1, size - 1) == b"\n":
+            return
+        raw = os.pread(self._fd, size, 0)
+        tail = raw[raw.rfind(b"\n") + 1:]
+        side = self.path.with_name(f"{self.path.name}.torn-{hashlib.sha256(tail).hexdigest()[:16]}")
+        fd = os.open(side, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        try:
+            os.write(fd, tail)
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        os.ftruncate(self._fd, size - len(tail))
+        self.quarantined.append({"path": str(side), "bytes": len(tail), "sha256": hashlib.sha256(tail).hexdigest()})
 
     def close(self):
         if self._fd != -1:
@@ -95,7 +119,7 @@ class EndoforgeLedger:
                     records.append(record)
                     previous = record["record_id"]
         except (ValueError, TypeError, KeyError, AttributeError, RecursionError) as exc:
-            raise RuntimeError("Invalid ledger chain") from exc
+            raise WitnessChainBroken(f"The witness chain is broken at record {len(records) + 1}") from exc
         return records, bindings
 
     def verify_chain(self) -> bool:
@@ -165,8 +189,9 @@ class EndoforgeLedger:
             raise ContractError("Invalid outcome") from exc
         return self._append(session_id, "outcome", payload)
 
-    def reconcile(self, current_session):
-        """Record an earlier session's dispatched attempt with no outcome as unknown. Never inferred from leftovers; never retried.
+    def reconcile(self, current_session, resolve=None):
+        """Record an earlier session's dispatched attempt with no outcome. Unknown, unless the host's resolve shows durable
+        proof of what it did; never inferred from leftovers, and never retried.
 
         The core witnesses a second precommit only after every execution gate, so that is where execution may have begun.
         A declined approval is a refusal, and a lone precommit was decided but never gated."""
@@ -188,11 +213,12 @@ class EndoforgeLedger:
             if key in finished or len(seen) < 2:
                 continue
             request = CapabilityRequest.from_dict(seen[-1]["payload"]["request"])
-            outcome = outcome_for(request, "attempt-unknown", "indeterminate", "process_ended_before_outcome", certainty="unknown",
-                                  limitations=("No automatic retry; execution may have occurred.",))
+            attempt_id, known = resolve(request, seen[-1]["session_id"]) if resolve else ("attempt-unknown", None)
+            outcome = known or outcome_for(request, attempt_id, "indeterminate", "process_ended_before_outcome", certainty="unknown",
+                                           limitations=("No automatic retry; execution may have occurred.",))
             self.append_outcome(seen[-1]["session_id"], outcome)
             reconciled.append({"session_id": seen[-1]["session_id"], "decision_id": request.decision_id, "goal_id": request.goal_id,
-                               "request_sha256": request.sha256, "status": "outcome_unknown"})
+                               "request_sha256": request.sha256, "status": known.to_dict()["assessment"] if known else "outcome_unknown"})
         return tuple(reconciled)
 
     def read_records(self, *, goal_id: str | None = None,
