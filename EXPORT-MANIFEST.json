@@ -303,8 +303,8 @@
    "bytes": 9622
   },
   "adapters/workcell/kernels/MANIFEST.json": {
-   "sha256": "33b5b47fc9c46d8ab3e0083350b8330db8b7e58702bb35c19a0eb27510716623",
-   "bytes": 733
+   "sha256": "64320553a4822cb3dc13e8677edb71424446e2a7b41587bcc2d3c4da8ae89347",
+   "bytes": 758
   },
   "adapters/workcell/kernels/common.mjs": {
    "sha256": "f816b80c1fa797f519893e6c84d8d19ce0cf405026bb505748d5e3be7328fae9",
@@ -330,6 +330,10 @@
    "sha256": "bf430de94ccbe20857c8ea678c7ede251af9696cec568d17d9011e6a4abe1a5d",
    "bytes": 2365
   },
+  "adapters/workcell/kernels/robotics-machines.mjs": {
+   "sha256": "cbc32450b3928e493b8aaad27a979e18c446f5d75ba41abcef01fa28922ee38d",
+   "bytes": 19971
+  },
   "adapters/workcell/kernels/robotics-motion.mjs": {
    "sha256": "65cb5d173fee7c3c4d01172d6708009e0e3a4f84a941169ec41e7cf21e086618",
    "bytes": 17771
@@ -339,8 +343,8 @@
    "bytes": 4835
   },
   "adapters/workcell/kernels/robotics.mjs": {
-   "sha256": "be8dc6ff50147dddc1063073347da21ef462ca2b5e4d696970e4a90cf94cf177",
-   "bytes": 11419
+   "sha256": "22ad7154e21d13ad11012e3af73b18620e104d5b1ed971f5ce9617d1e7a324f4",
+   "bytes": 13942
   },
   "adapters/workcell/kernels/template.mjs": {
    "sha256": "7b330cb909ca6b76e4afc918375a3490606cc356803db28a0bbcfa06aa5b78c1",
@@ -439,8 +443,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "6bdf7979891be5d6a3f7cfdc9618144de348322f8e3eefcab598f9626d0e00ed",
-   "bytes": 8160
+   "sha256": "e8ef21ac8d10e8d09c744b6950a8c763bf8047bde35a84d7afeea1d92c540d1c",
+   "bytes": 8264
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
