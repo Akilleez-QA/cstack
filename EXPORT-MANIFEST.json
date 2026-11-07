@@ -1678,9 +1678,17 @@
    "sha256": "91e0fa421e0f0d0de00944f06fe76f6ad9398a21eeb80c022a3608cd619b6e70",
    "bytes": 2800
   },
+  "tests/kernels/film_vectors.py": {
+   "sha256": "ceb923ea38209426c44b2ec9e12cc681f8bbf8b004f3444e1ccbfdc754ef89a5",
+   "bytes": 18276
+  },
   "tests/kernels/fuzz_vectors.py": {
    "sha256": "ea4c5919b4d036e3977863bd1a5605c425311d69e35b7ded078c1e4d2d52af44",
    "bytes": 6469
+  },
+  "tests/kernels/lexical_vectors.py": {
+   "sha256": "89bb9ff5e7d4fd9d64dc73ebd53e75f5f45da883df727d3ff3bcfefaa09e4f3e",
+   "bytes": 2190
   },
   "tests/kernels/port_differential.mjs": {
    "sha256": "a59618d921c7753517424ddcfb944ade28c0160a7b0a19e38107c11142f2ddd1",
@@ -1815,8 +1823,8 @@
    "bytes": 9778
   },
   "tests/test_film_kernel.py": {
-   "sha256": "3c4c48a7c8a3a852e88c7d9cf623a508ded2acbf184c43f3163bdb8c3b1a8edf",
-   "bytes": 760
+   "sha256": "3f3c0b21112141aba7315cc2be395d8ed502832022fe93128acfea90481b6cda",
+   "bytes": 1942
   },
   "tests/test_fleet_mail.py": {
    "sha256": "195bb022f35b6f9a1a6f06f914c6545124724b6fc87cb9b9d4b80ecd1c1d25f8",
