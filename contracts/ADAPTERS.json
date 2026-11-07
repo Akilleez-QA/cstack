@@ -679,6 +679,11 @@
    "reason": "Types an approval on a real pty for the README check."
   },
   {
+   "path": "tools/fuzz_ports.py",
+   "role": "build_or_check_tool",
+   "reason": "Fuzzes the Film and Robotics ports against the pinned Python for docs/verification."
+  },
+  {
    "path": "tools/measure_foundation_routes.py",
    "role": "build_or_check_tool",
    "reason": "Measures the Foundation routes for docs/verification."
