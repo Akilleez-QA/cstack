@@ -29,7 +29,7 @@ Pyodide 0.29.0 (MPL-2.0) ran all five Foundations unchanged, from the pinned byt
 
 | Foundation | Route | Why, and what's left |
 |---|---|---|
-| Refrigeration | **Shipped: JS port plus the pinned data projections** | About 1,600 times faster than stdio and 3 times faster than Pyodide, with no per-cell cost, and it runs behind the guard. Its risk is drift, so `tests/test_foundation_kernels.py` compares 3,233 vectors with the pinned Python, including every tool, error message and input digest, on every run: 0 differences. The kernel route takes ASCII arguments only and refuses the rest, because Python and JS differ on Unicode case and space. Vectors are a sample and don't prove equivalence |
+| Refrigeration | **Shipped: JS port plus the pinned data projections** | About 1,600 times faster than stdio and 3 times faster than Pyodide, with no per-cell cost, and it runs behind the guard. Its risk is drift, so `tests/test_foundation_kernels.py` compares about 26,000 vectors with the pinned Python on every run: every tool, error message and input digest, units, sides and atmospheres, seeded random arguments, and exact text such as `-0`, duplicate keys, long numbers and `\\u` escapes. 0 differences outside the rounding limit below. Where Python raises and gives no receipt, the kernel refuses and gives none. The input digest matches for ASCII arguments, and the kernel route refuses the rest, because Python and JS differ on Unicode case and space. Vectors are a sample and don't prove equivalence |
 | Template | **Shipped: JS port** | 47 lines of Python; 9 vectors, 0 differences |
 | Film | Not shipped; decisions through the pinned stdio bridge work today | A JS port is about half of Refrigeration's size and has the same shape. It needs a port, differential vectors and a fixed reading of its `FOUNDATION_FILM_*` environment defaults |
 | Robotics | Not shipped; decisions through the pinned stdio bridge work today | A JS port of 1,036 lines of float arithmetic and tables. It needs a port and vectors. `pow` and `sqrt` may differ in the last place, as the differential will show |
@@ -39,4 +39,12 @@ A kernel that calls a granted Foundation with no shipped route gets a refusal ha
 
 ## What these numbers don't show
 
-A spawn count of zero says nothing about correctness. A JS port is a second implementation that a pin doesn't cover: the pin covers the port's bytes and the Python's bytes, and only the differential ties them together. The Foundation stays the reference.
+A spawn count of zero says nothing about correctness. A JS port is a second implementation. `contracts/SOURCE-PINS.json` pins the Python's bytes, the port's bytes, the host port, the broker and the vendored engine, and a run refuses to start if any differ, reporting that nothing ran. The host port is also in the frozen tree, so a change during a run fails the frozen check. Only the differential ties the port's meaning to the Python: the judge at run time is the pinned port, not the Python itself.
+
+A local writer who changes a file and its pin together isn't caught. The pins detect drift and accidents, and they aren't a defence against someone who can write to this checkout. Nothing here is signed.
+
+## Numeric limit of the JS port
+
+`Math.exp`, `Math.log` and the libm behind Python are different implementations. Measured with Node 26.13.0 and this host's Python: `exp` differed in the last place on 19,397 of 200,000 inputs (9.7%), `log` on 2,664 of 200,000 (1.3%), by at most one unit; `pow` on 0 of 200,000. Receipts round to 4 places, so this rarely shows: 0 of 100,000 random `saturation_pressure` receipts differed. At temperatures chosen within two units in the last place of a rounding boundary, 544 of 72,000 receipts differed (0.76%), each by one unit in the last printed place, such as 2785.8792 against 2785.8791.
+
+I chose to state this limit and not port an exp and log. Python's own results depend on the host's libm, and glibc selects different code by CPU, so a port would match one machine and not the reference in general. A held-out check whose tolerance is 0 can fail at such a boundary; it can't pass wrongly by more than that one unit. The receipt's Foundation identity carries this as `numeric_tolerance`, and the boundary test holds the difference to one unit.

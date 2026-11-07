@@ -32,7 +32,7 @@ export async function loadFoundation(id) {
   const { createKernel } = await import(pathToFileURL(join(here, entry.module)).href);
   const kernel = createKernel({ root });
   const identity = { foundation: id, version: kernel.version, route: entry.route, source_manifest_sha256: sourceManifestSha256,
-    port_sha256: sha256(source), common_sha256: sha256(common), ...(kernel.projections ? { projections: kernel.projections } : {}) };
+    port_sha256: sha256(source), common_sha256: sha256(common), ...(kernel.projections ? { projections: kernel.projections } : {}), ...(kernel.numeric_tolerance ? { numeric_tolerance: kernel.numeric_tolerance } : {}) };
   const foundation = { ...kernel, identity };
   loaded.set(id, foundation);
   return foundation;

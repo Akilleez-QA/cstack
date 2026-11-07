@@ -1,4 +1,4 @@
-import { KernelRefusal, sha256 } from './kernels/common.mjs';
+import { KernelFault, KernelRefusal, sha256 } from './kernels/common.mjs';
 import { loadFoundation } from './kernels/registry.mjs';
 
 const MAX_CALLS = 65536;
@@ -31,6 +31,7 @@ export class Broker {
   #refusals = [];
   #elapsedNs = 0n;
   #omitted = 0;
+  #refused = 0;
   constructor(foundations) { this.#foundations = foundations; }
 
   static async open(granted) {
@@ -44,14 +45,20 @@ export class Broker {
 
   get used() { return [...this.#used].map(id => `import:${id}`); }
   get calls() { return this.#calls; }
+  get refused() { return this.#refused; }
   identities() { return Object.fromEntries([...this.#foundations].map(([id, f]) => [id, f.identity])); }
   report() { return { calls: this.#calls, foundation_ns: String(this.#elapsedNs), attributions: this.#attributions, attributions_omitted: this.#omitted, refusals: this.#refusals }; }
+
+  #refuse(refusal) {
+    this.#refused += 1;
+    if (this.#refusals.length < MAX_ATTRIBUTIONS) this.#refusals.push(refusal);
+  }
 
   call(id, tool, argumentsText) {
     if (++this.#calls > MAX_CALLS) throw new KernelRefusal('host_call_limit', 'kernel exceeded its Foundation call limit');
     const foundation = this.#foundations.get(id);
     if (!foundation) {
-      this.#refusals.push({ foundation: id, tool, code: 'not_granted' });
+      this.#refuse({ foundation: id, tool, code: 'not_granted' });
       return null;
     }
     this.#used.add(id);
@@ -67,7 +74,7 @@ export class Broker {
       return text;
     } catch (error) {
       if (!(error instanceof KernelRefusal)) throw error;
-      this.#refusals.push({ foundation: id, tool, code: error.code });
+      this.#refuse({ foundation: id, tool, code: error.code });
       return null;
     }
   }
@@ -78,18 +85,27 @@ export function instantiate(module, broker, eventText) {
   const eventBytes = encoder.encode(eventText);
   const results = [];
   let memory, emitted = null;
-  const read = (pointer, length) => decoder.decode(new Uint8Array(memory.buffer, pointer, length));
+  const view = (pointer, length) => {
+    if (!memory) throw new KernelFault('a kernel cannot call its host from top-level code');
+    const start = pointer >>> 0;
+    if (length < 0 || start + length > memory.buffer.byteLength) throw new KernelFault('a kernel addressed memory outside its bounds');
+    return new Uint8Array(memory.buffer, start, length);
+  };
+  const result = handle => {
+    if (!Number.isInteger(handle) || handle < 0 || handle >= results.length) throw new KernelFault('a kernel named a result it was not given');
+    return results[handle];
+  };
   const imports = { kernel: {
     event_size: () => eventBytes.length,
-    event_read: pointer => { new Uint8Array(memory.buffer, pointer, eventBytes.length).set(eventBytes); },
-    emit: (pointer, length) => { emitted = read(pointer, length); },
-    result_size: handle => results[handle].length,
-    result_read: (handle, pointer) => { new Uint8Array(memory.buffer, pointer, results[handle].length).set(results[handle]); },
+    event_read: pointer => { view(pointer, eventBytes.length).set(eventBytes); },
+    emit: (pointer, length) => { emitted = decoder.decode(view(pointer, length)); },
+    result_size: handle => result(handle).length,
+    result_read: (handle, pointer) => { view(pointer, result(handle).length).set(result(handle)); },
   } };
   for (const { module: from, name } of WebAssembly.Module.imports(module)) {
     if (from === 'kernel' || name !== 'call') continue;
     imports[from] ||= { call: (tool, toolLength, args, argsLength) => {
-      const text = broker.call(from, read(tool, toolLength), read(args, argsLength));
+      const text = broker.call(from, decoder.decode(view(tool, toolLength)), decoder.decode(view(args, argsLength)));
       if (text === null) return -1;
       results.push(encoder.encode(text));
       return results.length - 1;

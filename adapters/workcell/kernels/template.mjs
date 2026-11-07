@@ -8,9 +8,10 @@ export function createKernel() {
   const run = (name, argumentsText) => {
     if (name !== 'echo_observation') throw new KernelRefusal('unknown_tool', `No kernel tool ${name}`);
     const { value, inputSha256 } = parseArguments(argumentsText);
-    if (!isObject(value)) throw new KernelRefusal('invalid_arguments', 'Arguments must be an object');
+    const iterable = typeof value === 'string' || (Array.isArray(value) && value.every(item => typeof item === 'string' || typeof item === 'number') && !(value.length && value.every(item => item === 'observation')));
+    if (!isObject(value) && !iterable) throw new KernelRefusal('invalid_arguments', 'Arguments must be an object');
     const base = { tool: name, version: VERSION, input_sha256: inputSha256, boundary: { ...BOUNDARY } };
-    if (Object.keys(value).length !== 1 || !Object.hasOwn(value, 'observation')) {
+    if (!isObject(value) || Object.keys(value).length !== 1 || !Object.hasOwn(value, 'observation')) {
       return { ...base, status: 'error', result: null, error: 'echo_observation takes exactly one argument: observation',
         evidence: [entry('error', 'Argument check by the template Foundation; the request was not observed.')] };
     }
