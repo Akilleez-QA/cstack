@@ -21,7 +21,7 @@ def goal(**arguments):
 
 class Forge:
     def __init__(self, *sources, isolation="process", imports=("foundation_refrigeration", "foundation_template"),
-                 decision_operations=None, job_timeout=120000, directory=None, transport=True):
+                 decision_operations=None, job_timeout=120000, directory=None, transport=True, decision_ask_operations=None):
         self._temporary = None if directory else tempfile.TemporaryDirectory(prefix="forge-")
         self.directory = Path(directory or self._temporary.name)
         names = []
@@ -33,6 +33,7 @@ class Forge:
         config = {"endoforge": {"path": "witness.jsonl"}, "workcell": {
             "ledger": "forge.sqlite", "foundation_imports": list(imports), "isolation": isolation, "jobTimeoutMs": job_timeout,
             "decision_operations": decision_operations or {"foundation_template": ["echo_observation"]},
+            **({"decision_ask_operations": decision_ask_operations} if decision_ask_operations else {}),
             **({"transport": str(ROOT / "adapters/workcell/stub-transport.mjs")} if transport else {})}}
         self.config = self.directory / "config.json"
         self.config.write_text(json.dumps(config))
@@ -51,6 +52,9 @@ class Forge:
     def run(self, document, timeout=120):
         result = subprocess.run(self.command(), input=json.dumps(document).encode(), capture_output=True, env=self.env, cwd=ROOT, timeout=timeout)
         return json.loads(result.stdout)
+
+    def raw(self, document, *extra, env=None, timeout=120):
+        return subprocess.run(self.command(*extra), input=json.dumps(document).encode(), capture_output=True, env=env or self.env, cwd=ROOT, timeout=timeout)
 
     def witness(self):
         return [json.loads(line) for line in (self.directory / "witness.jsonl").read_text().splitlines()]

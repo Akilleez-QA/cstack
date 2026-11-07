@@ -9,9 +9,14 @@ from poodo_core.models import (CapabilityOutcome, CapabilityRequest, ContractErr
 from poodo_core.policy import ApprovalRecord
 
 
+class DecisionReuseRefused(ContractError):
+    """A goal's decision binds one request for the life of this ledger."""
+
+
 class EndoforgeLedger:
-    def __init__(self, path):
+    def __init__(self, path, *, resume=None):
         self.path = Path(path).resolve()
+        self._resume = resume
         self._fd = os.open(self.path, os.O_RDWR | os.O_CREAT | os.O_APPEND, 0o600)
         try:
             fcntl.flock(self._fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -121,10 +126,27 @@ class EndoforgeLedger:
         os.fsync(self._fd)
         return record_id
 
+    def _check_decision_identity(self, session_id, request):
+        """Keyed on goal and decision. A different request is always refused. An earlier attempt that may have executed
+        needs the host's explicit resume; one with a known outcome, or that never dispatched, may run again."""
+        last_certainty = None
+        for record in self._snapshot()[0]:
+            payload = record["payload"]
+            found = payload["request"] if record["kind"] == "precommit" else payload
+            if record["goal_id"] != request.goal_id or found["decision_id"] != request.decision_id:
+                continue
+            if payload["request_sha256"] != request.sha256:
+                raise DecisionReuseRefused(f"Decision {request.decision_id} is bound to another request in this ledger")
+            if record["kind"] == "outcome" and record["session_id"] != session_id:
+                last_certainty = payload["execution_certainty"]
+        if last_certainty == "unknown" and self._resume != request.decision_id:
+            raise DecisionReuseRefused(f"Decision {request.decision_id} has an unknown outcome; resume it explicitly")
+
     def append_precommit(self, session_id: str, decision: DecisionRecord) -> str:
         if (type(decision) is not DecisionRecord or type(decision.request) is not CapabilityRequest
                 or type(decision.precommitment) is not Precommitment):
             raise ContractError("Expected a decision record")
+        self._check_decision_identity(session_id, decision.request)
         try:
             payload = {"request": decision.request.to_dict(), "request_sha256": decision.request_sha256,
                        "grant_id": decision.grant_id, "precommitment": decision.precommitment.to_dict()}

@@ -30,6 +30,7 @@ export class Broker {
   #attributions = [];
   #refusals = [];
   #elapsedNs = 0n;
+  #omitted = 0;
   constructor(foundations) { this.#foundations = foundations; }
 
   static async open(granted) {
@@ -44,7 +45,7 @@ export class Broker {
   get used() { return [...this.#used].map(id => `import:${id}`); }
   get calls() { return this.#calls; }
   identities() { return Object.fromEntries([...this.#foundations].map(([id, f]) => [id, f.identity])); }
-  report() { return { calls: this.#calls, foundation_ns: String(this.#elapsedNs), attributions: this.#attributions, refusals: this.#refusals }; }
+  report() { return { calls: this.#calls, foundation_ns: String(this.#elapsedNs), attributions: this.#attributions, attributions_omitted: this.#omitted, refusals: this.#refusals }; }
 
   call(id, tool, argumentsText) {
     if (++this.#calls > MAX_CALLS) throw new KernelRefusal('host_call_limit', 'kernel exceeded its Foundation call limit');
@@ -62,7 +63,7 @@ export class Broker {
       if (this.#attributions.length < MAX_ATTRIBUTIONS) {
         this.#attributions.push({ foundation: id, version: foundation.identity.version, route: foundation.identity.route, port_sha256: foundation.identity.port_sha256,
           source_manifest_sha256: foundation.identity.source_manifest_sha256, tool, input_sha256: receipt.input_sha256, output_sha256: sha256(text) });
-      }
+      } else this.#omitted += 1;
       return text;
     } catch (error) {
       if (!(error instanceof KernelRefusal)) throw error;

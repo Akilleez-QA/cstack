@@ -17,7 +17,7 @@ export async function warm({ foundations = [] } = {}) {
   await compile('export function warm(): i32 { return 1; }');
 }
 
-export async function createPort({ sources, granted, signature, allowDecisions = true }, { hostCall }) {
+export async function createPort({ task, sources, granted, signature, allowDecisions = true }, { hostCall }) {
   const compiled = new Map();
   const proposals = new Map();
   const outputs = new Map();
@@ -31,7 +31,7 @@ export async function createPort({ sources, granted, signature, allowDecisions =
     if (compiled.has(candidate)) return compiled.get(candidate);
     const source = sources[candidate];
     if (typeof source !== 'string') throw new Error('no source for candidate');
-    if (`cand:${sha256(source)}` !== candidate) throw new Error('candidate source differs from its durable identity');
+    if (`cand:${sha256(`${task}\n${source}`)}` !== candidate) throw new Error('candidate source differs from its durable identity');
     const started = performance.now();
     const { wasm, diagnostics: text } = await compile(source);
     const record = { wasm: null, module: null, admission: null, compile_ms: performance.now() - started };
