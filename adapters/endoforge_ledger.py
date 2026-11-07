@@ -5,7 +5,7 @@ from pathlib import Path
 
 from poodo_core.models import (CapabilityOutcome, CapabilityRequest, ContractError,
                                DecisionRecord, Document, MAX_DOCUMENT_BYTES, Precommitment,
-                               canonical, digest, exact_fields, identifier)
+                               canonical, digest, exact_fields, identifier, outcome_for)
 from poodo_core.policy import ApprovalRecord
 
 
@@ -142,6 +142,36 @@ class EndoforgeLedger:
         except (ValueError, TypeError, AttributeError, RecursionError) as exc:
             raise ContractError("Invalid outcome") from exc
         return self._append(session_id, "outcome", payload)
+
+    def reconcile(self, current_session):
+        """Record an earlier session's dispatched attempt with no outcome as unknown. Never inferred from leftovers; never retried.
+
+        The core witnesses a second precommit only after every execution gate, so that is where execution may have begun.
+        A declined approval is a refusal, and a lone precommit was decided but never gated."""
+        identifier(current_session)
+        records, _ = self._snapshot()
+        gated, finished = {}, set()
+        for record in records:
+            payload = record["payload"]
+            if record["session_id"] == current_session:
+                continue
+            request = payload["request"] if record["kind"] == "precommit" else payload
+            key = self._binding(record["session_id"], payload, request)
+            if record["kind"] == "outcome":
+                finished.add(key)
+            elif payload.get("approval", {}).get("verdict", "approve") == "approve":
+                gated.setdefault(key, []).append(record)
+        reconciled = []
+        for key, seen in gated.items():
+            if key in finished or len(seen) < 2:
+                continue
+            request = CapabilityRequest.from_dict(seen[-1]["payload"]["request"])
+            outcome = outcome_for(request, "attempt-unknown", "indeterminate", "process_ended_before_outcome", certainty="unknown",
+                                  limitations=("No automatic retry; execution may have occurred.",))
+            self.append_outcome(seen[-1]["session_id"], outcome)
+            reconciled.append({"session_id": seen[-1]["session_id"], "decision_id": request.decision_id, "goal_id": request.goal_id,
+                               "request_sha256": request.sha256, "status": "outcome_unknown"})
+        return tuple(reconciled)
 
     def read_records(self, *, goal_id: str | None = None,
                      session_id: str | None = None) -> tuple[Document, ...]:
