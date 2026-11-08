@@ -7,4 +7,5 @@ cstack.config.json
 endoforge.jsonl
 forge.sqlite
 forge.sqlite.core/
+forge.sqlite.journal/
 *.torn-*

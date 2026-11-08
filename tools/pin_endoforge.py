@@ -1,15 +1,17 @@
-"""Rebuild vendor/endoforge from one committed EndoForge revision, and record its pin. No network, no working tree."""
+"""Rebuild vendor/endoforge from one committed EndoForge revision on origin/main, and record its pin. No network, no working tree."""
 import argparse
 import hashlib
 import io
 import json
 import shutil
 import subprocess
+import sys
 import tokenize
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY = "https://github.com/Akilleez-QA/endoforge"
+MAIN = "origin/main"
 SLICE = ("core/__init__.py", "core/lifecycle.py", "tests/test_endoforge_core_boundary.py",
          "core/ledger/__init__.py", "core/ledger/frozen.py", "core/ledger/ledger.py", "core/ledger/record.schema.json",
          "core/engine/evaluator.mjs", "core/engine/frozen.py", "core/engine/gates.mjs",
@@ -56,13 +58,35 @@ def build(source, commit, out):
     return sha256(raw), len(files)
 
 
+def main_commit(source, commit):
+    """The clone's origin/main if the commit is reachable from it, else None. Reads local refs only; fetch first."""
+    found = subprocess.run(["git", "-C", str(source), "rev-parse", "--verify", "--quiet", MAIN + "^{commit}"],
+                           capture_output=True, text=True)
+    if found.returncode != 0:
+        raise SystemExit(f"The EndoForge clone has no {MAIN}; fetch it from {REPOSITORY} and retry")
+    main = found.stdout.strip()
+    reachable = subprocess.run(["git", "-C", str(source), "merge-base", "--is-ancestor", commit, main], capture_output=True)
+    if reachable.returncode not in (0, 1):
+        raise SystemExit(f"Could not check {commit} against {MAIN}: {reachable.stderr.decode().strip()}")
+    return main if reachable.returncode == 0 else None
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True, help="a clone of EndoForge that holds the commit")
     parser.add_argument("--commit", required=True, help="the full commit hash to pin")
+    parser.add_argument("--allow-unmerged", action="store_true",
+                        help=f"pin a commit not reachable from {MAIN}; the pin record says so")
     args = parser.parse_args()
     commit = subprocess.run(["git", "-C", str(args.source), "rev-parse", "--verify", args.commit + "^{commit}"],
                             check=True, capture_output=True, text=True).stdout.strip()
+    main_head = main_commit(args.source, commit)
+    if main_head is None:
+        message = (f"Commit {commit} is not reachable from {MAIN} in {args.source}. Pin a merged commit, "
+                   f"or pass --allow-unmerged for a deliberate exception, which is recorded in contracts/SOURCE-PINS.json")
+        if not args.allow_unmerged:
+            raise SystemExit(message)
+        print("warning: " + message, file=sys.stderr)
     target = ROOT / "vendor/endoforge"
     fresh = ROOT / "vendor/.endoforge-new"
     digest, count = build(args.source, commit, fresh)
@@ -70,9 +94,16 @@ def main():
     fresh.rename(target)
     pins_path = ROOT / "contracts/SOURCE-PINS.json"
     pins = json.loads(pins_path.read_text())
-    pins["endoforge"].update(commit=commit, source_manifest_sha256=digest, source_manifest_entry_count=count)
+    record = pins["endoforge"]
+    for key in ("on_main", "main_commit", "allow_unmerged"):
+        record.pop(key, None)
+    record.update(commit=commit, source_manifest_sha256=digest, source_manifest_entry_count=count, on_main=main_head is not None)
+    if main_head:
+        record["main_commit"] = main_head
+    else:
+        record["allow_unmerged"] = True
     pins_path.write_text(json.dumps(pins, indent=1) + "\n")
-    print(json.dumps({"commit": commit, "source_manifest_sha256": digest, "files": count}))
+    print(json.dumps({"commit": commit, "source_manifest_sha256": digest, "files": count, "on_main": main_head is not None}))
 
 
 if __name__ == "__main__":

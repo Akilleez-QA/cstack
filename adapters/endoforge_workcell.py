@@ -74,6 +74,11 @@ def verify_runtime():
     return hashlib.sha256(canonical({"workcell": pinned, "endoforge": pins["endoforge"]["source_manifest_sha256"]}).encode("ascii")).hexdigest()
 
 
+def journal_directory(config):
+    """Where the vendored ledger writer journals: beside the run ledger, like its .core directory."""
+    return str(Path(config["ledger"] + ".journal"))
+
+
 class Supervisor:
     """One node supervisor outside every cohort. Losing it loses attempts, never the task."""
     def __init__(self, config, on_call):
@@ -81,10 +86,11 @@ class Supervisor:
         self._next = 0
         argument = json.dumps({key: config[key] for key in ("size", "isolation", "foundations", "transport", "jobTimeoutMs", "cgroupRoot")
                                if config.get(key) is not None})
+        environment = {**os.environ, "ENDOFORGE_LEDGER_JOURNAL": journal_directory(config)}
         self._stderr = tempfile.TemporaryFile()
         try:
             self.process = subprocess.Popen(["node", str(SUPERVISOR), argument], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                            stderr=self._stderr, start_new_session=True, cwd=ROOT)
+                                            stderr=self._stderr, start_new_session=True, cwd=ROOT, env=environment)
         except OSError as error:
             self._stderr.close()
             raise NotExecuted("node could not start; install Node 22 or newer and put it on PATH") from error
