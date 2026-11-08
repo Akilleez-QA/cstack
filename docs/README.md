@@ -1,26 +1,37 @@
 # Documentation
 
-This index covers the documents under `docs/`. The control documents retain their stated baseline commits and proposed status; moving or indexing them does not establish a new verification result.
+Cstack's documents, by what you need. The guides follow [Diátaxis](https://diataxis.fr/): tutorials teach, how-to guides solve a task, reference states facts, explanation gives background.
 
-## Start here
+## Guides
 
-| Need | Index |
+| Need | Start with |
 |---|---|
-| Run the existing example | [Tutorials](guides/tutorials/README.md) |
-| Configure bots, wire the merge train or add a domain | [How-to guides](guides/how-to/README.md) |
-| Look up requirements, interfaces and verification records | [Reference](guides/reference/README.md) |
-| Understand the control core and Foundation boundaries | [Explanation](guides/explanation/README.md) |
+| Install Cstack and run your first goals | [Tutorial: first run](guides/tutorials/first-run.md) |
+| Run the CI checks before a pull request | [How to run CI checks locally](guides/how-to/run-ci-locally.md) |
+| Move to a newer EndoForge | [How to repin EndoForge](guides/how-to/repin-endoforge.md) |
+| Other tasks: bots, merge train, domains | [How-to guides](guides/how-to/README.md) |
+| Look up a command, config key or environment variable | [Reference](guides/reference/README.md) |
+| Understand how EndoForge, the server and the adapters fit | [Explanation](guides/explanation/README.md) |
 
-## Control documents
+## Engineering records
+
+These describe inspected implementation at their stated baselines. Indexing them doesn't establish a new verification result.
 
 | Document | Scope |
 |---|---|
-| [Requirements](requirements/requirements.md) | Selected control-core and Foundation boundary requirements |
+| [Requirements](requirements/requirements.md) | Control-core, Foundation boundary, EndoForge evidence and workcell runtime requirements |
 | [Architecture](architecture/architecture.md) | Composition, components and control flow |
-| [Foundation interfaces](icd/icd-foundations.md) | Ownership, source pins and adapter boundaries |
+| [Foundation interfaces](icd/icd-foundations.md) | Foundation adapters, source pins and boundaries |
+| [EndoForge interface](icd/icd-endoforge.md) | Witnessed evidence storage and the workcell runtime |
+| [EndoForge source pin](icd/icd-endoforge-pin.md) | The vendored EndoForge commit and slice |
+| [POODO source interface](icd/icd-poodo.md) | The mirrored POODO skill snapshot |
 | [Verification matrix](verification/verification-matrix.md) | Requirement-to-test traceability and evidence limits |
+| [Foundation routes](verification/foundation-routes.md) | Measured routes from a workcell into each Foundation |
+| [Wiring acceptance](verification/wiring-acceptance.md) | The acceptance frozen before end-to-end wiring |
 | [Configuration management](configuration/configuration-management.md) | Baseline identities and change control |
 | [No code comments](rules/no-comments.md) | Repository rule and where reasoning belongs |
+
+Decision records and contracts live in [`contracts/`](../contracts/): [ADR 001](../contracts/DECISION.md) and DECISION-003 to DECISION-006, the [interfaces](../contracts/INTERFACES.md) and the [acceptance contract](../contracts/ACCEPTANCE.md).
 
 ## Repository layout exception
 

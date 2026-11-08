@@ -1,11 +1,17 @@
 # How-to guides
 
-Use the existing task instructions:
+Task recipes. Each assumes a working clone; the [tutorial](../tutorials/first-run.md) sets one up.
 
-- [Define your bots](../../../README.md#define-your-bots): edit the registry and validate it against the AOR contract.
-- [Wire the merge train](../../../README.md#wire-the-merge-train): review the merge prerequisites and lane view.
-- [Add a domain](../../../README.md#add-a-domain): start from the Template Foundation and register the domain.
-- [Contribute a change](../../../CONTRIBUTING.md): keep the change focused and record local checks.
-- [Review configuration changes](../../configuration/configuration-management.md): identify baselines and affected pins.
+| Task | Guide |
+|---|---|
+| Run the checks CI runs, before a pull request | [Run CI checks locally](run-ci-locally.md) |
+| Move `vendor/endoforge/` to a newer EndoForge commit | [Repin EndoForge](repin-endoforge.md) |
+| Name your bots, their slices and effects, and validate the registry | [Define your bots](../../../README.md#define-your-bots) |
+| Start one bot's AOR session over MCP | [Define your bots](../../../README.md#define-your-bots), step 4, and [the server explanation](../explanation/server-and-adapters.md) |
+| Merge open PRs in dependency order | [Wire the merge train](../../../README.md#wire-the-merge-train) |
+| Use a real model for forge goals | [Run a goal](../../../README.md#run-a-goal) |
+| Add a domain from the Template Foundation | [Add a domain](../../../README.md#add-a-domain) |
+| Update a vendored Foundation | [Change procedure](../../configuration/configuration-management.md#change-procedure) |
+| Contribute a change | [Contributing](../../../CONTRIBUTING.md) |
 
 Return to the [documentation index](../../README.md).
