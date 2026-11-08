@@ -4,6 +4,8 @@
 
 Cstack: template for a bot fleet under one human approver (GPL-3.0-only)
 
+Project code name: **Mjölnir**, Thor's hammer. It covers Cstack and the [EndoForge](https://github.com/Akilleez-QA/endoforge) core it vendors.
+
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000)](LICENSE)
 
 ## Status
