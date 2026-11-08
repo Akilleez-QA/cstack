@@ -27,12 +27,13 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 | `foundations/template/SOURCE-MANIFEST.json` | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` |
 | `foundations/refrigeration/SOURCE-MANIFEST.json` | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` |
 | `foundations/robotics/SOURCE-MANIFEST.json` | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` |
-| `vendor/endoforge/SOURCE-MANIFEST.json` | `1cbda3d9357b44e926666287ba95dc9b5f6035148d5f3be868d8a2d361d26b10` |
+| `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
+| `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` |
 | `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
 
 ## Upstream sources
 
-Foundation Engine is linked as a sibling. The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
+Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (bridge, tool schema and upstream manifest, commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c`). The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
 
 ### Vendored Foundation commits
 
@@ -45,17 +46,19 @@ These public main heads were copied on 2026-11-01. Each source manifest and ever
 | `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
 | `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
 
-### Endoforge lifecycle source
+### Endoforge source
 
-The lifecycle-only selection was refreshed from Endoforge main on 2026-11-01 at
-`4ede82329c64f3f72026dea57ac66095324ec1c4`. Control its three selected paths,
-upstream and exported hashes, and `contracts/SOURCE-PINS.json` together as described
-in [the source-pin ICD](../icd/icd-endoforge-pin.md). Python comment tokens are
-removed mechanically during export. The restructured engine and retired domain
-trees are outside this selection. No runtime interface or requirement changes.
-Rollback restores the previous vendor slice and pin records from Git together.
-The export listing refresh covers only the repin files; historical entries and
-coverage gaps are retained, so it is not a complete inventory of this candidate.
+`vendor/endoforge/` holds a 25-file slice of Endoforge commit
+`6dffea963afdfebfeb6a769afde94cf6a815cdb3` on `main`: the lifecycle model, run ledger,
+gates and evaluator, `IsolatePool` and its workcell, the capacity planner and two
+support tools. Control the slice list in `tools/pin_endoforge.py`, the upstream and
+exported hashes, and the `endoforge` record in `contracts/SOURCE-PINS.json` together,
+as described in [the source-pin ICD](../icd/icd-endoforge-pin.md) and
+[the repin guide](../guides/how-to/repin-endoforge.md). Python comment tokens are
+removed mechanically during export. Cstack's side of the runtime, `adapters/workcell/`,
+is pinned separately as `workcell_runtime` (`tools/pin_workcell.py`), and every forge
+run checks both pins before it starts. Rollback restores the previous vendor slice
+and pin records from Git together.
 
 ## POODO skill snapshot
 
@@ -71,7 +74,7 @@ The change author identifies affected sources, schemas, inventory, pins, documen
 
 Control the Foundation source directories, their source manifests, per-domain adapters, extension descriptors, `bootstrap.py`, `contracts/ADAPTERS.json`, bridge tool schemas, fixtures and tests together. Runtime source identity checks cover manifest-listed files, not arbitrary extra files elsewhere in a checkout.
 
-Control `EndoforgePort`, its core models/routing, `icd-endoforge.md` contract 0.2, record schemas 0.1/0.2, CS-REQ-020–023 (port), CS-REQ-024–026 (file adapter), CS-REQ-027–030 (routing), the file adapter, bootstrap/CLI and all three Endoforge test files together. Approval-bearing precommits use 0.2; existing records retain their bytes/hashes and upgraded readers accept mixed chains. Old readers reject 0.2, so upgrade readers before writes; no automatic migration or rollback rewriting is provided. `poodo_core_endoforge_routing_0_2` identifies the new core bytes in `contracts/SOURCE-PINS.json`; historical and vendor pins remain unchanged. A contract change does not authorize a vendor update; the pinned lifecycle slice supplies no storage primitive. Never silently repair or truncate a corrupt ledger.
+Control `EndoforgePort`, its core models/routing, `icd-endoforge.md` contract 0.3, record schemas 0.1/0.2, CS-REQ-020–023 (port), CS-REQ-024–026 (file adapter), CS-REQ-027–030 (routing), the file adapter, bootstrap/CLI and all three Endoforge test files together. Approval-bearing precommits use 0.2; existing records retain their bytes/hashes and upgraded readers accept mixed chains. Old readers reject 0.2, so upgrade readers before writes; no automatic migration or rollback rewriting is provided. `poodo_core_endoforge_routing_0_2` identifies the new core bytes in `contracts/SOURCE-PINS.json`; historical and vendor pins remain unchanged. A contract change does not authorize a vendor update; the pinned lifecycle slice supplies no storage primitive. Never silently repair or truncate a corrupt ledger.
 
 The host provisions `cstack.config.json` from `cstack.config.example.json`: `endoforge.path` is relative to the config directory unless absolute. Provision its parent directory with suitable ownership before use. Bootstrap creates a fresh session id, owns the exclusive file lock and closes it on run exit. Missing config/section leaves legacy composition; configured failures never disable witnessing. Keep operational ledgers outside tracked source. Local durability qualification, independent witnessing and recovery remain deployment work.
 
@@ -80,7 +83,7 @@ The host provisions `cstack.config.json` from `cstack.config.example.json`: `end
 1. Start a focused branch from an identified main commit. Record the intended behavior and affected interfaces before altering a dependency.
 2. Obtain the proposed source snapshot and retain the old baseline. Record the upstream commit or artifact origin separately from its manifest digest.
 3. Compare tool names/order, input/output schemas, numeric rules, protocol identifiers, receipts and evidence ceilings. A narrower upstream extraction requires a migration, not a directory replacement.
-4. For a change to a vendored Foundation under `foundations/`, copy its upstream manifest and every listed file exactly, then run its `tools/build_manifest.py` from the corresponding Foundation root and verify that the manifest remains byte-identical to upstream. Update the matching adapter source hash/file count and any intentionally changed catalog pin. Do not run a domain builder against the entire repository.
+4. For a change to a vendored Foundation under `foundations/`, copy its upstream manifest and every listed file exactly, then run `foundations/<name>/tools/build_manifest.py` from that Foundation's root and verify that the manifest remains byte-identical to upstream. Update the matching adapter source hash/file count and any intentionally changed catalog pin. Do not run a domain builder against the entire repository.
 5. For Math, retain the historical vendor packaging/provenance controls and review `PinnedMathSource` and inventory checks together. There is no root-level automatic Math upgrade command in this baseline.
 6. Update requirements, design, ICD and traceability records when the controlled behavior changes. Record any verification gap explicitly.
 7. Run the root unittest suite, each affected Foundation suite and link checks. Record candidate SHA, commands, interpreter, failures and skips. Review before integration; preserve the previous commit for rollback.
@@ -91,9 +94,9 @@ The host provisions `cstack.config.json` from `cstack.config.example.json`: `end
 
 If an export is regenerated in a later change, first define its inclusion/exclusion policy and review tooling, then record the new digest and coverage. Do not describe an unchanged listing as a complete inventory of newly added documents.
 
-## Verification environment and known discrepancy
+## Verification environment
 
-The GitHub workflow runs root unittest discovery and `bash ci/run-local.sh python links`. The latter validates `ci/host-only.txt` before suites. That file names paths under `forge/endoforge/`, which this export does not contain; the wrapper can therefore fail before testing. Record this separately and run the direct suite commands to obtain test evidence. Documentation changes do not resolve that infrastructure discrepancy.
+The GitHub workflow runs root unittest discovery and `bash ci/run-local.sh python links`, plus a TruffleHog scan. The wrapper runs the root and Foundation suites in normal and optimized modes, then the link check; it no longer reads `ci/host-only.txt`. See [run CI checks locally](../guides/how-to/run-ci-locally.md).
 
 ## Licensing
 

@@ -1,6 +1,6 @@
 # Prospective acceptance contract v0.1
 
-Prospective acceptance criteria for the POODO-core/base extension architecture, immutable Math v014 bridge contract, and INTERFACES.md v0.1. See version-bound validation reports for actual outcomes; this document alone is not a pass receipt.
+Prospective acceptance criteria for the POODO-core/base extension architecture, immutable Math v014 bridge contract, and INTERFACES.md v0.1. See version-bound validation reports for actual outcomes; this document alone is not a pass receipt. It is a historical record of the v0.1 slice: Foundation Engine, Refrigeration and the Endoforge workcell runtime were implemented later, under the addendum below, CS-REQ-031 to CS-REQ-035 and the [wiring acceptance](../docs/verification/wiring-acceptance.md).
 
 ## Intended success surface
 

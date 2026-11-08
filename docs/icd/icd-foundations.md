@@ -8,7 +8,7 @@ Organization follows the requirements, design, traceability and configuration-co
 
 Cstack owns host composition, grants, adapters and evidence interpretation. Each Foundation owns its bridge implementation and tool contracts. The controlled Math source is `vendor/foundation-math-v014/`; `foundations/math/` is a research consumer. Changes on either side require review of both admission and result interpretation.
 
-Foundation Engine has no active runtime interface here. It is linked in `NOTICE.md`, used as a design reference in vendored Math provenance, and named as unimplemented in `extensions/foundation_math.py`. No engine protocol, source pin or compatibility promise is allocated by this ICD. A future integration needs its own approved contract and tests.
+Foundation Engine is a separate domain, `foundation_engine`, served by `adapters/engine_stdio.py` over `foundation-engine-jsonrpc/1` from a partial vendor copy in `vendor/foundation-engine-v020/`: the bridge module `foundation_engine_bridge`, the schema `vendor/foundation-engine-v020/schemas/read-only-tools.json` and the upstream `SOURCE-MANIFEST.json`. The whole manifest is pinned (2,496 entries, upstream commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c`), and the two vendored files must match their entries. Its two read-only tools, `validate_render_mask` and `validate_scene_output`, return the validated value itself with no receipt or assessment; the adapter admits them as tool observations after exact output-schema validation. Inputs may use finite decimal literals; exponents and nonfinite numbers are refused. The Math extension still refuses a `foundation_engine` request; Engine is not reachable through Math.
 
 ## Semantic side
 
@@ -73,6 +73,7 @@ Copied from `contracts/SOURCE-PINS.json`. That file is the source of truth.
 | `foundation_film` | `foundations/film` | 42 | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
 | `foundation_robotics` | `foundations/robotics` | 45 | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
 | `foundation_template` | `foundations/template` | 35 | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
+| `foundation_engine` | `vendor/foundation-engine-v020` | 2496 (2 vendored) | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` | `c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc` |
 
 ### Upstream source commits
 

@@ -29,7 +29,7 @@ Host-supplied authority bounds domain, capability, operations, goal IDs and call
 
 Phases are pontificate, observe, orient, decide and orchestrate. Structural gates require research references and 20 distinct option IDs where appropriate. Counting IDs does not establish material option diversity, adequate research or good reasoning. Preauthored example checkpoints are labeled fixtures, not autonomous research.
 
-Ledger events retain proposals, observations, inferences, decisions, actions, outcomes, learning and corrections separately. A raw tool result is evidence of a bounded observation, not corroboration or truth by itself. Corrections reference historical events rather than overwrite them. Ledger durability is single-process memory only.
+Ledger events retain proposals, observations, inferences, decisions, actions, outcomes, learning and corrections separately. A raw tool result is evidence of a bounded observation, not corroboration or truth by itself. Corrections reference historical events rather than overwrite them. `adapters/memory_ledger.py` is single-process memory; durability comes only from a ledger the host binds, such as `adapters/durable_ledger.py` for forge sessions or the witnessed ledgers of DECISION-004 and `EndoforgePort`.
 
 ## Capability JSON contracts
 
@@ -59,7 +59,7 @@ Endoforge is intended to produce, qualify, preview, revise, activate and dispose
 
 Generation and lower execution adapters are distinct. A JavaScript/WASM boundary must preserve exact numbers by an explicit supported encoding or reject them; it must not coerce arbitrary-precision Math to Number. Runtime CPU/memory/time limits are profile-specific, not universal core guarantees.
 
-Foundation Engine, Endoforge generation and Lean verification are unimplemented in this slice. Foundation Refrigeration v0.1 is implemented only as described below and in ADR 002; its rules, reference-plant and determination parts remain unimplemented. Do not infer availability from reserved interfaces.
+Endoforge UI/software generation and Lean verification are unimplemented. Foundation Engine is implemented only as two read-only validators (`extensions/foundation_engine.py`, `adapters/engine_stdio.py`). The Endoforge workcell runtime runs governed `cstack_forge` goals; its boundaries are in `docs/icd/icd-endoforge.md` section 7. Foundation Refrigeration v0.1 is implemented only as described below and in ADR 002; its rules, reference-plant and determination parts remain unimplemented. Do not infer availability from reserved interfaces.
 
 ## Foundation Refrigeration v0.1 adapter (ADR 002)
 
