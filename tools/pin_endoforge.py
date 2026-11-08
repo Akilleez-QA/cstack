@@ -13,6 +13,8 @@ REPOSITORY = "https://github.com/Akilleez-QA/endoforge"
 SLICE = ("core/__init__.py", "core/lifecycle.py", "tests/test_endoforge_core_boundary.py",
          "core/ledger/__init__.py", "core/ledger/frozen.py", "core/ledger/ledger.py", "core/ledger/record.schema.json",
          "core/engine/evaluator.mjs", "core/engine/frozen.py", "core/engine/gates.mjs",
+         "core/runtime/capacity/cli.mjs", "core/runtime/capacity/controller.mjs", "core/runtime/capacity/index.mjs",
+         "core/runtime/capacity/plan.mjs", "core/runtime/capacity/probe.mjs", "core/runtime/capacity/tuner.mjs",
          "core/runtime/isolate-cgroup.mjs", "core/runtime/isolate-ledger.mjs", "core/runtime/isolate-pool.mjs",
          "core/runtime/isolate-wasm-compile.mjs", "core/runtime/isolate-wasm.mjs", "core/runtime/isolate-workcell.mjs",
          "tools/factory_quality/index.mjs", "tools/ledger_writer.py", "LICENSE")

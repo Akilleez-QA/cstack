@@ -71,8 +71,8 @@
    "bytes": 709
   },
   "README.md": {
-   "sha256": "18b4de4e98513cd7b1f5988e2eda75cd6854642aad4cf992b48be5d5945c1b81",
-   "bytes": 14863
+   "sha256": "7cc9389fb7875b7578e0108860a37201a4521c6147ec81e2fa07f944ad184bad",
+   "bytes": 15707
   },
   "SECURITY.md": {
    "sha256": "3f9c3a83c11a80271cd41705ce11fd1096d225a5f2fb5023d7b1a935a69b922f",
@@ -290,6 +290,10 @@
    "sha256": "c5f9ef834bacf43993eb006d427a54779a71e7ef77a583a45beeca18e5558941",
    "bytes": 5242
   },
+  "adapters/workcell/claude-transport.mjs": {
+   "sha256": "ed8c7bbff04d1009a32ff252ee54944a865ade9c4ca5cab1bc55ee0da5631520",
+   "bytes": 2623
+  },
   "adapters/workcell/coder-prompt.mjs": {
    "sha256": "98c2084b732077a10cc28fe8306673e880206279f9cb6087fafff45eb8fcc1ee",
    "bytes": 8533
@@ -443,8 +447,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "853dc371507905e5ca5be82ca2a95bc5ae730dc7594b8ecd857a84c9a378810c",
-   "bytes": 8264
+   "sha256": "3cb3d064bf381964121070e79867b4346a390b57ee93feecf11bb3967fb00314",
+   "bytes": 8359
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -495,8 +499,8 @@
    "bytes": 448
   },
   "docs/icd/icd-endoforge-pin.md": {
-   "sha256": "157d0fccee383d02989760cbb8c24fe608e87105a2e2664c75099e1e61dde5a7",
-   "bytes": 1794
+   "sha256": "27283a0372cce076fa4cda0982989e6088a2666b43212e9d22b7db2a146ae971",
+   "bytes": 2094
   },
   "docs/icd/icd-endoforge.md": {
    "sha256": "4c4e47378843c8d19346f4f47f83ac61b83791ad0e11f8f32f13ad1886925d03",
@@ -2035,8 +2039,8 @@
    "bytes": 5867
   },
   "tools/check_readme.py": {
-   "sha256": "715e7481713042ad0e014db296695a10913e076ff8b8d633b1e88d077543028a",
-   "bytes": 8688
+   "sha256": "3263a319803a60a29c1086c5c3af09695f5653ab0000ca8d5a52612d572386eb",
+   "bytes": 9987
   },
   "tools/claim_gate.py": {
    "sha256": "368a1f7dda5ab9ecc9c0adaf524707df064e1f5e95b10ffb096ea10eed0bbce5",
@@ -2075,8 +2079,8 @@
    "bytes": 9762
   },
   "tools/pin_endoforge.py": {
-   "sha256": "ad4e8e87725b02ad013090fa793dc0b9752eeeca8057e59ed78870ebfcd1e415",
-   "bytes": 3514
+   "sha256": "eacd7f72106d4f9162e74d2adb862f4625171cc4814a9695d245c69bc5fb7a35",
+   "bytes": 3744
   },
   "tools/pin_workcell.py": {
    "sha256": "e7740a583e385324a5730f17da45a9682871475161d7000d35d4143f1a7be629",
@@ -2115,8 +2119,8 @@
    "bytes": 35149
   },
   "vendor/endoforge/SOURCE-MANIFEST.json": {
-   "sha256": "1d54d4be4c87c6fc4eb38596c5ee4b7dbfe5dd8fd6fded9b3375eb9cc098f6c6",
-   "bytes": 4006
+   "sha256": "3ff28cf23077a67a9887686be2c6b552912154a87e6adc06ddf2fd6fdc895afa",
+   "bytes": 5270
   },
   "vendor/endoforge/core/__init__.py": {
    "sha256": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
@@ -2154,6 +2158,30 @@
    "sha256": "42e3c4b3ffa19ddc0c6ce5a583245fb175d9ceac82380dc12e52cc534fd0b330",
    "bytes": 10121
   },
+  "vendor/endoforge/core/runtime/capacity/cli.mjs": {
+   "sha256": "361ae1a647e24b95f0234aebefd09ad86d6adb23fda089717dff095065434fee",
+   "bytes": 1257
+  },
+  "vendor/endoforge/core/runtime/capacity/controller.mjs": {
+   "sha256": "075c5f11d867dd499c97084c4748412488ea1df820ee4067f226920df1890567",
+   "bytes": 2450
+  },
+  "vendor/endoforge/core/runtime/capacity/index.mjs": {
+   "sha256": "cbaec7d70bbd62c967db66fbcb9e8d601789402b2017d9fbd962f2ef46a339a9",
+   "bytes": 313
+  },
+  "vendor/endoforge/core/runtime/capacity/plan.mjs": {
+   "sha256": "6e7e4c4df24ce5832f0a9a6b0c0913489fff008ec0eaad46165b94c2aca81001",
+   "bytes": 2629
+  },
+  "vendor/endoforge/core/runtime/capacity/probe.mjs": {
+   "sha256": "1ef78d82544cdb0191bcbae9bb96eed2ffbc8018613e0b2b3d84985e9950a8ca",
+   "bytes": 7415
+  },
+  "vendor/endoforge/core/runtime/capacity/tuner.mjs": {
+   "sha256": "f6e928ab3fee0d7a7b753090585f32583fa63fed4cfca1eb8b4f7eae06f02a53",
+   "bytes": 4664
+  },
   "vendor/endoforge/core/runtime/isolate-cgroup.mjs": {
    "sha256": "60ed29794aaeb4951793454c72e393d9981619f78bc6fa36348376a7412be1b1",
    "bytes": 2533
@@ -2163,8 +2191,8 @@
    "bytes": 7581
   },
   "vendor/endoforge/core/runtime/isolate-pool.mjs": {
-   "sha256": "a0e678150f413c376fdcff9022bc3b33b81b3c5afe6c303c05204a3f8e167159",
-   "bytes": 19758
+   "sha256": "a1c8e37c217adb217eaaa2fbc12e821cb03267dab54b69238078a6dc821c05c9",
+   "bytes": 19754
   },
   "vendor/endoforge/core/runtime/isolate-wasm-compile.mjs": {
    "sha256": "9644689bd4f48ba88ca2c3216b57af35772e5a03530ac7c933cdce5072789c32",
