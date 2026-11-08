@@ -1,8 +1,14 @@
 # Explanation
 
-- [Architecture](../../architecture/architecture.md) explains control-core composition and the Foundation integration boundary.
-- [Foundations](../../../README.md#foundations) explains which Foundations are vendored, which are linked, and how pins work.
-- [Control decisions](../../../contracts/DECISION.md) records the core's invariants and capability model.
-- [Not included](../../../README.md#not-included) states the example domains' limits.
+Background that helps you reason about Cstack. These pages say why, not how-to.
+
+| Page | Explains |
+|---|---|
+| [How Cstack vendors and runs EndoForge](endoforge-vendoring.md) | Why EndoForge is a pinned copy, what the slice holds, and how a forge goal crosses from the core to the workcells and back |
+| [The server, the driver and the adapters](server-and-adapters.md) | The CLI driver, the MCP server for bot sessions, the capability adapters and what the host keeps |
+| [Architecture](../../architecture/architecture.md) | Control-core composition and the Foundation boundary |
+| [Foundations](../../../README.md#foundations) | Which Foundations are vendored, which are linked, and how pins work |
+| [Control decisions](../../../contracts/DECISION.md) | The core's invariants and capability model, and the later decision records beside it |
+| [Not included](../../../README.md#not-included) | The example domains' limits |
 
 Return to the [documentation index](../../README.md).

@@ -471,8 +471,8 @@
    "bytes": 684
   },
   "docs/README.md": {
-   "sha256": "dd59c960f85eb2e3e046a22ef473c1094bae26d47e6eef1f57f0678d00346817",
-   "bytes": 1733
+   "sha256": "543d89dd1b2db0750061de38f7cdcb0f5fd854c01172252738d584655809ad8a",
+   "bytes": 2850
   },
   "docs/architecture/architecture.md": {
    "sha256": "c171e2baef0dd2288c379525b0e387c867a407ecf233c63dd8d029a61577ad1f",
@@ -483,20 +483,52 @@
    "bytes": 11076
   },
   "docs/guides/explanation/README.md": {
-   "sha256": "c0cb45d116fd5406c7209aae826bbbf605dcd4b92d47fffa5121f51a6743ec3d",
-   "bytes": 516
+   "sha256": "4b520db5865a695cbdc5c7891d92aa467dfa380df44e2dd9c3c77d83743c8413",
+   "bytes": 998
+  },
+  "docs/guides/explanation/endoforge-vendoring.md": {
+   "sha256": "692fba139df740b3ef7a5a27c5185225706a54662d2dfb4ffef3dc3df5d13c59",
+   "bytes": 8017
+  },
+  "docs/guides/explanation/server-and-adapters.md": {
+   "sha256": "d6eac3103da29a0e668bbcdce7b143e157be312936f795010d1cb14e21029bf7",
+   "bytes": 7321
   },
   "docs/guides/how-to/README.md": {
-   "sha256": "975a589ab2f896be827f6ae7c837463c86ba17adc63556c305ce8e5ecc36f58b",
-   "bytes": 673
+   "sha256": "f5afc41d142f89b43a4e58a5b5d19a35270dcd4c99baa6b28931eafb7806d060",
+   "bytes": 1168
+  },
+  "docs/guides/how-to/repin-endoforge.md": {
+   "sha256": "fe691f03d4d62fa77f997036bf2ecbeeec089053cad8e6c7de8bbca760d321a2",
+   "bytes": 4905
+  },
+  "docs/guides/how-to/run-ci-locally.md": {
+   "sha256": "7f718fe045d5597e6ae656d150ff3a0afefdaec2c6e9e56c074494bd29934bae",
+   "bytes": 4657
   },
   "docs/guides/reference/README.md": {
-   "sha256": "3e6b64a9a3a67a722f9af96e933bbbd71d41afd79ac46c14005b5d9cfa0f32f6",
-   "bytes": 852
+   "sha256": "982eab890a27ad79a7e77e1ae35e8e7f206a70b81f3938a40c3d5c5d368d7445",
+   "bytes": 1800
+  },
+  "docs/guides/reference/commands.md": {
+   "sha256": "61af7b706324d15cdcd8af87a460d801aaafda861750b40662811f01ca855519",
+   "bytes": 9258
+  },
+  "docs/guides/reference/configuration.md": {
+   "sha256": "edf4f27e425d74117146a5ae2393d793dba08b2cf6911ad5874dc9c23040092c",
+   "bytes": 4752
+  },
+  "docs/guides/reference/environment.md": {
+   "sha256": "4daae6b5649b5efacc67105a31cdd0f5ac128e049e00ac258fba959a02227da8",
+   "bytes": 3705
   },
   "docs/guides/tutorials/README.md": {
-   "sha256": "421f45293e9a60227e0fbb9358955c9b244eed93db12193ad5357ef12f59bd6f",
-   "bytes": 448
+   "sha256": "d25b7310bef8ff10f983f67a6c819abca21af13829d39c027580afcba5a5e76e",
+   "bytes": 489
+  },
+  "docs/guides/tutorials/first-run.md": {
+   "sha256": "718ff60d9d18be700665ed4a91ae83c135c6efb76bb405f160806f1040f4b773",
+   "bytes": 7534
   },
   "docs/icd/icd-endoforge-pin.md": {
    "sha256": "cdd40961de9d0d1296943b390d500af04917e8ac6c54985d1cc5840124885e3a",
