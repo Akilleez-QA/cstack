@@ -47,32 +47,32 @@
    "bytes": 153
   },
   "AGENTS.md": {
-   "sha256": "a7c067a98cabff2ea59ecfd9b781bc6dfdee272418880bedda5fba58043ef88f",
-   "bytes": 3889
+   "sha256": "049eb50cd01e7ab5397eb4bfea1747e228a4bc62a3f08485efa44b398571f108",
+   "bytes": 4327
   },
   "CHANGELOG.md": {
-   "sha256": "516cc53bc8369ed2dd71031e855e9a8b309f3220f593cc6e3d597e0f295f9ec4",
-   "bytes": 622
+   "sha256": "4afda01cef05577131d566d864f394ef4c08e923a2dad43f4f9695154360f795",
+   "bytes": 3707
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
    "bytes": 240
   },
   "CONTRIBUTING.md": {
-   "sha256": "c2300ed0c7cb2406de8bba4ccf9fe1236d7959898c8c6b1369f4f6b1eb4952f9",
-   "bytes": 1225
+   "sha256": "8cfd4fec6db924cdd39511ad618a24bcaa8e3a3f2b4ec21ed01801c24c217973",
+   "bytes": 1313
   },
   "LICENSE": {
    "sha256": "495c0e48d69a481483776fcd389eb2875d713b205047248f9b2129a6913e64cc",
    "bytes": 34670
   },
   "NOTICE.md": {
-   "sha256": "f3b2fe85c4b7b0f22137a27ebdbcae166c634efa20e049487a099c44ff7797e3",
-   "bytes": 709
+   "sha256": "7bf05d0661c3fcb2cd977e1187211f815eef915ad44f09fddf126e657408c3b7",
+   "bytes": 1183
   },
   "README.md": {
-   "sha256": "7cc9389fb7875b7578e0108860a37201a4521c6147ec81e2fa07f944ad184bad",
-   "bytes": 15707
+   "sha256": "bd50cc906a7318fcf171edb1323aaa4abb1db9c37a501e89c89dba487a55ec66",
+   "bytes": 17104
   },
   "SECURITY.md": {
    "sha256": "3f9c3a83c11a80271cd41705ce11fd1096d225a5f2fb5023d7b1a935a69b922f",
@@ -207,8 +207,8 @@
    "bytes": 12805
   },
   "adapters/memory/README.md": {
-   "sha256": "afc0a19d04776a846c2582fe937e9543dfca2a9fbff9b8c1efe14b8b602179a9",
-   "bytes": 1873
+   "sha256": "30dd166af5d401519d2acd28f357c51f2a0fa0b98a0cd445449d4c95963b183e",
+   "bytes": 1990
   },
   "adapters/memory/__init__.py": {
    "sha256": "4420089377c6f8f3f817040524b8c34824cf8c4a1917d187b154d8fc102faf91",
@@ -371,8 +371,8 @@
    "bytes": 10005
   },
   "aors/README.md": {
-   "sha256": "675cd246888b39927a25d0ef7d224f2c11a310f8a2fb387467be35a93dfc33dc",
-   "bytes": 250
+   "sha256": "d33d972b9ff65f7a69afdd32c0fdf29ece9b12f4d8a5dabd0123fe38779c56bb",
+   "bytes": 1010
   },
   "aors/fleet.json": {
    "sha256": "4567ae20cf92e3ec4c1d8fa3040861da9cb1729430ce117879a4c86050dbbb15",
@@ -387,8 +387,8 @@
    "bytes": 0
   },
   "ci/link-allowlist.txt": {
-   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-   "bytes": 0
+   "sha256": "5e833b9384d4a578a2ae8c12f998339ca05a9babb251067e125537fe741ff333",
+   "bytes": 164
   },
   "ci/requirements.txt": {
    "sha256": "1ecce7d0091219627059831f2e48b6c433465defd9702c2c3f741f6f39d58bf7",
@@ -1819,8 +1819,8 @@
    "bytes": 17104
   },
   "tests/test_check_links.py": {
-   "sha256": "6caa8ae1810e4102053cf8eb1ab71336fda3e54e94f057ef50a993304354c7ba",
-   "bytes": 3514
+   "sha256": "785f7c8ffbb330bb56f1b33ee5901eb36f9a97558d07c31f876a3f6f1308cbb5",
+   "bytes": 4034
   },
   "tests/test_claim_gate.py": {
    "sha256": "4983791dc869a67822a329a1977c81e34812426bf19282676e1b6aa2796f7138",
@@ -2075,8 +2075,8 @@
    "bytes": 1000
   },
   "tools/check_links.py": {
-   "sha256": "838c0e5d4e624d556791ce8f23a59384b19853ac39f8ffcf9d8886abf49e381b",
-   "bytes": 5867
+   "sha256": "93a6eb6d20a127347cd5aa3c82cde5110146c724b7624178049ca3056aa9dd7f",
+   "bytes": 6107
   },
   "tools/check_readme.py": {
    "sha256": "3263a319803a60a29c1086c5c3af09695f5653ab0000ca8d5a52612d572386eb",

@@ -1,5 +1,5 @@
 SQLite/FTS5 stores host-sanitized facts with provenance and trust labels; it grants no authority.
-Set `CSTACK_MEMORY_DB` to a private path outside the repository ending in `*.memory.db`, or pass it explicitly; supply an integer epoch host clock.
+Set `CSTACK_MEMORY_DB` to a private path outside the repository (by convention ending in `.memory.db`), or pass it explicitly; supply an integer epoch host clock. The file is created mode 0600, must be a regular file you own, and is never opened through a symlink.
 Facts remain proposals until a named human confirms them through the host review channel; rejection retains them and both reviews are terminal.
 `ledger_ref` links a review to the existing ledger entry in the DECISION-004 witnessed format; memory creates no second chain.
 An indexing adapter calls `propose_reference` per catalog chunk with source/path/sha256 and either its embedding or a `ref_vec_id` opaque pointer into an external vector store; keyword search is this store's FTS; entries are proposals reviewed like any fact.

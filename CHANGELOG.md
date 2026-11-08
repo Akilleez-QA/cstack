@@ -3,20 +3,47 @@
 All notable changes to this project are documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
-and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and [Semantic Versioning](https://semver.org/spec/v2.0.0.html). There is no tagged
+release yet; entries name the pull requests that made them.
 
 ## [Unreleased]
 
 ### Added
 
-- Template export.
-- Control core for goals, scoped authority and evidence.
-- Adapters for domain capabilities.
-- Foundations pinned by manifest.
-- Endoforge lifecycle core slice pinned under `vendor/endoforge` with no runtime wiring.
+- Diátaxis guides: a first-run tutorial, how-to guides for running the CI checks locally and repinning EndoForge, a reference of commands, configuration and environment variables, and explanations of EndoForge vendoring and the server and adapters.
+- Claude Code model transport for forge goals, `adapters/workcell/claude-transport.mjs` (#70).
+- Project code name Mjölnir for Cstack and the EndoForge core it vendors (#69).
+- Film and Robotics as in-process workcell kernels: JavaScript ports compared with the pinned Python on every path, with a seeded fuzz and boundary scan (`tools/fuzz_ports.py`) (#59 to #64).
+- Workcell runtime: one `cstack_forge` goal runs from a POODO decision through EndoForge `IsolatePool` workcells, real gates and ledger, to a witnessed receipt (#48).
+- Refrigeration and Template as in-process kernels, checked against the pinned Python, with a spawn counter (`tools/spawncount.py`) (#47).
+- Kernels propose decisions only as data, bounded per run, and the core accepts or refuses them (#49, #52).
+- A kill during a run is recorded as `outcome_unknown`; a lost controller is reconciled once by the next session; `cli.py --resume` reruns an unknown decision (#46, #50).
+- The acceptance for end-to-end wiring, frozen before the work (#44).
+- Foundation Engine as a domain: two read-only validators from a pinned partial vendor copy (#33, #34).
+- Refrigeration CLI acceptance with a host approval and EndoForge evidence (#30).
+- Configured POODO evidence routing through `EndoforgePort` and a durable file adapter (#24, #27, #28).
+- Fail-closed CLI approver for `ask` calls (#25).
+- Template export, control core for goals, scoped authority and evidence, Foundation adapters and pins.
+
+### Changed
+
+- `tools/check_links.py` also scans the README, CONTRIBUTING, CHANGELOG, NOTICE, every document under `docs/` and the area READMEs.
+- Vendored EndoForge repinned to `main` at `6dffea9` (P-68 capacity changes), via `f6711a7` and `da47ad9`; the slice now holds the gates, ledger, `IsolatePool` and capacity planner (#45, #68, #71, #73).
+- `tools/pin_endoforge.py` pins only commits on EndoForge `main` unless `--allow-unmerged` is given, and the vendored ledger writer journals beside the run ledger instead of under the user's state directory (#72).
+- Every README command passes on a fresh clone, checked by `tools/check_readme.py` (#43, #51, #53, #58).
+- Vendored Foundations and the POODO skill snapshot refreshed to their public `main` heads (#23, #26).
+
+### Fixed
+
+- Durable ledger events, relay messages and fleet mail budgets survive a torn or cut-short write (#65, #66, #67).
+- Candidates are bound to their task and decisions to one request; a changed judge is refused; refusals and kernel faults fail the candidate; decimal inputs are taken exactly (#54, #55, #56).
+- Recovery on the forge path: the ledgers agree and torn tails are quarantined (#57).
+- The claim gate fails closed without an approved-atoms Registry (#22).
 
 ### Known limits
 
-- POODO does not run on Endoforge.
-- `EndoforgePort` is reserved and unimplemented.
-- foundation-engine is linked only.
+- Running many coding agents at once and EndoForge's caching aren't wired into Cstack.
+- Workcells are V8 isolates, not an OS sandbox; cgroup limits apply only where the host delegates them.
+- The witness is a local fsync, not an independent quorum.
+- Foundation Engine's TypeScript runtime isn't included; only its bridge validators are.
+- Foundation kernels for Math aren't shipped in workcells.

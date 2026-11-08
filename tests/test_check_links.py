@@ -45,6 +45,14 @@ class CheckLinksTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             links.check(self.root, self.allow)
 
+    def test_the_readme_and_every_document_under_docs_are_maps(self):
+        root = TOOL.parent.parent
+        scanned = {p.relative_to(root).as_posix() for p in links.maps(root)}
+        expected = {"README.md", "CONTRIBUTING.md", "CHANGELOG.md", "NOTICE.md", "aors/README.md", "adapters/memory/README.md"}
+        expected |= {p.relative_to(root).as_posix() for p in (root / "docs").rglob("*.md")}
+        self.assertLessEqual(expected, scanned)
+        self.assertFalse([p for p in scanned if "node_modules" in p])
+
     def test_the_repo_maps_are_clean(self):
         root = TOOL.parent.parent
         targets = []
