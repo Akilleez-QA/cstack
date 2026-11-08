@@ -83,20 +83,26 @@ def validate_frozen(record, prior):
         raise ValueError("revision has no prior evaluator")
 
 
+def frozen_record(root, *, task, admitted_input, confirmed_by, qualification,
+                  synthesis_context, configuration, residual, invariant_version, revision=None, files=None):
+    content = (snapshot(root, configuration, residual, invariant_version) if files is None else
+               encode(dict(files=files, configuration=configuration, residual=residual,
+                           invariant_version=invariant_version)))
+    data = dict(task=task, admitted_input=admitted_input, content=content,
+                confirmed_by=confirmed_by,
+                freeze=dict(digest=digest(content), qualification=qualification,
+                            synthesis_context=synthesis_context))
+    if revision is not None:
+        data["revision"] = revision
+    return dict(version=0, kind="frozen_evaluator", id="evr:" + digest(encode(data)), data=data)
+
+
 class FrozenEvaluators:
     def __init__(self, ledger):
         self.ledger = ledger
 
-    def freeze(self, root, *, task, admitted_input, confirmed_by, qualification,
-               synthesis_context, configuration, residual, invariant_version, revision=None):
-        content = snapshot(root, configuration, residual, invariant_version)
-        data = dict(task=task, admitted_input=admitted_input, content=content,
-                    confirmed_by=confirmed_by,
-                    freeze=dict(digest=digest(content), qualification=qualification,
-                                synthesis_context=synthesis_context))
-        if revision is not None:
-            data["revision"] = revision
-        record = dict(version=0, kind="frozen_evaluator", id="evr:" + digest(encode(data)), data=data)
+    def freeze(self, root, **components):
+        record = frozen_record(root, **components)
         self.ledger.append(record)
         return record
 

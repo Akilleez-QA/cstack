@@ -82,7 +82,7 @@
         "synthesis_context": {
           "type": "object", "additionalProperties": false, "required": ["id", "candidate_blind", "inputs"],
           "properties": {
-            "id": {"$ref": "#/$defs/text"}, "candidate_blind": {"enum": ["confirmed"]},
+            "id": {"$ref": "#/$defs/text"}, "candidate_blind": {"enum": ["confirmed", "not_established"]},
             "inputs": {"type": "array", "items": {"$ref": "#/$defs/text"}}
           }
         }
