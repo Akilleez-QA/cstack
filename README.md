@@ -63,7 +63,15 @@ The command can run again, and each run gets its own task and candidate. A goal'
 
 The controller and both ledgers stay outside the cohort. A lost cell or supervisor is recorded as `outcome_unknown`, never as a pass, and isn't retried; a rerun then takes `python -B cli.py --resume DECISION_ID`. A lost controller is reconciled against the run ledger by the next run, which lists anything unresolved. A kernel can propose a decision only as data, through its host; the core accepts or refuses it. A run with a refusal records no pass.
 
-This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration, and gets its full instructions in `prompt.text`. Cstack ships none yet; that wiring waits on EndoForge experiment P-50. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
+This command uses the stub transport, which returns a recorded file. A real model transport goes behind the same `generate` function, selected only by `workcell.transport` in host configuration, and gets its full instructions in `prompt.text`.
+
+`adapters/workcell/claude-transport.mjs` is a real transport. It runs `claude -p` on a Claude Code subscription login with no tools, no MCP servers, no settings, no session persistence and an environment that carries no API key variables, and it refuses a session that reports any of them. To use it, set `"transport": "adapters/workcell/claude-transport.mjs"` in `cstack.config.json` and run the goal without the stub variable:
+
+```sh
+python -B cli.py < examples/forge/saturation-goal.json
+```
+
+`CSTACK_CLAUDE_MODEL` picks the model (default `opus`), `CSTACK_CLAUDE_CONFIG_DIR` an existing Claude config directory, and `CSTACK_CLAUDE_TIMEOUT_MS` the per-call limit (default 300000). The ledger records the proposer as `claude-code:<model>`. `tools/check_readme.py` runs this command only where `claude auth status` reports a login, and reports it as skipped elsewhere. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
 
 Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegates them; the receipt says `cgroup: unavailable` where it doesn't.
 
@@ -175,7 +183,7 @@ Foundation route numbers are in [the routes](docs/verification/foundation-routes
 
 Endoforge sits at the engine layer: forge goals run in its workcells with its gates and ledger. POODO runs on Endoforge as the control and reasoning layer (`poodo_core/`); domains and Foundations plug in through adapters. Foundations judge: a kernel's result is checked against the pinned Foundation, and producers don't grade themselves.
 
-POODO uses its Foundation adapters for execution and can route witnessed evidence through `EndoforgePort`. Configure `endoforge.path` in repository-local `cstack.config.json` (see `cstack.config.example.json`); its parent directory must exist. Configured CLI runs witness precommits before dispatch and outcomes after execution, fail closed on storage errors, and report `endoforge_implemented: true`. Unconfigured runs report false. Running real coding agents and EndoForge's caching aren't wired yet: forge goals here have no real model transport. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
+POODO uses its Foundation adapters for execution and can route witnessed evidence through `EndoforgePort`. Configure `endoforge.path` in repository-local `cstack.config.json` (see `cstack.config.example.json`); its parent directory must exist. Configured CLI runs witness precommits before dispatch and outcomes after execution, fail closed on storage errors, and report `endoforge_implemented: true`. Unconfigured runs report false. Forge goals can run a real model through `adapters/workcell/claude-transport.mjs`; running many coding agents at once and EndoForge's caching aren't wired yet. See the [Endoforge interface status](docs/icd/icd-endoforge.md).
 
 ```mermaid
 flowchart TB

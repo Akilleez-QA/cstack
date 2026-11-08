@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FORGE = "CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json"
 FORGE_RUNS = 2
 NEEDS_GH = ("python3 tools/merge_train.py --wip", "python3 tools/merge_train.py --dry-run --policy low-risk")
+REAL_FORGE = "python -B cli.py < examples/forge/saturation-goal.json"
+STUB_TRANSPORT, CLAUDE_TRANSPORT = '"adapters/workcell/stub-transport.mjs"', '"adapters/workcell/claude-transport.mjs"'
 
 
 def gh_unavailable(env):
@@ -22,6 +24,19 @@ def gh_unavailable(env):
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return "gh is not installed"
     return None if result.returncode == 0 else "gh is not signed in"
+
+
+def claude_unavailable(env):
+    """Why the real-transport forge goal can't run here, or None."""
+    try:
+        result = subprocess.run(["claude", "auth", "status"], env=env, capture_output=True, text=True, timeout=30)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return "claude is not installed"
+    try:
+        signed_in = result.returncode == 0 and json.loads(result.stdout).get("loggedIn") is True
+    except json.JSONDecodeError:
+        signed_in = False
+    return None if signed_in else "claude is not signed in"
 
 
 def readme_commands(text):
@@ -117,6 +132,15 @@ def main():
         check.run_status("python -B cli.py --approver=file:answers.json < examples/ask-approval.json", "completed")
         for _ in range(FORGE_RUNS):
             check.run_status(FORGE, "completed", "candidate_passed")
+        no_claude = claude_unavailable(check.env)
+        if no_claude:
+            covered.add(REAL_FORGE)
+            print(f"skip  {REAL_FORGE}\n      needs claude: {no_claude}", flush=True)
+        else:
+            config = clone / "cstack.config.json"
+            config.write_text(config.read_text().replace(STUB_TRANSPORT, CLAUDE_TRANSPORT))
+            check.run_status(REAL_FORGE, "completed", "candidate_passed")
+            config.write_text(config.read_text().replace(CLAUDE_TRANSPORT, STUB_TRANSPORT))
         check.plain("python -B -c \"from adapters.aor_registry import load_fleet; print(load_fleet('aors/fleet.json').approver)\"", lambda out: out.strip() == "owner-via-approver")
         mcp_session(check, "python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state")
         skipped = gh_unavailable(check.env)
@@ -132,7 +156,7 @@ def main():
     for command in missing:
         print("FAIL  no check covers README command: " + command)
     failed = [row for row in check.rows if not row["passed"]]
-    print(json.dumps(dict(commands=len(check.rows), failed=len(failed), uncovered=len(missing), skipped_needs_gh=len(NEEDS_GH) if skipped else 0)))
+    print(json.dumps(dict(commands=len(check.rows), failed=len(failed), uncovered=len(missing), skipped_needs_gh=len(NEEDS_GH) if skipped else 0, skipped_needs_claude=1 if no_claude else 0)))
     return 1 if failed or missing else 0
 
 

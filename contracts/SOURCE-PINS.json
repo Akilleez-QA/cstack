@@ -156,6 +156,7 @@
   "root": "adapters/workcell",
   "files": {
    "broker.mjs": "c5f9ef834bacf43993eb006d427a54779a71e7ef77a583a45beeca18e5558941",
+   "claude-transport.mjs": "ed8c7bbff04d1009a32ff252ee54944a865ade9c4ca5cab1bc55ee0da5631520",
    "coder-prompt.mjs": "98c2084b732077a10cc28fe8306673e880206279f9cb6087fafff45eb8fcc1ee",
    "compiler.mjs": "9539d1b41c9215d3a0a784c3d1b70d39c707292c76d711e654129cea04d0a3dc",
    "host-port.mjs": "f330a76253921de5bac6d9eb72a1b14ff5ed3fad699c4a542f7d59b247ccc43f",
