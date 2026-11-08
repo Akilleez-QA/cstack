@@ -31,8 +31,8 @@
    "bytes": 1046
   },
   ".gitignore": {
-   "sha256": "936ccfd2d825104dadde8759a2652cc0f3483d75b560f7617328ea64d6b64bc5",
-   "bytes": 121
+   "sha256": "e32a82062156f5b4ede6002ba99f02611f0d916e9465ae644621706727f72aec",
+   "bytes": 143
   },
   ".gitleaks.toml": {
    "sha256": "e44d9f57de1c3f8e70f2c519a8aac7feae5ed4474527411b57df11542dec6a33",
@@ -163,8 +163,8 @@
    "bytes": 12310
   },
   "adapters/endoforge_workcell.py": {
-   "sha256": "85280c5ca9e876f656e03dd16e32c38e9cd64cc01ca8152d0aa30bc8b077aaf9",
-   "bytes": 22260
+   "sha256": "ccf3435d3643570fbd04792052de73b0969f65faf5e0b2099d3c58c600ad5d52",
+   "bytes": 22556
   },
   "adapters/engine_stdio.py": {
    "sha256": "842e4a46e49ce63412f8098e17e7521a7f20bec25986ac68bf9fd821c28ee5b3",
@@ -447,8 +447,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "3cb3d064bf381964121070e79867b4346a390b57ee93feecf11bb3967fb00314",
-   "bytes": 8359
+   "sha256": "61d66dfc0aeb139c9cf41c3eee2bc97fe667813c319659b22da2e96eed6ffa5c",
+   "bytes": 8439
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -499,12 +499,12 @@
    "bytes": 448
   },
   "docs/icd/icd-endoforge-pin.md": {
-   "sha256": "27283a0372cce076fa4cda0982989e6088a2666b43212e9d22b7db2a146ae971",
-   "bytes": 2094
+   "sha256": "89ebef995048c030497aad488746bb5fe95b1b9355cc8068f245613e2f7371f5",
+   "bytes": 2742
   },
   "docs/icd/icd-endoforge.md": {
-   "sha256": "4c4e47378843c8d19346f4f47f83ac61b83791ad0e11f8f32f13ad1886925d03",
-   "bytes": 16235
+   "sha256": "daf415efb0654e798301d4b38f9c8f60e27f5a28e44e1d9900263f96106685e9",
+   "bytes": 16516
   },
   "docs/icd/icd-foundations.md": {
    "sha256": "92efc6c5d4255c1dfcb21ca82eec8ed7dd8d05c922d66b74b66a12953b8a3396",
@@ -1687,8 +1687,8 @@
    "bytes": 2712
   },
   "tests/forge_fixtures.py": {
-   "sha256": "94be92bd421c383bf50f13ebdcbb234a3382ad23257ebd737ab6f8e13e29fcdd",
-   "bytes": 5443
+   "sha256": "286c885a68db8531c05796825cc7edf27fe2380c90b582d6017030f387319e49",
+   "bytes": 5630
   },
   "tests/helpers.py": {
    "sha256": "bc2ae39268ef1e83066ccdd637988bfd62b55f074d84015d1be2d81a727e297b",
@@ -1835,8 +1835,8 @@
    "bytes": 6268
   },
   "tests/test_endoforge_pin.py": {
-   "sha256": "e6897f07dde150e56cf54b376d96e7c2df1245e0d5e754a24bb55e4553f49583",
-   "bytes": 1426
+   "sha256": "cdfd9fc909245de05b8f0fdd7dc72b1cd2ff3983804786e294aba2067f4490ec",
+   "bytes": 2680
   },
   "tests/test_endoforge_port.py": {
    "sha256": "3e9cbf66fc1b1da9146a90f9e6eeb0b9cdab4fdbb1900574babe58b2160679ad",
@@ -1877,6 +1877,10 @@
   "tests/test_forge_integrity.py": {
    "sha256": "7d6128554866e3443e046f1901b58168313a1593538abfcc021baddca6a90d03",
    "bytes": 8194
+  },
+  "tests/test_forge_journal.py": {
+   "sha256": "a7fa166fcbb99d9b808439b3ab3012cade4914a09fea91aa234f97f2e305e03c",
+   "bytes": 1321
   },
   "tests/test_forge_recovery.py": {
    "sha256": "9eeb515ca35abc660884a46c6379739ee328f0f293ae9cfe0d5ac0543fa64d1c",
@@ -1933,6 +1937,10 @@
   "tests/test_merge_train.py": {
    "sha256": "e8049e3b8569dddfb59d6f38b08db9ccbd986c4c2eb259d60912fe2d8e2abce8",
    "bytes": 1432
+  },
+  "tests/test_pin_endoforge_tool.py": {
+   "sha256": "f3bf5d0e1f219c91c08f80e09d9c202cdf00a12fc47cafc5dbad3e0bdf32d6d4",
+   "bytes": 5129
   },
   "tests/test_process_and_cli.py": {
    "sha256": "b3f741614d5d18599f1e4a9a4af3f301fb72923e80dec72f40d94ee7a87fe68f",
@@ -2079,8 +2087,8 @@
    "bytes": 9762
   },
   "tools/pin_endoforge.py": {
-   "sha256": "eacd7f72106d4f9162e74d2adb862f4625171cc4814a9695d245c69bc5fb7a35",
-   "bytes": 3744
+   "sha256": "79646a3b435051398c8e7d065814177a77e42dc78cef50e483af4098510c4a00",
+   "bytes": 5486
   },
   "tools/pin_workcell.py": {
    "sha256": "e7740a583e385324a5730f17da45a9682871475161d7000d35d4143f1a7be629",

@@ -15,7 +15,10 @@ Rebuild from a clone that holds the commit. The tool reads committed source, not
 python -B tools/pin_endoforge.py --source ENDOFORGE_CLONE --commit FULL_COMMIT
 ```
 
-It rewrites `vendor/endoforge/` and the pin record. Review both, then run every suite. The same stripping reproduces the earlier lifecycle file's bytes, commit `4ede82329c64f3f72026dea57ac66095324ec1c4`.
+It rewrites `vendor/endoforge/` and the pin record. Review both, then run every suite.
+The tool refuses a commit that isn't reachable from the clone's `origin/main`, so fetch the clone first. It reads local refs and makes no network call. The pin record says `"on_main": true` and the `origin/main` commit it was checked against as `main_commit`.
+`--allow-unmerged` pins an unmerged commit as a deliberate exception; the record then says `"on_main": false, "allow_unmerged": true`.
+The pin test checks that the record carries one of these forms. With `CSTACK_ENDOFORGE_CLONE` set to a fetched EndoForge clone, it also checks that an `on_main` pin is reachable from `main_commit` and from that clone's `origin/main`; CI doesn't set it. The same stripping reproduces the earlier lifecycle file's bytes, commit `4ede82329c64f3f72026dea57ac66095324ec1c4`.
 
 The slice is the fixed list in `tools/pin_endoforge.py`. It includes all of `core/runtime/capacity/`, because `IsolatePool` imports its plan and the module's CLI is its interface for non-Node callers (EndoForge's `docs/interfaces/capacity-icd.md`). It excludes `tools/` other than `tools/factory_quality/index.mjs` and `tools/ledger_writer.py`, which the isolate ledger bridge imports, and it excludes the agent pool and all experiments. The pin doesn't prove the content is correct, and `main` moves on upstream; a change needs a new pin.
 

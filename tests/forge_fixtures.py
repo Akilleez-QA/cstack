@@ -25,7 +25,7 @@ class RepoCopy:
     def __init__(self):
         self._temporary = tempfile.TemporaryDirectory(prefix="forge-copy-")
         self.root = Path(self._temporary.name, "cstack")
-        shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "__pycache__", "*.pyc", "cstack.config.json", "forge.sqlite", "endoforge.jsonl"))
+        shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns(".git", ".venv", "node_modules", "__pycache__", "*.pyc", "cstack.config.json", "forge.sqlite", "forge.sqlite.journal", "endoforge.jsonl"))
         for modules in ROOT.glob("adapters/*/node_modules"):
             (self.root / modules.relative_to(ROOT)).symlink_to(modules)
 
@@ -59,7 +59,9 @@ class Forge:
             **({"transport": str(self.root / "adapters/workcell/stub-transport.mjs")} if transport else {})}}
         self.config = self.directory / "config.json"
         self.config.write_text(json.dumps(config))
-        self.env = {**os.environ, "CSTACK_STUB_TRANSPORT_SCRIPT": str(self.directory / "script.json")}
+        self.state = self.directory / "state"
+        self.env = {**{k: v for k, v in os.environ.items() if k != "ENDOFORGE_LEDGER_JOURNAL"},
+                    "CSTACK_STUB_TRANSPORT_SCRIPT": str(self.directory / "script.json"), "XDG_STATE_HOME": str(self.state)}
 
     def command(self, *extra):
         return [sys.executable, "-B", str(self.root / "cli.py"), "--config", str(self.config), *extra]
