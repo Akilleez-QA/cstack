@@ -22,4 +22,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (ValueError, KeyError, TypeError, FileNotFoundError, NotADirectoryError) as error:
+        print(error, file=sys.stderr)
+        sys.exit(3)
+    except Exception as error:
+        if not isinstance(error, (OSError, MemoryError)) and type(error).__module__ != "sqlite3":
+            raise
+        print(error, file=sys.stderr)
+        sys.exit(75)

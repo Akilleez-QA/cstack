@@ -104,25 +104,28 @@ def validate(record, prior):
             raise ValueError("an outcome requires observations")
 
 
+TABLES = (
+    """CREATE TABLE IF NOT EXISTS records (
+        seq INTEGER PRIMARY KEY, id TEXT UNIQUE NOT NULL,
+        body TEXT NOT NULL, previous TEXT NOT NULL, hash TEXT NOT NULL
+    )""",
+    """CREATE TRIGGER IF NOT EXISTS no_update BEFORE UPDATE ON records
+        BEGIN SELECT RAISE(ABORT, 'ledger is append-only'); END""",
+    """CREATE TRIGGER IF NOT EXISTS no_delete BEFORE DELETE ON records
+        BEGIN SELECT RAISE(ABORT, 'ledger is append-only'); END""",
+    """CREATE TRIGGER IF NOT EXISTS no_replace BEFORE INSERT ON records
+        WHEN EXISTS (SELECT 1 FROM records WHERE id = NEW.id OR seq = NEW.seq)
+        BEGIN SELECT RAISE(ABORT, 'ledger identity already exists'); END""",
+)
+
+
 class Ledger:
     def __init__(self, path):
         self.path = str(path)
         if self.path in ("", ":memory:"):
             raise ValueError("ledger requires durable storage")
         with closing(self._connect()) as db:
-            db.executescript("""
-                CREATE TABLE IF NOT EXISTS records (
-                    seq INTEGER PRIMARY KEY, id TEXT UNIQUE NOT NULL,
-                    body TEXT NOT NULL, previous TEXT NOT NULL, hash TEXT NOT NULL
-                );
-                CREATE TRIGGER IF NOT EXISTS no_update BEFORE UPDATE ON records
-                    BEGIN SELECT RAISE(ABORT, 'ledger is append-only'); END;
-                CREATE TRIGGER IF NOT EXISTS no_delete BEFORE DELETE ON records
-                    BEGIN SELECT RAISE(ABORT, 'ledger is append-only'); END;
-                CREATE TRIGGER IF NOT EXISTS no_replace BEFORE INSERT ON records
-                    WHEN EXISTS (SELECT 1 FROM records WHERE id = NEW.id OR seq = NEW.seq)
-                    BEGIN SELECT RAISE(ABORT, 'ledger identity already exists'); END;
-            """)
+            db.executescript("BEGIN;\n" + ";\n".join(TABLES) + ";\nCOMMIT;")
             self._read(db)
 
     def _connect(self):
@@ -138,14 +141,16 @@ class Ledger:
         ):
             if seq != expected or link != previous or event_hash(seq, link, body) != digest:
                 raise ValueError(f"ledger chain failed at sequence {seq}")
-            record = json.loads(body)
-            if record["id"] != identity or encode(record) != body:
-                raise ValueError(f"ledger identity or encoding failed at sequence {seq}")
-            entry = (seq, digest, body)
-            reusable = reusable and cache is not None and len(cache) >= expected and cache[expected - 1] == entry
-            if not reusable:
+            known = cache[expected - 1] if reusable and cache is not None and len(cache) >= expected else None
+            if known is not None and known[:3] == (seq, digest, identity):
+                record = known[3]
+            else:
+                reusable = False
+                record = json.loads(body)
+                if record["id"] != identity or encode(record) != body:
+                    raise ValueError(f"ledger identity or encoding failed at sequence {seq}")
                 validate(record, prior)
-            verified.append(entry)
+            verified.append((seq, digest, identity, record))
             prior[identity], previous = record, digest
         if cache is not None:
             cache[:] = verified

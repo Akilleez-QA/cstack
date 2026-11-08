@@ -7,17 +7,29 @@ const object = value => value !== null && typeof value === 'object' && !Array.is
 const named = value => typeof value === 'string' && value.length > 0;
 const copy = value => structuredClone(value);
 
-export function requireFrozen(reference) {
+const refusedExit = 3;
+const unavailable = () => Object.assign(new Error('frozen evaluator verification unavailable'), { unavailable: true });
+function checkFrozen(reference, timeoutMs) {
   return new Promise((resolve, reject) => {
     const child = execFile('python3', ['-B', '-m', 'core.engine.frozen'], {
-      cwd: fileURLToPath(new URL('../../', import.meta.url)), timeout: 10000, maxBuffer: 16 * 1024 * 1024,
+      cwd: fileURLToPath(new URL('../../', import.meta.url)), timeout: timeoutMs, maxBuffer: 16 * 1024 * 1024,
     }, (error, stdout) => {
-      if (error) return reject(new Error('frozen evaluator verification failed'));
-      try { resolve(JSON.parse(stdout)); } catch { reject(new Error('invalid frozen store response')); }
+      if (error) return reject(error.code === refusedExit ? new Error('frozen evaluator verification failed') : unavailable());
+      try { resolve(JSON.parse(stdout)); } catch { reject(unavailable()); }
     });
     child.stdin.on('error', () => {});
     child.stdin.end(JSON.stringify(reference));
   });
+}
+
+export async function requireFrozen(reference, { timeoutMs = 10000, attempts = 3 } = {}) {
+  for (let attempt = 1; ; attempt++) {
+    try { return await checkFrozen(reference, timeoutMs); }
+    catch (error) {
+      if (!error.unavailable || attempt >= attempts) throw error;
+      await new Promise(resolve => setTimeout(resolve, 100 * attempt + Math.random() * 400));
+    }
+  }
 }
 
 function dimensions(objectives) {
@@ -42,7 +54,8 @@ export function paretoFrontier(candidates, objectives) {
   return candidates.filter(b => !candidates.some(a => dominates(a, b)));
 }
 
-export async function evaluateCandidates(reference, candidates, port, { verifyFrozen = requireFrozen } = {}) {
+export async function evaluateCandidates(reference, candidates, port, { verifyFrozen: given, requireFrozen: required } = {}) {
+  const verifyFrozen = given ?? required ?? requireFrozen;
   reference = copy(reference);
   candidates = copy(candidates);
   ensure(Array.isArray(candidates) && candidates.every(named) && new Set(candidates).size === candidates.length, 'unique candidate identities required');
@@ -53,6 +66,7 @@ export async function evaluateCandidates(reference, candidates, port, { verifyFr
   ensure(Array.isArray(invariants) && invariants.every(named) && new Set(invariants).size === invariants.length, 'explicit invariant list required');
   dimensions(objectives);
   const attempts = [];
+  let verified = true;
   async function evaluate(candidate, round) {
     const result = { candidate, round, frozen_evaluator: frozen.identity, evaluator_digest: frozen.digest,
       stage: 'passed', firstFailure: null, results: [], metrics: null };
@@ -67,10 +81,15 @@ export async function evaluateCandidates(reference, candidates, port, { verifyFr
       try {
         const current = await verifyFrozen(reference);
         ensure(current.identity === frozen.identity && current.digest === frozen.digest, 'frozen identity changed');
+        verified = true;
         return true;
-      } catch { fail('frozen', 'frozen evaluator verification failed'); return false; }
+      } catch (error) {
+        fail('frozen', error?.unavailable ? error.message : 'frozen evaluator verification failed', error?.unavailable === true);
+        return false;
+      }
     }
-    if (!await verify()) return result;
+    if (!verified && !await verify()) return result;
+    verified = false;
     let ambiguous = false;
     const invoke = async (method, args) => {
       try {

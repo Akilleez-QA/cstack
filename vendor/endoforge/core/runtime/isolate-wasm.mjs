@@ -270,7 +270,7 @@ export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedW
       flags.add(new WeakRef(flag));
     }
     try { if (data.start) result.exports[data.start](); }
-    finally { check(); }
+    finally { for (const flag of activeFlags) if (flag.value) fail(); }
     return result;
   };
   wrapConstructor('Instance', (target, [module, imports], derived) => instance(module, imports, derived));
@@ -292,10 +292,6 @@ export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedW
   check.begin = () => {
     check();
     activeFlags.clear();
-    for (const ref of flags) {
-      const flag = ref.deref();
-      if (flag) activeFlags.add(flag);
-    }
   };
   check.describe = module => {
     const { bytes, ...data } = modules.get(module);

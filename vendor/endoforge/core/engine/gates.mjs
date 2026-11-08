@@ -60,7 +60,7 @@ export const schemaGate = gate('schema', (context, snapshots = []) => {
 export const interfaceGate = gate('interface', async (context, port) => {
   const signature = jsonCopy(await port.describe(context.candidate));
   validateSignature(signature);
-  ensure(canonical(signature) === canonical(context.contract.signature), 'observed signature differs from contract');
+  ensure(canonical(signature) === canonical(context.contract.signature), `observed signature differs from contract: ${signature.name}`);
   return 'observed name, types, units and domains match the contract';
 });
 
@@ -68,7 +68,7 @@ export const boundsGate = gate('bounds', async (context, port, runs) => {
   for (let round = 0; round < 2; round++) {
     const run = jsonCopy(await port.run(context.candidate, jsonCopy(context.cases), jsonCopy(context.limits)));
     fields(run, ['status', 'outputs', 'usage', 'effects']);
-    ensure(run.status === 'completed', `round ${round + 1} did not complete within limits`);
+    ensure(run.status === 'completed', `round ${round + 1} did not complete within limits: ${run.status}`);
     fields(run.usage, ['wallMs', 'memoryBytes', 'fuel']);
     for (const [name, limit] of Object.entries(context.limits)) {
       const used = run.usage[name];
@@ -91,14 +91,14 @@ export const boundsGate = gate('bounds', async (context, port, runs) => {
     effects(run.effects);
     runs.push(run);
   }
-  return 'both fresh runs completed within wall, memory and fuel limits';
+  return `both fresh runs completed within wall, memory and fuel limits: ${canonical(runs.map(run => run.usage))}`;
 });
 
 export const determinismGate = gate('determinism', runs => {
   ensure(runs.length === 2, 'two bounded runs required');
   const outcomes = runs.map(run => canonical(jsonCopy({ outputs: run.outputs, effects: run.effects })));
   ensure(outcomes[0] === outcomes[1], 'repeated outputs, refusals or effects differ');
-  return 'repeat outputs, refusals and effects match exactly';
+  return `repeat outputs, refusals and effects match exactly over ${runs[0].outputs.length} cases`;
 });
 
 export const forbiddenEffectsGate = gate('forbidden_effects', async (context, port, runs) => {
@@ -107,7 +107,7 @@ export const forbiddenEffectsGate = gate('forbidden_effects', async (context, po
   const observed = [...scanned, ...runs.flatMap(run => run.effects)];
   const forbidden = [...new Set(observed.filter(effect => !context.allowedEffects.includes(effect)))].sort();
   ensure(forbidden.length === 0, `forbidden effects: ${forbidden.join(', ')}`);
-  return 'static scan and both runtime traces contain only allowed effects';
+  return `static scan and both runtime traces contain only allowed effects: ${canonical([...new Set(observed)].sort())}`;
 });
 
 export async function runUniversalGates(input, port) {

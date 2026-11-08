@@ -3,6 +3,9 @@ import { evaluateCandidates } from '../engine/evaluator.mjs';
 import { installWasmLimit } from './isolate-wasm.mjs';
 
 const options = workerData || JSON.parse(process.argv[2]);
+if (!parentPort) new Worker(`const { workerData: parent } = require('node:worker_threads');
+setInterval(() => { if (process.ppid !== parent) process.kill(process.pid, 'SIGKILL'); }, 250);`, { eval: true, workerData: process.ppid,
+  resourceLimits: { maxOldGenerationSizeMb: 8, maxYoungGenerationSizeMb: 2 } }).unref();
 const { wasmMemoryMaxMb } = options;
 const send = result => parentPort ? parentPort.postMessage(result) : process.send(result);
 const metadata = { workcell: parentPort ? threadId : process.pid,
@@ -27,27 +30,25 @@ const checkWasm = installWasmLimit(wasmMemoryMaxMb, error => {
 
 const warmed = options.warm ? (async () => { await (await import(options.hostPort)).warm(options.warm); })().catch(error => error.message || String(error)) : null;
 
-const calls = new Map();
+const replies = new Map();
 let nextCall = 0;
 const callHost = message => new Promise((resolve, reject) => {
   const id = ++nextCall;
-  calls.set(id, { resolve, reject });
+  replies.set(id, { resolve, reject });
   send({ ...message, id });
 });
+const host = call => callHost({ type: 'host-call', call });
 const hostCall = request => callHost({ type: 'host_call', request });
 const verifyFrozen = reference => callHost({ type: 'host_frozen', reference });
 
-if (!parentPort) {
-  const parent = process.ppid;
-  const watch = new Worker(`setInterval(() => { if (process.ppid !== ${parent}) process.kill(process.pid, 'SIGKILL'); }, 250);`, { eval: true, resourceLimits: { maxOldGenerationSizeMb: 8, maxYoungGenerationSizeMb: 2 } });
-  watch.unref();
-}
-
 (parentPort || process).on('message', async message => {
-  if (message.type === 'host_reply') {
-    const call = calls.get(message.id);
-    calls.delete(message.id);
-    return message.error === undefined ? call?.resolve(message.result) : call?.reject(new Error(message.error));
+  if (message.type === 'ping') return send({ type: 'pong' });
+  if (message.type === 'host-reply' || message.type === 'host_reply') {
+    const reply = replies.get(message.id);
+    replies.delete(message.id);
+    if (message.error === undefined) reply?.resolve(message.type === 'host-reply' ? message.value : message.result);
+    else reply?.reject(new Error(message.error));
+    return;
   }
   const { reference, candidates, hostPort, portOptions, frozenThroughLedger } = message;
   try {
@@ -55,11 +56,11 @@ if (!parentPort) {
     if (warmError) throw new Error(`warm failed: ${warmError}`);
     checkWasm.begin();
     const { createPort } = await import(hostPort);
-    const port = await createPort(portOptions, { hostCall });
-    const report = await evaluateCandidates(reference, candidates, port, frozenThroughLedger ? { verifyFrozen } : {});
+    const port = await createPort(portOptions, { host, hostCall });
+    const report = port.evaluate ? await port.evaluate(evaluateCandidates, reference) : await evaluateCandidates(reference, candidates, port, frozenThroughLedger ? { verifyFrozen } : {});
     checkWasm();
     const evidence = port.evidence?.();
-    send({ status: report.stage === 'outcome_unknown' ? 'outcome_unknown' : 'completed',
+    send({ status: report.stage === 'outcome_unknown' ? 'outcome_unknown' : report.stage === 'waiting' ? 'waiting' : 'completed',
       reason: null, report, ...(evidence === undefined ? {} : { evidence }), ...metadata });
   } catch (error) {
     checkWasm();
