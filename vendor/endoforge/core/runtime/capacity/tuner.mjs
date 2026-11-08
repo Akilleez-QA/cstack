@@ -3,7 +3,7 @@ export const TUNER_DEFAULTS = Object.freeze({ min: 1, gain: 0.03, marginal: 0.25
 export function createTuner({ start, max, now = () => performance.now(), ...options } = {}) {
   const o = { ...TUNER_DEFAULTS, ...options };
   if (!Number.isSafeInteger(max) || max < o.min) throw new TypeError('tuner needs an integer max of at least min');
-  let bound = max, width = Math.max(o.min, Math.min(max, Math.round(start ?? max)));
+  let bound = Math.max(o.min, Math.min(max, Math.round(o.bound ?? max))), width = Math.max(o.min, Math.min(bound, Math.round(start ?? bound)));
   let phase = 'explore', step, anchor, table, tried, visited, skip = true, settled = null, strays = 0, pendingBound = null, pendingCount = 0, lastChange = -Infinity;
   const history = [];
   const begin = from => { phase = 'explore'; anchor = from; step = Math.max(1, Math.ceil(from / 4)); table = new Map(); tried = new Set(); visited = new Set([from]); settled = null; strays = 0; };

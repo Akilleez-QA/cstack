@@ -1,6 +1,7 @@
 import { machine } from './probe.mjs';
 
-export const TUNED_POLICY = Object.freeze({ mode: 'tuned', headroom: 1.25 });
+export const TUNED_POLICY = Object.freeze({ mode: 'tuned', cap: 'occupancy', headroom: 1.25, oversubscribe: 3, ram: 0.75 });
+export const P67_TUNED_POLICY = Object.freeze({ mode: 'tuned', cap: 'share', headroom: 1.25 });
 export const POLICY = Object.freeze({ mode: 'fixed', width: 'cores', perDomain: 1, headroom: 1.25 });
 
 const split = (count, parts) => Array.from({ length: parts }, (_, index) => Math.floor(count / parts) + (index < count % parts ? 1 : 0));
@@ -22,14 +23,15 @@ export function plan({ queues = 1, allotment, probe = machine(), policy = POLICY
     const cores = split(slot.cores, perSlot[slotIndex]), threads = split(slot.cpus.length, perSlot[slotIndex]);
     for (let local = 0; local < perSlot[slotIndex]; local++, index++) {
       const portion = shares[index];
-      const max = Math.max(1, Math.min(threads[local] || 1, Math.ceil(portion * policy.headroom)));
+      const max = policy.mode === 'tuned' && policy.cap === 'occupancy' ? Math.max(1, Math.ceil(portion * (policy.oversubscribe ?? 3)))
+        : Math.max(1, Math.min(threads[local] || 1, Math.ceil(portion * policy.headroom)));
       const fixed = policy.mode !== 'fixed' ? null : policy.width === 'cores' ? Math.max(1, Math.min(cores[local] || 1, Math.ceil(portion))) : Number.isSafeInteger(policy.width) ? policy.width : null;
       const start = fixed ?? Math.max(1, Math.min(max, cores[local] || 1, Math.ceil(portion)));
       cohorts.push({ queue: index % queues, width: start, max: fixed ?? max, share: portion, cpus: pinned ? slot.cpus : null });
     }
   });
   return {
-    mode: policy.mode, tuned: policy.mode === 'tuned', headroom: policy.headroom ?? 1.25, allotment: +share.toFixed(2), queues, pinned, cohorts,
+    mode: policy.mode, tuned: policy.mode === 'tuned', cap: policy.mode === 'tuned' ? policy.cap ?? 'share' : null, headroom: policy.headroom ?? 1.25, ram: policy.ram ?? 0.75, allotment: +share.toFixed(2), queues, pinned, cohorts,
     width: cohorts.reduce((total, cohort) => total + cohort.width, 0), max: cohorts.reduce((total, cohort) => total + cohort.max, 0), notes,
   };
 }
