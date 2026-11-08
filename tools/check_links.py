@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Check that the repo's maps name paths that exist.
 
-Scans AGENTS.md, examples/workflows/**/README.md, forge/endoforge/docs/*.md and contracts/*.md for
+Scans the root README, AGENTS, CONTRIBUTING, CHANGELOG and NOTICE, every document under docs/, contracts/*.md, the
+adapters/*/ and aors/ READMEs, examples/workflows/**/README.md and forge/endoforge/docs/*.md for
   - markdown links `[text](target)` that are not URLs or pure anchors, and
   - backticked repo-relative paths, including path tokens inside backticked commands,
 and fails when a named path exists nowhere it could mean.
@@ -22,7 +23,8 @@ nothing, or what it matches now exists), so the list stays short and true.
 import argparse, fnmatch, json, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-MAPS = ['AGENTS.md', 'examples/workflows/**/README.md', 'forge/endoforge/docs/*.md', 'contracts/*.md']
+MAPS = ['README.md', 'AGENTS.md', 'CONTRIBUTING.md', 'CHANGELOG.md', 'NOTICE.md', 'docs/**/*.md', 'contracts/*.md',
+        'adapters/*/README.md', 'aors/README.md', 'examples/workflows/**/README.md', 'forge/endoforge/docs/*.md']
 ALLOWLIST = ROOT / 'ci' / 'link-allowlist.txt'
 
 LINK = re.compile(r'(?<!!)\[[^\]\n]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)')

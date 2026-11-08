@@ -1,0 +1,2 @@
+tools/list  # JSON-RPC method name in the Foundation transport tables, not a path
+tools/call  # JSON-RPC method name in the Foundation transport tables, not a path

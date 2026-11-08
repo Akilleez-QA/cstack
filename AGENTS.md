@@ -34,7 +34,8 @@ uv pip install --python .venv -r requirements.txt -r ci/requirements.txt
 npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund
 ```
 
-Run the same checks as CI:
+Run the same checks as CI (details in
+[run CI checks locally](docs/guides/how-to/run-ci-locally.md)):
 
 ```sh
 python -B -m unittest discover -s tests
@@ -74,10 +75,14 @@ Use the [existing documentation layout](docs/README.md):
 - `docs/icd/`: interface contracts and source-pin boundaries.
 - `docs/verification/`: coverage, measurements, results and limitations.
 - `docs/configuration/`: versions, baselines and change control.
-- `docs/guides/`: tutorials, how-to guides, reference and explanation.
+- `docs/guides/`: tutorials, how-to guides, reference and explanation. The reference pages
+  (commands, configuration, environment) state defaults from code; update them with the code.
+
+Add every new document to the [documentation index](docs/README.md). `tools/check_links.py`
+checks links and backticked paths in the README, `docs/`, `contracts/` and the area READMEs.
 
 Keep the root `EXPORT-MANIFEST.json` entry for each changed or added export file
-accurate. Do not include local environments or generated runtime data in it.
+accurate: regenerate it with `python -B tools/build_export_manifest.py`. Do not include local environments or generated runtime data in it.
 
 ## License
 

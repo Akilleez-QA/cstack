@@ -71,7 +71,7 @@ This command uses the stub transport, which returns a recorded file. A real mode
 python -B cli.py < examples/forge/saturation-goal.json
 ```
 
-`CSTACK_CLAUDE_MODEL` picks the model (default `opus`), `CSTACK_CLAUDE_CONFIG_DIR` an existing Claude config directory, and `CSTACK_CLAUDE_TIMEOUT_MS` the per-call limit (default 300000). The ledger records the proposer as `claude-code:<model>`. `tools/check_readme.py` runs this command only where `claude auth status` reports a login, and reports it as skipped elsewhere. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
+`CSTACK_CLAUDE_MODEL` picks the model (default `opus`), `CSTACK_CLAUDE_COMMAND` the executable (default `claude`), `CSTACK_CLAUDE_CONFIG_DIR` an existing Claude config directory, and `CSTACK_CLAUDE_TIMEOUT_MS` the per-call limit (default 300000). The ledger records the proposer as `claude-code:<model>`. `tools/check_readme.py` runs this command only where `claude auth status` reports a login, and reports it as skipped elsewhere. See [the wiring acceptance](docs/verification/wiring-acceptance.md), [the Foundation routes](docs/verification/foundation-routes.md) and [the interface](docs/icd/icd-endoforge.md).
 
 Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegates them; the receipt says `cgroup: unavailable` where it doesn't.
 
@@ -85,6 +85,8 @@ Workcells aren't an OS sandbox. Cgroup limits apply only where the host delegate
 | `foundations/` | Vendored Foundations: math research layer, film, refrigeration, robotics and the template to copy |
 | `reasoning/poodo` | The POODO reasoning method the core enforces |
 | `vendor/foundation-math-v014` | Foundation Math, byte-pinned |
+| `vendor/endoforge` | The EndoForge slice the workcells run, byte-pinned |
+| `vendor/foundation-engine-v020` | The Foundation Engine bridge, its schema and upstream manifest, pinned |
 | `ci/`, `.github/` | The local CI script and the GitHub workflow that calls it |
 
 ## Foundations
@@ -98,13 +100,13 @@ A Foundation is a domain package that Cstack runs through an adapter. Some are v
 | foundation-refrigeration | [`foundations/refrigeration/`](foundations/refrigeration/) | Vendored copy, byte-pinned. Also an in-process kernel in workcells |
 | foundation-robotics | [`foundations/robotics/`](foundations/robotics/) | Vendored copy, byte-pinned |
 | foundation-template | [`foundations/template/`](foundations/template/) | Vendored copy, byte-pinned. Also an in-process kernel in workcells |
-| [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | Not included | Linked only. No adapter or pin yet |
+| [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | `vendor/foundation-engine-v020/`, partial: bridge, schema and manifest | Two read-only validators, run through `adapters/engine_stdio.py` and `extensions/foundation_engine.py`. The engine's TypeScript runtime isn't included |
 | [endoforge](https://github.com/Akilleez-QA/endoforge) | [`vendor/endoforge/`](vendor/endoforge/), byte-pinned | Lifecycle, gates, ledger and `IsolatePool`, run through `adapters/endoforge_workcell.py` |
 | [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Earlier snapshot of the skill that the core follows |
 
 ### How pins work
 
-Cstack does not trust a vendored Foundation just because it is present. Each one ships a `SOURCE-MANIFEST.json` that lists a hash for every file. `contracts/SOURCE-PINS.json` records the expected hash of each manifest, and the adapters refuse to run a Foundation whose files or manifest don't match. To update a Foundation, copy in the new version, rebuild its manifest with its `tools/build_manifest.py`, update the pin, and run all the test suites on a reviewed branch. There is no automatic upgrade. The pin values are listed in [docs/icd/icd-foundations.md](docs/icd/icd-foundations.md). A matching pin proves that the bytes are unchanged. It does not prove that the content is correct.
+Cstack does not trust a vendored Foundation just because it is present. Each one ships a `SOURCE-MANIFEST.json` that lists a hash for every file. `contracts/SOURCE-PINS.json` records the expected hash of each manifest, and the adapters refuse to run a Foundation whose files or manifest don't match. To update a Foundation, copy in the new version, rebuild its manifest with `foundations/<name>/tools/build_manifest.py`, update the pin, and run all the test suites on a reviewed branch. EndoForge has its own tool; see [repin EndoForge](docs/guides/how-to/repin-endoforge.md). There is no automatic upgrade. The pin values are listed in [docs/icd/icd-foundations.md](docs/icd/icd-foundations.md). A matching pin proves that the bytes are unchanged. It does not prove that the content is correct.
 
 ## Verification
 
@@ -149,6 +151,7 @@ Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `
 
 | Check | Command | Result |
 |---|---|---|
+| Core test suite on `main`, Python 3.12.14 and Node 26.13.0, 2026-11-08 | `python -B -m unittest discover -s tests`, at `e02a0c4` | 711 tests, OK, 3 skipped |
 | Every README command, on a fresh clone | `python -B tools/check_readme.py --source https://github.com/Akilleez-QA/cstack --branch harden-tools` | 16 commands, 0 failed, 0 uncovered, 0 skipped. The forge goal ran twice and passed both times |
 | Core test suite, optimized | `python -B -O -m unittest discover -s tests` | 663 tests, OK, 2 skipped |
 | Core test suite, Python 3.12.14 on two cores, normal and optimized | `taskset -c 0,1 python -B [-O] -m unittest discover -s tests`, at `7225ae9` | 663 tests, OK, 2 skipped, each |
@@ -162,7 +165,12 @@ Foundation route numbers are in [the routes](docs/verification/foundation-routes
 
 ## Documentation
 
-- [Project documents](docs/): requirements, architecture, Foundation interfaces, verification and configuration management.
+- [Documentation index](docs/README.md): every document, by what you need.
+- [Tutorial: first run](docs/guides/tutorials/first-run.md): install and run three kinds of goal in about ten minutes.
+- How-to: [run CI checks locally](docs/guides/how-to/run-ci-locally.md), [repin EndoForge](docs/guides/how-to/repin-endoforge.md).
+- Reference: [commands](docs/guides/reference/commands.md), [configuration](docs/guides/reference/configuration.md), [environment variables](docs/guides/reference/environment.md).
+- Explanation: [how Cstack vendors and runs EndoForge](docs/guides/explanation/endoforge-vendoring.md), [the server, the driver and the adapters](docs/guides/explanation/server-and-adapters.md).
+- Engineering records: requirements, architecture, interfaces, verification and configuration management, all in [docs/](docs/README.md).
 - [Code comment rule](docs/rules/no-comments.md).
 - [Control contracts](contracts/DECISION.md) and [capability contract](contracts/INTERFACES.md).
 
