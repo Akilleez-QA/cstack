@@ -407,8 +407,8 @@
    "bytes": 9577
   },
   "contracts/ACCEPTANCE.md": {
-   "sha256": "b5adf8bac020b954bd69ddc99b0dddd06a1c0f296f834fa7b3f0eef33b39d05a",
-   "bytes": 8089
+   "sha256": "bc7eba9871279b57f8d8c71f3e5ac03ecae5f267848f42fd9284bf99ebea5a55",
+   "bytes": 8349
   },
   "contracts/ADAPTERS.json": {
    "sha256": "8d207a4179161060e092d19786b39101e9d8c94205280d02eb0e4ad93ef00416",
@@ -439,8 +439,8 @@
    "bytes": 2422
   },
   "contracts/INTERFACES.md": {
-   "sha256": "7c14931f8731dc86d5f4b49ff55a4cfbb811d2f2a712c41efc6f7dc0f4a657ef",
-   "bytes": 26292
+   "sha256": "34938f9049a848706ff03583eb630e46af43ed33cc070eb1c6d9f3fa5d0ed771",
+   "bytes": 26705
   },
   "contracts/RESEARCH.md": {
    "sha256": "633318d6f72fce2caa8ccfbed7ab34c2f5ff8f1b6e350fe761b27a3a96e8d80d",
@@ -475,12 +475,12 @@
    "bytes": 2850
   },
   "docs/architecture/architecture.md": {
-   "sha256": "c171e2baef0dd2288c379525b0e387c867a407ecf233c63dd8d029a61577ad1f",
-   "bytes": 10358
+   "sha256": "2f11529fb3ab68088bfad4d6241f9feae70165c9a5235d4c8476f599cb7cb85f",
+   "bytes": 12096
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "638d2f14965dbee44d9cf9be2f6dfe32e95fb78f49de28d1d87547a85c0466db",
-   "bytes": 11076
+   "sha256": "0a2ff82b78d1ad2ef05ebfd845b342a19118ed34bac40b3699233050c3c9e681",
+   "bytes": 11322
   },
   "docs/guides/explanation/README.md": {
    "sha256": "4b520db5865a695cbdc5c7891d92aa467dfa380df44e2dd9c3c77d83743c8413",
@@ -531,24 +531,24 @@
    "bytes": 7534
   },
   "docs/icd/icd-endoforge-pin.md": {
-   "sha256": "cdd40961de9d0d1296943b390d500af04917e8ac6c54985d1cc5840124885e3a",
-   "bytes": 2828
+   "sha256": "3ef89ed67267225bf6e087f2ec18307192524c24188e6c9cf5e54e66049fba1f",
+   "bytes": 2939
   },
   "docs/icd/icd-endoforge.md": {
-   "sha256": "daf415efb0654e798301d4b38f9c8f60e27f5a28e44e1d9900263f96106685e9",
-   "bytes": 16516
+   "sha256": "a7579c04cba5535a318452dc49b03f4534302dd99d7bcc3c4c7e5057f2b8dbc1",
+   "bytes": 18496
   },
   "docs/icd/icd-foundations.md": {
-   "sha256": "92efc6c5d4255c1dfcb21ca82eec8ed7dd8d05c922d66b74b66a12953b8a3396",
-   "bytes": 8984
+   "sha256": "c323fbef2bedf9484480700786654cd640e05caa3d53b3798b078f20bbdf8fc8",
+   "bytes": 9777
   },
   "docs/icd/icd-poodo.md": {
    "sha256": "6421c4d1832d3955ec178a6d58abc3310bcdbd865ee75a8b5aef42cf80db998f",
    "bytes": 515
   },
   "docs/requirements/requirements.md": {
-   "sha256": "e0cb28e745584efc357222daf314afb66a67829f35983fb4edc4bbc8661b611e",
-   "bytes": 16255
+   "sha256": "2fd900e15838fec9dcc5088f0f4f4e1df5cd1c86718de14980ab2bec62d5b480",
+   "bytes": 16260
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -559,8 +559,8 @@
    "bytes": 11233
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "2147d6aa96cf2a81509eabc8b834c7ce0c5068c5fb4dced2946c29aff2f4d8bf",
-   "bytes": 13664
+   "sha256": "a3d061d556d35dd0cbf402fb6871f49d69321d6d359064752608fe452ce60dd4",
+   "bytes": 13656
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",

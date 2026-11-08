@@ -66,7 +66,7 @@ The Endoforge repin is checked by `tests/test_endoforge_pin.py`:
 manifest digest, file count and every exported file hash;
 `test_upstream_import_boundary` runs the selected upstream boundary suite.
 Compare the selected upstream bytes separately before comment-token removal.
-This establishes source identity and isolation for the lifecycle slice only.
+This establishes source identity and import isolation for the vendored slice; behavior is covered by the workcell rows below.
 
 ## Reproduction and disposition
 
@@ -82,7 +82,7 @@ For each of film, math, refrigeration, robotics and template, run from its corre
 python -B -m unittest discover -s tests -t .
 ```
 
-Record command, interpreter, candidate commit, exit status, test count, skips and failures. Run `python -B tools/check_links.py` separately. If the local CI wrapper refuses missing host-only paths, record that failure separately from direct test results. Review changed assertions and assumptions before closing a failed requirement; do not replace a failed test with a prose waiver.
+Record command, interpreter, candidate commit, exit status, test count, skips and failures. Run `python -B tools/check_links.py` separately, or `bash ci/run-local.sh python links` for all of these. Review changed assertions and assumptions before closing a failed requirement; do not replace a failed test with a prose waiver.
 
 ## Licensing
 

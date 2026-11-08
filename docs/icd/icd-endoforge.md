@@ -34,7 +34,7 @@ when host configuration binds this port, otherwise `False`.
 
 The current claim-gate CLI rejects `--atoms`, `--atom-refs` and `--consumer` requests with exit status 2 and a `cstack.claim-gate/0.1` JSON error on stderr stating that the approved-atoms Registry is unavailable. It emits no verdict on stdout. The pinned lifecycle slice does not provide that Registry; the dead optional import has been removed. Calls without atom options retain the ledger-only interface.
 
-[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin adds the gates, ledger and `IsolatePool` that section 7 runs. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
+[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin, Endoforge `main` commit `6dffea963afdfebfeb6a769afde94cf6a815cdb3`, adds the gates, ledger, `IsolatePool` and capacity planner that section 7 runs or carries. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
 
 ## 3. Operations and sequencing
 
@@ -187,3 +187,17 @@ A goal in the `cstack_forge` domain is one capability call on the RuntimeFace la
 | Coder approvals | Approvals don't reach coder cores. An operation in `workcell.decision_ask_operations` is refused for a coder (`approval_not_routed_to_coders`) instead of running unapproved |
 
 Limits, and what the runtime doesn't prove: V8 has no instruction fuel, so `fuel` counts Foundation calls per round and a hung kernel stops at `jobTimeoutMs`. Workcells aren't an OS sandbox and cgroups are host-dependent. Foundation kernels other than Refrigeration and Template aren't shipped; see [the routes](../verification/foundation-routes.md). The witness is this file's local fsync, not an independent quorum. `CapabilityPort` maps to ToolFace in `poodo_core/ports.py`, so the runtime's inventory row names no port until ADR 005 item 12b is settled.
+
+## 8. Endoforge interfaces Cstack uses
+
+These are the only vendored Endoforge names Cstack code calls at the current pin. A repin that changes any of them changes this interface; see [the repin guide](../guides/how-to/repin-endoforge.md).
+
+| Caller | Endoforge interface | Use |
+|---|---|---|
+| `adapters/endoforge_workcell.py` | `core.ledger.ledger.Ledger(path)`, `.append(...)` and `.records()` | Opens the run ledger, records the run's task and admitted input, and reads receipts during recovery |
+| `adapters/endoforge_workcell.py` | `core.ledger.frozen.FrozenEvaluators(ledger).freeze(...)` | Freezes `adapters/workcell` as the evaluator for one task, bound to the decision |
+| `adapters/workcell/supervisor.mjs` | `new IsolatePool({...})`, `ready()`, `run(job)`, `close()` | Options passed: `hostPort`, `size`, `isolation`, `trustedWasmModules`, the `workcellLimits` (`wasmMemoryMaxMb`, `resourceLimits`), `frozenThroughLedger: true`, `hostCalls`, `warm.foundations`, `jobTimeoutMs`, `cgroupRoot` |
+| `adapters/endoforge_workcell.py` | `ENDOFORGE_LEDGER_JOURNAL`, read by `vendor/endoforge/tools/ledger_writer.py` | Set to `<ledger>.journal` for every run |
+| `tests/test_endoforge_pin.py` | `vendor/endoforge/tests/test_endoforge_core_boundary.py` | Run as the import-boundary check |
+
+Inside the pool, the vendored workcell calls the vendored gates and evaluator (`core/engine/`) and the ledger bridge, and loads Cstack's `adapters/workcell/host-port.mjs` as its host port. The capacity planner in `core/runtime/capacity/` is vendored but not called. Endoforge's own interface documents for these parts are its [ledger ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/ledger-icd.md) and [capacity ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/capacity-icd.md); they describe Endoforge `main`, which may be ahead of the pin.

@@ -124,7 +124,7 @@ Derivation: `bootstrap.py; adapters/terminal_approver.py`. Verification: adapter
 
 The mirrored POODO subset shall match the upstream commit and file scope recorded in `contracts/SOURCE-PINS.json`; incomplete synchronization shall remain explicit and retired paths shall be preserved under `TODELETE/`. Verification: byte comparison with the pinned checkout and inspection of deferred lists and rename identities.
 
-## Endoforge contract requirements (runtime acceptance pending)
+## Endoforge contract requirements
 
 ### CS-REQ-020 — Witnessed append contract
 
@@ -209,9 +209,7 @@ A requirement is accepted only after review of its mapped assertions and a recor
 
 This baseline has no allocated availability target, throughput target, deployment hardware qualification, formal coverage measurement or independent safety assessment. Those require separately approved requirements and evidence before operational claims. A source hash provides byte identity, not origin authentication.
 
-## Licensing
-
-GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.
+## Workcell runtime requirements
 
 ### CS-REQ-032 — One governed goal through the workcell runtime
 
@@ -228,3 +226,7 @@ A candidate proposes decisions only as data, through its host, and the core acce
 ### CS-REQ-035 — Outcome unknown is a state
 
 A kill of a workcell, supervisor or controller during a run records `outcome_unknown`, with no pass and no automatic retry. A later session records a controller's lost attempt once.
+
+## Licensing
+
+GPL-3.0-only. Commercial licenses under different terms are available from Refrigeration.AI; contact craig@nh3.biz. See the repository LICENSE and NOTICE.md for bundled notices.

@@ -8,18 +8,22 @@ Organization follows the requirements, design, traceability and configuration-co
 
 Cstack composes a control core with trusted domain extensions and bounded capability adapters. The core records goals, decisions, attempts and evidence while the host owns concrete implementation selection. This description covers the Foundation integration and its control path. Source files refer to ADR identifiers, but the inspected export does not contain those ADR documents.
 
-## Intended engine layering and current implementation
+## Engine layering and current implementation
 
 The target design makes Endoforge the core engine for running coding agents with checks, caching and evidence receipts. POODO runs on Endoforge as the control and reasoning layer in `poodo_core/`. Domain extensions and adapters connect that layer to sibling Foundations, which own domain meaning and acceptance.
 
 ```mermaid
 flowchart TB
     P[POODO: control and reasoning] -->|EndoforgePort: witnessed evidence| E[Endoforge local ledger]
+    P -->|decision, grant| R[Endoforge workcells: compile, gates, kernel]
+    R -->|proposals as data, through the host| P
+    R -->|receipts| L[Endoforge run ledger]
+    R -->|declared imports, in process| K[Foundation kernels]
     P --> A[Domain extensions and adapters]
     A --> F[Foundations]
 ```
 
-`poodo_core/ports.py` specifies `EndoforgePort`, implemented by `adapters/endoforge_ledger.py`. Bootstrap binds host-configured local storage and a fresh session for CLI runs; the CLI reports `endoforge_implemented: True` only when bound. Evidence routing is implemented; the intended agent runner and cache remain future work. The [Endoforge ICD](../icd/icd-endoforge.md) records storage guarantees and limits.
+Two parts are implemented. `poodo_core/ports.py` specifies `EndoforgePort`, implemented by `adapters/endoforge_ledger.py`; bootstrap binds host-configured local storage and a fresh session for CLI runs, and the CLI reports `endoforge_implemented: True` only when bound. The workcell runtime runs one `cstack_forge` goal through a POODO decision into the vendored EndoForge `IsolatePool`, gates and run ledger (`adapters/endoforge_workcell.py`, `adapters/workcell/`). Running many coding agents at once and EndoForge's caching remain future work. The [Endoforge ICD](../icd/icd-endoforge.md) records storage guarantees, the runtime boundaries and their limits, and [the explanation](../guides/explanation/endoforge-vendoring.md) walks through a run.
 
 POODO retains policy and execution admission; Endoforge is allocated witnessed storage only. The adapter validates the entire chain and outcome bindings on each operation, returns detached documents, and acknowledges single-write appends after fsync. A lifetime file lock excludes competing writers; hosts serialize calls and preserve the bound file identity. Local durability provides no external witness or suffix-rollback detection. The pinned lifecycle slice has no applicable storage primitive. `LedgerPort` remains separate. The file adapter implements CS-REQ-024–026 under the CS-REQ-020–023 port contract; CS-REQ-027–030 govern configured routing.
 
@@ -35,8 +39,13 @@ Configured cores witness decisions at creation and again before dispatch, includ
 | Domain extensions | `extensions/foundation_*.py` | Descriptors, admission and interpretation with stated evidence limits |
 | Math adapter | `adapters/math_stdio.py` | Dedicated pinned v0.14 protocol and schema enforcement |
 | Shared Foundation adapter | `adapters/foundation_stdio.py` | Profile-driven pins, schema checks and receipt binding for the vendored Film, Refrigeration, Robotics and Template Foundations |
+| Engine adapter | `adapters/engine_stdio.py` | Pinned partial copy of the Foundation Engine bridge; two read-only validators admitted as tool observations |
+| Forge runtime | `extensions/cstack_forge.py`, `adapters/endoforge_workcell.py`, `adapters/workcell/` | One governed EndoForge run per call, registered in `bootstrap.RUNTIMES`, separate from Foundations |
+| Witnessed evidence | `adapters/endoforge_ledger.py` | `EndoforgePort` file adapter: hash-chained, fsynced, exclusively locked |
 | Process executor | `adapters/execution.py` | Fixed module launch, deadlines, cancellation, output bounds and cleanup |
 | Math backend | `vendor/foundation-math-v014/` | Vendored exact/formal tools and bridge |
+| Engine backend | `vendor/foundation-engine-v020/` | Bridge, tool schema and upstream source manifest only |
+| EndoForge slice | `vendor/endoforge/` | Lifecycle, run ledger, gates and evaluator, `IsolatePool` and capacity planner, byte-pinned |
 | Local domains | `foundations/template/`, `foundations/refrigeration/`, `foundations/robotics/`, `foundations/film/` | Domain bridges, public example logic, tests and source manifests |
 | Research consumer | `foundations/math/` | `fm_research` claim DAG and exact-kernel research layer over vendored Math |
 
@@ -53,7 +62,7 @@ The Math adapter is intentionally separate from the shared sibling adapter: shar
 
 ## Registration and replacement
 
-Math and Template are registered unconditionally. Refrigeration, Robotics and Film are registered when their directories exist. An unknown domain fails rather than falling back. The registry carries the capability class, extension class, source root, tool names, adapter identity and grant identity. Host construction accepts alternate roots; external JSON cannot select a root or add a domain.
+Math and Template are registered unconditionally. Engine, Refrigeration, Robotics and Film are registered when their directories exist. The forge runtime is registered separately in `bootstrap.RUNTIMES`, so AOR sessions, which compose `DOMAINS`, never gain run authority. An unknown domain fails rather than falling back. The registry carries the capability class, extension class, source root, tool names, adapter identity and grant identity. Host construction accepts alternate roots; external JSON cannot select a root or add a domain.
 
 Replacing a domain requires compatible descriptor, operations, inventory attachment, source pins, schemas and conformance evidence. Updating a source directory alone is insufficient. The research layer in `foundations/math/` is a separate consumer, not the Math stdio bridge root.
 
@@ -65,7 +74,9 @@ Replacing a domain requires compatible descriptor, operations, inventory attachm
 
 [Foundation Math](https://github.com/Akilleez-QA/foundation-math) is the named upstream for the byte-pinned historical distribution. Its current standalone extraction is narrower than this vendor tree; there is no demonstrated drop-in compatibility with upstream main.
 
-[Foundation Engine](https://github.com/Akilleez-QA/foundation-engine) is a linked sibling and design reference. `NOTICE.md` lists it as linked, not included; the vendored `docs/PROVENANCE.md` describes the reusable-core/optional-capability pattern without incorporating its runtime. `foundation_engine` remains an unimplemented sibling contract in `extensions/foundation_math.py`. There is no registered engine adapter, runtime source tree or engine commit pin in this Cstack baseline.
+[Foundation Engine](https://github.com/Akilleez-QA/foundation-engine) is partially vendored. `vendor/foundation-engine-v020/` holds only its Python bridge, the read-only tool schema and the upstream `SOURCE-MANIFEST.json`, pinned at upstream commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c` in `contracts/SOURCE-PINS.json`. `adapters/engine_stdio.py` and `extensions/foundation_engine.py` expose two read-only validators, `validate_render_mask` and `validate_scene_output`. The engine's TypeScript runtime isn't included. The Math adapter still refuses a `foundation_engine` request (CS-REQ-015); Engine is its own domain.
+
+[EndoForge](https://github.com/Akilleez-QA/endoforge) is vendored as a fixed slice in `vendor/endoforge/`; see [the source pin](../icd/icd-endoforge-pin.md).
 
 ## Failure containment and state ownership
 
