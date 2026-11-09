@@ -575,8 +575,8 @@
    "bytes": 621
   },
   "docs/releases/VDD-baseline.md": {
-   "sha256": "835a757992a8a9d2356a20e23fcb72e8225a4f169df35a1c5296dd3237dda01a",
-   "bytes": 5751
+   "sha256": "9fb7560767e548bd7536639f0875cb0300dfdba0aef5de5cbdb535347b663b15",
+   "bytes": 5749
   },
   "docs/requirements/requirements.md": {
    "sha256": "4cf24504500bc58f024e70ae9a8938f91c23f300e169d413c8955e8d93124cfe",
@@ -675,8 +675,8 @@
    "bytes": 11233
   },
   "docs/verification/reports/STR-baseline.md": {
-   "sha256": "606a65432a97f9bd4fbf735f201f06b8bf37a000c0ceaba5b51dfe75f4ac36c5",
-   "bytes": 4754
+   "sha256": "fb45ca3c6e512160bbe6f1ae7111c710e2377788253804bcc3a6d4047cc967e1",
+   "bytes": 4756
   },
   "docs/verification/test-plan.md": {
    "sha256": "077f0d083b0fe0ebd229ebf7eebf97d94c04b2e2715ee3d8f2fcf81a84176a6e",
