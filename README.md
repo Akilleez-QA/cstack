@@ -12,7 +12,9 @@ Project code name: **Mjölnir**, Thor's hammer. It covers Cstack and the [EndoFo
 
 Cstack is a template for running a fleet of AI bots under one human approver. Copy it, name your bots, plug in your own domains, and every action a bot takes goes through a control core that records goals, scoped authority and evidence.
 
-This is an early template; verify the configuration and capabilities you choose.
+This is an early template; verify the configuration and capabilities you choose. There is no tagged release; `main` is the supported version.
+
+Classification: self-assessed Class E analog under NPR 7150.2D, not safety-critical. Cstack is not NASA software and this is not a NASA compliance determination. Results are bounded observations, not engineering or safety approvals; see [limitations](docs/guides/explanation/limitations.md) and the [software management plan](docs/plan/software-management-plan.md).
 
 ## Quickstart
 
@@ -25,7 +27,7 @@ npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fun
 cp cstack.config.example.json cstack.config.json
 python -B cli.py < examples/scalar-and-negative.json
 python -B -m unittest discover -s tests
-bash ci/run-local.sh python links
+bash ci/run-local.sh python links trace
 ```
 
 ## CLI approval
@@ -170,7 +172,9 @@ Foundation route numbers are in [the routes](docs/verification/foundation-routes
 - How-to: [run CI checks locally](docs/guides/how-to/run-ci-locally.md), [repin EndoForge](docs/guides/how-to/repin-endoforge.md).
 - Reference: [commands](docs/guides/reference/commands.md), [configuration](docs/guides/reference/configuration.md), [environment variables](docs/guides/reference/environment.md).
 - Explanation: [how Cstack vendors and runs EndoForge](docs/guides/explanation/endoforge-vendoring.md), [the server, the driver and the adapters](docs/guides/explanation/server-and-adapters.md).
-- Engineering records: requirements, architecture, interfaces, verification and configuration management, all in [docs/](docs/README.md).
+- Engineering records: management plan, requirements, design, interfaces, data dictionary, test plan, verification matrix, test reports, configuration management and assurance record, all in [docs/](docs/README.md). `python -B tools/check_trace.py` checks the requirement-to-test trace.
+- [Limitations and safety-relevant use](docs/guides/explanation/limitations.md).
+- [Cstack family documentation standard](docs/standards/family-doc-standard.md): the canonical copy other family repositories link to.
 - [Code comment rule](docs/rules/no-comments.md).
 - [Control contracts](contracts/DECISION.md) and [capability contract](contracts/INTERFACES.md).
 

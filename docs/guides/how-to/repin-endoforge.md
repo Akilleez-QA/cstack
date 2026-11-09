@@ -56,7 +56,7 @@ Then run the forge path and every suite:
 ```sh
 CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json | python -c 'import json,sys; d=json.load(sys.stdin); print(d["run_status"], [e["data"]["outcome"]["assessment"] for e in d["events"] if e["kind"]=="outcome"])'
 python -B -m unittest discover -s tests
-bash ci/run-local.sh python links
+bash ci/run-local.sh python links trace
 ```
 
 The forge goal must print `completed ['candidate_passed']`. It needs a `cstack.config.json` copied from `cstack.config.example.json`. The workcell tests (`tests/test_workcell_*.py`) run the real pool, gates and ledger, so a breaking change upstream shows there.
