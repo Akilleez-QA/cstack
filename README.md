@@ -33,7 +33,7 @@ Type approve to allow: approve
 
 Type anything other than `approve`, or leave out `--approver`, and the call is never dispatched: the result says `"run_status": "stopped"` and `"execution_certainty": "not_dispatched"`.
 
-After you approve, Cstack prints the run as one JSON document, and the same steps go into the ledger. Its `events` list is the whole story, in order. Each event carries its own hash and the hash of the one before it, so corruption or a careless edit shows up. Summarised, with hashes shortened:
+After you approve, Cstack prints the run as one JSON document, and the same steps go into the ledger. Its `events` list is the whole story, in order. Each event carries its own hash and the hash of the one before it, so corruption or a careless edit shows up. Summarised from one run, with hashes shortened (approval ids and times differ, so your hashes will too):
 
 ```text
 seq  kind      what                          hash          prior
