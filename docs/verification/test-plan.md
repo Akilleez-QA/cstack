@@ -104,7 +104,7 @@ Automated suites: the code is the procedure; run the command in §2. The numbere
 - Preconditions: a fetched EndoForge clone.
 - Steps: `CSTACK_ENDOFORGE_CLONE=<clone> python -B -m unittest tests.test_endoforge_pin`.
 - Expected result: 4 tests OK, none skipped.
-- Last run: 2026-11-08 for the repin to `ea7b8d6` (PR #PRNUM), with a clone fetched at `ea7b8d6`: 4 tests OK, none skipped.
+- Last run: 2026-11-08 for the repin to `ea7b8d6` (PR #79), with a clone fetched at `ea7b8d6`: 4 tests OK, none skipped.
 
 ### TP-5 — README commands on a fresh clone
 
