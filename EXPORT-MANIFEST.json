@@ -51,8 +51,8 @@
    "bytes": 4333
   },
   "CHANGELOG.md": {
-   "sha256": "8edf7a3d2a35b128d363cfee0c1934e59b79882a48d59c2b328c6d07937bfc7a",
-   "bytes": 5191
+   "sha256": "a5035c64d359884b5fc1267940f34fe3d28ad4b288b0bddb7131b7b4b5af180d",
+   "bytes": 5274
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
@@ -175,7 +175,7 @@
    "bytes": 10654
   },
   "adapters/film_stdio.py": {
-   "sha256": "8baf4ccd20550f8e7a1fbf196de9ffb4a2c27809b77ac348acd8c2d53072ec52",
+   "sha256": "9439883ac8b227d028d4b284393dfe5536c98e71cc3360ce6779a46b13f7b36c",
    "bytes": 1359
   },
   "adapters/fleet_mail.py": {
@@ -251,7 +251,7 @@
    "bytes": 11889
   },
   "adapters/refrigeration_stdio.py": {
-   "sha256": "b7d0956a23df9c7d499113ef3b57dfef0de5f246c48a4b723b83ec15928078eb",
+   "sha256": "1518abda9dab0191aa05d3e495ba3de0385d69d5bf272cc1568133a0998399bf",
    "bytes": 4858
   },
   "adapters/relay_outbox.py": {
@@ -259,11 +259,11 @@
    "bytes": 6319
   },
   "adapters/robotics_stdio.py": {
-   "sha256": "18e1bb408de9533dd9d2ee9428a90e15cb862f2e2baf93b1ef653a04de0ee027",
+   "sha256": "e0a9e37d1900e0330902c14b4408e5ae5ac1a11ff9eb17ebdb9ee9a1a54dc9b8",
    "bytes": 1409
   },
   "adapters/template_stdio.py": {
-   "sha256": "02d5d2acd57bd2cf6d815a792db1cf67ede5ffbf75b3b00239adca94e0d30b6f",
+   "sha256": "022e1543c456216c529cb59267ce7208fffdbe5421aa62c8a6b7f7d7a9b6d155",
    "bytes": 1354
   },
   "adapters/terminal_approver.py": {
@@ -447,7 +447,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "a0dbf74241d97478fb653e50b7c7d6d8a449726653512fcc084c773292c9dc5a",
+   "sha256": "6921ad37e6e521a788be836c9422111a065080e4eacc6304486f7c37fd975892",
    "bytes": 9170
   },
   "contracts/adapters.schema.json": {
@@ -483,7 +483,7 @@
    "bytes": 7981
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "c20e8100e31ab9bf30ffbbdebb93608439c55af7aa501acb1937b1d49a527531",
+   "sha256": "ac888ea6717b4201aba3ac3d176cf6d6031e7835ecf14213d88e42ce3517ddc5",
    "bytes": 16553
   },
   "docs/data/data-dictionary.md": {
@@ -555,8 +555,8 @@
    "bytes": 20082
   },
   "docs/icd/icd-foundations.md": {
-   "sha256": "dfb3afd92c20fdef812a4def1c60dadc0fd8dc37e6acf39e9721fe15368ffb8e",
-   "bytes": 11852
+   "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
+   "bytes": 12026
   },
   "docs/icd/icd-poodo.md": {
    "sha256": "8be48f4f2e7c9917ded4390fbae6cef604be62710cd569623c7e2005cbcc44db",
@@ -679,7 +679,7 @@
    "bytes": 4754
   },
   "docs/verification/test-plan.md": {
-   "sha256": "bf57060052e1c7db7228873dc3eed5516c1a60c4062856f2c29e511685238615",
+   "sha256": "077f0d083b0fe0ebd229ebf7eebf97d94c04b2e2715ee3d8f2fcf81a84176a6e",
    "bytes": 9653
   },
   "docs/verification/verification-matrix.md": {
@@ -791,15 +791,15 @@
    "bytes": 216
   },
   "foundations/film/README.md": {
-   "sha256": "3020cb0c2c143f0c827251702078124b42efa1feae336ca47c955b46805eaecb",
-   "bytes": 7487
+   "sha256": "dfe389cdf29e375c1e2b0841367ccf5e3e385fece1d5777e61979b9d175a2642",
+   "bytes": 13573
   },
   "foundations/film/SECURITY.md": {
    "sha256": "2a601e275ba2c68247d56f166081ab9bdd9f0e726118be9353ad86b3f07487f1",
    "bytes": 1281
   },
   "foundations/film/SOURCE-MANIFEST.json": {
-   "sha256": "1abcea4f6692fa081a5839bbcd6e5eaad3ea41575b566208a2cd1afc8562d956",
+   "sha256": "be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31",
    "bytes": 5693
   },
   "foundations/film/SUPPORT.md": {
@@ -807,8 +807,8 @@
    "bytes": 533
   },
   "foundations/film/docs/README.md": {
-   "sha256": "bb0fb39a9598317c310dcb328ffebb745609a1936434b897337291538a6f1a5b",
-   "bytes": 2753
+   "sha256": "807e62b64b036d82f16c613c9ef8843714c061f9ccf565b6b5168c4055626f35",
+   "bytes": 3516
   },
   "foundations/film/docs/architecture/architecture.md": {
    "sha256": "a2c93289681f25f74dd21586e30990e492734c0fffbc0da2d7594fb754bf360b",
@@ -831,8 +831,8 @@
    "bytes": 3015
   },
   "foundations/film/docs/guides/SUM-MAP.md": {
-   "sha256": "aeec679190c8f04c1119cc4e5ae1ded54e9f0727b211cb8c0a3204ce3f0af456",
-   "bytes": 4042
+   "sha256": "12d3934b1242e2578cc537065a9c1b31d0c220ea2897dbc32539a7b0073c989e",
+   "bytes": 4055
   },
   "foundations/film/docs/guides/explanation/README.md": {
    "sha256": "6aabebdecbe7077648dfd2af2bcc35ffbebb79e573dc473f0940874ffaffbc36",
@@ -867,8 +867,8 @@
    "bytes": 3577
   },
   "foundations/film/docs/icd/icd-cstack.md": {
-   "sha256": "23091340b95deda669b14bcff8d33f401d65fee1776dd72495191ebdb3cb8236",
-   "bytes": 10494
+   "sha256": "e48e4bf3331f3385c62c2b9c0639c9b9bbdd3a20827d830d978f4a7c250b50f1",
+   "bytes": 10563
   },
   "foundations/film/docs/plan/compliance-matrix.md": {
    "sha256": "2b2750cae378c2927f9dc6c806c658dd8f60828d348515838e0d0c48ffb82a52",
@@ -1075,15 +1075,15 @@
    "bytes": 773
   },
   "foundations/refrigeration/README.md": {
-   "sha256": "de8d4409da232bde1327f0158556110e51146be18f22464f335390b0c2e2c95f",
-   "bytes": 7043
+   "sha256": "4b9e24bb6580be6b3955269bfd6660e8aa0951db38a9d95d7610ad5e38144f93",
+   "bytes": 12309
   },
   "foundations/refrigeration/SECURITY.md": {
    "sha256": "2c5893f73e8037a46f8760d573f3de916e494d6bf6edb84698488e94e69c8290",
    "bytes": 1230
   },
   "foundations/refrigeration/SOURCE-MANIFEST.json": {
-   "sha256": "230a8faac3653e510b08d0e81614bbc44ad2721e70aeda98722c7176ea47629f",
+   "sha256": "b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e",
    "bytes": 8721
   },
   "foundations/refrigeration/SUPPORT.md": {
@@ -1091,8 +1091,8 @@
    "bytes": 531
   },
   "foundations/refrigeration/docs/README.md": {
-   "sha256": "b47ca617cc8f6e8aa50556dbe901d52057953082b439b8972e27e28318691c43",
-   "bytes": 3289
+   "sha256": "573e34908fe6aa0b03877bfbb1fbb13ab6e4b05d284435f5e30178bb641bbde9",
+   "bytes": 3983
   },
   "foundations/refrigeration/docs/architecture/architecture.md": {
    "sha256": "4256cfaf868f5a61abeadcb5012fdaa332a1958748ee03b45bb92098f4e6bfbd",
@@ -1115,8 +1115,8 @@
    "bytes": 10184
   },
   "foundations/refrigeration/docs/guides/SUM-MAP.md": {
-   "sha256": "401bbf47207aa4cf50b2273b61b48efbb7ebcff045f31f819b03c387aa35eceb",
-   "bytes": 4393
+   "sha256": "2f1d76b42780e6eced36456580de8580c01d6effeaa6574759925b410e14fbba",
+   "bytes": 4423
   },
   "foundations/refrigeration/docs/guides/explanation/README.md": {
    "sha256": "234d2dbe896609f009f4d08a4ecc9e8c8e7c67e47563159efaf8dced334ed945",
@@ -1163,8 +1163,8 @@
    "bytes": 516
   },
   "foundations/refrigeration/docs/releases/VDD-unreleased.md": {
-   "sha256": "df54d20a4d14db59fb1b6ff4f902b9413fe07794d74e4c0686923d81eacea785",
-   "bytes": 5851
+   "sha256": "078c5539308f044cb8811b257348dcdbf48d66226ea518e28e0490693a5f0950",
+   "bytes": 6060
   },
   "foundations/refrigeration/docs/requirements/requirements.md": {
    "sha256": "a966e30b5eeb462fcfcae7fa24015cff9f307598cc376b3e50a9ce2d3a6532bd",
@@ -1175,16 +1175,16 @@
    "bytes": 296
   },
   "foundations/refrigeration/docs/verification/reports/STR-unreleased.md": {
-   "sha256": "42cebf724d8260b7dcf899961d9f7e8b2b5e7767f047f16957b7620abfa44c81",
-   "bytes": 11220
+   "sha256": "641a1939135d7ea476b32dd660d8ff03ad4f4ffbd8c417cf7824a75a18002a9d",
+   "bytes": 11345
   },
   "foundations/refrigeration/docs/verification/test-plan.md": {
    "sha256": "6d69bac729e0656a649adade773bf392f615e2a1ff7989b4ecb95aa559c87005",
    "bytes": 8127
   },
   "foundations/refrigeration/docs/verification/verification-matrix.md": {
-   "sha256": "9f2210684ba817860299dfd68d6c3b81612445327d3b86aaee4ae4a491ce9fa0",
-   "bytes": 15352
+   "sha256": "2ae5537a09b5078e00bd7b10e0b6cfa0913d126dd2900bae9c6d4803e94aa0a3",
+   "bytes": 15712
   },
   "foundations/refrigeration/foundation_refrigeration/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1315,8 +1315,8 @@
    "bytes": 12393
   },
   "foundations/refrigeration/tests/test_docs_trace.py": {
-   "sha256": "ec8027f70968a28bf2c8b3f4c96b1f18e43ba2859aa25498c32527b9a0a70890",
-   "bytes": 944
+   "sha256": "d73dc163db828705f094311149063586330d8bb4ce65c0d37db3619e770984fd",
+   "bytes": 1670
   },
   "foundations/refrigeration/tests/test_domain_data.py": {
    "sha256": "af000cbdca1ee73fab98648d80dfb68df4f5e7a5b9df103b79d2e9370585e55e",
@@ -1347,8 +1347,8 @@
    "bytes": 814
   },
   "foundations/refrigeration/tools/check_trace.py": {
-   "sha256": "cc74793c89e78690eaad29327f4f56382bb3b053eaaafb8bcc01264a328c0395",
-   "bytes": 7959
+   "sha256": "9fc9b49252cb8df9cf97e0d8f1008c37704c55072492fdaf3714160709476983",
+   "bytes": 8180
   },
   "foundations/refrigeration/tools/compute_golden.py": {
    "sha256": "203cf8b22c7e272c52c18f9347d1bf52d1bed302b8a37fa60a64cf784a938fc3",
@@ -1395,15 +1395,15 @@
    "bytes": 216
   },
   "foundations/robotics/README.md": {
-   "sha256": "f19faf5e541db2edf0c5e18f3366a847c16c7bc090ab2b17c29b10674a7cfcc7",
-   "bytes": 5836
+   "sha256": "b5d9393b7e44aaa58ef19d06e5e6ec470267a883a64ba226fb8e015ec9a8de82",
+   "bytes": 12513
   },
   "foundations/robotics/SECURITY.md": {
    "sha256": "051209fb589a1fec5f0901a9e78446280a52e88c67377b4f0a1296463ed28b72",
    "bytes": 1038
   },
   "foundations/robotics/SOURCE-MANIFEST.json": {
-   "sha256": "7452f90b3771213f5eada796fc2e489d19dada7b339d04155df39b8a85f5587d",
+   "sha256": "624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97",
    "bytes": 6373
   },
   "foundations/robotics/SUPPORT.md": {
@@ -1411,8 +1411,8 @@
    "bytes": 533
   },
   "foundations/robotics/docs/README.md": {
-   "sha256": "a89fb1054eb7a46a91aff95c0dd3371b2bf06ca2bbb5f99bc0834539f4c920f9",
-   "bytes": 2910
+   "sha256": "13b75bba78cbc824507dd2bc165fd3075c17b566fcf12dab7d46f228b53d2089",
+   "bytes": 3651
   },
   "foundations/robotics/docs/architecture/architecture.md": {
    "sha256": "437b0f35f27750ae7e737bbcf2fe01df7b6888047cfd46c09ade36d752a0367d",
@@ -1439,8 +1439,8 @@
    "bytes": 3105
   },
   "foundations/robotics/docs/guides/SUM-MAP.md": {
-   "sha256": "d856a746a0c269d024bbd29dd1c00a94dc982cf59efc2207a02658fba717a054",
-   "bytes": 3834
+   "sha256": "541b7905258823159d9152b7400318b2d30abec2c106e5fbd0ac43263185ef9a",
+   "bytes": 3847
   },
   "foundations/robotics/docs/guides/explanation/README.md": {
    "sha256": "03569adca2915786168ab5be46a11e4167df0b824cb8a80a7e217016e3bdc66e",
@@ -1511,8 +1511,8 @@
    "bytes": 6630
   },
   "foundations/robotics/docs/verification/verification-matrix.md": {
-   "sha256": "61232a7d119dd8ca23a115e4eaefe221a0766b0011286e75d3967d038ddc854d",
-   "bytes": 8297
+   "sha256": "896d14009a701fa4ac0c520c11d74391aa6b2fc084236bc9346259657ccbdb76",
+   "bytes": 8538
   },
   "foundations/robotics/foundation_robotics/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1587,8 +1587,8 @@
    "bytes": 4190
   },
   "foundations/robotics/tests/test_docs.py": {
-   "sha256": "be4d0ab647f3fa4d8cea2c071ebe43c93fbd580656aa7b909641bc7543e5ffb0",
-   "bytes": 631
+   "sha256": "22b0a50376915afae14a40f9256c26adfbf8b43dfd0e4516de3e30d8f6d4421b",
+   "bytes": 1328
   },
   "foundations/robotics/tests/test_tools.py": {
    "sha256": "eace05bdb204f28f8fe8510db6338d70b7e522bc4f8a0385413a36a4ce42eb56",
@@ -1599,8 +1599,8 @@
    "bytes": 1289
   },
   "foundations/robotics/tools/check_trace.py": {
-   "sha256": "0f081ffe04af56cdb998a77e3b602724901500037d0daf70878e3003a6dddfb6",
-   "bytes": 7668
+   "sha256": "23ca04f0901e1aafbb95862a7c1adcb4f8f2721a7b693e4e826f3a548478f80f",
+   "bytes": 7881
   },
   "foundations/robotics/tools/gen_docs.py": {
    "sha256": "2a3972d3d8fe8879a437324be6628dcdaab694d053b2d7e51068a418920d3490",
@@ -1643,15 +1643,15 @@
    "bytes": 359
   },
   "foundations/template/README.md": {
-   "sha256": "8f455f095336b7eae59f85983f361ef7917c608ff8ff66b9cd191c5527e24380",
-   "bytes": 5216
+   "sha256": "30bb773088caaa073f0d71cdbf497dfa1116f4eee3b0a82f47800f012a693c69",
+   "bytes": 15424
   },
   "foundations/template/SECURITY.md": {
    "sha256": "41b278c3e5dbce967d74c8a184775c5492195920225a6f0286096ae3d23e75f8",
    "bytes": 1179
   },
   "foundations/template/SOURCE-MANIFEST.json": {
-   "sha256": "0c9c1f7f5668668806fb0073f2e772c7f96ecdaa69c28fc35e8d2da380fbe9b9",
+   "sha256": "38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31",
    "bytes": 5106
   },
   "foundations/template/SUPPORT.md": {
@@ -1659,8 +1659,8 @@
    "bytes": 531
   },
   "foundations/template/docs/README.md": {
-   "sha256": "f28d67d5fbd137c8d76b84e44f025c5d72f9eac22809d2cfbd6baab9d83c7398",
-   "bytes": 3614
+   "sha256": "81a0f9bee24566b02d5a1f96105485e50592a773cc7cb2f3863bcc2d0fb5415b",
+   "bytes": 4118
   },
   "foundations/template/docs/architecture/architecture.md": {
    "sha256": "ee26d034b89f1a7b6b7dfd225816e4f4035b41561df80e12d60c6f4fab6f5570",
@@ -1679,8 +1679,8 @@
    "bytes": 5186
   },
   "foundations/template/docs/guides/SUM-MAP.md": {
-   "sha256": "1f41345ff3b8017c88381ba47271d3682453c7f87613a4f74984365b6c835b29",
-   "bytes": 4220
+   "sha256": "1b5c2c9fe0215d1918ef1c9566ce322d67069d8c8fbe893be9e4dedac8a936cc",
+   "bytes": 4270
   },
   "foundations/template/docs/guides/explanation/README.md": {
    "sha256": "8e22606f7471cbb876d78d63f84284018c580f9853fcb2de4c3cb2e9dff012b5",
@@ -1731,8 +1731,8 @@
    "bytes": 516
   },
   "foundations/template/docs/releases/VDD-unreleased.md": {
-   "sha256": "0d5a115ca3366934e074c52348e764225497042d3369f5b17c9a23a0c8f78193",
-   "bytes": 5667
+   "sha256": "b85f5bdf30b7d7c498a6f82e6cfbe232f468424f335019e6ae57a78b860bbe13",
+   "bytes": 5792
   },
   "foundations/template/docs/requirements/requirements.md": {
    "sha256": "8c3a78dc9809c22a75c7943725e17975c335d54aa9919b6da966ec18088eadf6",
@@ -1743,16 +1743,16 @@
    "bytes": 296
   },
   "foundations/template/docs/verification/reports/STR-unreleased.md": {
-   "sha256": "73c714d8b6de8afb5193a460502ea6cf0f69ed8e5a23f6e772d55144d811fed3",
-   "bytes": 5869
+   "sha256": "b7a401d870cab7c59fc335ab76d8d8c4af68dd7cb15eaaf791d538089451cc7c",
+   "bytes": 5993
   },
   "foundations/template/docs/verification/test-plan.md": {
    "sha256": "90fcd77c136bcf0557f7d643e9cba653bebc98ced07f11bfc2bff2eca4a02f3b",
    "bytes": 6453
   },
   "foundations/template/docs/verification/verification-matrix.md": {
-   "sha256": "2876ec5b0fcc32903ffb86a45aa2675b4157f9bc0db007f4b9807daf65e031d7",
-   "bytes": 6514
+   "sha256": "0958475707fdc48ee73a4841e220b0d057814bace927df9e74b4ffec208071b3",
+   "bytes": 6874
   },
   "foundations/template/foundation_template/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1787,8 +1787,8 @@
    "bytes": 4194
   },
   "foundations/template/tests/test_docs_trace.py": {
-   "sha256": "4242a305312bd4b9dd997103009be8acab08b0dac4c56fe5358a5860a9a4425e",
-   "bytes": 879
+   "sha256": "29dfa169b487528c3c8992fec81bf462f0869db000e075f5443491d82947d038",
+   "bytes": 1605
   },
   "foundations/template/tests/test_input_limits.py": {
    "sha256": "c7bb995e956fcc8ca8fc77d5c13c3ac1d4acefc1b65f66bab7fe049fac0307ae",
@@ -1799,8 +1799,8 @@
    "bytes": 1289
   },
   "foundations/template/tools/check_trace.py": {
-   "sha256": "a031cb935d9103574949b0f25578286e346cda823187b1cff86138fd12781891",
-   "bytes": 7988
+   "sha256": "e4a7fa4ffd28ab60459a42679326519aa3f6743e5625f84b7d8b988f804440fc",
+   "bytes": 8209
   },
   "foundations/template/tools/gen_docs.py": {
    "sha256": "19403fe5d291e94e308bb284202bc6623d3e645ec3fbc693cdc35420118691b7",
@@ -1851,8 +1851,8 @@
    "bytes": 86
   },
   "reasoning/poodo/CHANGELOG.md": {
-   "sha256": "5b8fd0ea4fe3ee5e0986059c5d66f0613f98f24adad9c60748a2870cdfeb3f73",
-   "bytes": 2970
+   "sha256": "327cc5fae100a71b50c9655b9cc2b9283c29414ba11dda4151b15dd7dd92a42e",
+   "bytes": 3409
   },
   "reasoning/poodo/CONTRIBUTING.md": {
    "sha256": "6090f1e0c1193d37979d5e673132b943ae6b7234954d2bacb3b766ffd9f13877",
@@ -1879,24 +1879,24 @@
    "bytes": 1542
   },
   "reasoning/poodo/docs/guides/explanation/how-it-works.md": {
-   "sha256": "240e65fe5e0ca166c9676e1a4d4ecaabb8ae51015a10f2e2954f9d51da70dfe2",
-   "bytes": 2518
+   "sha256": "1d5053ed097d9602e22b2b04fce0b523f362ed7015028a8929287d424da58883",
+   "bytes": 13308
   },
   "reasoning/poodo/docs/guides/explanation/roadmap.md": {
    "sha256": "56361527a5c0973c8f24906ddaa58a69ebf9a885aa9df589677e1cfe2020d836",
    "bytes": 1336
   },
   "reasoning/poodo/docs/guides/how-to/evaluation.md": {
-   "sha256": "b7441503c80fc2f6e7bd3b343c5ec68c18de2ddd5bb07438fc9f827ecdfa6c2a",
-   "bytes": 4578
+   "sha256": "1edbb9bc743db2008f0c7bf2bd1300a0044d35bda33fd613f20c677095703552",
+   "bytes": 5244
   },
   "reasoning/poodo/docs/guides/reference/README.md": {
    "sha256": "fe788eb1386e01819f0257c4b8adf557d069f7e6f0265925c7c7787883e4fe5d",
    "bytes": 1078
   },
   "reasoning/poodo/docs/guides/tutorials/getting-started.md": {
-   "sha256": "fd6b09818c08046e0390804acf0b5c4826776279f93cc0e77f329a6db8c32276",
-   "bytes": 3017
+   "sha256": "5f1fb2cd31661b5442a1ec396bda3af1e600548a56f0d035050b2b560673e9bb",
+   "bytes": 4802
   },
   "reasoning/poodo/evals/fixtures/invalid-resurrection.yaml": {
    "sha256": "98124f6f06e54d81858ac88bf4b50df85cca7a530ebe9e6d222db8d994c5bf9f",
@@ -2427,7 +2427,7 @@
    "bytes": 10945
   },
   "tests/test_workcell_run.py": {
-   "sha256": "693986667c8f883b5aedb8229d3ab963ae4629eee4877a332a73147c4221187c",
+   "sha256": "b0f51c7880904ea4ab2191790548aa706b48dd7cf3b8d12cce9e5052394f8544",
    "bytes": 4435
   },
   "tests/test_workspace_snapshots.py": {
