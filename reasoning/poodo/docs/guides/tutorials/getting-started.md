@@ -17,13 +17,29 @@ git clone https://github.com/Akilleez-QA/poodo.git "$HOME/.agents/skills/poodo"
 
 `git clone` refuses to overwrite a nonempty directory. If POODO is already installed, inspect and preserve your local changes before choosing an update strategy.
 
-Codex discovers skills in `~/.agents/skills`; restart it if the skill does not appear. Invoke it with `$poodo`. The bundled metadata disables implicit invocation. These locations and invocation controls are documented in [OpenAI's skill guide](https://learn.chatgpt.com/docs/build-skills).
+Codex discovers skills in `~/.agents/skills`; restart it if the skill does not appear. With the Codex CLI, `codex --search` turns on the live web search POODO needs for full use. Invoke it with `$poodo`. The bundled metadata disables implicit invocation. These locations and invocation controls are documented in [OpenAI's skill guide](https://learn.chatgpt.com/docs/build-skills).
+
+## Local Claude Code installation
+
+```sh
+mkdir -p "$HOME/.claude/skills"
+git clone https://github.com/Akilleez-QA/poodo.git "$HOME/.claude/skills/poodo"
+```
+
+Claude Code reads personal skills from `~/.claude/skills/<name>/SKILL.md`, and you run one directly with `/<name>`, so invoke this one with `/poodo` followed by your request. Claude Code ignores `agents/openai.yaml`. This repository's `SKILL.md` does not set `disable-model-invocation: true`, so Claude Code may also load POODO on its own when a request looks relevant. To allow only `/poodo`, add `disable-model-invocation: true` to the front matter of your copy; Claude Code's [skills documentation](https://code.claude.com/docs/en/skills) says that setting stops Claude from invoking the skill itself.
+
+## Other clients
 
 This repository provides a local skill checkout. It is not a published marketplace plugin. Other Agent Skills clients may use different discovery paths and ignore Codex metadata.
 
+## How the install was checked
+
+- Codex (2026-11-08, Codex CLI 0.167.0, no model call): the two commands above ran in a throwaway home folder. Codex's prompt lists only skills it may start on its own, and POODO opts out of that, so a second scratch copy switched `allow_implicit_invocation` on. `codex debug prompt-input` then listed `poodo` from `~/.agents/skills/poodo`. No agent session was run.
+- Claude Code (2026-11-08, Claude Code 2.1.319): the folder and `/poodo` syntax follow Claude Code's skills documentation, read on that date. A POODO copy installed at `~/.claude/skills/poodo` is reported to be listed and run with `/poodo`. That copy is an older, locally modified version that already sets `disable-model-invocation: true`. A fresh clone of this repository was not tested in Claude Code, nor was its behaviour without that line.
+
 ## First use
 
-Give the agent a concrete problem, desired outcome, and authority boundary:
+Give the agent a concrete problem, desired outcome, and authority boundary (in Claude Code, start with `/poodo` instead of `Use $poodo to`):
 
 ```text
 Use $poodo to compare keeping our synchronous export process with moving it

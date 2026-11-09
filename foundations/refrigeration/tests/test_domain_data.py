@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 import unittest
 
@@ -36,6 +37,13 @@ class SafetyLimitTests(unittest.TestCase):
     def test_erpg_is_an_explicit_gap_not_a_value(self):
         self.assertEqual([g["id"] for g in safety_limits.GAPS], ["erpg"])
         self.assertFalse(any("ERPG" in x.kind or "ERPG" in x.label for x in safety_limits.AMMONIA_LIMITS))
+
+    def test_provenance_names_only_test_files_that_exist(self):
+        cited = re.findall(r"tests/[\w/]+\.py", json.loads((ROOT / "foundation_refrigeration/data/exposure-limits.json")
+                                                        .read_text())["generatedBy"])
+        self.assertTrue(cited)
+        for path in cited:
+            self.assertTrue((ROOT / path).is_file(), path)
 
     def test_policy_value_is_never_presentable_as_a_legal_limit(self):
         point = safety_limits.policy_set_point(policy())

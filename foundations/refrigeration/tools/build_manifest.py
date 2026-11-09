@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     files = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
              for p in sorted(ROOT.rglob("*")) if p.is_file() and "__pycache__" not in p.parts and ".git" not in p.parts
-             and p.suffix != ".pyc" and p.name != "SOURCE-MANIFEST.json"}
+             and p.relative_to(ROOT).parts[0] != ".github" and p.suffix != ".pyc" and p.name not in ("SOURCE-MANIFEST.json", "PR_BODY.md")}
     raw = (json.dumps({"schema": "foundation-refrigeration-source-manifest/1", "version": "0.1.0", "files": files},
                       sort_keys=True, indent=2) + "\n").encode()
     (ROOT / "SOURCE-MANIFEST.json").write_bytes(raw)

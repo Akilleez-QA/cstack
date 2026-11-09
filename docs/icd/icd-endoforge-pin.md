@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-ICD-ENDOFORGE-PIN |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -47,3 +47,4 @@ CS-REQ-070 (EndoForge pin) and CS-REQ-069 (forge part pins). See the [verificati
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-endoforge-pin.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | EndoForge repin to ea7b8d6; slice gains the dump-list modules | PR #79 |
