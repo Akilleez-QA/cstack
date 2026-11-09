@@ -35,6 +35,7 @@ release yet; entries name the pull requests that made them.
 - Control documents carry the family metadata header and a self-assessed classification statement (Class E analog, not safety-critical) in place of "No NASA software classification … is asserted".
 
 - `tools/check_links.py` also scans the README, CONTRIBUTING, CHANGELOG, NOTICE, every document under `docs/` and the area READMEs.
+- Vendored EndoForge repinned to `main` at `ea7b8d6`; the slice gains `vendor/endoforge/core/runtime/dump-list.mjs` and `vendor/endoforge/tools/dump_list.py` (27 files), which the updated `IsolatePool` and ledger writer import for memguard dump-list registration, off unless `ENDOFORGE_DUMP_LIST=1` or the memguard dump-list directory exists. No Cstack interface change (#79).
 - Vendored EndoForge repinned to `main` at `6dffea9` (P-68 capacity changes), via `f6711a7` and `da47ad9`; the slice now holds the gates, ledger, `IsolatePool` and capacity planner (#45, #68, #71, #73).
 - `tools/pin_endoforge.py` pins only commits on EndoForge `main` unless `--allow-unmerged` is given, and the vendored ledger writer journals beside the run ledger instead of under the user's state directory (#72).
 - Every README command passes on a fresh clone, checked by `tools/check_readme.py` (#43, #51, #53, #58).

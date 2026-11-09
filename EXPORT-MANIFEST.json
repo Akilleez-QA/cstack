@@ -51,8 +51,8 @@
    "bytes": 4333
   },
   "CHANGELOG.md": {
-   "sha256": "a5035c64d359884b5fc1267940f34fe3d28ad4b288b0bddb7131b7b4b5af180d",
-   "bytes": 5274
+   "sha256": "30db3cdbbfad648b3c5aff0759e1dec1c0fa2e3577b29b9a87c02acfb9ba3b25",
+   "bytes": 5651
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
@@ -447,7 +447,7 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "6921ad37e6e521a788be836c9422111a065080e4eacc6304486f7c37fd975892",
+   "sha256": "5d4f9140f404cda15864ff04b122c5fce101dd33512a53367d1a128f03f7cdc2",
    "bytes": 9170
   },
   "contracts/adapters.schema.json": {
@@ -483,8 +483,8 @@
    "bytes": 7981
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "ac888ea6717b4201aba3ac3d176cf6d6031e7835ecf14213d88e42ce3517ddc5",
-   "bytes": 16553
+   "sha256": "1d28a2dcf982e3bf77d9321d418010c21202bb07e6e04f4c86bee50f6260eac5",
+   "bytes": 16687
   },
   "docs/data/data-dictionary.md": {
    "sha256": "abd81fc7faf9533885139909d7748dcc720bd3308e93e0aa838b257c9f38e6cb",
@@ -499,8 +499,8 @@
    "bytes": 1124
   },
   "docs/guides/explanation/endoforge-vendoring.md": {
-   "sha256": "692fba139df740b3ef7a5a27c5185225706a54662d2dfb4ffef3dc3df5d13c59",
-   "bytes": 8017
+   "sha256": "c99bbc59dfb0054b163a47cc9656ac1f45915a4da3320b4e2759d4ed770960a6",
+   "bytes": 8168
   },
   "docs/guides/explanation/limitations.md": {
    "sha256": "6fb57a631468d14a4f08315127b326a08b6eff980751aef202ab5102f1965172",
@@ -535,8 +535,8 @@
    "bytes": 4752
   },
   "docs/guides/reference/environment.md": {
-   "sha256": "4daae6b5649b5efacc67105a31cdd0f5ac128e049e00ac258fba959a02227da8",
-   "bytes": 3705
+   "sha256": "961b924137b919c0631b962cf8088e881759d146731c48b6b8a81dcc5ab76995",
+   "bytes": 4218
   },
   "docs/guides/tutorials/README.md": {
    "sha256": "d25b7310bef8ff10f983f67a6c819abca21af13829d39c027580afcba5a5e76e",
@@ -547,12 +547,12 @@
    "bytes": 7534
   },
   "docs/icd/icd-endoforge-pin.md": {
-   "sha256": "776ce12ff4d1eff5ad46730161f6ba485569a4dafa0c9c467c9fcb6acedf61d5",
-   "bytes": 4562
+   "sha256": "7602054207a725e24ef5c28153582ebdf09d3f89df5e82dac286f827f0147c06",
+   "bytes": 5086
   },
   "docs/icd/icd-endoforge.md": {
-   "sha256": "fc4e5dc20767b7fd3e8f36a86a29a0678d210adf403d5e19b25fd678ca4aef82",
-   "bytes": 20082
+   "sha256": "46c1c65b338fa85091d880fc6bcf40337b1a77007bba14009aa1c2f1432ce68a",
+   "bytes": 20644
   },
   "docs/icd/icd-foundations.md": {
    "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
@@ -575,8 +575,8 @@
    "bytes": 621
   },
   "docs/releases/VDD-baseline.md": {
-   "sha256": "9fb7560767e548bd7536639f0875cb0300dfdba0aef5de5cbdb535347b663b15",
-   "bytes": 5749
+   "sha256": "6cdb05a38898c55cf6296d48a318aa364574f914d744d543f48fd237c071c703",
+   "bytes": 5760
   },
   "docs/requirements/requirements.md": {
    "sha256": "4cf24504500bc58f024e70ae9a8938f91c23f300e169d413c8955e8d93124cfe",
@@ -675,12 +675,12 @@
    "bytes": 11233
   },
   "docs/verification/reports/STR-baseline.md": {
-   "sha256": "fb45ca3c6e512160bbe6f1ae7111c710e2377788253804bcc3a6d4047cc967e1",
+   "sha256": "ee4b6dac41f93157e08f7fef790f6131ed79ad1293cfc2b508f297ebcebdf35a",
    "bytes": 4756
   },
   "docs/verification/test-plan.md": {
-   "sha256": "077f0d083b0fe0ebd229ebf7eebf97d94c04b2e2715ee3d8f2fcf81a84176a6e",
-   "bytes": 9653
+   "sha256": "94833a58259ca411c18cb07d8a452d76a8534aa4f4b8acc19a871f0e1d5096a3",
+   "bytes": 9734
   },
   "docs/verification/verification-matrix.md": {
    "sha256": "4bbe82266f59491dc6df7c406b2621c5a42ffe69f558b167bbf53ed322be728c",
@@ -2499,8 +2499,8 @@
    "bytes": 9762
   },
   "tools/pin_endoforge.py": {
-   "sha256": "79646a3b435051398c8e7d065814177a77e42dc78cef50e483af4098510c4a00",
-   "bytes": 5486
+   "sha256": "3a23984286d2e27327e296a58f1f1c2c32cf2ac6d19dc6cca32d54c419e87eca",
+   "bytes": 5538
   },
   "tools/pin_workcell.py": {
    "sha256": "e7740a583e385324a5730f17da45a9682871475161d7000d35d4143f1a7be629",
@@ -2539,8 +2539,8 @@
    "bytes": 35149
   },
   "vendor/endoforge/SOURCE-MANIFEST.json": {
-   "sha256": "03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a",
-   "bytes": 5270
+   "sha256": "c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612",
+   "bytes": 5654
   },
   "vendor/endoforge/core/__init__.py": {
    "sha256": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
@@ -2602,6 +2602,10 @@
    "sha256": "a8bc21a810c49f8293c8ce016855a43f671db10184d25904d7759186d7ab11dc",
    "bytes": 4723
   },
+  "vendor/endoforge/core/runtime/dump-list.mjs": {
+   "sha256": "8b187c9cdc60364beb2770bc7312b470ee999cb43728b38762fc5277c35e8c98",
+   "bytes": 5253
+  },
   "vendor/endoforge/core/runtime/isolate-cgroup.mjs": {
    "sha256": "60ed29794aaeb4951793454c72e393d9981619f78bc6fa36348376a7412be1b1",
    "bytes": 2533
@@ -2611,8 +2615,8 @@
    "bytes": 7581
   },
   "vendor/endoforge/core/runtime/isolate-pool.mjs": {
-   "sha256": "be376c26d5a502ba3635da5a9acbb9b45769d2497b6d83d75485e2b7c3dfd022",
-   "bytes": 20073
+   "sha256": "137846fa05dd2c099201acb6fdb24694f592968c2f6bc3660432d4d21f2a961e",
+   "bytes": 24703
   },
   "vendor/endoforge/core/runtime/isolate-wasm-compile.mjs": {
    "sha256": "9644689bd4f48ba88ca2c3216b57af35772e5a03530ac7c933cdce5072789c32",
@@ -2630,13 +2634,17 @@
    "sha256": "c3cf526f13e0723754ae7bd4f8be1c9bc8394176c011623ea65ec5a76c3df822",
    "bytes": 2804
   },
+  "vendor/endoforge/tools/dump_list.py": {
+   "sha256": "5feac43d815ded2489260b13a1cdcde515c734e873726be6a3519365ed7847a7",
+   "bytes": 6813
+  },
   "vendor/endoforge/tools/factory_quality/index.mjs": {
    "sha256": "3779ac6c6b48a273186200612a556d9bf3f5e00f541e1e2dff3812775231bf31",
    "bytes": 13551
   },
   "vendor/endoforge/tools/ledger_writer.py": {
-   "sha256": "82594835c5ac6d231ef71464ad1044a1d456e2a015c9f2e3ce4a75df29c4d979",
-   "bytes": 19275
+   "sha256": "a000160b86fe11ace9a483a073671f6d1accfc7143cdf1e21e95dfe0c9ce7044",
+   "bytes": 21064
   },
   "vendor/foundation-engine-v020/SOURCE-MANIFEST.json": {
    "sha256": "0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349",

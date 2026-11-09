@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SCMP |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
+| Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -40,7 +40,7 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 | `foundations/template/SOURCE-MANIFEST.json` | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` |
 | `foundations/refrigeration/SOURCE-MANIFEST.json` | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` |
 | `foundations/robotics/SOURCE-MANIFEST.json` | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` |
-| `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
+| `vendor/endoforge/SOURCE-MANIFEST.json` | `c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612` |
 | `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` |
 | `foundations/film/SOURCE-MANIFEST.json` | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` |
 
@@ -63,8 +63,8 @@ These public main heads were copied on 2026-11-08. Each source manifest and ever
 
 ### Endoforge source
 
-`vendor/endoforge/` holds a 25-file slice of Endoforge commit
-`6dffea963afdfebfeb6a769afde94cf6a815cdb3` on `main`: the lifecycle model, run ledger,
+`vendor/endoforge/` holds a 27-file slice of Endoforge commit
+`ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3` on `main`: the lifecycle model, run ledger,
 gates and evaluator, `IsolatePool` and its workcell, the capacity planner and two
 support tools. Control the slice list in `tools/pin_endoforge.py`, the upstream and
 exported hashes, and the `endoforge` record in `contracts/SOURCE-PINS.json` together,
@@ -168,3 +168,4 @@ Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, an
 | 1.x | 2026-10 to 2026-11-08 | various | Identification, pins, change procedure, CLI approval and refrigeration acceptance baselines | See `git log -- docs/configuration/configuration-management.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header; organization, status accounting, audits, generated outputs, release management; vendored docs and upstream; trace suite in CI | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation, Engine and POODO repin: manifest digests, upstream commits, POODO commit | PR #78 |
+| 2.2 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | EndoForge repin to ea7b8d6: 27-file slice, manifest digest | PR #79 |
