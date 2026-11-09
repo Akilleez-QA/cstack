@@ -483,8 +483,8 @@
    "bytes": 7981
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "e09bc01dae7bae46707174259314808fa1e69ce9b399650812e226394196cb45",
-   "bytes": 16510
+   "sha256": "c20e8100e31ab9bf30ffbbdebb93608439c55af7aa501acb1937b1d49a527531",
+   "bytes": 16553
   },
   "docs/data/data-dictionary.md": {
    "sha256": "abd81fc7faf9533885139909d7748dcc720bd3308e93e0aa838b257c9f38e6cb",
@@ -555,8 +555,8 @@
    "bytes": 20082
   },
   "docs/icd/icd-foundations.md": {
-   "sha256": "1541ffccec1417a1f9ecc8a859a9009916be669b52647a989133639c8e86610d",
-   "bytes": 11809
+   "sha256": "dfb3afd92c20fdef812a4def1c60dadc0fd8dc37e6acf39e9721fe15368ffb8e",
+   "bytes": 11852
   },
   "docs/icd/icd-poodo.md": {
    "sha256": "8be48f4f2e7c9917ded4390fbae6cef604be62710cd569623c7e2005cbcc44db",

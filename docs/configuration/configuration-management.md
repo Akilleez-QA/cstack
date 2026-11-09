@@ -52,7 +52,7 @@ Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (
 
 ### Vendored Foundation commits
 
-These public main heads were copied on 2026-11-08. Each source manifest and every listed file are copied byte-for-byte; upstream manifests no longer list `.github/`, so the upstream CI workflows are not copied. Tool inventories and bridge interface semantics are unchanged. New in the copies and not reached through the bridges: `foundation_film/filmstats.py` and `foundation_refrigeration/invariants.py`. The [Foundations ICD](../icd/icd-foundations.md#upstream-source-commits) lists file counts and manifest digests.
+These public main heads were copied on 2026-11-08. Each source manifest and every listed file are copied byte-for-byte; upstream manifests no longer list `.github/`, so the upstream CI workflows are not copied. Tool inventories and bridge interface semantics are unchanged. New in the copies and not reached through the bridges: `foundations/film/foundation_film/filmstats.py` and `foundations/refrigeration/foundation_refrigeration/invariants.py`. The [Foundations ICD](../icd/icd-foundations.md#upstream-source-commits) lists file counts and manifest digests.
 
 | Foundation | Upstream commit |
 |---|---|
