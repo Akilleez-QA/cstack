@@ -2,15 +2,17 @@
 
 # Cstack
 
-Cstack is a template for running a team of AI bots on your own machine, where every action a bot takes goes through one control core and anything risky waits for one human to approve it.
+Cstack is a local-first system for building and running software with AI agents under your control. One control core owns every goal, decision, permission and piece of evidence. Domain packages called Foundations plug in to supply exact knowledge and checks. [EndoForge](https://github.com/Akilleez-QA/endoforge), its software engine, is meant to generate code that the core evaluates, then activates, keeps or throws away. Anything risky waits for one human to approve it.
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000)](LICENSE)
 
-A *bot* here is an AI agent, such as a Claude Code or Codex session, that reaches Cstack over MCP (the Model Context Protocol), or a script that hands Cstack a JSON file. "Template" means you fork it, list your bots in `aors/fleet.json` (one area of responsibility, or AOR, per bot), add your own tools, and point your agents at its MCP server. Leave the control core unchanged so upstream fixes merge cleanly.
+**What works today:** the control core with its approvals and hash-chained ledger; six Foundations wired through checked adapters; an MCP server that gives each agent its own governed session; and forge goals, where a model writes one program that is compiled in an EndoForge workcell and checked against a Foundation. **Not yet:** generated user interfaces, the activate, keep and dispose lifecycle for generated software, and EndoForge's parallel agents and code reuse. See [status and limitations](#status-and-limitations).
+
+A *bot* here is an AI agent, such as a Claude Code or Codex session, that reaches Cstack over MCP (the Model Context Protocol), or a script that hands Cstack a JSON file. To use it, you fork it, list your bots in `aors/fleet.json` (one area of responsibility, or AOR, per bot), add your own tools, and point your agents at its MCP server. Leave the control core unchanged so upstream fixes merge cleanly.
 
 ## Why
 
-Limiting which tools an agent may call is easy. Knowing what it did, why, and whether you said yes is hard. Cstack puts a small control core between the bots and the world:
+Letting AI agents build and run software is easy to start and hard to trust. You need to know what each agent did, why, with which code, and whether you said yes. Cstack puts one control core between the agents and the world, whether they call tools or generate code:
 
 - **A reason before every action.** A bot must state its goal, record the decision behind each call and say what result it expects, before anything runs. The core enforces that order.
 - **Risky actions wait for you.** Every call has an effect: `allow`, `ask` or `deny`. The bot registry marks sending, paying, posting, filing and deleting as `ask`, so a tool of that kind waits for you. Cstack shows you the exact request and runs it only if you say yes. Your yes is tied to that request's SHA-256 digest, so it can't be reused for a different one.
@@ -116,7 +118,7 @@ The [first-run tutorial](docs/guides/tutorials/first-run.md) walks through three
 
 ### Bots that write code
 
-A bot can also ask a model to write a small program. Cstack hands this *forge goal* to [EndoForge](https://github.com/Akilleez-QA/endoforge), a sister project vendored in `vendor/endoforge/`. The program is compiled to WebAssembly and run in a *workcell*, an isolated worker process, and its answers are checked against a Foundation's own answers on test cases fixed before the model saw anything. The model can't grade itself. This example replays a recorded model answer, so no model or account is needed:
+Bots can also have code built for them. Cstack hands this *forge goal* to [EndoForge](https://github.com/Akilleez-QA/endoforge), the runtime where coding agents build real software: it finds, reuses or generates code, checks it inside fast V8-isolate workcells against an independent evaluator the code never saw, and records the result in a tamper-evident ledger so trusted code gets reused. Cstack vendors a pinned slice of EndoForge in `vendor/endoforge/` and runs one governed goal through its workcells; the code is checked against a Foundation's own answers on cases fixed before any code was written. This example replays a recorded model answer, so no model or account is needed:
 
 ```sh
 CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python -B cli.py < examples/forge/saturation-goal.json
@@ -156,7 +158,7 @@ Cstack is the host of the Cstack family (code name Mjölnir). The other projects
 
 | Project | What it is | How Cstack uses it |
 |---|---|---|
-| [endoforge](https://github.com/Akilleez-QA/endoforge) | Research engine: turns short needs into WebAssembly kernels with frozen specs and an evidence ledger | Runs forge goals; pinned copy in `vendor/endoforge/` |
+| [endoforge](https://github.com/Akilleez-QA/endoforge) | The runtime where coding agents build real software: finds, reuses or generates code, checks it in V8-isolate workcells against an independent evaluator, and records trusted results in a tamper-evident ledger | Runs forge goals; pinned copy in `vendor/endoforge/` |
 | [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that makes an agent show its evidence before it acts | The method the core enforces; snapshot in `reasoning/poodo/` |
 | [foundation-math](https://github.com/Akilleez-QA/foundation-math) | Exact mathematical kernels and certificate verifiers | Pinned copy in `vendor/foundation-math-v014/` |
 | [foundation-refrigeration](https://github.com/Akilleez-QA/foundation-refrigeration) | Refrigeration reference data and checks | Pinned copy in `foundations/refrigeration/` |
