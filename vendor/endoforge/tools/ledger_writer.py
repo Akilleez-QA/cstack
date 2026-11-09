@@ -16,6 +16,7 @@ import time
 import traceback
 
 from core.ledger.ledger import TABLES, Ledger
+from tools import dump_list
 
 MAGIC = b"EFJ1"
 HEADER = struct.Struct(">4sI32s")
@@ -27,6 +28,8 @@ GROUP = 16
 WRITES = {"INSERT", "UPDATE", "DELETE", "CREATE", "REPLAC"}
 VERSION_TABLE = "CREATE TABLE IF NOT EXISTS ledger_journal (version INTEGER PRIMARY KEY, digest TEXT NOT NULL)"
 MARK = "INSERT INTO ledger_journal (version, digest) VALUES (?, ?)"
+DUMP_NAME = "endoforge-ledger-writer"
+DUMP_PRIORITY = 110
 
 
 class JournalCorrupt(Exception):
@@ -77,6 +80,30 @@ def scan(data):
 
 _libc = ctypes.CDLL(None, use_errno=True)
 _syncfs = getattr(_libc, "syncfs", None)
+_malloc_trim = getattr(_libc, "malloc_trim", None)
+
+
+def _sqlite_counter():
+    try:
+        import _sqlite3
+        counter = ctypes.CDLL(_sqlite3.__file__).sqlite3_memory_used
+    except (ImportError, OSError, AttributeError):
+        return None
+    counter.restype = ctypes.c_int64
+    counter.argtypes = []
+    return counter
+
+
+_sqlite_memory_used = _sqlite_counter()
+
+
+def sqlite_memory_used():
+    return int(_sqlite_memory_used()) if _sqlite_memory_used is not None else None
+
+
+def trim_heap():
+    if _malloc_trim is not None:
+        _malloc_trim(0)
 
 
 def fsync_path(path, directory=False):
@@ -317,7 +344,10 @@ class Writer:
         self.journal = journal or Journal(journal_directory())
         self.output = output or sys.stdout
         self.handles = OrderedDict()
-        self.counts = dict(batches=0, requests=0, max_batch=0, flushes=0)
+        self.counts = dict(batches=0, requests=0, max_batch=0, flushes=0, sheds=0, handles_shed=0)
+        self.busy = False
+        self.shed_requested = False
+        self.dump = None
         self.pending = None
         self.syncer = None
         self.gap = WINDOW
@@ -339,6 +369,29 @@ class Writer:
             entry = self.handles[path] = [ledger, db, [], True]
         self.handles.move_to_end(path)
         return entry
+
+    def sheddable(self):
+        if not self.handles:
+            return 0
+        used = sqlite_memory_used()
+        return used if used is not None else 0
+
+    def request_shed(self):
+        self.shed_requested = True
+        if self.busy:
+            return False
+        self.shed()
+        return None
+
+    def shed(self):
+        self.shed_requested = False
+        closing = list(self.handles.values())
+        self.handles.clear()
+        for entry in closing:
+            entry[1].close()
+        trim_heap()
+        self.counts["sheds"] += 1
+        self.counts["handles_shed"] += len(closing)
 
     def drop(self, path):
         entry = self.handles.pop(path, None)
@@ -485,6 +538,7 @@ class Writer:
 def serve(process, extension=None, source=0):
     raise_descriptor_limit()
     writer = Writer(process, extension)
+    writer.dump = dump_list.register(DUMP_NAME, DUMP_PRIORITY, writer.sheddable, writer.request_shed)
     writer.respond([json.dumps(dict(id=0, result="ready")) + "\n"])
     writer.start()
     lines, partial, ended = deque(), [], False
@@ -504,7 +558,18 @@ def serve(process, extension=None, source=0):
             if len(lines) >= BATCH:
                 break
         if lines:
-            writer.batch([lines.popleft() for _ in range(min(BATCH, len(lines)))])
+            writer.busy = True
+            try:
+                writer.batch([lines.popleft() for _ in range(min(BATCH, len(lines)))])
+            finally:
+                writer.busy = False
+            if writer.shed_requested:
+                writer.shed()
+                writer.dump.refresh(True)
+            else:
+                writer.dump.refresh()
+    writer.busy = True
+    writer.dump.close()
     writer.close()
     report = os.environ.get("ENDOFORGE_LEDGER_STATS")
     if report:

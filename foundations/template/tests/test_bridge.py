@@ -68,7 +68,7 @@ class BridgeTests(unittest.TestCase):
         manifest = json.loads((ROOT / "SOURCE-MANIFEST.json").read_text())["files"]
         actual = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                   for p in sorted(ROOT.rglob("*")) if p.is_file() and "__pycache__" not in p.parts and ".git" not in p.parts
-                  and p.suffix != ".pyc" and p.name != "SOURCE-MANIFEST.json"}
+                  and p.relative_to(ROOT).parts[0] != ".github" and p.suffix != ".pyc" and p.name != "SOURCE-MANIFEST.json"}
         self.assertEqual(manifest, actual, "run: python -B tools/build_manifest.py, then re-pin the adapter")
 
 

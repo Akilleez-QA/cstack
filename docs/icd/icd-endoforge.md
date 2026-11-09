@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-ICD-ENDOFORGE |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -45,7 +45,7 @@ when host configuration binds this port, otherwise `False`.
 
 The current claim-gate CLI rejects `--atoms`, `--atom-refs` and `--consumer` requests with exit status 2 and a `cstack.claim-gate/0.1` JSON error on stderr stating that the approved-atoms Registry is unavailable. It emits no verdict on stdout. The pinned lifecycle slice does not provide that Registry; the dead optional import has been removed. Calls without atom options retain the ledger-only interface.
 
-[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin, Endoforge `main` commit `6dffea963afdfebfeb6a769afde94cf6a815cdb3`, adds the gates, ledger, `IsolatePool` and capacity planner that section 7 runs or carries. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
+[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin, Endoforge `main` commit `ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3`, adds the gates, ledger, `IsolatePool` and capacity planner that section 7 runs or carries. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
 
 ## 3. Operations and sequencing
 
@@ -209,6 +209,7 @@ These are the only vendored Endoforge names Cstack code calls at the current pin
 | `adapters/endoforge_workcell.py` | `core.ledger.frozen.FrozenEvaluators(ledger).freeze(...)` | Freezes `adapters/workcell` as the evaluator for one task, bound to the decision |
 | `adapters/workcell/supervisor.mjs` | `new IsolatePool({...})`, `ready()`, `run(job)`, `close()` | Options passed: `hostPort`, `size`, `isolation`, `trustedWasmModules`, the `workcellLimits` (`wasmMemoryMaxMb`, `resourceLimits`), `frozenThroughLedger: true`, `hostCalls`, `warm.foundations`, `jobTimeoutMs`, `cgroupRoot` |
 | `adapters/endoforge_workcell.py` | `ENDOFORGE_LEDGER_JOURNAL`, read by `vendor/endoforge/tools/ledger_writer.py` | Set to `<ledger>.journal` for every run |
+| `adapters/endoforge_workcell.py` | `ENDOFORGE_DUMP_LIST`, read by `vendor/endoforge/core/runtime/dump-list.mjs` and `vendor/endoforge/tools/dump_list.py` | Not set; inherited from the host environment. With `1`, or with `<state>/memguard/dump-list.d` present, the pool and the ledger writer register sheddable memory there and shed on `SIGUSR2`. Cstack passes no `dumpList` option, so the pool uses EndoForge's defaults |
 | `tests/test_endoforge_pin.py` | `vendor/endoforge/tests/test_endoforge_core_boundary.py` | Run as the import-boundary check |
 
 Inside the pool, the vendored workcell calls the vendored gates and evaluator (`core/engine/`) and the ledger bridge, and loads Cstack's `adapters/workcell/host-port.mjs` as its host port. The capacity planner in `core/runtime/capacity/` is vendored but not called. Endoforge's own interface documents for these parts are its [ledger ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/ledger-icd.md) and [capacity ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/capacity-icd.md); they describe Endoforge `main`, which may be ahead of the pin.
@@ -223,3 +224,4 @@ CS-REQ-020 to CS-REQ-030 (evidence port, file adapter and configured routing); C
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-endoforge.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | Pin commit updated; ENDOFORGE_DUMP_LIST row added to section 8 | PR #79 |

@@ -19,6 +19,7 @@ The Claude transport passes on only `PATH`, `HOME`, `LANG`, `LC_ALL`, `TERM`, `U
 | Variable | Read by | Default | Meaning |
 |---|---|---|---|
 | `ENDOFORGE_LEDGER_JOURNAL` | `vendor/endoforge/tools/ledger_writer.py` | `$XDG_STATE_HOME/endoforge/ledger-journal`, with `XDG_STATE_HOME` defaulting to `~/.local/state` | The ledger writer's journal directory. The workcell adapter always sets it to `<workcell.ledger>.journal`, overriding any inherited value, so a forge run writes nothing under `~/.local/state/endoforge` |
+| `ENDOFORGE_DUMP_LIST` | `vendor/endoforge/core/runtime/dump-list.mjs`, `vendor/endoforge/tools/dump_list.py` | auto: on only if `<state>/memguard/dump-list.d` exists, `<state>` being `XDG_STATE_HOME` when absolute, else `~/.local/state` | `1` forces memguard dump-list registration on for the workcell pool and the ledger writer, `0` turns it off. When on, each writes `<pid>-<name>.json` in that directory and sheds spare memory on `SIGUSR2`. The workcell adapter passes it through from the host environment |
 | `ENDOFORGE_LEDGER_STATS` | `vendor/endoforge/tools/ledger_writer.py` | none | A file the writer's standalone loop writes its statistics to, as JSON, when it closes |
 
 ## State directories

@@ -35,10 +35,12 @@ release yet; entries name the pull requests that made them.
 - Control documents carry the family metadata header and a self-assessed classification statement (Class E analog, not safety-critical) in place of "No NASA software classification … is asserted".
 
 - `tools/check_links.py` also scans the README, CONTRIBUTING, CHANGELOG, NOTICE, every document under `docs/` and the area READMEs.
+- Vendored EndoForge repinned to `main` at `ea7b8d6`; the slice gains `vendor/endoforge/core/runtime/dump-list.mjs` and `vendor/endoforge/tools/dump_list.py` (27 files), which the updated `IsolatePool` and ledger writer import for memguard dump-list registration, off unless `ENDOFORGE_DUMP_LIST=1` or the memguard dump-list directory exists. No Cstack interface change (#79).
 - Vendored EndoForge repinned to `main` at `6dffea9` (P-68 capacity changes), via `f6711a7` and `da47ad9`; the slice now holds the gates, ledger, `IsolatePool` and capacity planner (#45, #68, #71, #73).
 - `tools/pin_endoforge.py` pins only commits on EndoForge `main` unless `--allow-unmerged` is given, and the vendored ledger writer journals beside the run ledger instead of under the user's state directory (#72).
 - Every README command passes on a fresh clone, checked by `tools/check_readme.py` (#43, #51, #53, #58).
 - Vendored Foundations and the POODO skill snapshot refreshed to their public `main` heads (#23, #26).
+- Vendored Film (`7601fc5`, 55 files), Refrigeration (`069ea9e`, 79), Robotics (`e6abce6`, 61) and Template (`a57f14c`, 49), the Foundation Engine manifest (`8445d31`, 2,513 entries) and the POODO snapshot (`4a111aa`, 8 of 45 listed files changed) repinned after the upstream documentation PRs, refrigeration's `exposure-limits.json` provenance fix and the manifest-copy trace-check fix in Refrigeration, Robotics and Template (each #14). Tool inventories unchanged; upstream CI workflows are no longer in the copies; Foundation Math v0.14 and `foundations/math/` unchanged (#78).
 
 ### Fixed
 

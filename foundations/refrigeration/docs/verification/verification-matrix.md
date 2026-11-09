@@ -1,19 +1,75 @@
-# Verification matrix
+# foundation-refrigeration verification matrix
 
-Command: `python -B -m unittest discover -s tests -t .` from the repository root. Baseline: the initial commit on `main`.
+| Field | Value |
+|---|---|
+| Document ID | FREFRIG-VM |
+| Version | 2.0 |
+| Status | Baselined |
+| Owner | Akilleez-QA |
+| Date | 2026-11-08 |
+| Baseline commit | 62764c7526ce2bbf064ccf633d5295f4390fc984 |
+| Applies to | foundation-refrigeration main at baseline commit |
+| Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
 
-| REQ | Method | Evidence | Result |
-|---|---|---|---|
-| REQ-REF-001 | T | tests/test_bridge.py, tests/test_thermo.py | pass at baseline |
-| REQ-REF-002 | T | tests/test_bridge.py, tests/test_thermo.py | pass at baseline |
-| REQ-REF-003 | T | tests/test_bridge.py | pass at baseline |
-| REQ-REF-004 | T | tests/test_bridge.py | pass at baseline |
-| REQ-REF-005 | T | tests/test_bridge.py | pass at baseline |
-| REQ-REF-006 | T | tests/test_bridge.py | pass at baseline |
-| REQ-REF-007 | T | tests/test_bridge.py, tests/test_domain_data.py | pass at baseline |
-| REQ-REF-008 | T | tests/test_names_and_manifest.py | pass at baseline |
-| REQ-REF-009 | T | tests/test_bridge.py, tests/test_process_safety.py | pass at baseline |
-| REQ-REF-010 | T | tests/test_bridge.py, tests/test_domain_data.py, tests/test_evidence_units.py, tests/test_process_safety.py, tests/test_thermo.py | pass at baseline |
-| REQ-REF-011 | T | tests/test_bridge.py | pass at baseline |
-| REQ-REF-012 | I | inspection of source | pass at baseline |
-| REQ-REF-013 | T | tests/test_bridge.py, tests/test_domain_data.py | pass at baseline |
+> Organized after [NPR 7150.2D](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all), [NASA-STD-8739.8B](https://standards.nasa.gov/standard/nasa/nasa-std-87398) and the [NASA Software Engineering Handbook](https://swehb.nasa.gov/display/SWEHBVD/7.18+-+Documentation+Guidance) documentation guidance. This is not a NASA compliance determination or certification. The software classification is a self-assessed analog (Class E, not safety-critical); no NASA authority, independent verification and validation, or hazard analysis is asserted. The document describes the implementation inspected at the baseline commit.
+
+This matrix maps each requirement in the [SRS](../requirements/requirements.md) to the tests or inspection that verify it. `python -B tools/check_trace.py` checks it: every requirement has a row, every referenced test exists, every test traces to a requirement or is listed under "Tests without a requirement", every requirement is allocated in the [SDD](../architecture/architecture.md), and no Markdown link is dead. `tests/test_docs_trace.py` runs that check inside the normal test suite, so CI fails on a broken trace. The latest results are in the test report linked in the last column.
+
+Method: T test, I inspection.
+
+| Requirement | Method | Test (file::Class.method) or inspection target | Acceptance observation / limit | Last result |
+|---|---|---|---|---|
+| REQ-REF-001 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary`<br>`tests/test_bridge.py::TransportTests.test_real_process_round_trip_without_options` | Success receipt with Evidence; NH3 at 20 degF reads 33.49 psig through a real bridge process | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-002 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary` | R448A dew side at 30.5 psig with an elevation atmosphere returns a success receipt | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-003 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary`<br>`tests/test_bridge.py::ReceiptTests.test_tool_errors_are_errors_not_results` | psig to bar(g) succeeds; `to_unit: "atm"` gives `invalid_unit` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-004 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary`<br>`tests/test_bridge.py::TransportTests.test_serve_round_trip_and_oversized_frame` | −28 degF converts to −33.3333 degC | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-005 | T | `tests/test_bridge.py::ReceiptTests.test_check_reading_is_an_observation_with_named_deltas` | Assessment `reading_compared_to_saturation`; `not_determined` includes "normal operating range" | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-006 | T | `tests/test_bridge.py::ReceiptTests.test_policy_and_published_limits_stay_separate`<br>`tests/test_bridge.py::ReceiptTests.test_tool_errors_are_errors_not_results` | Issuer filter OSHA returns only `osha-pel-twa` at 50 ppm; chlorine gives `unknown_substance` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-007 | T | `tests/test_bridge.py::ReceiptTests.test_line_service_reports_disputes`<br>`tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary` | `screw-package` resolves; `LTRL` line service resolves; `warp core` is unresolved | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-008 | T | `tests/test_names_and_manifest.py::ManifestTests.test_source_manifest_is_exact` | Manifest file map equals the recomputed map exactly | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-009 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary` | `boundary` equals the fixed six-field object for all seven tools | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-010 | T | `tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary`<br>`tests/test_bridge.py::ReceiptTests.test_tool_errors_are_errors_not_results` | Success: non-empty Evidence. Error: `tool_error`, null result, empty Evidence, nine error cases | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-011 | T | `tests/test_bridge.py::ReceiptTests.test_receipts_are_deterministic_and_bind_the_input` | Different arguments give different `input_sha256` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-012 | I | `foundation_refrigeration_bridge/server.py`, `foundation_refrigeration_bridge/__main__.py`, `foundation_refrigeration/projection.py` | Imports are standard library only (no `socket`, `urllib` or `http`); the only file reads are fixed names under `foundation_refrigeration/data/`; the only writes are to stdout and stderr | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-012 | T | `tests/test_bridge.py::TransportTests.test_real_process_round_trip_without_options` | `--root /` is refused with exit 2 | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-013 | T | `tests/test_bridge.py::TransportTests.test_numeric_profile_and_duplicate_keys`<br>`tests/test_bridge.py::TransportTests.test_serve_round_trip_and_oversized_frame` | Thirteen malformed or oversized frames raise `WireError`; an oversized line gives `-32002` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-014 | T | `tests/test_invariants.py::InvariantTests.test_pressure_relations_and_atmosphere`<br>`tests/test_invariants.py::InvariantTests.test_temperature_scales_and_order` | Gauge without atmosphere fails; eq within 1e-6 kPa passes; 32 degF eq 0 degC | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-015 | T | `tests/test_invariants.py::InvariantTests.test_saturation_against_independent_coolprop_points`<br>`tests/test_invariants.py::InvariantTests.test_saturation_refuses_missing_side_unknown_fluid_and_extrapolation` | All CoolProp points pass both sides; +10 K fails; missing side, unknown fluid, out-of-table pressure fail | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-016 | T | `tests/test_invariants.py::InvariantTests.test_malformed_claims_fail_as_results`<br>`tests/test_invariants.py::InvariantTests.test_library_version_binds_local_sources_and_data`<br>`tests/test_invariants.py::InvariantTests.test_saturation_against_independent_coolprop_points` | Malformed claims return `passed: false` with no measurements; hashes recomputed match; claim unchanged after evaluation | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-017 | T | `tests/test_bridge.py::InventoryTests.test_handshake_and_ordering` | Codes −32000, −32001, −32000, −32602, −32601 as specified; no response without `id` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-018 | T | `tests/test_bridge.py::InventoryTests.test_fixed_seven_tool_inventory` | Seven names equal `TOOL_NAMES`; schemas closed; repeated calls equal | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-019 | T | `tests/test_thermo.py::MonotonicityTests.test_lookup_is_monotonic_and_inverts`<br>`tests/test_thermo.py::RefusalTests.test_no_extrapolation`<br>`tests/test_thermo.py::RefusalTests.test_blends_refuse_to_guess_a_side`<br>`tests/test_bridge.py::ReceiptTests.test_tool_errors_are_errors_not_results` | 401 probes per table and side invert to 1e-6 degC; ±0.01 degC outside range refused; four blends need a side | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-020 | T | `tests/test_thermo.py::GoldenTests.test_direct_coolprop_golden_points`<br>`tests/test_thermo.py::GoldenTests.test_generator_off_grid_golden_points`<br>`tests/test_thermo.py::GoldenTests.test_census_ammonia_anchor_points` | Tolerances as stated in the SRS; more than 250 generator comparisons | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-021 | T | `tests/test_thermo.py::ProvenanceTests.test_nine_generated_tables_with_t1_provenance`<br>`tests/test_thermo.py::MonotonicityTests.test_rows_strictly_increase_and_blend_sides_are_ordered`<br>`tests/test_thermo.py::MonotonicityTests.test_enthalpy_vapour_exceeds_liquid` | Exact equality of converted rows; strict monotonicity; bubble ≥ dew for blends | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-022 | T | `tests/test_thermo.py::ProvenanceTests.test_no_hand_typed_numeric_table_in_package_source` | No literal with five or more numbers in `foundation_refrigeration/*.py` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-023 | T | `tests/test_evidence_units.py::UnitTests.test_constants`<br>`tests/test_evidence_units.py::UnitTests.test_gauge_and_absolute_round_trip`<br>`tests/test_evidence_units.py::UnitTests.test_temperature`<br>`tests/test_evidence_units.py::UnitTests.test_quantities_need_explicit_units_and_finite_numbers`<br>`tests/test_bridge.py::ReceiptTests.test_tool_errors_are_errors_not_results` | psi = 6.894757293168361 kPa to 14 places; round trips to 9 places; bare numbers, booleans, NaN, 1e12 refused | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-024 | T | `tests/test_evidence_units.py::UnitTests.test_site_atmosphere_from_elevation`<br>`tests/test_bridge.py::ReceiptTests.test_every_tool_succeeds_with_evidence_and_boundary` | 1600 m and 5280 ft give 83–85 kPa; 9000 m and 30 kPa measured refused; omitted atmosphere `assumed: true` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-025 | T | `tests/test_evidence_units.py::EvidenceTests.test_silence_is_not_approval`<br>`tests/test_evidence_units.py::EvidenceTests.test_approval_fields_only_on_approved_and_dispute_only_on_disputed`<br>`tests/test_evidence_units.py::EvidenceTests.test_basis_without_required_fields_is_refused`<br>`tests/test_evidence_units.py::EvidenceTests.test_round_trip_is_exact`<br>`tests/test_evidence_units.py::EvidenceTests.test_every_legacy_vocabulary_maps_and_none_but_approved_means_approved`<br>`tests/test_evidence_units.py::EvidenceTests.test_basis_ts_and_verified_by_ports` | Ten invalid records refused; only `APPROVED` maps to `APPROVED` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-026 | T | `tests/test_domain_data.py::SafetyLimitTests.test_osha_pel_is_50_and_25_belongs_to_niosh_and_acgih`<br>`tests/test_domain_data.py::SafetyLimitTests.test_every_limit_is_cited_with_url_quote_and_check`<br>`tests/test_domain_data.py::SafetyLimitTests.test_erpg_is_an_explicit_gap_not_a_value`<br>`tests/test_domain_data.py::SafetyLimitTests.test_provenance_names_only_test_files_that_exist` | Six limits; OSHA 50 ppm is the only enforceable one; 25 ppm belongs to NIOSH REL and ACGIH TLV; ERPG is a gap; every test file the provenance names exists | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-027 | T | `tests/test_domain_data.py::SafetyLimitTests.test_policy_value_is_never_presentable_as_a_legal_limit`<br>`tests/test_bridge.py::ReceiptTests.test_policy_and_published_limits_stay_separate` | Six forbidden labels refused; policy returned as `not_a_legal_limit`; "OSHA PEL" label gives `invalid_policy` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-028 | T | `tests/test_domain_data.py::SafetyLimitTests.test_mislabel_detector` | "OSHA PEL … 25 ppm" flagged; correct 50 ppm line not flagged | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-029 | T | `tests/test_domain_data.py::PlantModelTests.test_every_value_of_every_legacy_list_resolves`<br>`tests/test_domain_data.py::PlantModelTests.test_taxonomy_is_closed_acyclic_and_check`<br>`tests/test_domain_data.py::PlantModelTests.test_unknown_term_is_unresolved_not_guessed`<br>`tests/test_bridge.py::ReceiptTests.test_line_service_reports_disputes` | Every legacy value resolves; lineage acyclic; unknown term unresolved; line-service decisions `DISPUTED` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-030 | T | `tests/test_domain_data.py::OpenDecisionTests.test_projection_refuses_a_chosen_decision` | A chosen position, a single position or a non-disputed status is refused | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-031 | T | `tests/test_bridge.py::ReceiptTests.test_check_reading_is_an_observation_with_named_deltas` | NH3 at 15.69 psig and 10 degF gives a 10.0 ± 0.02 degF superheat-style delta, relation `above`; R448A dew above bubble | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-032 | T | `tests/test_process_safety.py::ProcessSafetyTests.test_thresholds_are_cited_ecfr_screens`<br>`tests/test_process_safety.py::ProcessSafetyTests.test_federal_triggers_and_uncertain_bounds`<br>`tests/test_process_safety.py::ProcessSafetyTests.test_bad_quantity_or_evidence_is_not_a_verdict`<br>`tests/test_process_safety.py::ProcessSafetyTests.test_outputs_are_labeled_as_a_screen` | 9999/10000/10001 lb boundaries per framework; straddles give `unknown`; not in `TOOL_NAMES` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-033 | T | `tests/test_process_safety.py::ProcessSafetyTests.test_standard_selection_guard` | Complete selection is `reference-supported`; each of 19 missing items gives `review-required` | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-034 | T | `tests/test_bridge.py::ReceiptTests.test_receipts_are_deterministic_and_bind_the_input` | Two runs with equal arguments return equal tuples | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-035 | T | `tests/test_bridge.py::TransportTests.test_serve_round_trip_and_oversized_frame`<br>`tests/test_bridge.py::TransportTests.test_real_process_round_trip_without_options` | Exit 0 at end of input; exit 2 for an oversized line, a missing final newline and a command-line option | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-036 | T | `tests/test_thermo.py::RefusalTests.test_fluid_aliases` | Eight aliases resolve; R1234yf, empty, 717 and a 65-character name refused | [STR-unreleased](reports/STR-unreleased.md) |
+
+## Tests without a requirement
+
+| Test | Classification (supporting / infrastructure / candidate requirement) |
+|---|---|
+| `tests/test_evidence_units.py::EvidenceTests.test_projection_json_is_stable_regardless_of_key_order` | Supporting: checks `projection.stable_json`, a library helper the shipped code does not call |
+| `tests/test_docs_trace.py::DocumentationTraceTests.test_requirements_trace_to_tests_design_and_live_links` | Infrastructure: documentation trace and link check |
+| `tests/test_docs_trace.py::DocumentationTraceTests.test_manifest_copy_passes_its_own_trace_check` | Infrastructure: a copy holding only `SOURCE-MANIFEST.json` and its listed files passes the trace and link check, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
+| `tests/test_docs_trace.py::DocumentationTraceTests.test_generated_reference_documents_are_current` | Infrastructure: generated reference documents match their sources |
+
+## Change history
+
+| Version | Date | Commit | Change | Reviewed in |
+|---|---|---|---|---|
+| 1.0 | 2026-10-30 | 9b459ef | Requirement to test-file table | Initial commit |
+| 1.1 | 2026-11-01 | 4bd3311 | Rows for REQ-REF-014 to REQ-REF-016 | PR #3 |
+| 2.0 | 2026-11-08 | 62764c7 | Test-method references for every row; rows for REQ-REF-017 to REQ-REF-036; supporting tests classified; results point to the generated test report | PR adding the NASA-standard documentation set |

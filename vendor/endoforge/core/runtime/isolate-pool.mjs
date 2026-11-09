@@ -4,6 +4,8 @@ import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Worker } from 'node:worker_threads';
 import { execFileSync, fork, spawn } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { dumpListEnabled, registerHolder } from './dump-list.mjs';
 import { attachCgroup, prepareCgroup, releaseCgroup } from './isolate-cgroup.mjs';
 import { LedgerBridge } from './isolate-ledger.mjs';
 import { trustedWasmPolicy } from './isolate-wasm.mjs';
@@ -25,6 +27,11 @@ const maxHostCalls = 4096;
 const maxHostCallBytes = 1048576;
 const killGraceMs = 1000;
 const exitGraceMs = 500;
+export const POOL_DUMP_DEFAULTS = Object.freeze({ name: 'endoforge-isolate-pool', priority: 20, floor: 1, holdMs: 30000, intervalMs: 2000, settleMs: 1500 });
+const PRIVATE = /^Private_(?:Clean|Dirty):\s+(\d+)/gm;
+const privateBytes = pid => {
+  try { return [...readFileSync(`/proc/${pid}/smaps_rollup`, 'utf8').matchAll(PRIVATE)].reduce((total, match) => total + Number(match[1]) * 1024, 0); } catch { return 0; }
+};
 
 export class IsolatePool {
   #size;
@@ -58,10 +65,15 @@ export class IsolatePool {
   #hostCall;
   #retireAfterJobs;
   #busyMs = 0;
+  #dumpOptions = null;
+  #dump = null;
+  #ratio = null;
+  #shedUntil = 0;
+  #holdTimer = null;
   #rates;
 
   constructor({ hostPort, size = availableParallelism(), resourceLimits = {}, wasmMemoryMaxMb = 64,
-    isolation = 'thread', cgroupRoot, cgroupLimits = {}, trustedWasmModules = [], sharedWasmModules = [], prewarm = false, warm, warmTimeoutMs = 60000, jobTimeoutMs, jobDeadlineMs, hostCall, hostCalls, frozenThroughLedger = false, cellEnv, cellFlags = [], ledgerBridge, retireAfterJobs = 256, rates = null } = {}) {
+    isolation = 'thread', cgroupRoot, cgroupLimits = {}, trustedWasmModules = [], sharedWasmModules = [], prewarm = false, warm, warmTimeoutMs = 60000, jobTimeoutMs, jobDeadlineMs, hostCall, hostCalls, frozenThroughLedger = false, cellEnv, cellFlags = [], ledgerBridge, retireAfterJobs = 256, dumpList, rates = null } = {}) {
     if (!positive(retireAfterJobs)) throw new TypeError('retireAfterJobs must be a positive integer');
     this.#retireAfterJobs = retireAfterJobs;
     this.#rates = rates;
@@ -114,6 +126,7 @@ export class IsolatePool {
     if (Object.keys(this.#cgroupLimits).length !== 3 || !positive(memoryMax) || !positive(pidsMax) ||
         typeof cpuMax !== 'string' || !/^(max|[1-9]\d*) [1-9]\d*$/.test(cpuMax)) throw new TypeError('invalid cgroupLimits');
     this.#cgroupRoot = isolation === 'process' ? prepareCgroup(cgroupRoot) : null;
+    this.#dumpOptions = poolDumpOptions(dumpList);
     if (prewarm) this.ready().catch(() => {});
   }
 
@@ -122,10 +135,72 @@ export class IsolatePool {
     return this.#warm ||= (async () => {
       await this.#share();
       if (this.#closing) throw new Error('isolate pool is closing');
+      const before = process.memoryUsage.rss(), spawned = this.#size - this.#cells.size;
       while (this.#cells.size < this.#size) this.#spawn();
       const [started] = await Promise.all([Promise.all([...this.#cells].map(cell => cell.started)), this.#ledger.start()]);
       if (!started.every(Boolean)) throw new Error('workcell failed before ready');
+      if (this.#dumpOptions && !this.#closing) {
+        await Promise.all([...this.#cells].map(cell => this.#weigh(cell)));
+        const weighed = [...this.#cells].reduce((total, cell) => total + (cell.heapBytes ?? 0), 0);
+        if (this.#ratio === null && spawned === this.#cells.size && weighed > 0) this.#ratio = Math.min(1, Math.max(0.05, (process.memoryUsage.rss() - before) / weighed));
+        this.#register();
+      }
     })();
+  }
+
+  #register() {
+    if (this.#dump) return;
+    const { name, priority, intervalMs, directory, env } = this.#dumpOptions;
+    this.#dump = registerHolder({ name, priority, measure: () => this.#sheddable(), shed: () => this.#shed(), refreshMs: intervalMs, directory, env, enabled: true });
+  }
+
+  #spareCells() {
+    return [...this.#cells].filter(cell => cell.ready && !cell.job && !cell.stopping).slice(this.#dumpOptions.floor);
+  }
+
+  #weigh(cell) {
+    if (!this.#dumpOptions || this.#isolation !== 'thread' || typeof cell.worker.getHeapStatistics !== 'function') return Promise.resolve();
+    return cell.worker.getHeapStatistics().then(heap => { cell.heapBytes = heap.total_physical_size + heap.malloced_memory + heap.external_memory; }, () => {});
+  }
+
+  #bytesOf(cell) {
+    return this.#isolation === 'process' ? privateBytes(cell.worker.pid) : (cell.heapBytes ?? 0) * (this.#ratio ?? 1);
+  }
+
+  #sheddable() {
+    return Math.round(this.#spareCells().reduce((total, cell) => total + this.#bytesOf(cell), 0));
+  }
+
+  get dump() {
+    return this.#dump?.enabled ? { path: this.#dump.path, bytes: this.#dump.bytes, writes: this.#dump.writes, sheds: this.#dump.sheds, ratio: this.#ratio } : null;
+  }
+
+  shed() {
+    return this.#dump?.enabled ? this.#dump.shedNow() : Promise.resolve();
+  }
+
+  async #shed() {
+    if (this.#closing) return;
+    const { holdMs, settleMs } = this.#dumpOptions;
+    this.#shedUntil = Date.now() + holdMs;
+    clearTimeout(this.#holdTimer);
+    this.#holdTimer = setTimeout(() => {
+      if (this.#closing || this.#stopping || !this.#warm) return;
+      try { while (this.#cells.size < this.#size && !this.#noStarts) this.#spawn(); } catch { }
+      this.#dump?.refresh();
+    }, holdMs);
+    this.#holdTimer.unref();
+    const spares = this.#spareCells();
+    if (!spares.length) return;
+    const before = process.memoryUsage.rss(), predicted = spares.reduce((total, cell) => total + this.#bytesOf(cell), 0);
+    for (const cell of spares) { cell.shed = true; cell.stopping = true; cell.worker.terminate(); }
+    let timer;
+    await Promise.race([Promise.all(spares.map(cell => cell.gone)), new Promise(resolve => { timer = setTimeout(resolve, settleMs); timer.unref(); })]);
+    clearTimeout(timer);
+    if (this.#isolation === 'thread' && predicted > 0 && spares.every(cell => !this.#cells.has(cell))) {
+      const observed = Math.min(2, Math.max(0.05, (before - process.memoryUsage.rss()) / predicted * (this.#ratio ?? 1)));
+      this.#ratio = this.#ratio === null ? observed : (this.#ratio + observed) / 2;
+    }
   }
 
   get ledger() {
@@ -256,6 +331,7 @@ export class IsolatePool {
       if (!this.#claim(job)) return;
       cell.job = null;
       this.#finish(job, { ...result, ...cell.metadata });
+      if (this.#dump?.enabled) this.#weigh(cell).then(() => this.#dump?.refresh());
       cell.jobs = (cell.jobs ?? 0) + 1;
       if (cell.jobs >= this.#retireAfterJobs) { cell.stopping = true; cell.worker.terminate(); }
       this.#pump();
@@ -283,8 +359,9 @@ export class IsolatePool {
         workcell: cell.id, resourceLimits: this.#limits, wasmMemoryMaxMb: this.#wasmMemoryMaxMb });
       if (!cell.ready && cell.error?.code !== 'ERR_WORKCELL_DEADLINE') this.#startFailures += 1;
       if (!this.#stopping) {
-        if (!this.#noStarts) try { this.#spawn(); } catch { }
+        if (!this.#noStarts && !(cell.shed && Date.now() < this.#shedUntil)) try { this.#spawn(); } catch { }
         this.#pump();
+        this.#dump?.refresh();
       }
     };
     worker.on(subprocess ? 'close' : 'exit', gone);
@@ -409,6 +486,8 @@ export class IsolatePool {
 
   close() {
     this.#closing = true;
+    clearTimeout(this.#holdTimer);
+    this.#dump?.close();
     return this.#closed ||= (async () => {
       await Promise.allSettled([...this.#pending, this.#sharing]);
       await this.#ledger.close();
@@ -416,4 +495,13 @@ export class IsolatePool {
       await Promise.all([...this.#cells].map(cell => cell.worker.terminate()));
     })();
   }
+}
+
+function poolDumpOptions(options) {
+  if (options === false) return null;
+  const { enabled, directory, env = process.env, ...rest } = options && typeof options === 'object' ? options : {};
+  if (!(enabled ?? (options === true || directory !== undefined || dumpListEnabled(env)))) return null;
+  const merged = { ...POOL_DUMP_DEFAULTS, ...rest, directory, env };
+  if (!Number.isSafeInteger(merged.floor) || merged.floor < 0 || ![merged.holdMs, merged.intervalMs, merged.settleMs].every(positive)) throw new TypeError('dump list floor must be a non-negative integer and holdMs, intervalMs and settleMs positive integers');
+  return merged;
 }

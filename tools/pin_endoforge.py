@@ -17,9 +17,9 @@ SLICE = ("core/__init__.py", "core/lifecycle.py", "tests/test_endoforge_core_bou
          "core/engine/evaluator.mjs", "core/engine/frozen.py", "core/engine/gates.mjs",
          "core/runtime/capacity/cli.mjs", "core/runtime/capacity/controller.mjs", "core/runtime/capacity/index.mjs",
          "core/runtime/capacity/plan.mjs", "core/runtime/capacity/probe.mjs", "core/runtime/capacity/tuner.mjs",
-         "core/runtime/isolate-cgroup.mjs", "core/runtime/isolate-ledger.mjs", "core/runtime/isolate-pool.mjs",
+         "core/runtime/dump-list.mjs", "core/runtime/isolate-cgroup.mjs", "core/runtime/isolate-ledger.mjs", "core/runtime/isolate-pool.mjs",
          "core/runtime/isolate-wasm-compile.mjs", "core/runtime/isolate-wasm.mjs", "core/runtime/isolate-workcell.mjs",
-         "tools/factory_quality/index.mjs", "tools/ledger_writer.py", "LICENSE")
+         "tools/dump_list.py", "tools/factory_quality/index.mjs", "tools/ledger_writer.py", "LICENSE")
 
 
 def sha256(data):

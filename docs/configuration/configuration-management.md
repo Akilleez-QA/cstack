@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SCMP |
-| Version | 2.0 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -37,34 +37,34 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 |---|---|
 | `EXPORT-MANIFEST.json` | Regenerate with the export builder after changes |
 | `vendor/foundation-math-v014/SOURCE-MANIFEST.json` | `23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2` |
-| `foundations/template/SOURCE-MANIFEST.json` | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` |
-| `foundations/refrigeration/SOURCE-MANIFEST.json` | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` |
-| `foundations/robotics/SOURCE-MANIFEST.json` | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` |
-| `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
-| `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` |
-| `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
+| `foundations/template/SOURCE-MANIFEST.json` | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` |
+| `foundations/refrigeration/SOURCE-MANIFEST.json` | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` |
+| `foundations/robotics/SOURCE-MANIFEST.json` | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` |
+| `vendor/endoforge/SOURCE-MANIFEST.json` | `c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612` |
+| `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` |
+| `foundations/film/SOURCE-MANIFEST.json` | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` |
 
 The source-manifest values above were recomputed with `sha256sum` at the baseline commit and match. The generated [version description](../releases/README.md) records every manifest digest, including `EXPORT-MANIFEST.json`, at its own commit.
 
 ## Upstream sources
 
-Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (bridge, tool schema and upstream manifest, commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c`). The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
+Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (bridge, tool schema and upstream manifest, commit `8445d319fd35115093f44a2081beb29ff108be49`). The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
 
 ### Vendored Foundation commits
 
-These public main heads were copied on 2026-11-01. Each source manifest and every listed file, including the upstream CI workflow, are copied byte-for-byte. Runtime code, tool inventories and interface semantics are unchanged.
+These public main heads were copied on 2026-11-08. Each source manifest and every listed file are copied byte-for-byte; upstream manifests no longer list `.github/`, so the upstream CI workflows are not copied. Tool inventories and bridge interface semantics are unchanged. New in the copies and not reached through the bridges: `foundations/film/foundation_film/filmstats.py` and `foundations/refrigeration/foundation_refrigeration/invariants.py`. The [Foundations ICD](../icd/icd-foundations.md#upstream-source-commits) lists file counts and manifest digests.
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_refrigeration` | `3fe90a939f85aeb4e4aa6913b0993374e115f176` |
-| `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
-| `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
-| `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
+| `foundation_refrigeration` | `069ea9e8b90308257565db7d00c1884119ed84d6` |
+| `foundation_robotics` | `e6abce6d4b5b7c06ed87d8270ad4785af5be1886` |
+| `foundation_film` | `7601fc51d1e01771db5be3a3f0c576b93ed7b078` |
+| `foundation_template` | `a57f14cb744093aec40a52d35420d2cee1b1797d` |
 
 ### Endoforge source
 
-`vendor/endoforge/` holds a 25-file slice of Endoforge commit
-`6dffea963afdfebfeb6a769afde94cf6a815cdb3` on `main`: the lifecycle model, run ledger,
+`vendor/endoforge/` holds a 27-file slice of Endoforge commit
+`ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3` on `main`: the lifecycle model, run ledger,
 gates and evaluator, `IsolatePool` and its workcell, the capacity planner and two
 support tools. Control the slice list in `tools/pin_endoforge.py`, the upstream and
 exported hashes, and the `endoforge` record in `contracts/SOURCE-PINS.json` together,
@@ -81,7 +81,7 @@ Each vendored Foundation under `foundations/` carries its own `docs/` tree (requ
 
 ## POODO skill snapshot
 
-`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `d1cce9e58fe80d8e35419c2d7ad335edd2c69044` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
+`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `4a111aab0a51ec5fc4c611390e7ea8eee7d3a3a9` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
 
 Ten paths absent upstream were preserved with `git mv` under `TODELETE/reasoning/poodo/`. The under-400-line update defers README, licensing, repository metadata and engineering records; the unchanged export manifest is historical and must be regenerated separately before publishing an export.
 
@@ -167,3 +167,5 @@ Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, an
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Identification, pins, change procedure, CLI approval and refrigeration acceptance baselines | See `git log -- docs/configuration/configuration-management.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header; organization, status accounting, audits, generated outputs, release management; vendored docs and upstream; trace suite in CI | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation, Engine and POODO repin: manifest digests, upstream commits, POODO commit | PR #78 |
+| 2.2 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | EndoForge repin to ea7b8d6: 27-file slice, manifest digest | PR #79 |

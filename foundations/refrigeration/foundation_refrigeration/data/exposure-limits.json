@@ -229,7 +229,7 @@
       "name": "Ammonia"
     }
   },
-  "generatedBy": "Ported from an internal application (sha256 d2bb069d77dc7fd7c5fa3285c3998fa56578f2c44e41acfe22b765cd0f47755c); values and quotations unchanged; tests/test_safety_limits.py re-reads the source when it is present.",
+  "generatedBy": "Ported from an internal application (sha256 d2bb069d77dc7fd7c5fa3285c3998fa56578f2c44e41acfe22b765cd0f47755c); values and quotations unchanged; tests/test_domain_data.py checks the six values, their citations and quotations.",
   "owner": "foundation_refrigeration.safety_limits",
   "schema": "exposure-limits/1",
   "version": "1.0.0"

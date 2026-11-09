@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-ICD-FOUNDATIONS |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -17,7 +17,7 @@
 
 Cstack owns host composition, grants, adapters and evidence interpretation. Each Foundation owns its bridge implementation and tool contracts. The controlled Math source is `vendor/foundation-math-v014/`; `foundations/math/` is a research consumer. Changes on either side require review of both admission and result interpretation.
 
-Foundation Engine is a separate domain, `foundation_engine`, served by `adapters/engine_stdio.py` over `foundation-engine-jsonrpc/1` from a partial vendor copy in `vendor/foundation-engine-v020/`: the bridge module `foundation_engine_bridge`, the schema `vendor/foundation-engine-v020/schemas/read-only-tools.json` and the upstream `SOURCE-MANIFEST.json`. The whole manifest is pinned (2,496 entries, upstream commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c`), and the two vendored files must match their entries. Its two read-only tools, `validate_render_mask` and `validate_scene_output`, return the validated value itself with no receipt or assessment; the adapter admits them as tool observations after exact output-schema validation. Inputs may use finite decimal literals; exponents and nonfinite numbers are refused. The Math extension still refuses a `foundation_engine` request; Engine is not reachable through Math.
+Foundation Engine is a separate domain, `foundation_engine`, served by `adapters/engine_stdio.py` over `foundation-engine-jsonrpc/1` from a partial vendor copy in `vendor/foundation-engine-v020/`: the bridge module `foundation_engine_bridge`, the schema `vendor/foundation-engine-v020/schemas/read-only-tools.json` and the upstream `SOURCE-MANIFEST.json`. The whole manifest is pinned (2,513 entries, upstream commit `8445d319fd35115093f44a2081beb29ff108be49`), and the two vendored files must match their entries. Its two read-only tools, `validate_render_mask` and `validate_scene_output`, return the validated value itself with no receipt or assessment; the adapter admits them as tool observations after exact output-schema validation. Inputs may use finite decimal literals; exponents and nonfinite numbers are refused. The Math extension still refuses a `foundation_engine` request; Engine is not reachable through Math.
 
 ## Semantic side
 
@@ -78,22 +78,22 @@ Copied from `contracts/SOURCE-PINS.json`. That file is the source of truth.
 
 | Foundation | Path | Files | Manifest SHA-256 | Inventory SHA-256 |
 |---|---|---|---|---|
-| `foundation_refrigeration` | `foundations/refrigeration` | 63 | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
-| `foundation_film` | `foundations/film` | 42 | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
-| `foundation_robotics` | `foundations/robotics` | 45 | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
-| `foundation_template` | `foundations/template` | 35 | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
-| `foundation_engine` | `vendor/foundation-engine-v020` | 2496 (2 vendored) | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` | `c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc` |
+| `foundation_refrigeration` | `foundations/refrigeration` | 79 | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
+| `foundation_film` | `foundations/film` | 55 | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
+| `foundation_robotics` | `foundations/robotics` | 61 | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
+| `foundation_template` | `foundations/template` | 49 | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
+| `foundation_engine` | `vendor/foundation-engine-v020` | 2513 (2 vendored) | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` | `c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc` |
 
 ### Upstream source commits
 
-The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and every listed file, including `.github/workflows/ci.yml`, are copied byte-for-byte from the public main commits below. The 2026-11-01 refresh adds the upstream CI workflows running on `ubuntu-latest`; runtime code, tool inventories and interface semantics are unchanged.
+The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and every listed file are copied byte-for-byte from the public main commits below. The 2026-11-08 repin follows the upstream documentation PRs and two fixes made for it: refrigeration #11 (`exposure-limits.json` provenance text) and refrigeration, robotics and template #14 (the trace check skips links into `.github/` when `.github/` is absent, so a manifest-only copy passes its own suite). Upstream manifests no longer list `.github/`, so the vendored copies no longer carry the upstream CI workflows. Tool inventories and bridge interface semantics are unchanged. Two upstream modules are new in the copies and are not reached through the bridge: `foundations/film/foundation_film/filmstats.py` (an optional producer CLI that needs OpenCV and PySceneDetect) and `foundations/refrigeration/foundation_refrigeration/invariants.py` (a local Python invariant API). Refrigeration's `exposure-limits.json` changed only in its `generatedBy` text.
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
-| `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
-| `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
-| `foundation_refrigeration` | `3fe90a939f85aeb4e4aa6913b0993374e115f176` |
+| `foundation_template` | `a57f14cb744093aec40a52d35420d2cee1b1797d` |
+| `foundation_film` | `7601fc51d1e01771db5be3a3f0c576b93ed7b078` |
+| `foundation_robotics` | `e6abce6d4b5b7c06ed87d8270ad4785af5be1886` |
+| `foundation_refrigeration` | `069ea9e8b90308257565db7d00c1884119ed84d6` |
 
 ## Local CLI approval interface
 
@@ -122,3 +122,4 @@ CS-REQ-003 to CS-REQ-008 and CS-REQ-015 (Math adapter); CS-REQ-064 (Film, Refrig
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-foundations.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation and Engine repin: pins table, upstream commits, Engine manifest (2,513 entries); vendored copies no longer carry upstream CI workflows | PR #78 |

@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-STP |
-| Version | 1.0 |
+| Version | 1.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -96,7 +96,7 @@ Automated suites: the code is the procedure; run the command in §2. The numbere
 - Preconditions: a clone of https://github.com/Akilleez-QA/poodo checked out at the `poodo_skill.commit` in `contracts/SOURCE-PINS.json`.
 - Steps: for every entry in `poodo_skill.files`, compare `reasoning/poodo/<file>` with the clone byte for byte; for every file under `TODELETE/reasoning/poodo/`, confirm it is absent from the clone.
 - Expected result: every listed file identical; every archived path absent upstream.
-- Last run: 2026-11-08 at baseline 6ae5481, commit `d1cce9e58fe80d8e35419c2d7ad335edd2c69044`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
+- Last run: 2026-11-08 at baseline b7c64b1, commit `4a111aab0a51ec5fc4c611390e7ea8eee7d3a3a9`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
 
 ### TP-4 — EndoForge pin against an upstream clone
 
@@ -104,7 +104,7 @@ Automated suites: the code is the procedure; run the command in §2. The numbere
 - Preconditions: a fetched EndoForge clone.
 - Steps: `CSTACK_ENDOFORGE_CLONE=<clone> python -B -m unittest tests.test_endoforge_pin`.
 - Expected result: 4 tests OK, none skipped.
-- Last run: 2026-11-08 at the previous documentation refresh (PR #74, pin `6dffea9`), 4 tests OK. Not rerun at this baseline; the pin did not change.
+- Last run: 2026-11-08 for the repin to `ea7b8d6` (PR #79), with a clone fetched at `ea7b8d6`: 4 tests OK, none skipped.
 
 ### TP-5 — README commands on a fresh clone
 
@@ -139,3 +139,5 @@ See the [verification matrix](verification-matrix.md). Results per release are i
 | Version | Date | Commit | Change | Reviewed in |
 |---|---|---|---|---|
 | 1.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Initial baseline | docs/nasa-standard PR |
+| 1.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | TP-3 rerun against the repinned POODO commit | PR #78 |
+| 1.2 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | TP-4 rerun for the EndoForge repin | PR #79 |
