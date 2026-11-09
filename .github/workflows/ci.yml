@@ -18,7 +18,7 @@ jobs:
           node-version: 24
       - run: npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund
       - run: python -B -m unittest discover -s tests
-      - run: bash ci/run-local.sh python links
+      - run: bash ci/run-local.sh python links trace
   secrets:
     runs-on: ubuntu-latest
     steps:

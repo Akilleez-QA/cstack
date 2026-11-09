@@ -15,12 +15,13 @@ suite_python() {
   done
 }
 suite_links() { "$PY" -B tools/check_links.py; }
+suite_trace() { "$PY" -B tools/check_trace.py; }
 suite_readme() { "$PY" -B tools/check_readme.py; }
 suite_refrigeration() { PYTHON="$PY" bash tools/e2e_refrigeration.sh; }
 suite_gitleaks() { gitleaks dir . --no-banner; }
 suite_trufflehog() { bash ci/scan-secrets.sh; }
 want=("$@")
-[ ${#want[@]} -gt 0 ] || want=(python links refrigeration gitleaks trufflehog)
+[ ${#want[@]} -gt 0 ] || want=(python links trace refrigeration gitleaks trufflehog)
 for suite in "${want[@]}"; do
   declare -F "suite_$suite" >/dev/null || { echo "unknown suite: $suite"; exit 64; }
   "suite_$suite"
