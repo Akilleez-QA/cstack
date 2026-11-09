@@ -1,8 +1,17 @@
 # Cstack–Foundations interface control document
 
-Status: reusable documentation baseline; approval is through repository review. This document describes inspected implementation, not a NASA compliance determination or certification.
+| Field | Value |
+|---|---|
+| Document ID | CSTACK-ICD-FOUNDATIONS |
+| Version | 2.0 |
+| Status | Baselined |
+| Owner | Akilleez-QA |
+| Date | 2026-11-08 |
+| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Applies to | cstack main at baseline commit |
+| Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
-Organization follows the requirements, design, traceability and configuration-control concerns of [NPR 7150.2](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all) and [NASA-STD-8739.8](https://standards.nasa.gov/standard/nasa/nasa-std-87398). No NASA software classification, hazard analysis or independent verification is asserted.
+> Organized after [NPR 7150.2D](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all), [NASA-STD-8739.8B](https://standards.nasa.gov/standard/nasa/nasa-std-87398) and the [NASA Software Engineering Handbook](https://swehb.nasa.gov/display/SWEHBVD/7.18+-+Documentation+Guidance) documentation guidance. This is not a NASA compliance determination or certification. The software classification is a self-assessed analog (Class E, not safety-critical); no NASA authority, independent verification and validation, or hazard analysis is asserted. The document describes the implementation inspected at the baseline commit.
 
 ## Interface ownership and applicability
 
@@ -102,3 +111,14 @@ request digest, goal and revision. The host flag and file remain outside request
 JSON. Terminal prompts display the full escaped request on `/dev/tty`; only
 `approve` authorizes. Missing terminal, EOF and other answers decline. A decline
 stops the run before dispatch with no action/outcome, preserving earlier history.
+
+## Requirements addressed
+
+CS-REQ-003 to CS-REQ-008 and CS-REQ-015 (Math adapter); CS-REQ-064 (Film, Refrigeration, Robotics and Template adapters); CS-REQ-065 (Engine adapter); CS-REQ-009 to CS-REQ-011 (process executor); CS-REQ-017 and CS-REQ-018 (local CLI approval). The tool and field tables generated from `schemas/` are in the [data dictionary](../data/data-dictionary.md). See the [verification matrix](../verification/verification-matrix.md) for the tests.
+
+## Change history
+
+| Version | Date | Commit | Change | Reviewed in |
+|---|---|---|---|---|
+| 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-foundations.md` |
+| 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |

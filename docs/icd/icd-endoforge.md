@@ -1,9 +1,20 @@
 # Cstack–Endoforge interface control document
 
+| Field | Value |
+|---|---|
+| Document ID | CSTACK-ICD-ENDOFORGE |
+| Version | 2.0 |
+| Status | Baselined |
+| Owner | Akilleez-QA |
+| Date | 2026-11-08 |
+| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Applies to | cstack main at baseline commit |
+| Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
+
+> Organized after [NPR 7150.2D](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all), [NASA-STD-8739.8B](https://standards.nasa.gov/standard/nasa/nasa-std-87398) and the [NASA Software Engineering Handbook](https://swehb.nasa.gov/display/SWEHBVD/7.18+-+Documentation+Guidance) documentation guidance. This is not a NASA compliance determination or certification. The software classification is a self-assessed analog (Class E, not safety-critical); no NASA authority, independent verification and validation, or hazard analysis is asserted. The document describes the implementation inspected at the baseline commit.
+
 Status: contract baseline 0.3; approval is through repository review. The protocol,
 local file adapter, host-configured POODO/CLI evidence routing and the workcell runtime are **implemented**.
-This document follows the repository's NASA-style interface-control structure;
-it does not assert NASA compliance, qualification or independent verification.
 
 ## 1. Purpose, scope and references
 
@@ -201,3 +212,14 @@ These are the only vendored Endoforge names Cstack code calls at the current pin
 | `tests/test_endoforge_pin.py` | `vendor/endoforge/tests/test_endoforge_core_boundary.py` | Run as the import-boundary check |
 
 Inside the pool, the vendored workcell calls the vendored gates and evaluator (`core/engine/`) and the ledger bridge, and loads Cstack's `adapters/workcell/host-port.mjs` as its host port. The capacity planner in `core/runtime/capacity/` is vendored but not called. Endoforge's own interface documents for these parts are its [ledger ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/ledger-icd.md) and [capacity ICD](https://github.com/Akilleez-QA/endoforge/blob/main/docs/interfaces/capacity-icd.md); they describe Endoforge `main`, which may be ahead of the pin.
+
+## Requirements addressed
+
+CS-REQ-020 to CS-REQ-030 (evidence port, file adapter and configured routing); CS-REQ-031 (refrigeration acceptance); CS-REQ-032 to CS-REQ-035, CS-REQ-068 and CS-REQ-069 (workcell runtime). See the [verification matrix](../verification/verification-matrix.md) for the tests.
+
+## Change history
+
+| Version | Date | Commit | Change | Reviewed in |
+|---|---|---|---|---|
+| 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-endoforge.md` |
+| 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |

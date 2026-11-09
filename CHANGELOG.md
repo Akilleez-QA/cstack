@@ -10,6 +10,11 @@ release yet; entries name the pull requests that made them.
 
 ### Added
 
+- Cstack family documentation standard published in `docs/standards/` (standard, checklist, templates) as the canonical copy for the family.
+- NASA-organized control documents: software management plan, compliance matrix, test plan and procedures, generated data dictionary, generated test report and version description for the `main` baseline, assurance record, user manual map, limitations page; problem-report and change-request issue templates and a peer-review PR template.
+- Requirements CS-REQ-036 to CS-REQ-077 for behaviour existing tests already check; every requirement allocated to a design component; full bidirectional trace.
+- `tools/check_trace.py`, run as the `trace` suite in `ci/run-local.sh` and in CI; `tools/gen_data_dictionary.py`; `tools/gen_release_docs.py`.
+
 - Diátaxis guides: a first-run tutorial, how-to guides for running the CI checks locally and repinning EndoForge, a reference of commands, configuration and environment variables, and explanations of EndoForge vendoring and the server and adapters.
 - Claude Code model transport for forge goals, `adapters/workcell/claude-transport.mjs` (#70).
 - Project code name Mjölnir for Cstack and the EndoForge core it vendors (#69).
@@ -26,6 +31,8 @@ release yet; entries name the pull requests that made them.
 - Template export, control core for goals, scoped authority and evidence, Foundation adapters and pins.
 
 ### Changed
+
+- Control documents carry the family metadata header and a self-assessed classification statement (Class E analog, not safety-critical) in place of "No NASA software classification … is asserted".
 
 - `tools/check_links.py` also scans the README, CONTRIBUTING, CHANGELOG, NOTICE, every document under `docs/` and the area READMEs.
 - Vendored EndoForge repinned to `main` at `6dffea9` (P-68 capacity changes), via `f6711a7` and `da47ad9`; the slice now holds the gates, ledger, `IsolatePool` and capacity planner (#45, #68, #71, #73).

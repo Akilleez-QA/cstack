@@ -39,7 +39,7 @@ Run the same checks as CI (details in
 
 ```sh
 python -B -m unittest discover -s tests
-bash ci/run-local.sh python links
+bash ci/run-local.sh python links trace
 bash ci/scan-secrets.sh
 ```
 

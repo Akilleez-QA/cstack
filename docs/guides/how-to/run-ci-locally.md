@@ -29,21 +29,22 @@ npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fun
 
 ```sh
 python -B -m unittest discover -s tests
-bash ci/run-local.sh python links
+bash ci/run-local.sh python links trace
 ```
 
 The first command is the root suite. The second runs, in order:
 
 1. the root suite again, normally and with `python -O`;
 2. each `foundations/*/tests` suite from its own directory, normally and with `-O`;
-3. `tools/check_links.py`, which checks that links and backticked repository paths in the documents it scans exist.
+3. `tools/check_links.py`, which checks that links and backticked repository paths in the documents it scans exist;
+4. `tools/check_trace.py`, which checks that every requirement traces to tests and to the design, every test file is traced, and links and headings named in the control documents exist.
 
 Both must exit 0. A failure in `-O` mode only usually means a check relied on `assert`.
 
 `ci/run-local.sh` uses `python3` unless you set `PYTHON`:
 
 ```sh
-PYTHON=.venv/bin/python bash ci/run-local.sh python links
+PYTHON=.venv/bin/python bash ci/run-local.sh python links trace
 ```
 
 ## Run the `secrets` job
@@ -60,12 +61,13 @@ The repository also has a gitleaks pre-commit hook (`.pre-commit-config.yaml`, r
 
 ## Other suites in `ci/run-local.sh`
 
-`bash ci/run-local.sh` with no arguments runs `python links refrigeration gitleaks trufflehog`. You can name any of these suites:
+`bash ci/run-local.sh` with no arguments runs `python links trace refrigeration gitleaks trufflehog`. You can name any of these suites:
 
 | Suite | What it runs | Needs |
 |---|---|---|
 | `python` | Root and Foundation suites, normal and `-O` | The setup above |
 | `links` | `python -B tools/check_links.py` | Nothing extra |
+| `trace` | `python -B tools/check_trace.py`: requirement, design and test traceability ([verification matrix](../../verification/verification-matrix.md)) | Nothing extra |
 | `readme` | `python -B tools/check_readme.py`: every README command on a fresh clone | Network for the clone and installs; `gh` and `claude` logins, or those commands are reported as skipped |
 | `refrigeration` | `tools/e2e_refrigeration.sh`: the refrigeration CLI acceptance with a host approval | The setup above |
 | `gitleaks` | `gitleaks dir . --no-banner` | `gitleaks` on `PATH` |
@@ -105,7 +107,7 @@ List each command with a one-line result in the PR body, for example:
 
 ```text
 python -B -m unittest discover -s tests: Ran N tests, OK (skipped=2)
-bash ci/run-local.sh python links: exit 0; M paths checked, 0 broken
+bash ci/run-local.sh python links trace: exit 0; M paths checked, 0 broken; 0 trace failures
 ```
 
 Say which checks you skipped and why. Passing checks are not engineering, safety or compliance approval.

@@ -1,8 +1,21 @@
-# Cstack configuration management
+# Cstack configuration management plan
 
-Status: reusable documentation baseline; approval is through repository review. This document describes inspected implementation, not a NASA compliance determination or certification.
+| Field | Value |
+|---|---|
+| Document ID | CSTACK-SCMP |
+| Version | 2.0 |
+| Status | Baselined |
+| Owner | Akilleez-QA |
+| Date | 2026-11-08 |
+| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Applies to | cstack main at baseline commit |
+| Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
-Organization follows the requirements, design, traceability and configuration-control concerns of [NPR 7150.2](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all) and [NASA-STD-8739.8](https://standards.nasa.gov/standard/nasa/nasa-std-87398). No NASA software classification, hazard analysis or independent verification is asserted.
+> Organized after [NPR 7150.2D](https://nodis3.gsfc.nasa.gov/displayAll.cfm?Internal_ID=N_PR_7150_002D_&page_name=all), [NASA-STD-8739.8B](https://standards.nasa.gov/standard/nasa/nasa-std-87398) and the [NASA Software Engineering Handbook](https://swehb.nasa.gov/display/SWEHBVD/7.18+-+Documentation+Guidance) documentation guidance. This is not a NASA compliance determination or certification. The software classification is a self-assessed analog (Class E, not safety-critical); no NASA authority, independent verification and validation, or hazard analysis is asserted. The document describes the implementation inspected at the baseline commit.
+
+## Organization and change control
+
+The maintainer (`Akilleez-QA`, sole CODEOWNER) approves and merges every change to `main`. Agent sessions and external contributors work on their own branches and open pull requests. `main` has no branch protection rule at the baseline (checked with `gh api repos/Akilleez-QA/cstack/branches/main/protection`, which answers "Branch not protected"); change control is the PR review plus the local checks listed in each PR body, and `tools/merge_train.py` for stacked PRs. A baseline is a commit on `main`; no tag exists yet.
 
 ## Configuration identification
 
@@ -30,6 +43,8 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 | `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
 | `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` |
 | `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
+
+The source-manifest values above were recomputed with `sha256sum` at the baseline commit and match. The generated [version description](../releases/README.md) records every manifest digest, including `EXPORT-MANIFEST.json`, at its own commit.
 
 ## Upstream sources
 
@@ -59,6 +74,10 @@ removed mechanically during export. Cstack's side of the runtime, `adapters/work
 is pinned separately as `workcell_runtime` (`tools/pin_workcell.py`), and every forge
 run checks both pins before it starts. Rollback restores the previous vendor slice
 and pin records from Git together.
+
+### Vendored documentation and upstream
+
+Each vendored Foundation under `foundations/` carries its own `docs/` tree (requirements, architecture, ICDs, verification) as part of its byte-pinned copy, and `vendor/` and `reasoning/` hold upstream files the same way. These copies are mirrors: they are listed in each `SOURCE-MANIFEST.json` or pin, checked by the adapter and pin tests, and never edited in Cstack. A documentation fix for a Foundation, EndoForge or POODO is made in that upstream repository, merged there, and then reaches Cstack only through a repin that copies the new bytes and updates the pin records together (procedure below). Between repins, a vendored doc may describe an older upstream state than the upstream repository's `main`; the pin commit says which. The family documentation standard itself is canonical here, in [`docs/standards/`](../standards/family-doc-standard.md), and upstream repositories link to it rather than copying it.
 
 ## POODO skill snapshot
 
@@ -96,7 +115,32 @@ If an export is regenerated in a later change, first define its inclusion/exclus
 
 ## Verification environment
 
-The GitHub workflow runs root unittest discovery and `bash ci/run-local.sh python links`, plus a TruffleHog scan. The wrapper runs the root and Foundation suites in normal and optimized modes, then the link check; it no longer reads `ci/host-only.txt`. See [run CI checks locally](../guides/how-to/run-ci-locally.md).
+The GitHub workflow runs root unittest discovery and `bash ci/run-local.sh python links trace`, plus a TruffleHog scan. The wrapper runs the root and Foundation suites in normal and optimized modes, then the link check and the trace check. See [run CI checks locally](../guides/how-to/run-ci-locally.md) and the [test plan](../verification/test-plan.md).
+
+## Status accounting
+
+Status is recovered from Git, not kept by hand: `git log` and merged PRs for changes, `contracts/SOURCE-PINS.json` and the source manifests for vendored identities, the CHANGELOG for user-visible changes, and generated version descriptions in [`docs/releases/`](../releases/README.md).
+
+## Configuration audits
+
+At each release, and at each documentation baseline, the assurance record gets a configuration-audit entry: control-document baseline commits against the release commit, manifest digests against files (this document's table and the generated version description), and pin tests passing. See the [assurance record](../assurance/assurance-record.md).
+
+## Control of generated outputs
+
+Cstack generates no source code. These generated records are committed and regenerated by their tool, never edited by hand:
+
+| Output | Generator | When |
+|---|---|---|
+| `EXPORT-MANIFEST.json` | `python -B tools/build_export_manifest.py` | After any change to the tracked file set or contents, as the last step before commit |
+| `vendor/endoforge/` and the `endoforge` pin | `tools/pin_endoforge.py` | On repin |
+| `workcell_runtime` pin | `tools/pin_workcell.py` | When `adapters/workcell/` changes |
+| `docs/verification/reports/STR-<label>.md`, `docs/releases/VDD-<label>.md` | `python3 -B tools/gen_release_docs.py --label <label>` | At each tag and documentation baseline |
+
+The generators' inputs are the tracked tree, Git history, the CHANGELOG and `ci/run-local.sh`; the tools themselves are tracked and reviewed like code.
+
+## Release management
+
+No release has been tagged. To cut one: update the CHANGELOG section, tag the commit on `main`, run `tools/gen_release_docs.py --label <tag>` at that commit, record the configuration audit in the assurance record, and commit the generated files. GitHub Release bodies may link the generated files.
 
 ## Licensing
 
@@ -116,3 +160,10 @@ retains existing consumption records; do not reuse or remove them as a reset.
 ## Refrigeration acceptance baseline
 
 Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, and `tools/e2e_refrigeration.sh` together under CS-REQ-031. The harness creates disposable host configuration, approval SQLite store and Endoforge ledger in a temporary directory; it never modifies repository-local runtime configuration or source pins. Each run records a fresh synthetic approval_id with a five-minute expiry. `PYTHON` selects the runner interpreter. `ci/run-local.sh refrigeration` is the named suite and is included in the default suite list; `python links` also exercises both acceptance cases through unittest discovery.
+
+## Change history
+
+| Version | Date | Commit | Change | Reviewed in |
+|---|---|---|---|---|
+| 1.x | 2026-10 to 2026-11-08 | various | Identification, pins, change procedure, CLI approval and refrigeration acceptance baselines | See `git log -- docs/configuration/configuration-management.md` |
+| 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header; organization, status accounting, audits, generated outputs, release management; vendored docs and upstream; trace suite in CI | docs/nasa-standard PR |
