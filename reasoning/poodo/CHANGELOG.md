@@ -15,6 +15,7 @@ Tooling and evaluation-rule fixes.
 ### Changed
 
 - Rubric: define N/A via a per-case `not_applicable` manifest field frozen before scoring.
+- README rewritten for first-time readers: a guided-versus-unguided example built from an evaluation case, a flow diagram, real checker output, and Codex install steps checked on a throwaway home folder. The loop pseudocode, its specification table and the Mega Observe section moved to [How POODO works](docs/guides/explanation/how-it-works.md). The documentation index now leads with reader tasks and lists the engineering records last.
 - CI: `actions/checkout` v4 → v7 and `actions/setup-python` v5 → v7 (Dependabot).
 - Requirements, design, verification matrix, configuration and Cstack interface documents re-baselined to commits in this history; the Cstack interface is re-pinned to current Cstack main.
 

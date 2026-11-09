@@ -4,7 +4,7 @@ from extensions.foundation_robotics import ROBOTICS_CAPABILITY
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure
 from .wire import decode
 
-SOURCE_SHA256 = "7452f90b3771213f5eada796fc2e489d19dada7b339d04155df39b8a85f5587d"
+SOURCE_SHA256 = "624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97"
 SOURCE_FILE_COUNT = 61
 INVENTORY_SHA256 = "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599"
 BRIDGE_PROTOCOL = "foundation-robotics-jsonrpc/1"

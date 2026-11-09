@@ -44,7 +44,7 @@ Trace check: `python -B tools/check_trace.py` (also run by `tests/test_docs.py::
 
 | Test | Classification (supporting / infrastructure / candidate requirement) |
 |---|---|
-| `tests/test_docs.py::DocTests` | Infrastructure: runs the trace and link check and the generated-docs freshness check |
+| `tests/test_docs.py::DocTests` | Infrastructure: runs the trace and link check and the generated-docs freshness check, and the trace and link check in a copy holding only `SOURCE-MANIFEST.json` and its listed files, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
 
 ## Change history
 

@@ -63,6 +63,7 @@ Method: T test, I inspection.
 |---|---|
 | `tests/test_evidence_units.py::EvidenceTests.test_projection_json_is_stable_regardless_of_key_order` | Supporting: checks `projection.stable_json`, a library helper the shipped code does not call |
 | `tests/test_docs_trace.py::DocumentationTraceTests.test_requirements_trace_to_tests_design_and_live_links` | Infrastructure: documentation trace and link check |
+| `tests/test_docs_trace.py::DocumentationTraceTests.test_manifest_copy_passes_its_own_trace_check` | Infrastructure: a copy holding only `SOURCE-MANIFEST.json` and its listed files passes the trace and link check, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
 | `tests/test_docs_trace.py::DocumentationTraceTests.test_generated_reference_documents_are_current` | Infrastructure: generated reference documents match their sources |
 
 ## Change history

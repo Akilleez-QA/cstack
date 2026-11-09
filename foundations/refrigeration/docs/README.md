@@ -1,20 +1,26 @@
 # Documentation
 
-Control documents carry their own baseline commits. Reading or indexing them does not create a new verification result. Classification: self-assessed Class E analog, not safety-critical, and Class E only because no real engineering decision depends on this software; this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+foundation-refrigeration is a read-only checker for refrigeration numbers: saturation tables, unit conversion, cited ammonia exposure limits and equipment names, each returned with its source. The [README](../README.md) shows what it does in one example.
 
 **Exposure limits and other data here are not for life-safety decisions.** Read [Limitations and safety-relevant use](guides/explanation/limitations.md) first.
 
-## Start here
+## Find what you need
 
-| Need | Index |
+| I want to | Go to |
 |---|---|
-| Run it for the first time | [Tutorials](guides/tutorials/README.md) |
-| Do a specific task | [How-to guides](guides/how-to/README.md) |
-| Look up tools, fields, errors, commands | [Reference](guides/reference/README.md) |
-| Understand the design and limits | [Explanation](guides/explanation/README.md) |
-| Where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
+| Learn: run it for the first time | [Tutorial: your first bridge session](guides/tutorials/first-bridge-session.md) ([all tutorials](guides/tutorials/README.md)) |
+| Do a task: run tests, rebuild the manifest, check links | [How-to guides](guides/how-to/README.md) |
+| Look up a tool, argument, unit, error or command | [Reference](guides/reference/README.md), including the [tool catalog](guides/reference/tool-catalog.md) |
+| Understand the design and its limits | [Explanation](guides/explanation/README.md) and [Limitations and safety-relevant use](guides/explanation/limitations.md) |
+| See where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
 
-## Control documents
+Also: [Contributing](../CONTRIBUTING.md), [Security](../SECURITY.md) and [Support](../SUPPORT.md).
+
+## Engineering records
+
+These documents record how the software is planned, specified, built and verified. They are organized after NASA software documentation guidance. Each carries its own baseline commit; reading or indexing them does not create a new verification result.
+
+Classification: self-assessed Class E analog, not safety-critical, and Class E only because no real engineering decision depends on this software; this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
 
 | Document | ID | SWEHB | Path |
 |---|---|---|---|
@@ -35,5 +41,3 @@ Control documents carry their own baseline commits. Reading or indexing them doe
 Problem reports and change requests (5.01) use the [issue templates](../.github/ISSUE_TEMPLATE/problem-report.md); peer review (5.03) uses the [pull request template](../.github/pull_request_template.md).
 
 Not applicable for this repository (rationale in the SMP and the [compliance matrix](plan/compliance-matrix.md)): training plan (5.15), safety plan (5.18), assurance status report (5.19), IV&V plan (5.20), hazard report (5.24; replaced by the limitations page). This repository has no `docs/rules/` folder; contribution rules are in [CONTRIBUTING.md](../CONTRIBUTING.md) and [AGENTS.md](../AGENTS.md).
-
-See [Contributing](../CONTRIBUTING.md), [Security](../SECURITY.md) and [Support](../SUPPORT.md).

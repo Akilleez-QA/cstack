@@ -17,9 +17,9 @@ The user manual is the README plus the guides. This map shows where each user-ma
 
 | SUM element | Where | Verified how |
 |---|---|---|
-| Application summary and intended users | [README](../../README.md#foundation-template), [Status](../../README.md#status) | Read against the code at the baseline commit |
-| Inventory (what is shipped) | [README: What is inside](../../README.md#what-is-inside), [Layout](../../README.md#layout); [version descriptions](../releases/README.md) | Version description generated from `SOURCE-MANIFEST.json` |
-| Environment and prerequisites | [README: Quickstart](../../README.md#quickstart); [SMP §4](../plan/software-management-plan.md#4-engineering-and-test-environment) | Quickstart run at the baseline commit |
+| Application summary and intended users | [README](../../README.md#foundation-template), [What a Foundation is](../../README.md#what-a-foundation-is) | Read against the code at the baseline commit |
+| Inventory (what is shipped) | [README: What a copy inherits](../../README.md#what-a-copy-inherits), [Layout](../../README.md#layout); [version descriptions](../releases/README.md) | Version description generated from `SOURCE-MANIFEST.json` |
+| Environment and prerequisites | [README: Install and run](../../README.md#install-and-run); [SMP §4](../plan/software-management-plan.md#4-engineering-and-test-environment) | Quickstart run at the baseline commit |
 | Modes and states of operation | [Explanation: Modes and states](explanation/README.md#modes-and-states) | Checked against `foundation_template_bridge/server.py` |
 | Security and privacy | [SECURITY.md](../../SECURITY.md); [SMP §7](../plan/software-management-plan.md#7-security-privacy-and-secure-coding) | Read against the code |
 | Assistance and problem reporting | [SUPPORT.md](../../SUPPORT.md); [issue templates](../../.github/ISSUE_TEMPLATE/problem-report.md) | Files exist |

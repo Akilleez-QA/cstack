@@ -96,7 +96,7 @@ Automated suites: the code is the procedure; run the command in §2. The numbere
 - Preconditions: a clone of https://github.com/Akilleez-QA/poodo checked out at the `poodo_skill.commit` in `contracts/SOURCE-PINS.json`.
 - Steps: for every entry in `poodo_skill.files`, compare `reasoning/poodo/<file>` with the clone byte for byte; for every file under `TODELETE/reasoning/poodo/`, confirm it is absent from the clone.
 - Expected result: every listed file identical; every archived path absent upstream.
-- Last run: 2026-11-08 at baseline b7c64b1, commit `e59bceebfc789cc581887c77d8138336712f6760`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
+- Last run: 2026-11-08 at baseline b7c64b1, commit `4a111aab0a51ec5fc4c611390e7ea8eee7d3a3a9`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
 
 ### TP-4 — EndoForge pin against an upstream clone
 

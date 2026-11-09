@@ -17,16 +17,16 @@ The user manual is the README plus the guides. This map shows where each user-ma
 
 | SUM element | Where | Verified how |
 |---|---|---|
-| Application summary and intended users | [README](../../README.md#foundation-refrigeration), [Status](../../README.md#status) | Read against the code at the baseline commit |
-| Inventory (what is shipped) | [README: What is inside](../../README.md#what-is-inside), [Layout](../../README.md#layout); [version descriptions](../releases/README.md) | Version description generated from `SOURCE-MANIFEST.json` |
-| Environment and prerequisites | [README: Quickstart](../../README.md#quickstart); [SMP §4](../plan/software-management-plan.md#4-engineering-and-test-environment) | Quickstart commands run at the baseline commit |
+| Application summary and intended users | [README](../../README.md#foundation-refrigeration), [What it does for you](../../README.md#what-it-does-for-you) | Read against the code at the baseline commit |
+| Inventory (what is shipped) | [README: What is inside](../../README.md#what-is-inside), [Tools](../../README.md#tools); [version descriptions](../releases/README.md) | Version description generated from `SOURCE-MANIFEST.json` |
+| Environment and prerequisites | [README: Try it](../../README.md#try-it); [SMP §4](../plan/software-management-plan.md#4-engineering-and-test-environment) | Try-it commands run at the baseline commit |
 | Modes and states of operation | [Explanation: Modes and states](explanation/README.md#modes-and-states) | Checked against `foundation_refrigeration_bridge/server.py` |
 | Security and privacy | [SECURITY.md](../../SECURITY.md); [SMP §7](../plan/software-management-plan.md#7-security-privacy-and-secure-coding) | Read against the code |
 | Assistance and problem reporting | [SUPPORT.md](../../SUPPORT.md); [issue templates](../../.github/ISSUE_TEMPLATE/problem-report.md) | Files exist |
 | First-time use | [Tutorial: first bridge session](tutorials/first-bridge-session.md) | Tutorial run at the baseline commit; output pasted |
 | Starting, stopping, suspending | [Tutorial](tutorials/first-bridge-session.md); [ICD §2](../icd/icd-cstack.md#2-interface-type-and-transport). Suspending: not supported | Tutorial run |
 | Capabilities and commands reference | [Tool catalog](reference/tool-catalog.md); [Reference: Commands](reference/README.md#commands) | Tool catalog generated from the schemas by `tools/gen_docs.py` |
-| Conventions (IDs, units, file layout) | [Data dictionary §2](../data/data-dictionary.md#2-data-elements); [README: Layout](../../README.md#layout) | Read against `foundation_refrigeration/units.py` |
+| Conventions (IDs, units, file layout) | [Data dictionary §2](../data/data-dictionary.md#2-data-elements); [README: What is inside](../../README.md#what-is-inside) | Read against `foundation_refrigeration/units.py` |
 | Processing procedures | [How-to guides](how-to/README.md) | Commands run at the baseline commit |
 | Data backup and recovery from errors | [How-to: Recover after an error](how-to/README.md#recover-after-an-error). Backup: not applicable, no state is stored | Read against `server.serve` |
 | Messages, errors and exit codes | [Tool catalog: error codes](reference/tool-catalog.md#tool-error-codes); [Reference: exit status](reference/README.md#bridge-exit-status); [How-to: Troubleshooting](how-to/README.md#troubleshooting) | Error tables generated from the source by `tools/gen_docs.py` |

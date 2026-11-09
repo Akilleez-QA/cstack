@@ -86,6 +86,11 @@ def markdown_files():
     return sorted(p for p in ROOT.rglob("*.md") if not SKIP_DIRS & set(p.relative_to(ROOT).parts))
 
 
+def outside_distribution(path):
+    ci = ROOT / ".github"
+    return not ci.exists() and path.is_relative_to(ci)
+
+
 def dead_links():
     problems = []
     for path in markdown_files():
@@ -101,6 +106,8 @@ def dead_links():
                 file_part, _, anchor = target.partition("#")
                 resolved = path if not file_part else (path.parent / file_part).resolve()
                 relative = path.relative_to(ROOT).as_posix()
+                if not resolved.exists() and outside_distribution(resolved):
+                    continue
                 if not resolved.exists():
                     problems.append("%s:%d: dead link %s" % (relative, number, target))
                 elif anchor and resolved.suffix == ".md" and anchor not in anchors(resolved):

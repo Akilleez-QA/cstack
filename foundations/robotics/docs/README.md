@@ -1,19 +1,26 @@
 # Documentation
 
-Control documents carry their own baseline commits. Reading or indexing them does not create a new verification result. Classification: self-assessed Class E analog, not safety-critical; Class E holds only because no real engineering decision depends on this software. This is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+foundation-robotics is a read-only checker that tells you whether motion numbers obey physics. The [README](../README.md) shows what it does in one example.
 
-## Start here
+**Results are observations, not engineering approvals.** Read [Limitations and safety-relevant use](guides/explanation/limitations.md) before any safety or engineering use.
 
-| Need | Index |
+## Find what you need
+
+| I want to | Go to |
 |---|---|
-| Run it for the first time | [Tutorials](guides/tutorials/README.md) |
-| Do a specific task | [How-to guides](guides/how-to/README.md) |
-| Look up tools, fields, errors | [Reference](guides/reference/README.md) |
-| Understand the checks and their limits | [Explanation](guides/explanation/README.md) |
-| Before any safety or engineering use | [Limitations and safety-relevant use](guides/explanation/limitations.md) |
-| Where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
+| Learn: send my first check | [Tutorial: your first motion check](guides/tutorials/first-check.md) ([all tutorials](guides/tutorials/README.md)) |
+| Do a task: override a threshold, send z-up coordinates, fix an error | [How-to guides](guides/how-to/README.md) |
+| Look up a tool, field, range or error | [Reference](guides/reference/README.md), including the [tool catalog](guides/reference/tool-catalog.md) |
+| Understand the physics and the limits | [How the checks work](guides/explanation/how-the-checks-work.md) and [Limitations and safety-relevant use](guides/explanation/limitations.md) ([all explanation](guides/explanation/README.md)) |
+| See where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
 
-## Control documents
+Also: [Contributing](../CONTRIBUTING.md), [Security](../SECURITY.md) and [Support](../SUPPORT.md).
+
+## Engineering records
+
+These documents record how the software is planned, specified, built and verified. They are organized after NASA software documentation guidance. Each carries its own baseline commit; reading or indexing them does not create a new verification result.
+
+Classification: self-assessed Class E analog, not safety-critical; Class E holds only because no real engineering decision depends on this software. This is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
 
 | Document | ID | SWEHB | Path |
 |---|---|---|---|
@@ -33,5 +40,3 @@ Control documents carry their own baseline commits. Reading or indexing them doe
 This repository has no `rules/` folder; contributor rules are in [CONTRIBUTING](../CONTRIBUTING.md) and [AGENTS.md](../AGENTS.md).
 
 Not applicable for this family (rationale in the SMP and the compliance matrix): training plan (5.15), safety plan (5.18), assurance status report (5.19), IV&V plan (5.20), hazard report (5.24, replaced by the limitations page).
-
-See [Contributing](../CONTRIBUTING.md) and [Security](../SECURITY.md).

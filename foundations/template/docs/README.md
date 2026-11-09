@@ -1,20 +1,25 @@
 # Documentation
 
-Control documents carry their own baseline commits. Reading or indexing them does not create a new verification result. Classification: self-assessed Class E analog, not safety-critical; this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+Start with the task you have. A Foundation is a read-only checker for one subject;
+the [README](../README.md) explains what that means and shows a session.
 
-**This documentation set is the template for a new Foundation's documentation.** Each control document below is a filled-in instance for the template itself: copy the repository, then follow [Start a new Foundation](guides/how-to/start-a-new-foundation.md) to adapt every document. The set follows the Cstack family documentation standard (organized after NASA software documentation guidance, tailored for a small open-source project).
+**This documentation set is the template for a new Foundation's documentation.** Copy the repository, then follow [Start a new Foundation](guides/how-to/start-a-new-foundation.md) to adapt every document, including the engineering records below.
 
 ## Start here
 
-| Need | Index |
+| I want to | Read |
 |---|---|
-| Run it for the first time | [Tutorials](guides/tutorials/README.md) |
-| Do a specific task | [How-to guides](guides/how-to/README.md) |
-| Look up tools, fields, errors, commands | [Reference](guides/reference/README.md) |
-| Understand the design and limits | [Explanation](guides/explanation/README.md) |
+| Learn: run it for the first time | [Tutorial: your first bridge session](guides/tutorials/first-bridge-session.md) ([all tutorials](guides/tutorials/README.md)) |
+| Do: start a new Foundation, or another task | [Start a new Foundation](guides/how-to/start-a-new-foundation.md) ([all how-to guides](guides/how-to/README.md)) |
+| Look up: tools, fields, errors, commands | [Tool catalog](guides/reference/tool-catalog.md) ([all reference](guides/reference/README.md)) |
+| Understand: the design and limits | [Explanation](guides/explanation/README.md) · [Limitations](guides/explanation/limitations.md) |
 | Where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
 
-## Control documents
+## Engineering records
+
+Control documents carry their own baseline commits. Reading or indexing them does not create a new verification result. Classification: self-assessed Class E analog, not safety-critical; this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+
+Each control document below is a filled-in instance for the template itself. The set follows the Cstack family documentation standard (organized after NASA software documentation guidance, tailored for a small open-source project).
 
 | Document | ID | SWEHB | Path |
 |---|---|---|---|

@@ -88,6 +88,11 @@ def anchors(path):
     return result
 
 
+def outside_distribution(path):
+    ci = ROOT / ".github"
+    return not ci.exists() and path.is_relative_to(ci)
+
+
 def links():
     problems = []
     for doc in sorted(ROOT.rglob("*.md")):
@@ -99,6 +104,8 @@ def links():
                 continue
             file_part, _, anchor = target.partition("#")
             resolved = (doc.parent / file_part).resolve() if file_part else doc
+            if not resolved.exists() and outside_distribution(resolved):
+                continue
             if not resolved.exists():
                 problems.append(f"{doc.relative_to(ROOT)}: dead link {target}")
             elif anchor and resolved.suffix == ".md" and anchor not in anchors(resolved):

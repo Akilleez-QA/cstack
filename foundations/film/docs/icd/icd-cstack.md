@@ -94,7 +94,7 @@ Current values are in the latest [version description](../releases/README.md). A
 
 ## 8. Change acceptance
 
-A change to this interface needs the full suite passing in both modes, a regenerated `SOURCE-MANIFEST.json` and tool catalog, and an updated CHANGELOG entry. Producer changes also need the full-dependency test run from the README. The consumer repins in the same change that updates its vendored copy. Owner approval is required for a tag.
+A change to this interface needs the full suite passing in both modes, a regenerated `SOURCE-MANIFEST.json` and tool catalog, and an updated CHANGELOG entry. Producer changes also need the full-dependency test run from the [how-to guides](../guides/how-to/README.md#run-the-optional-producer-tests). The consumer repins in the same change that updates its vendored copy. Owner approval is required for a tag.
 
 ## 9. Offline measurement interface
 

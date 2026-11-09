@@ -78,22 +78,22 @@ Copied from `contracts/SOURCE-PINS.json`. That file is the source of truth.
 
 | Foundation | Path | Files | Manifest SHA-256 | Inventory SHA-256 |
 |---|---|---|---|---|
-| `foundation_refrigeration` | `foundations/refrigeration` | 79 | `230a8faac3653e510b08d0e81614bbc44ad2721e70aeda98722c7176ea47629f` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
-| `foundation_film` | `foundations/film` | 55 | `1abcea4f6692fa081a5839bbcd6e5eaad3ea41575b566208a2cd1afc8562d956` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
-| `foundation_robotics` | `foundations/robotics` | 61 | `7452f90b3771213f5eada796fc2e489d19dada7b339d04155df39b8a85f5587d` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
-| `foundation_template` | `foundations/template` | 49 | `0c9c1f7f5668668806fb0073f2e772c7f96ecdaa69c28fc35e8d2da380fbe9b9` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
+| `foundation_refrigeration` | `foundations/refrigeration` | 79 | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
+| `foundation_film` | `foundations/film` | 55 | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
+| `foundation_robotics` | `foundations/robotics` | 61 | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
+| `foundation_template` | `foundations/template` | 49 | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
 | `foundation_engine` | `vendor/foundation-engine-v020` | 2513 (2 vendored) | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` | `c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc` |
 
 ### Upstream source commits
 
-The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and every listed file are copied byte-for-byte from the public main commits below. The 2026-11-08 repin follows the upstream documentation-standard PRs (film #12, robotics #11, template #11, refrigeration #10 and #11). Upstream manifests no longer list `.github/`, so the vendored copies no longer carry the upstream CI workflows. Tool inventories and bridge interface semantics are unchanged. Two upstream modules are new in the copies and are not reached through the bridge: `foundations/film/foundation_film/filmstats.py` (an optional producer CLI that needs OpenCV and PySceneDetect) and `foundations/refrigeration/foundation_refrigeration/invariants.py` (a local Python invariant API). Refrigeration's `exposure-limits.json` changed only in its `generatedBy` text.
+The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and every listed file are copied byte-for-byte from the public main commits below. The 2026-11-08 repin follows the upstream documentation PRs and two fixes made for it: refrigeration #11 (`exposure-limits.json` provenance text) and refrigeration, robotics and template #14 (the trace check skips links into `.github/` when `.github/` is absent, so a manifest-only copy passes its own suite). Upstream manifests no longer list `.github/`, so the vendored copies no longer carry the upstream CI workflows. Tool inventories and bridge interface semantics are unchanged. Two upstream modules are new in the copies and are not reached through the bridge: `foundations/film/foundation_film/filmstats.py` (an optional producer CLI that needs OpenCV and PySceneDetect) and `foundations/refrigeration/foundation_refrigeration/invariants.py` (a local Python invariant API). Refrigeration's `exposure-limits.json` changed only in its `generatedBy` text.
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_template` | `9beaafacf4386ea577f2c638320a8112a7280664` |
-| `foundation_film` | `9877f1c177421caf35fd2a452a1393fc040e3ff1` |
-| `foundation_robotics` | `1324e46865d51b6c521dfdaf20f76e5d2e2b5070` |
-| `foundation_refrigeration` | `684314d632c488e2d677a64296d597c07fe56e75` |
+| `foundation_template` | `a57f14cb744093aec40a52d35420d2cee1b1797d` |
+| `foundation_film` | `7601fc51d1e01771db5be3a3f0c576b93ed7b078` |
+| `foundation_robotics` | `e6abce6d4b5b7c06ed87d8270ad4785af5be1886` |
+| `foundation_refrigeration` | `069ea9e8b90308257565db7d00c1884119ed84d6` |
 
 ## Local CLI approval interface
 

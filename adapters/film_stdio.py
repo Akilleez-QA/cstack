@@ -4,7 +4,7 @@ from extensions.foundation_film import FILM_CAPABILITY
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure
 from .wire import decode
 
-SOURCE_SHA256 = "1abcea4f6692fa081a5839bbcd6e5eaad3ea41575b566208a2cd1afc8562d956"
+SOURCE_SHA256 = "be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31"
 SOURCE_FILE_COUNT = 55
 INVENTORY_SHA256 = "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558"
 BRIDGE_PROTOCOL = "foundation-film-jsonrpc/1"
