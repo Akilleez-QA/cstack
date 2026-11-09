@@ -40,7 +40,7 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 | `foundations/template/SOURCE-MANIFEST.json` | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` |
 | `foundations/refrigeration/SOURCE-MANIFEST.json` | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` |
 | `foundations/robotics/SOURCE-MANIFEST.json` | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` |
-| `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
+| `vendor/endoforge/SOURCE-MANIFEST.json` | `c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612` |
 | `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` |
 | `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
 
@@ -63,8 +63,8 @@ These public main heads were copied on 2026-11-01. Each source manifest and ever
 
 ### Endoforge source
 
-`vendor/endoforge/` holds a 25-file slice of Endoforge commit
-`6dffea963afdfebfeb6a769afde94cf6a815cdb3` on `main`: the lifecycle model, run ledger,
+`vendor/endoforge/` holds a 27-file slice of Endoforge commit
+`ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3` on `main`: the lifecycle model, run ledger,
 gates and evaluator, `IsolatePool` and its workcell, the capacity planner and two
 support tools. Control the slice list in `tools/pin_endoforge.py`, the upstream and
 exported hashes, and the `endoforge` record in `contracts/SOURCE-PINS.json` together,

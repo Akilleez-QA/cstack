@@ -1,7 +1,7 @@
 {
  "schema": "endoforge-source-manifest/1",
  "repository": "https://github.com/Akilleez-QA/endoforge",
- "commit": "6dffea963afdfebfeb6a769afde94cf6a815cdb3",
+ "commit": "ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3",
  "strip_python_comments": true,
  "upstream_files": {
   "core/__init__.py": "fa04d7c1baadd8d76b569dbbeaee47e538384f60e588c6b756dbf1edd2f39c6a",
@@ -20,14 +20,16 @@
   "core/runtime/capacity/plan.mjs": "34ab42050536e3d663249a70425cb2fdceabec5b370dd2c42b85ff4d1599a140",
   "core/runtime/capacity/probe.mjs": "3123bec1f48d41e297e95384ab661baa524fe050c761b4c46b0b804faf0867f2",
   "core/runtime/capacity/tuner.mjs": "a8bc21a810c49f8293c8ce016855a43f671db10184d25904d7759186d7ab11dc",
+  "core/runtime/dump-list.mjs": "8b187c9cdc60364beb2770bc7312b470ee999cb43728b38762fc5277c35e8c98",
   "core/runtime/isolate-cgroup.mjs": "60ed29794aaeb4951793454c72e393d9981619f78bc6fa36348376a7412be1b1",
   "core/runtime/isolate-ledger.mjs": "82584b718359900d7396401162f328669b016ca9472171a9f917d57357f7f7d5",
-  "core/runtime/isolate-pool.mjs": "be376c26d5a502ba3635da5a9acbb9b45769d2497b6d83d75485e2b7c3dfd022",
+  "core/runtime/isolate-pool.mjs": "137846fa05dd2c099201acb6fdb24694f592968c2f6bc3660432d4d21f2a961e",
   "core/runtime/isolate-wasm-compile.mjs": "9644689bd4f48ba88ca2c3216b57af35772e5a03530ac7c933cdce5072789c32",
   "core/runtime/isolate-wasm.mjs": "b6dc03955db4aefbe2c1f6a7f7d554afb96ec79ee6d8a1f0b13626d88ae439ca",
   "core/runtime/isolate-workcell.mjs": "722d3b68ae1a8b9c02f086f79fb7fec40ba31a6cd301ddd79a47fec8cba29ed8",
+  "tools/dump_list.py": "5feac43d815ded2489260b13a1cdcde515c734e873726be6a3519365ed7847a7",
   "tools/factory_quality/index.mjs": "3779ac6c6b48a273186200612a556d9bf3f5e00f541e1e2dff3812775231bf31",
-  "tools/ledger_writer.py": "82594835c5ac6d231ef71464ad1044a1d456e2a015c9f2e3ce4a75df29c4d979",
+  "tools/ledger_writer.py": "a000160b86fe11ace9a483a073671f6d1accfc7143cdf1e21e95dfe0c9ce7044",
   "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
  },
  "files": {
@@ -47,14 +49,16 @@
   "core/runtime/capacity/plan.mjs": "34ab42050536e3d663249a70425cb2fdceabec5b370dd2c42b85ff4d1599a140",
   "core/runtime/capacity/probe.mjs": "3123bec1f48d41e297e95384ab661baa524fe050c761b4c46b0b804faf0867f2",
   "core/runtime/capacity/tuner.mjs": "a8bc21a810c49f8293c8ce016855a43f671db10184d25904d7759186d7ab11dc",
+  "core/runtime/dump-list.mjs": "8b187c9cdc60364beb2770bc7312b470ee999cb43728b38762fc5277c35e8c98",
   "core/runtime/isolate-cgroup.mjs": "60ed29794aaeb4951793454c72e393d9981619f78bc6fa36348376a7412be1b1",
   "core/runtime/isolate-ledger.mjs": "82584b718359900d7396401162f328669b016ca9472171a9f917d57357f7f7d5",
-  "core/runtime/isolate-pool.mjs": "be376c26d5a502ba3635da5a9acbb9b45769d2497b6d83d75485e2b7c3dfd022",
+  "core/runtime/isolate-pool.mjs": "137846fa05dd2c099201acb6fdb24694f592968c2f6bc3660432d4d21f2a961e",
   "core/runtime/isolate-wasm-compile.mjs": "9644689bd4f48ba88ca2c3216b57af35772e5a03530ac7c933cdce5072789c32",
   "core/runtime/isolate-wasm.mjs": "b6dc03955db4aefbe2c1f6a7f7d554afb96ec79ee6d8a1f0b13626d88ae439ca",
   "core/runtime/isolate-workcell.mjs": "722d3b68ae1a8b9c02f086f79fb7fec40ba31a6cd301ddd79a47fec8cba29ed8",
+  "tools/dump_list.py": "5feac43d815ded2489260b13a1cdcde515c734e873726be6a3519365ed7847a7",
   "tools/factory_quality/index.mjs": "3779ac6c6b48a273186200612a556d9bf3f5e00f541e1e2dff3812775231bf31",
-  "tools/ledger_writer.py": "82594835c5ac6d231ef71464ad1044a1d456e2a015c9f2e3ce4a75df29c4d979",
+  "tools/ledger_writer.py": "a000160b86fe11ace9a483a073671f6d1accfc7143cdf1e21e95dfe0c9ce7044",
   "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
  }
 }

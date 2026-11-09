@@ -16,16 +16,16 @@ The cost is that the copy falls behind. A pin says the bytes are unchanged. It d
 
 ## What is in the slice
 
-The slice is the `SLICE` list in `tools/pin_endoforge.py`. It has 25 files:
+The slice is the `SLICE` list in `tools/pin_endoforge.py`. It has 27 files:
 
 | Part | Files | Used by Cstack for |
 |---|---|---|
 | Lifecycle model | `vendor/endoforge/core/__init__.py`, `vendor/endoforge/core/lifecycle.py`, `vendor/endoforge/tests/test_endoforge_core_boundary.py` | The import-boundary test that the pin test runs |
 | Run ledger | `vendor/endoforge/core/ledger/` | `Ledger` and `FrozenEvaluators`, which `adapters/endoforge_workcell.py` imports to freeze the evaluator and read receipts |
 | Gates and evaluator | `vendor/endoforge/core/engine/` | The universal gates and frozen evaluator that judge each candidate inside a cell |
-| Workcell runtime | `vendor/endoforge/core/runtime/isolate-*.mjs` | `IsolatePool`, which `adapters/workcell/supervisor.mjs` imports, and the cells, WASM limits, cgroup attachment and ledger bridge it uses |
+| Workcell runtime | `vendor/endoforge/core/runtime/isolate-*.mjs`, `vendor/endoforge/core/runtime/dump-list.mjs` | `IsolatePool`, which `adapters/workcell/supervisor.mjs` imports, and the cells, WASM limits, cgroup attachment, ledger bridge and memguard dump-list registration it uses |
 | Capacity planner | `vendor/endoforge/core/runtime/capacity/` | Nothing at run time. It is carried because its CLI is its interface for non-Node callers. Since EndoForge P-68, `IsolatePool` doesn't import it, and Cstack sets the pool size itself (`workcell.size`, default 1) |
-| Support | `vendor/endoforge/tools/factory_quality/index.mjs`, `vendor/endoforge/tools/ledger_writer.py`, `vendor/endoforge/LICENSE` | Contract and signature checks the gates import; the group-commit ledger writer the ledger bridge runs |
+| Support | `vendor/endoforge/tools/factory_quality/index.mjs`, `vendor/endoforge/tools/ledger_writer.py`, `vendor/endoforge/tools/dump_list.py`, `vendor/endoforge/LICENSE` | Contract and signature checks the gates import; the group-commit ledger writer the ledger bridge runs, and its dump-list registration |
 
 Everything else in EndoForge stays out: the agent pool and loop, the oracle, caching, experiments and the other tools. Cstack doesn't run coding agents through EndoForge's own loop; it runs one governed goal through the pool.
 
