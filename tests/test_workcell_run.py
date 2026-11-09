@@ -20,7 +20,7 @@ class OneGoal(unittest.TestCase):
         self.assertEqual((receipt["compiler"]["name"], receipt["compiler"]["version"]), ("assemblyscript", "0.28.20"))
         foundation = receipt["foundations"]["foundation_refrigeration"]
         self.assertEqual((foundation["version"], foundation["route"]), ("0.1.0", "js-port"))
-        self.assertEqual(foundation["source_manifest_sha256"], "a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e")
+        self.assertEqual(foundation["source_manifest_sha256"], "230a8faac3653e510b08d0e81614bbc44ad2721e70aeda98722c7176ea47629f")
         self.assertEqual(result["goal"]["runtime_goal_acceptance"], False)
 
         attempt = receipt["candidates"][0]

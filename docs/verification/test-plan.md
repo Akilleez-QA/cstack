@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-STP |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -96,7 +96,7 @@ Automated suites: the code is the procedure; run the command in §2. The numbere
 - Preconditions: a clone of https://github.com/Akilleez-QA/poodo checked out at the `poodo_skill.commit` in `contracts/SOURCE-PINS.json`.
 - Steps: for every entry in `poodo_skill.files`, compare `reasoning/poodo/<file>` with the clone byte for byte; for every file under `TODELETE/reasoning/poodo/`, confirm it is absent from the clone.
 - Expected result: every listed file identical; every archived path absent upstream.
-- Last run: 2026-11-08 at baseline 6ae5481, commit `d1cce9e58fe80d8e35419c2d7ad335edd2c69044`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
+- Last run: 2026-11-08 at baseline b7c64b1, commit `e59bceebfc789cc581887c77d8138336712f6760`: 45 listed files, 0 mismatched; 10 archived paths, 0 present upstream.
 
 ### TP-4 — EndoForge pin against an upstream clone
 
@@ -139,3 +139,4 @@ See the [verification matrix](verification-matrix.md). Results per release are i
 | Version | Date | Commit | Change | Reviewed in |
 |---|---|---|---|---|
 | 1.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Initial baseline | docs/nasa-standard PR |
+| 1.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | TP-3 rerun against the repinned POODO commit | PR #PRNUM |

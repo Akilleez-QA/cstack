@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def foundation_files():
     return sorted(p for p in ROOT.rglob("*") if p.is_file() and "__pycache__" not in p.parts and ".git" not in p.parts
-                  and p.suffix != ".pyc" and p.name != "SOURCE-MANIFEST.json")
+                  and p.relative_to(ROOT).parts[0] != ".github" and p.suffix != ".pyc" and p.name not in ("SOURCE-MANIFEST.json", "PR_BODY.md"))
 
 
 class ManifestTests(unittest.TestCase):

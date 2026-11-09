@@ -39,6 +39,7 @@ release yet; entries name the pull requests that made them.
 - `tools/pin_endoforge.py` pins only commits on EndoForge `main` unless `--allow-unmerged` is given, and the vendored ledger writer journals beside the run ledger instead of under the user's state directory (#72).
 - Every README command passes on a fresh clone, checked by `tools/check_readme.py` (#43, #51, #53, #58).
 - Vendored Foundations and the POODO skill snapshot refreshed to their public `main` heads (#23, #26).
+- Vendored Film (`9877f1c`, 55 files), Refrigeration (`684314d`, 79), Robotics (`1324e46`, 61) and Template (`9beaafa`, 49), the Foundation Engine manifest (`8445d31`, 2,513 entries) and the POODO snapshot (`e59bcee`, 5 listed files changed) repinned after the upstream documentation-standard PRs and refrigeration's `exposure-limits.json` provenance fix. Tool inventories unchanged; upstream CI workflows are no longer in the copies; Foundation Math v0.14 and `foundations/math/` unchanged (#PRNUM).
 
 ### Fixed
 

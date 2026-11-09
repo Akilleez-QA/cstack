@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SDD |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -134,7 +134,7 @@ Replacing a domain requires compatible descriptor, operations, inventory attachm
 
 [Foundation Math](https://github.com/Akilleez-QA/foundation-math) is the named upstream for the byte-pinned historical distribution. Its current standalone extraction is narrower than this vendor tree; there is no demonstrated drop-in compatibility with upstream main.
 
-[Foundation Engine](https://github.com/Akilleez-QA/foundation-engine) is partially vendored. `vendor/foundation-engine-v020/` holds only its Python bridge, the read-only tool schema and the upstream `SOURCE-MANIFEST.json`, pinned at upstream commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c` in `contracts/SOURCE-PINS.json`. `adapters/engine_stdio.py` and `extensions/foundation_engine.py` expose two read-only validators, `validate_render_mask` and `validate_scene_output`. The engine's TypeScript runtime isn't included. The Math adapter still refuses a `foundation_engine` request (CS-REQ-015); Engine is its own domain.
+[Foundation Engine](https://github.com/Akilleez-QA/foundation-engine) is partially vendored. `vendor/foundation-engine-v020/` holds only its Python bridge, the read-only tool schema and the upstream `SOURCE-MANIFEST.json`, pinned at upstream commit `8445d319fd35115093f44a2081beb29ff108be49` in `contracts/SOURCE-PINS.json`. `adapters/engine_stdio.py` and `extensions/foundation_engine.py` expose two read-only validators, `validate_render_mask` and `validate_scene_output`. The engine's TypeScript runtime isn't included. The Math adapter still refuses a `foundation_engine` request (CS-REQ-015); Engine is its own domain.
 
 [EndoForge](https://github.com/Akilleez-QA/endoforge) is vendored as a fixed slice in `vendor/endoforge/`; see [the source pin](../icd/icd-endoforge-pin.md).
 
@@ -187,3 +187,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Foundation integration, EndoForge evidence and workcell runtime sections | See `git log -- docs/architecture/architecture.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format; numbered sections; component table covers every directory with requirement allocation; design decisions, concurrency and quality attributes added | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #PRNUM |

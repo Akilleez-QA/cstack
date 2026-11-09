@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SCMP |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-08 |
-| Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
+| Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
 
@@ -37,29 +37,29 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 |---|---|
 | `EXPORT-MANIFEST.json` | Regenerate with the export builder after changes |
 | `vendor/foundation-math-v014/SOURCE-MANIFEST.json` | `23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2` |
-| `foundations/template/SOURCE-MANIFEST.json` | `7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158` |
-| `foundations/refrigeration/SOURCE-MANIFEST.json` | `a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e` |
-| `foundations/robotics/SOURCE-MANIFEST.json` | `4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6` |
+| `foundations/template/SOURCE-MANIFEST.json` | `0c9c1f7f5668668806fb0073f2e772c7f96ecdaa69c28fc35e8d2da380fbe9b9` |
+| `foundations/refrigeration/SOURCE-MANIFEST.json` | `230a8faac3653e510b08d0e81614bbc44ad2721e70aeda98722c7176ea47629f` |
+| `foundations/robotics/SOURCE-MANIFEST.json` | `7452f90b3771213f5eada796fc2e489d19dada7b339d04155df39b8a85f5587d` |
 | `vendor/endoforge/SOURCE-MANIFEST.json` | `03ed9d66644b59b1bef4be7af6b88b3ee50e00fa8e6b92bb6778fa7ec1a6582a` |
-| `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e` |
-| `foundations/film/SOURCE-MANIFEST.json` | `4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417` |
+| `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` |
+| `foundations/film/SOURCE-MANIFEST.json` | `1abcea4f6692fa081a5839bbcd6e5eaad3ea41575b566208a2cd1afc8562d956` |
 
 The source-manifest values above were recomputed with `sha256sum` at the baseline commit and match. The generated [version description](../releases/README.md) records every manifest digest, including `EXPORT-MANIFEST.json`, at its own commit.
 
 ## Upstream sources
 
-Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (bridge, tool schema and upstream manifest, commit `70810ba455bdda1eadfdaab6bd44d43ae88f898c`). The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
+Foundation Engine is partially vendored under `vendor/foundation-engine-v020/` (bridge, tool schema and upstream manifest, commit `8445d319fd35115093f44a2081beb29ff108be49`). The Math distribution is pinned independently under `vendor/`. Evaluate candidate updates against the current source and catalog contracts.
 
 ### Vendored Foundation commits
 
-These public main heads were copied on 2026-11-01. Each source manifest and every listed file, including the upstream CI workflow, are copied byte-for-byte. Runtime code, tool inventories and interface semantics are unchanged.
+These public main heads were copied on 2026-11-08. Each source manifest and every listed file are copied byte-for-byte; upstream manifests no longer list `.github/`, so the upstream CI workflows are not copied. Tool inventories and bridge interface semantics are unchanged. New in the copies and not reached through the bridges: `foundation_film/filmstats.py` and `foundation_refrigeration/invariants.py`. The [Foundations ICD](../icd/icd-foundations.md#upstream-source-commits) lists file counts and manifest digests.
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_refrigeration` | `3fe90a939f85aeb4e4aa6913b0993374e115f176` |
-| `foundation_robotics` | `ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653` |
-| `foundation_film` | `c4110bc0241a35cf0bd16eaa6cfe116b6e45986a` |
-| `foundation_template` | `9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47` |
+| `foundation_refrigeration` | `684314d632c488e2d677a64296d597c07fe56e75` |
+| `foundation_robotics` | `1324e46865d51b6c521dfdaf20f76e5d2e2b5070` |
+| `foundation_film` | `9877f1c177421caf35fd2a452a1393fc040e3ff1` |
+| `foundation_template` | `9beaafacf4386ea577f2c638320a8112a7280664` |
 
 ### Endoforge source
 
@@ -81,7 +81,7 @@ Each vendored Foundation under `foundations/` carries its own `docs/` tree (requ
 
 ## POODO skill snapshot
 
-`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `d1cce9e58fe80d8e35419c2d7ad335edd2c69044` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
+`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `e59bceebfc789cc581887c77d8138336712f6760` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
 
 Ten paths absent upstream were preserved with `git mv` under `TODELETE/reasoning/poodo/`. The under-400-line update defers README, licensing, repository metadata and engineering records; the unchanged export manifest is historical and must be regenerated separately before publishing an export.
 
@@ -167,3 +167,4 @@ Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, an
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Identification, pins, change procedure, CLI approval and refrigeration acceptance baselines | See `git log -- docs/configuration/configuration-management.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header; organization, status accounting, audits, generated outputs, release management; vendored docs and upstream; trace suite in CI | docs/nasa-standard PR |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation, Engine and POODO repin: manifest digests, upstream commits, POODO commit | PR #PRNUM |

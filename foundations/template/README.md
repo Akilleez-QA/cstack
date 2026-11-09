@@ -4,9 +4,50 @@
 
 A minimal working Foundation to copy when you start a new domain
 
-<img src="https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000"> <img src="https://img.shields.io/badge/python-3.11%2B-6E61FF?style=flat-square&labelColor=000000">
+[<img src="https://img.shields.io/github/actions/workflow/status/Akilleez-QA/foundation-template/ci.yml?branch=main&style=flat-square&labelColor=000000" alt="CI">](https://github.com/Akilleez-QA/foundation-template/actions/workflows/ci.yml) <img src="https://img.shields.io/badge/license-GPL--3.0--only-2400FF?style=flat-square&labelColor=000000">
 
-## Family
+## Status
+
+Version 0.1.0, unreleased (no tags yet). One read-only placeholder tool behind a stdio JSON-RPC bridge, standard library only. Every result, including tool errors, carries Evidence and an input hash. A result is an observation, not an acceptance decision.
+
+Classification: self-assessed Class E analog, not safety-critical; not a NASA compliance determination (see the [software management plan](docs/plan/software-management-plan.md#1-software-classification-self-assessed)). The documentation set is itself the template for a new Foundation's documentation: [Start a new Foundation](docs/guides/how-to/start-a-new-foundation.md).
+
+## Quickstart
+
+```sh
+git clone https://github.com/Akilleez-QA/foundation-template
+cd foundation-template
+python -B -m unittest discover -s tests -t .
+python -B tools/build_manifest.py
+```
+
+Requires Python 3.11 or newer; nothing is installed. The tests end with `OK`, and `build_manifest.py` prints the file count, manifest SHA-256 and inventory SHA-256 without changing a clean checkout. To talk to the bridge, follow the [first-session tutorial](docs/guides/tutorials/first-bridge-session.md).
+
+## What is inside
+
+| Tool | Purpose |
+|---|---|
+| `echo_observation` | PLACEHOLDER: returns its validated input as an observation with Evidence |
+
+## Measured
+
+The generated [test report](docs/verification/reports/STR-unreleased.md) records the latest local run of the CI commands for main: commit, Python version, per-test results in normal and optimized mode, the trace check and the secret scan. At commit `30c1287` on Linux x86_64 with CPython 3.12.14, `python -B -m unittest discover -s tests -t .` and the same with `-O` each ran 12 tests and passed.
+
+CI runs both modes on Python 3.12, scans history with gitleaks and verifies the source manifest.
+
+## Limitations
+
+- The only tool is a placeholder that echoes its input; it has no domain meaning.
+- The numeric profile is integers only.
+- Several bridge error paths have no test; copies inherit them (see the [requirements](docs/requirements/requirements.md#9-untested-behaviour-gaps)).
+
+Details: [Limitations](docs/guides/explanation/limitations.md).
+
+## Documentation
+
+Start at [docs/README.md](docs/README.md): a [tutorial](docs/guides/tutorials/first-bridge-session.md), [Start a new Foundation](docs/guides/how-to/start-a-new-foundation.md), the generated [tool catalog](docs/guides/reference/tool-catalog.md), and the control documents (plan, compliance matrix, requirements, design, interface, data dictionary, test plan, verification matrix, configuration management, assurance record). Copy them with the code.
+
+## Related projects
 
 | Repository | Role | Relation |
 |---|---|---|
@@ -20,34 +61,6 @@ A minimal working Foundation to copy when you start a new domain
 | [endoforge](https://github.com/Akilleez-QA/endoforge) | Workshop for running coding agents with checks and receipts | Tool |
 | [poodo](https://github.com/Akilleez-QA/poodo) | Reasoning skill that shows evidence before it acts | Tool |
 
-## Status
-
-Version 0.1.0. 1 read-only tool(s) behind a stdio JSON-RPC bridge, standard library only. Every result carries Evidence and an input hash. A verdict is an observation, not an acceptance decision.
-
-## Quickstart
-
-```
-git clone https://github.com/Akilleez-QA/foundation-template
-cd foundation-template
-python -B -m unittest discover -s tests -t .
-python -B tools/build_manifest.py
-```
-
-## What is inside
-
-| Tool | Purpose |
-|---|---|
-| `echo_observation` | PLACEHOLDER: returns its validated input as an observation with Evidence |
-
-## Measured
-
-4 tests pass with `python -B -m unittest discover -s tests -t .` on Python 3.14.8 in a fresh clone (normal and `-O`). CI: local only.
-
-## Documentation
-
-See [docs/README.md](docs/README.md): requirements, architecture, interface control, verification matrix, configuration management.
-
-
 ## Layout
 
 | Path | Contents |
@@ -55,13 +68,17 @@ See [docs/README.md](docs/README.md): requirements, architecture, interface cont
 | `foundation_template/` | Domain package |
 | `foundation_template_bridge/` | stdio JSON-RPC bridge and schemas |
 | `tests/` | Unit and bridge tests |
-| `tools/` | Manifest and data tools |
-| `docs/` | Requirements, architecture, ICD, verification, configuration, guides |
-| `SOURCE-MANIFEST.json` | SHA-256 of every shipped file |
+| `tools/` | Manifest, trace-check and documentation generators |
+| `docs/` | Plan, requirements, design, interface, data dictionary, verification, configuration, releases, assurance, guides |
+| `SOURCE-MANIFEST.json` | SHA-256 of every shipped source file outside `.github/` |
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Security
+
+See [SECURITY.md](SECURITY.md).
 
 ## License
 

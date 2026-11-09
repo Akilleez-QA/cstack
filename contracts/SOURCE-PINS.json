@@ -2,31 +2,31 @@
  "schema": "cstack.source-pins/0.1",
  "foundation_refrigeration": {
   "root": "foundations/refrigeration",
-  "source_manifest_sha256": "a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e",
-  "source_manifest_entry_count": 63,
+  "source_manifest_sha256": "230a8faac3653e510b08d0e81614bbc44ad2721e70aeda98722c7176ea47629f",
+  "source_manifest_entry_count": 79,
   "inventory_sha256": "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b",
-  "commit": "3fe90a939f85aeb4e4aa6913b0993374e115f176"
+  "commit": "684314d632c488e2d677a64296d597c07fe56e75"
  },
  "foundation_film": {
   "root": "foundations/film",
-  "source_manifest_sha256": "4734c76b9d0d5b830e150bd2bb435539e202ffd81d967692cff8dacfc3b5a417",
-  "source_manifest_entry_count": 42,
+  "source_manifest_sha256": "1abcea4f6692fa081a5839bbcd6e5eaad3ea41575b566208a2cd1afc8562d956",
+  "source_manifest_entry_count": 55,
   "inventory_sha256": "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558",
-  "commit": "c4110bc0241a35cf0bd16eaa6cfe116b6e45986a"
+  "commit": "9877f1c177421caf35fd2a452a1393fc040e3ff1"
  },
  "foundation_robotics": {
   "root": "foundations/robotics",
-  "source_manifest_sha256": "4667a558554e6a766e855be078031563b72337b8a6407eabf466d42b9df3bdb6",
-  "source_manifest_entry_count": 45,
+  "source_manifest_sha256": "7452f90b3771213f5eada796fc2e489d19dada7b339d04155df39b8a85f5587d",
+  "source_manifest_entry_count": 61,
   "inventory_sha256": "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599",
-  "commit": "ebd6d4d14e050a5ebda2e4961b9fd1464d1e5653"
+  "commit": "1324e46865d51b6c521dfdaf20f76e5d2e2b5070"
  },
  "foundation_template": {
   "root": "foundations/template",
-  "source_manifest_sha256": "7ce77706f1bee842dab391dfd8c0256be231be2d6b6f5483c39574718eea6158",
-  "source_manifest_entry_count": 35,
+  "source_manifest_sha256": "0c9c1f7f5668668806fb0073f2e772c7f96ecdaa69c28fc35e8d2da380fbe9b9",
+  "source_manifest_entry_count": 49,
   "inventory_sha256": "2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f",
-  "commit": "9ce46fa2af5dd1cb9c363a6913bae0aa4175ff47"
+  "commit": "9beaafacf4386ea577f2c638320a8112a7280664"
  },
  "poodo_core_export": {
   "files": {
@@ -48,7 +48,7 @@
  "poodo_skill": {
   "root": "reasoning/poodo",
   "repository": "https://github.com/Akilleez-QA/poodo",
-  "commit": "d1cce9e58fe80d8e35419c2d7ad335edd2c69044",
+  "commit": "e59bceebfc789cc581887c77d8138336712f6760",
   "status": "partial-sync",
   "files": [
    ".github/pull_request_template.md",
@@ -103,7 +103,8 @@
   ],
   "deferred_new_files": [
    ".github/CODEOWNERS",
-   ".github/ISSUE_TEMPLATE/bug.md",
+   ".github/ISSUE_TEMPLATE/change-request.md",
+   ".github/ISSUE_TEMPLATE/problem-report.md",
    ".github/assets/social-preview.png",
    ".github/dependabot.yml",
    ".gitleaks.toml",
@@ -114,10 +115,28 @@
    "SUPPORT.md",
    "docs/README.md",
    "docs/architecture/architecture.md",
+   "docs/assurance/assurance-record.md",
    "docs/configuration/configuration-management.md",
+   "docs/data/data-dictionary.md",
+   "docs/guides/SUM-MAP.md",
+   "docs/guides/explanation/limitations.md",
+   "docs/guides/reference/cli.md",
+   "docs/icd/icd-capsule-checker.md",
    "docs/icd/icd-cstack.md",
+   "docs/icd/icd-skill-host.md",
+   "docs/plan/compliance-matrix.md",
+   "docs/plan/software-management-plan.md",
+   "docs/releases/README.md",
+   "docs/releases/VDD-main-34629aa.md",
    "docs/requirements/requirements.md",
-   "docs/verification/verification-matrix.md"
+   "docs/rules/documentation-checklist.md",
+   "docs/verification/reports/README.md",
+   "docs/verification/reports/STR-main-34629aa.md",
+   "docs/verification/test-plan.md",
+   "docs/verification/verification-matrix.md",
+   "tools/check_trace.py",
+   "tools/gen_release_docs.py",
+   "tools/test_check_trace.py"
   ]
  },
  "poodo_core_endoforge_port_0_1": {
@@ -140,10 +159,10 @@
  },
  "foundation_engine": {
   "root": "vendor/foundation-engine-v020",
-  "source_manifest_sha256": "edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e",
-  "source_manifest_entry_count": 2496,
+  "source_manifest_sha256": "0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349",
+  "source_manifest_entry_count": 2513,
   "inventory_sha256": "c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc",
-  "commit": "70810ba455bdda1eadfdaab6bd44d43ae88f898c"
+  "commit": "8445d319fd35115093f44a2081beb29ff108be49"
  },
  "poodo_core_crash_recovery_0_3": {
   "files": {
