@@ -87,5 +87,5 @@ accurate: regenerate it with `python -B tools/build_export_manifest.py`. Do not 
 ## License
 
 Contributions are licensed [GPL-3.0-only](LICENSE). As stated in the
-[README](README.md#license), commercial licenses are available from
+[README](README.md#contributing-security-and-license), commercial licenses are available from
 Refrigeration.AI via craig@nh3.biz.

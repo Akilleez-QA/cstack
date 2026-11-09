@@ -22,6 +22,12 @@ class ReadmeCheck(unittest.TestCase):
             if "merge_train" in command:
                 self.assertIn(command, check_readme.NEEDS_GH)
 
+    def test_every_readme_command_has_a_check(self):
+        source = (ROOT / "tools/check_readme.py").read_text()
+        done_by_checker = getattr(check_readme, "DONE_BY_CHECKER", ())
+        for command in check_readme.readme_commands((ROOT / "README.md").read_text()):
+            self.assertTrue(command in done_by_checker or json.dumps(command) in source or repr(command) in source, command)
+
     def test_without_gh_the_group_is_skipped_with_a_clear_reason(self):
         reason = check_readme.gh_unavailable({"PATH": "/nonexistent"})
         self.assertIn("gh", reason)
