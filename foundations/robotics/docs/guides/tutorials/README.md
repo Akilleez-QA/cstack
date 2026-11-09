@@ -1,3 +1,5 @@
 # Tutorials
 
-Not written yet. Start with the Quickstart in the top-level README.
+| Tutorial | What you do |
+|---|---|
+| [Your first motion check](first-check.md) | Start the bridge, judge three squash frames, read the receipts |

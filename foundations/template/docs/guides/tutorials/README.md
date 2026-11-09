@@ -1,3 +1,5 @@
 # Tutorials
 
-Not written yet. Start with the Quickstart in the top-level README.
+| Tutorial | You will |
+|---|---|
+| [Your first bridge session](first-bridge-session.md) | Start the bridge, call the placeholder tool, read a success and an error receipt |

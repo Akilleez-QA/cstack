@@ -1,3 +1,8 @@
 # Explanation
 
-Each tool's purpose and thresholds are listed in [the architecture](../../architecture/architecture.md) and in the tool schemas in the bridge package. Add explanation pages here as the domain grows.
+| Page | Topic |
+|---|---|
+| [How the checks work](how-the-checks-work.md) | What each tool measures, how it decides, and where its defaults come from |
+| [Limitations](limitations.md) | What a pass does and does not mean |
+
+Design rationale is in the [design description](../../architecture/architecture.md).

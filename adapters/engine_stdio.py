@@ -15,10 +15,10 @@ from .execution import LocalBridgeExecutor
 from .foundation_stdio import BridgeProfile, PinnedSource, PinnedStdioCapability, SourceFailure
 from .wire import WireFailure, decode as exact_decode
 
-SOURCE_SHA256 = "edee2a8ac7dabf7677dd31061c6ca34e93e321b58194cd6f234d6f8a810d241e"
-SOURCE_FILE_COUNT = 2496
+SOURCE_SHA256 = "0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349"
+SOURCE_FILE_COUNT = 2513
 INVENTORY_SHA256 = "c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc"
-UPSTREAM_COMMIT = "70810ba455bdda1eadfdaab6bd44d43ae88f898c"
+UPSTREAM_COMMIT = "8445d319fd35115093f44a2081beb29ff108be49"
 BRIDGE_PROTOCOL = "foundation-engine-jsonrpc/1"
 BRIDGE_MODULE = "foundation_engine_bridge"
 VENDORED_FILES = ("schemas/read-only-tools.json", "tools/foundation_engine_bridge.py")

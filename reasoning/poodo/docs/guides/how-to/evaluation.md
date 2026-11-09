@@ -1,5 +1,23 @@
 # Evaluation and verification
 
+## Check the files
+
+The checks need Python 3.10 or newer and no model or API key. From the checkout:
+
+```sh
+python3 -m venv .venv && . .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python scripts/validate_skill.py
+python scripts/check_capsule.py evals/fixtures/valid-capsule.yaml
+```
+
+```console
+POODO structural checks passed; behavioral correctness remains untested.
+POODO capsule structure passed; epistemic and behavioral correctness remain untested.
+```
+
+These confirm the files are complete and well formed. They do not test whether the agent reasons better. The full CI list is in [CONTRIBUTING.md](../../../CONTRIBUTING.md#local-checks).
+
 ## What can be run today
 
 The two Python validators and the regression suite run locally without a model. The base behavioral manifest describes 14 scenarios for a future or manually operated evaluation. There is no automated agent runner in this repository, and no behavioral results are claimed.

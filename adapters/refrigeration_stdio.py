@@ -8,8 +8,8 @@ from .foundation_stdio import (BridgeProfile, PinnedSource, PinnedStdioCapabilit
                                arguments_sha256)
 from .wire import WireFailure
 
-SOURCE_SHA256 = "a4e096d2b1169ee23c3f111b121d9dbc593ab63a52ec20167d451ff97c21399e"
-SOURCE_FILE_COUNT = 63
+SOURCE_SHA256 = "b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e"
+SOURCE_FILE_COUNT = 79
 INVENTORY_SHA256 = "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b"
 BRIDGE_PROTOCOL = "foundation-refrigeration-jsonrpc/1"
 BRIDGE_MODULE = "foundation_refrigeration_bridge"
