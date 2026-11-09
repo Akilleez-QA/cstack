@@ -122,4 +122,4 @@ CS-REQ-003 to CS-REQ-008 and CS-REQ-015 (Math adapter); CS-REQ-064 (Film, Refrig
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-foundations.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
-| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation and Engine repin: pins table, upstream commits, Engine manifest (2,513 entries); vendored copies no longer carry upstream CI workflows | PR #PRNUM |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation and Engine repin: pins table, upstream commits, Engine manifest (2,513 entries); vendored copies no longer carry upstream CI workflows | PR #78 |

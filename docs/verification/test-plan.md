@@ -139,4 +139,4 @@ See the [verification matrix](verification-matrix.md). Results per release are i
 | Version | Date | Commit | Change | Reviewed in |
 |---|---|---|---|---|
 | 1.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Initial baseline | docs/nasa-standard PR |
-| 1.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | TP-3 rerun against the repinned POODO commit | PR #PRNUM |
+| 1.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | TP-3 rerun against the repinned POODO commit | PR #78 |

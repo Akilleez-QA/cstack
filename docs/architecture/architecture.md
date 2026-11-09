@@ -187,4 +187,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Foundation integration, EndoForge evidence and workcell runtime sections | See `git log -- docs/architecture/architecture.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format; numbered sections; component table covers every directory with requirement allocation; design decisions, concurrency and quality attributes added | docs/nasa-standard PR |
-| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #PRNUM |
+| 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #78 |
