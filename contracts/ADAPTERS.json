@@ -654,6 +654,21 @@
    "reason": "Builds the local export inventory without granting runtime authority."
   },
   {
+   "path": "tools/check_trace.py",
+   "role": "build_or_check_tool",
+   "reason": "CI gate: requirement, design and test traceability and control-document links; reads docs and tests only."
+  },
+  {
+   "path": "tools/gen_data_dictionary.py",
+   "role": "build_or_check_tool",
+   "reason": "Writes docs/data/data-dictionary.md from schemas, config and code limits; grants no runtime authority."
+  },
+  {
+   "path": "tools/gen_release_docs.py",
+   "role": "build_or_check_tool",
+   "reason": "Runs ci/run-local.sh suites and writes the test report and version description; grants no runtime authority."
+  },
+  {
    "path": "extensions/cstack_forge.py",
    "role": "core_seam",
    "reason": "Implements DomainExtension, which ADR 005 decision 2 keeps in the core with no lane."
