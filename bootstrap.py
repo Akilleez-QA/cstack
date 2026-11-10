@@ -284,8 +284,9 @@ def endoforge_session(config_path=_HERE / "cstack.config.json", resume=None):
         try:
             yield host
         finally:
-            if core_directory is not None and (core_directory / f"{session_id}.jsonl").exists():
-                (core_directory / f"{session_id}.jsonl").rename(core_directory / f"{session_id}.closed")
+            own = None if core_directory is None else core_directory / f"{session_id}.jsonl"
+            if own is not None and own.exists():
+                own.rename(own.with_suffix(".recovered" if _unresolved_in(own) else ".closed"))
 
 
 def build_domain(domain_id, goal_id, *, operations=None, max_calls=64, source_root=None, inventory=None,

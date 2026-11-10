@@ -122,7 +122,7 @@ The run left these files next to your config:
 |---|---|
 | `endoforge.jsonl` | The host's witnessed ledger: one hash-chained JSON line per precommit and outcome |
 | `forge.sqlite` | The EndoForge run ledger: frozen evaluator, candidates and receipts |
-| `forge.sqlite.core/` | One core ledger per forge session; `.closed` when the session ended normally |
+| `forge.sqlite.core/` | One core ledger per forge session; `.closed` when the session ended with every outcome known, `.recovered` when it left an `unknown` outcome |
 | `forge.sqlite.journal/` | The vendored ledger writer's journal |
 
 ## 6. Clean up

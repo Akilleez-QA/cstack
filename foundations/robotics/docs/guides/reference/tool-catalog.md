@@ -147,6 +147,13 @@ Assessments: `thresholds_met`, `thresholds_not_met`, `not_scored`, `tool_error`.
 | `result.feet[].slide_max_mm_s` | null or integer -1000000000000..1000000000000 | yes |
 | `result.expected` | object | yes |
 | `result.expected.at_this_speed` | null or object | yes |
+| `result.expected.at_this_speed.froude_permille` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.speed_mm_s` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.stride_mm` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.step_mm` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.cycle_ms` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.step_ms` | integer -1000000000000..1000000000000 | yes |
+| `result.expected.at_this_speed.cadence_milli_steps_per_min` | integer -1000000000000..1000000000000 | yes |
 | `result.expected.preferred` | object | yes |
 | `result.expected.preferred.froude_permille` | integer -1000000000000..1000000000000 | yes |
 | `result.expected.preferred.speed_mm_s` | integer -1000000000000..1000000000000 | yes |
@@ -192,6 +199,8 @@ Assessments: `thresholds_met`, `thresholds_not_met`, `not_scored`, `tool_error`.
 | `result.gravity_mm_s2` | integer -1000000000000..1000000000000 | yes |
 | `result.gravity_source` | one of `caller`, `standard` | yes |
 | `result.worst` | map[0..4] of object | yes |
+| `result.worst.<key>.value` | null or integer -1000000000000..1000000000000 | yes |
+| `result.worst.<key>.frame` | null or integer 0..400 | yes |
 | `result.first_failing_frame` | null or integer 0..400 | yes |
 | `result.frames` | array[1..400] of object | yes |
 | `result.frames[].frame` | integer 0..400 | yes |
@@ -345,6 +354,38 @@ Variant `kind = rotor_strobe`:
 | `result.verdict` | one of `thresholds_met`, `thresholds_not_met`, `not_scored` | yes |
 | `result.kind` | one of `gear_train`, `gear_mesh`, `slider_crank`, `four_bar`, `rotor_strobe` | yes |
 | `result.detail` | object or object or object or object or object | yes |
+| `result.detail.gears` | array[2..160] of object | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.gears[].id` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.gears[].speed_mrad_s` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.gears[].measured_mrad_s` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.gears[].error_permille` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.stages` | array[1..16] of object | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.stages[].driver` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.stages[].driven` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.stages[].ratio_permille` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 1 of 5 |
+| `result.detail.speed_ratio_permille` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 2 of 5 |
+| `result.detail.driven_pitch_mrad` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 2 of 5 |
+| `result.detail.worst_frame` | integer 0..1000 | yes; in `result.detail` variant 2 of 5 |
+| `result.detail.phase_drift_permille_pitch` | array[2..1000] of integer -1000000000000..1000000000000 | yes; in `result.detail` variant 2 of 5 |
+| `result.detail.stroke_mm` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.top_dead_centre_mm` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.bottom_dead_centre_mm` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.frames` | array[0..1000] of object | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.frames[].expected_mm` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.frames[].error_mm` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 3 of 5 |
+| `result.detail.grashof_mm` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.classification` | one of `crank_rocker`, `rocker_crank`, `double_crank`, `double_rocker`, `change_point`, `non_grashof_triple_rocker` | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.branch` | one of `open`, `crossed` | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.frames` | array[0..1000] of object | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.frames[].expected_mrad` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.frames[].error_mrad` | null or integer -1000000000000..1000000000000 | yes; in `result.detail` variant 4 of 5 |
+| `result.detail.reads_as` | one of `true_motion`, `smeared_disc`, `stationary`, `backwards`, `slowed` | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.pitch_per_frame_permille` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.step_per_frame_mrad` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.apparent_step_mrad` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.blade_pitch_mrad` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.blur_permille_pitch` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
+| `result.detail.max_true_speed_mrad_s` | integer -1000000000000..1000000000000 | yes; in `result.detail` variant 5 of 5 |
 | `result.checks` | array[1..32] of object | yes |
 | `result.checks[].check` | string up to 96 chars | yes |
 | `result.checks[].value` | null or integer -1000000000000..1000000000000 | yes |

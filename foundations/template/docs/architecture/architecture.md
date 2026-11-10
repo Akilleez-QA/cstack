@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FTEMPLATE-SDD |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | fb9993c55e9c708a3cfdd295b237466d4bef7ff1 |
 | Applies to | foundation-template main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -66,7 +66,7 @@ sequenceDiagram
 | Domain tools | `foundation_template/tools.py` | Argument checks, the tool itself, receipts (`input_sha256`, `boundary`, Evidence) | tool name and arguments → (isError, assessment, receipt) | REQ-TPL-001, REQ-TPL-003, REQ-TPL-004, REQ-TPL-005, REQ-TPL-009, REQ-TPL-012 |
 | Manifest tool | `tools/build_manifest.py` | Writes `SOURCE-MANIFEST.json`; prints file count, manifest SHA-256 and inventory SHA-256; `--inventory` prints the canonical inventory | source tree → manifest | REQ-TPL-002 |
 | Package version | `foundation_template/__init__.py` | Holds `__version__` | none → version string | Infrastructure |
-| Documentation tools | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated tool catalog; generated test report and version description | docs, tests, schemas → checks and generated Markdown | Infrastructure |
+| Documentation tools | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated tool catalog; generated test report and version description, whose verdict fails on any failed or unrun gate, skip or unparsed outcome | docs, tests, schemas → checks and generated Markdown | REQ-TPL-013 |
 
 ## 5. Execution concept
 
@@ -119,3 +119,4 @@ Input is bounded per frame (64 KiB, 4096 nodes); output per frame (1 MiB). No di
 |---|---|---|---|---|
 | 1.0 | 2026-10-30 | fbfaadb | Context, components, tools, data flow, decisions | Initial commit |
 | 2.0 | 2026-11-08 | fb9993c | NASA-standard structure; components with requirement IDs; execution, failure and quality sections | PR adding the NASA-standard documentation set |
+| 2.1 | 2026-11-09 | 3814683 | Documentation tools allocated REQ-TPL-013 | PR fixing the 2026-11-09 backfill-review findings |

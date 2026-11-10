@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-VM |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -75,9 +75,9 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-042 | T | `tests/test_core.py::CoreTests` | Every CoreTests method except those mapped to CS-REQ-012 and CS-REQ-013 | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-043 | T | `tests/test_core_reentrancy.py` | Every mutator from every hook | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-044 | T | `tests/test_core_crash.py`; `tests/test_core_recovery_accounting.py` | Kill windows simulated by truncated ledgers and real restarts | [STR-baseline](reports/STR-baseline.md) |
-| CS-REQ-045 | T | `tests/test_core_unresolved.py` | Plain and witnessed ledgers | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-045 | T | `tests/test_core_unresolved.py`; `tests/test_forge_recovery.py`; `tests/test_workcell_kill.py` | Plain and witnessed ledgers; an unknown outcome stays listed after its session ends | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-046 | T | `tests/test_goal_liveness.py` | Liveness never closes goals | [STR-baseline](reports/STR-baseline.md) |
-| CS-REQ-047 | T | `tests/test_durable_ledger.py` | Injected short writes, full disk and fsync failure | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-047 | T | `tests/test_durable_ledger.py` | Injected short writes, failed file open, full disk and fsync failure | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-048 | T | `tests/test_witnessed_ledger.py`; `tests/test_aor_session.py::WitnessedSessionTests` | Requires the `cryptography` package; skips without it | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-049 | T | `tests/test_aor_registry.py`; `tests/test_shipped_examples.py` | Shipped `aors/fleet.json` and example config validated | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-050 | T | `tests/test_aor_session.py`; `tests/test_aor_session_ownership.py` | Same-process and cross-process refusal | [STR-baseline](reports/STR-baseline.md) |
@@ -156,3 +156,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Rows for CS-REQ-001 to CS-REQ-035 | See `git log -- docs/verification/verification-matrix.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | One row per requirement in `file::Class.method` form; rows for CS-REQ-036 to CS-REQ-077; gap table; every test file traced; `tools/check_trace.py` | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 row adds the session-end and workcell-kill tests; CS-REQ-047 row names a failed file open | PR fixing the 2026-11-09 backfill-review findings |

@@ -63,6 +63,18 @@ class Kill(unittest.TestCase):
         self.assertEqual([(r["data"]["delivery_state"], r["data"]["outcome_state"]) for r in forge.receipts()], [("outcome_unknown", "inconclusive")])
         self.assertEqual(forge.receipts()[0]["data"]["observations"][0]["signal"], "SIGKILL")
 
+    def test_sigkill_of_the_workcell_stays_unresolved_in_later_sessions(self):
+        forge, process, _, cell = self.begin()
+        os.kill(cell, signal.SIGKILL)
+        first = self.finish(process)
+        self.assert_unknown(forge, first)
+        next_run = Forge(SATURATION, directory=forge.directory)
+        self.assertEqual(json.loads(next_run.raw(GOAL).stdout)["error"], "decision_reuse_refused")
+        resumed = next_run.run_resume(GOAL, "forge-decision-1")
+        self.assertEqual([(u["decision_id"], u["attempt_id"]) for u in resumed["unresolved_attempts"]], [("forge-decision-1", "attempt-1")])
+        again = next_run.run(goal(need="A new request under a new decision.") | {"calls": [{**goal()["calls"][0], "request": {**goal()["calls"][0]["request"], "decision_id": "forge-decision-2", "request_id": "forge-request-2"}}]})
+        self.assertIn(("forge-decision-1", "attempt-1"), [(u["decision_id"], u["attempt_id"]) for u in again["unresolved_attempts"]])
+
     def test_sigkill_of_the_supervisor_leaves_no_cell(self):
         forge, process, supervisor, cell = self.begin()
         os.kill(supervisor, signal.SIGKILL)

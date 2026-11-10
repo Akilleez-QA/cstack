@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FTEMPLATE-SRS |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | fb9993c55e9c708a3cfdd295b237466d4bef7ff1 |
 | Applies to | foundation-template main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -159,6 +159,16 @@ The bridge process shall exit 0 when stdin closes after complete frames, and exi
 - Verification: T
 - Status: Baselined
 
+### REQ-TPL-013 — Test report verdict
+
+`tools/gen_reports.py` shall conclude "FAILED" and exit 1 when a unittest run exits non-zero, runs no tests, or records any outcome other than ok (skipped, expected failure, unexpected success, failed or unparsed); when the trace check reports a problem; or when the manifest, generated-catalog or Gitleaks gate fails or did not run.
+
+- Rationale: the test plan accepts no skips and no failed gates (TP-1), so the report must not call such a run passed.
+- Derivation: `tools/gen_reports.py`
+- Allocated to: SDD §4 (documentation tools)
+- Verification: T
+- Status: Baselined
+
 ## 9. Untested behaviour (gaps)
 
 The code does the following, but no test checks it. These are not baselined requirements; each is a candidate for a test. Found by reading the code at the baseline commit and searching `tests/` for the code path.
@@ -199,3 +209,4 @@ Test (T): automated `unittest` tests, run by `python -B -m unittest discover -s 
 | 1.0 | 2026-10-30 | fbfaadb | Seven requirements in one table | Initial commit |
 | 1.2 | 2026-11-03 | ab81203 | REQ-TPL-002 excludes the root `.github/` tree | PR #10 |
 | 2.0 | 2026-11-08 | fb9993c | NASA-standard record format; REQ-TPL-008 to REQ-TPL-012 added for tested behaviour; untested behaviour listed as gaps | PR adding the NASA-standard documentation set |
+| 2.1 | 2026-11-09 | 3814683 | REQ-TPL-013 (test report verdict) | PR fixing the 2026-11-09 backfill-review findings |

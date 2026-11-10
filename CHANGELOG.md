@@ -8,6 +8,11 @@ release yet; entries name the pull requests that made them.
 
 ## [Unreleased]
 
+### Changed
+
+- Re-vendored the four pinned foundations at the commits that merged the 2026-11-09 backfill-review fixes: refrigeration `f78905d`, film `52fa82c`, robotics `d61de96`, template `0dcf469` (template gains one test file, 50 entries). Upstream changed only docs, tests and tools; no bridge or schema changed, so inventory hashes are unchanged. `poodo_skill` moves to `aeba967` (its 45 synced files are byte-identical; the new upstream release-docs test file is listed as deferred). `EXPORT-MANIFEST.json` rebuilt. EndoForge stays pinned until its rounds 8-10 merge.
+
+
 ### Added
 
 - Cstack family documentation standard published in `docs/standards/` (standard, checklist, templates) as the canonical copy for the family.
@@ -45,6 +50,7 @@ release yet; entries name the pull requests that made them.
 ### Fixed
 
 - Durable ledger events, relay messages and fleet mail budgets survive a torn or cut-short write (#65, #66, #67).
+- The durable ledger keeps no in-memory event when opening its file fails, so a retry starts a clean chain; a session that ends with an `unknown` outcome keeps its core ledger as `.recovered`, so later sessions still list the attempt in `unresolved_attempts`. Both found by the 2026-11-09 backfill review of PRs merged without automated review.
 - Candidates are bound to their task and decisions to one request; a changed judge is refused; refusals and kernel faults fail the candidate; decimal inputs are taken exactly (#54, #55, #56).
 - Recovery on the forge path: the ledgers agree and torn tails are quarantined (#57).
 - The claim gate fails closed without an approved-atoms Registry (#22).

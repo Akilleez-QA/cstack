@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FROBO-VM |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | b4de079f2d99114e5efe6b204704df57d392e454 |
 | Applies to | foundation-robotics main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -39,12 +39,14 @@ Trace check: `python -B tools/check_trace.py` (also run by `tests/test_docs.py::
 | REQ-ROB-020 | T | `tests/test_tools.py::BalanceTests.test_flight_falls_at_g_and_a_floaty_jump_fails` | A 1625 mm/s² fall passes with `gravity_mm_s2` 1625 | STR (latest) |
 | REQ-ROB-021 | T | `tests/test_tools.py::GaitTests.test_run_duty_and_unmeasured_checks`, `tests/test_tools.py::BalanceTests.test_static_com_inside_passes_and_a_lean_past_the_toes_fails`, `tests/test_tools.py::IkTests.test_forward_kinematics_of_a_bent_leg` | Speed alone gives `not_scored`; a failing margin gives `thresholds_not_met`; an all-pass pose gives `thresholds_met` | STR (latest) |
 | REQ-ROB-022 | T | `tests/test_tools.py::ScaleTimingTests`, `tests/test_tools.py::GaitTests`, `tests/test_tools.py::BalanceTests`, `tests/test_tools.py::IkTests`, `tests/test_tools.py::MechanismTests`, `tests/test_tools.py::SquashTests`, `tests/test_tools.py::CalibrationTests.test_every_recorded_case_reaches_its_verdict` | `invoke()` validates arguments and receipts with `jsonschema` when importable. CI lacks `jsonschema`, so this runs only locally with `uv run --with jsonschema` | STR (latest) states whether validation was active |
+| REQ-ROB-023 | T | `tests/test_docs.py::DocTests.test_catalog_documents_fields_inside_unions_and_maps`, `tests/test_docs.py::DocTests.test_catalog_documents_every_schema_field`, `tests/test_docs.py::DocTests.test_catalog_labels_each_union_variant` | Every schema field path appears in the catalog, including union branches, map values and nullable objects; multi-branch unions are labelled | STR (latest) |
+| REQ-ROB-024 | T | `tests/test_docs.py::DocTests.test_report_parser_keeps_subtest_failures_and_skips`, `tests/test_docs.py::DocTests.test_report_does_not_call_skipped_tests_passed`, `tests/test_docs.py::DocTests.test_report_does_not_call_expected_failures_or_unexpected_successes_passed`, `tests/test_docs.py::DocTests.test_report_fails_on_failed_trace_gate`, `tests/test_docs.py::DocTests.test_report_fails_on_stale_manifest`, `tests/test_docs.py::DocTests.test_report_fails_when_outcomes_go_unparsed`, `tests/test_docs.py::DocTests.test_report_fails_on_nonzero_exit`, `tests/test_docs.py::DocTests.test_report_passes_only_when_every_gate_passes` | Fixture unittest output and gate inputs; the report is NOT PASSED for each failing case and passes only when every gate passes | STR (latest) |
 
 ## Tests without a requirement
 
 | Test | Classification (supporting / infrastructure / candidate requirement) |
 |---|---|
-| `tests/test_docs.py::DocTests` | Infrastructure: runs the trace and link check and the generated-docs freshness check, and the trace and link check in a copy holding only `SOURCE-MANIFEST.json` and its listed files, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
+| `tests/test_docs.py::DocTests` | Infrastructure: runs the trace and link check and the generated-docs freshness check (the catalog-completeness and report-verdict methods also trace to REQ-ROB-023 and REQ-ROB-024), and the trace and link check in a copy holding only `SOURCE-MANIFEST.json` and its listed files, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
 
 ## Change history
 
@@ -53,3 +55,4 @@ Trace check: `python -B tools/check_trace.py` (also run by `tests/test_docs.py::
 | 1.0 | 2026-10-30 | d779a9f | Initial matrix | Initial commit |
 | 1.1 | 2026-10-30 | 86f2280 | Inspection-only rows marked I | PR #4 |
 | 2.0 | 2026-11-08 | b4de079 | Family standard. Method-level test references. Corrected REQ-ROB-012 evidence (was `tests/test_tools.py`; the test is in `tests/test_bridge.py`). Rows for REQ-ROB-013 to 022. "pass at baseline" replaced by pointers to the generated STR | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | d5bbe35 | Rows for REQ-ROB-023 and REQ-ROB-024 | PR fixing the 2026-11-09 backfill-review findings |

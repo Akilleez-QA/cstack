@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FTEMPLATE-STP |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | fb9993c55e9c708a3cfdd295b237466d4bef7ff1 |
 | Applies to | foundation-template main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -26,6 +26,7 @@ All verification is automated with Python's `unittest`, plus two CI gates (secre
 | System | The bridge as a real child process: handshake, catalog, tool call, refusals, exit status | `tests/test_bridge.py` | same |
 | Configuration | Source manifest equals the tree | `tests/test_bridge.py::BridgeTests.test_source_manifest_lists_every_file` | same |
 | Documentation | Requirement trace, dead links, generated catalog current | `tests/test_docs_trace.py` | same |
+| Report generator | The test report fails on failed gates, skips and unparsed outcomes | `tests/test_gen_reports.py` | same |
 | Optimized mode | Every test with `-O` | all | `python -B -O -m unittest discover -s tests -t .` |
 | Regression | Full suite on every push to `main` and every pull request | `.github/workflows/ci.yml` | both commands |
 
@@ -68,9 +69,9 @@ Automated suites: run the two unittest commands in §3 from the repository root.
 ### TP-1 — Generate the test report and version description
 
 - Purpose / requirements: record results for all requirements at one commit (SWEHB 5.11, 5.16).
-- Preconditions: clean working tree; Python 3.12 (`uv`); `gh` authenticated (optional, for issue counts); `gitleaks` on `PATH` (optional).
+- Preconditions: clean working tree; Python 3.12 (`uv`); `gh` authenticated (optional, for issue counts); `gitleaks` on `PATH` (without it the report fails).
 - Steps: `uv run --no-project --python 3.12 python -B tools/gen_reports.py --label unreleased` (the tag name at a release); `python -B tools/build_manifest.py`; commit the two generated files and the manifest.
-- Expected result and pass/fail criteria: exit 0; the report shows zero failures and zero trace problems.
+- Expected result and pass/fail criteria: exit 0; the report shows zero failures and zero trace problems. The tool exits 1 and the report concludes "FAILED" when a test run exits non-zero, runs no tests, or records any outcome other than ok (skipped, expected failure, unexpected success, failed or unparsed); when the trace check reports a problem; or when the manifest, generated-catalog or Gitleaks gate fails or did not run. Gitleaks is therefore required for a passing report.
 - Last run: see the test log in [STR-unreleased](reports/STR-unreleased.md).
 
 ### TP-2 — First bridge session tutorial
@@ -101,3 +102,4 @@ See the [verification matrix](verification-matrix.md).
 | Version | Date | Commit | Change | Reviewed in |
 |---|---|---|---|---|
 | 1.0 | 2026-11-08 | fb9993c | Initial baseline | PR adding the NASA-standard documentation set |
+| 1.1 | 2026-11-09 | 3814683 | Report-generator test level; TP-1 criteria name the gates, skips and unparsed outcomes that fail the report; Gitleaks required | PR fixing the 2026-11-09 backfill-review findings |

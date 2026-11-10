@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FROBO-SRS |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | b4de079f2d99114e5efe6b204704df57d392e454 |
 | Applies to | foundation-robotics main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -195,6 +195,26 @@ A judged tool shall return `thresholds_not_met` if any check fails, otherwise `n
 - Verification: T
 - Status: Baselined
 
+### REQ-ROB-023 — field-level tool catalog
+
+The generated tool catalog shall list every field path of every tool's input and result schema, including the fields inside each `anyOf`/`oneOf` branch (labelled "variant N of M" when more than one branch has fields), inside map values (`<key>`) and inside nullable objects and arrays.
+
+- Rationale: the ICD points callers to the catalog for every field, type and range; a field missing there is undocumented.
+- Derivation: `tools/gen_docs.py`, `docs/guides/reference/tool-catalog.md`
+- Allocated to: C-DOCTOOLS
+- Verification: T
+- Status: Baselined
+
+### REQ-ROB-024 — test report verdict
+
+`tools/gen_reports.py` shall conclude "NOT PASSED" and exit 1 when either unittest run exits non-zero, reports a test count that differs from the outcomes it parsed, or records any outcome other than ok (a skip, an expected failure, an unexpected success, a failure, an error, or a failed subtest); when the trace check reports a problem; or when `SOURCE-MANIFEST.json` does not match the working tree.
+
+- Rationale: the test plan accepts no skips and no failed gates, so the report must not call such a run passed.
+- Derivation: `tools/gen_reports.py`
+- Allocated to: C-DOCTOOLS
+- Verification: T
+- Status: Baselined
+
 ## 4. Interface requirements
 
 ### REQ-ROB-011 — bounded execution environment
@@ -300,3 +320,4 @@ The code does the following, but no test checks it, so it is not stated as a req
 | 1.1 | 2026-10-30 | 86f2280 | Inspection-only verification methods aligned | PR #4 |
 | 1.2 | 2026-11-04 | 8bc1227 | REQ-ROB-007 excludes the root `.github/` tree | PR #10 |
 | 2.0 | 2026-11-08 | b4de079 | Family standard: metadata, record format, derivation and allocation per requirement. Added REQ-ROB-013 to 022 for tested behaviour. Narrowed REQ-ROB-012 to the tested depth limit and wire profile; the untested frame, node, string and integer limits moved to §8. REQ-ROB-008 and 011 gained test evidence (T, I). Untested behaviour listed as GAP-ROB-01 to 14 | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | d5bbe35 | Added REQ-ROB-023 (field-level tool catalog) and REQ-ROB-024 (test report verdict) | PR fixing the 2026-11-09 backfill-review findings |

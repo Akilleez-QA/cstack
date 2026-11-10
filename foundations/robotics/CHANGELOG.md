@@ -17,6 +17,7 @@ Format: Keep a Changelog 1.1, SemVer.
 
 ### Fixed
 
+- The tool catalog lists the fields inside `anyOf`/`oneOf` branches, map values and nullable objects (for example `mechanism_check` `result.detail.gears[].speed_mrad_s` and the rotor `result.detail.reads_as`), labelling each variant; 41 rows added (REQ-ROB-023). `tools/gen_reports.py` concludes "NOT PASSED" and exits 1 on any skip, expected failure, unexpected success, failed subtest, unparsed outcome, trace problem or stale manifest (REQ-ROB-024). Found by the 2026-11-09 backfill review.
 - Documentation claims that did not match the code: REQ-ROB-012 evidence pointed at the wrong test file; the interface document omitted `ping` and mentioned decimal strings that the bridge never accepts; the configuration document claimed trufflehog runs before every push.
 - Exclude `.github/` automation and repository metadata from the source manifest so CI-only changes do not invalidate source pins.
 

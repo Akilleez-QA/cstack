@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SRS |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -181,11 +181,11 @@ After a restart over a ledger that holds an attempt with no recorded outcome, th
 
 ### CS-REQ-045 — Unresolved attempts
 
-The core shall list every attempt whose outcome is unknown, with its original identities, across repeated restarts and kills during recovery, and shall never list an attempt that returned an answer.
+The core shall list every attempt whose outcome is unknown, with its original identities, across repeated restarts and kills during recovery, and shall never list an attempt that returned an answer. A forge session that ends with such an attempt (for example after a workcell is killed while its controller survives) shall keep its core ledger as `.recovered`, so later sessions still list the attempt in `unresolved_attempts`.
 
 - Rationale: the operator needs one place to see work that may or may not have happened.
-- Derivation: `poodo_core/core.py`
-- Allocated to: SDD-C2
+- Derivation: `poodo_core/core.py`, `bootstrap.py`
+- Allocated to: SDD-C2, SDD-C1
 - Verification: T
 - Status: Baselined
 
@@ -507,7 +507,7 @@ Only trusted host configuration shall select EndoForge storage and session ident
 
 ### CS-REQ-047 — Durable JSONL ledger
 
-The durable JSONL ledger shall finish a short write before acknowledging an event, raise and keep nothing on a full disk or failed fsync, count only kept events against its budget, and survive a torn tail from a killed writer across restart and the next append.
+The durable JSONL ledger shall finish a short write before acknowledging an event, raise and keep nothing on a failed file open, a full disk or a failed fsync, count only kept events against its budget, and survive a torn tail from a killed writer across restart and the next append.
 
 - Rationale: a run ledger must not acknowledge what it did not keep.
 - Derivation: `adapters/durable_ledger.py`
@@ -865,3 +865,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | CS-REQ-001 to CS-REQ-035 added across earlier PRs | See `git log -- docs/requirements/requirements.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format: metadata, record fields, allocation to SDD components; CS-REQ-036 to CS-REQ-077 added from tested behaviour; CS-REQ-027 to CS-REQ-030 restated without repeating the port text | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 covers a session that ends with an unknown outcome; CS-REQ-047 covers a failed file open | PR fixing the 2026-11-09 backfill-review findings |

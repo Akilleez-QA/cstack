@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FREFRIG-STP |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 62764c7526ce2bbf064ccf633d5295f4390fc984 |
 | Applies to | foundation-refrigeration main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -87,7 +87,7 @@ Automated suites: run the two unittest commands in §3 from the repository root.
 - Preconditions: clean working tree at the commit to report; Python 3.12 (`uv`); `gh` authenticated for issue counts (optional); `gitleaks` on `PATH` (optional).
 - Steps: `uv run --no-project --python 3.12 python -B tools/gen_reports.py --label unreleased` (use the tag name at a release); then `python -B tools/build_manifest.py`; commit the two generated files and the manifest.
 - Inputs: the repository at HEAD.
-- Expected result and pass/fail criteria: exit 0; `docs/verification/reports/STR-<label>.md` reports zero failures and zero trace problems.
+- Expected result and pass/fail criteria: exit 0; `docs/verification/reports/STR-<label>.md` reports zero failures and zero trace problems. The tool exits 1 and the report concludes "FAILED" when a test run exits non-zero, runs no tests, or records a skipped, failed or unparsed outcome; when the normal and optimized runs record different tests; when the trace check reports a problem; or when the manifest, generated-docs or Gitleaks gate fails. A gate that did not run (Gitleaks not installed) is listed as "not run, so not passed" in the report, but does not by itself change the exit status.
 - Last run: see the test log in [STR-unreleased](reports/STR-unreleased.md).
 
 ### TP-2 — Regenerate the golden CoolProp points (manual, offline)
@@ -123,3 +123,4 @@ See the [verification matrix](verification-matrix.md).
 | Version | Date | Commit | Change | Reviewed in |
 |---|---|---|---|---|
 | 1.0 | 2026-11-08 | 62764c7 | Initial baseline | PR adding the NASA-standard documentation set |
+| 1.1 | 2026-11-09 | e58a71c | TP-1 pass/fail criteria name the gates, skips and run mismatches that fail the report | PR fixing the 2026-11-09 backfill-review findings |

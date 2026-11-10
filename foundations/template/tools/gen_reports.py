@@ -31,7 +31,7 @@ DISCLAIMER = (
     "classification is a self-assessed analog (Class E, not safety-critical); no NASA authority, independent "
     "verification and validation, or hazard analysis is asserted. The document describes the implementation "
     "inspected at the baseline commit.")
-LINE = re.compile(r"^(test_\w+) \(tests\.(test_\w+)\.(\w+)\.test_\w+\) \.\.\. (ok|FAIL|ERROR|skipped.*)$")
+LINE = re.compile(r"^(test_\w+) \(tests\.(test_\w+)\.(\w+)\.test_\w+\) \.\.\. (ok|FAIL|ERROR|skipped.*|expected failure|unexpected success)$")
 CONTROL_DOCS = ("docs/plan/software-management-plan.md", "docs/plan/compliance-matrix.md",
                 "docs/requirements/requirements.md", "docs/architecture/architecture.md", "docs/icd/icd-cstack.md",
                 "docs/data/data-dictionary.md", "docs/verification/test-plan.md",
@@ -60,12 +60,22 @@ def run_suite(optimized):
         match = LINE.match(line)
         if match:
             name, module, cls, outcome = match.groups()
-            results["tests/%s.py::%s.%s" % (module, cls, name)] = outcome.split()[0]
+            results["tests/%s.py::%s.%s" % (module, cls, name)] = "skipped" if outcome.startswith("skipped") \
+                else outcome
     ran = re.search(r"^Ran (\d+) tests? in ([0-9.]+)s$", proc.stderr, re.M)
     display = "python -B%s -m unittest discover -s tests -t ." % (" -O" if optimized else "")
     return {"command": display, "returncode": proc.returncode, "results": results,
             "ran": int(ran.group(1)) if ran else 0, "seconds": ran.group(2) if ran else "unknown",
             "digest": hashlib.sha256(proc.stderr.encode()).hexdigest(), "tail": proc.stderr.strip().splitlines()[-1]}
+
+
+def run_passed(run):
+    return (run["returncode"] == 0 and run["ran"] > 0 and len(run["results"]) == run["ran"]
+            and all(outcome == "ok" for outcome in run["results"].values()))
+
+
+def report_passed(runs, problems, gates):
+    return all(run_passed(run) for run in runs) and not problems and all(ok for _, _, ok in gates)
 
 
 def trace_module():
@@ -135,10 +145,10 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
     issues = issue_counts()
     merged = gh("pr", "list", "--state", "merged", "--limit", "500", "--json", "number")
     normal, optimized = runs
-    passed = all(r["returncode"] == 0 for r in runs) and not problems
+    passed = report_passed(runs, problems, gates)
     out = header("%s-STR-%s" % (CODE, label.upper()), "software test report %s" % label, commit, label, today)
     out += ["## 1. Summary", "",
-            "- Conclusion: %s." % ("all suites passed and the trace check found no problems" if passed else
+            "- Conclusion: %s." % ("all suites passed with no skips, the trace check found no problems and every gate passed" if passed else
                                    "FAILED: see results and problems below"),
             "- Remaining deficiencies and limitations: %d untested behaviours are listed as gaps in the "
             "[requirements](../../requirements/requirements.md#9-untested-behaviour-gaps) (%s). No test exercises a "
@@ -158,7 +168,7 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
             "%d supporting; %d markdown files link-checked |" % (
                 len(problems), summary["requirements"], summary["traced"], summary["tests"], summary["tests_traced"],
                 summary["tests_supporting"], summary["markdown_files"])]
-    for name, result in gates:
+    for name, result, _ in gates:
         out.append("| %s | %s |" % (name, result))
     out += ["", "## 3. Results", "", "| Test | Requirements | Normal | Optimized (-O) |", "|---|---|---|---|"]
     for ref in sorted(set(normal["results"]) | set(optimized["results"])):
@@ -167,12 +177,17 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
                                                optimized["results"].get(ref, "not run")))
     out += ["", "## 4. Problems and deviations", ""]
     failures = [(ref, outcome) for run in runs for ref, outcome in run["results"].items() if outcome != "ok"]
-    if failures or problems:
+    unparsed = [run for run in runs if run["ran"] == 0 or len(run["results"]) != run["ran"]]
+    failed_gates = [(name, result) for name, result, ok in gates if not ok]
+    if failures or problems or unparsed or failed_gates:
         out += ["| Item | Description |", "|---|---|"]
         out += ["| `%s` | %s |" % (ref, outcome) for ref, outcome in failures]
+        out += ["| `%s` | %d tests ran, %d outcomes parsed as ok, failed or skipped |" % (
+            run["command"], run["ran"], len(run["results"])) for run in unparsed]
+        out += ["| %s | %s |" % (name, result) for name, result in failed_gates]
         out += ["| trace | %s |" % p.replace("|", "\\|") for p in problems]
     else:
-        out.append("None. No test failed or was skipped, and the trace check reported no problems.")
+        out.append("None. No test failed or was skipped, the trace check reported no problems and every gate passed.")
     out += ["", "## 5. Metrics", "", "| Measure | Value | Command |", "|---|---|---|",
             "| Tests run / passed / failed (normal) | %d / %d / %d | `%s` |" % (
                 normal["ran"], sum(v == "ok" for v in normal["results"].values()),
@@ -263,12 +278,12 @@ def write_vdd(label, commit, today):
 
 def gitleaks_gate():
     if shutil.which("gitleaks") is None:
-        return ("gitleaks", "not run: gitleaks not installed")
+        return ("gitleaks", "not run: gitleaks not installed", False)
     proc = subprocess.run(["gitleaks", "git", "--redact", "--no-banner", "--exit-code", "1", "--config",
                            ".gitleaks.toml", "."], cwd=ROOT, capture_output=True, text=True)
     summary = re.sub(r"\x1b\[[0-9;]*m", "", proc.stdout + proc.stderr).strip().splitlines()
     return ("`gitleaks git --redact --no-banner --exit-code 1 --config .gitleaks.toml .`",
-            "exit %d; %s" % (proc.returncode, summary[-1] if summary else "no output"))
+            "exit %d; %s" % (proc.returncode, summary[-1] if summary else "no output"), proc.returncode == 0)
 
 
 def main():
@@ -284,10 +299,10 @@ def main():
     manifest = subprocess.run([sys.executable, "-B", "tools/build_manifest.py"], cwd=ROOT, capture_output=True,
                               text=True)
     diff = subprocess.run(["git", "diff", "--exit-code", "--quiet", "SOURCE-MANIFEST.json"], cwd=ROOT)
+    docs = subprocess.run([sys.executable, "-B", "tools/gen_docs.py", "--check"], cwd=ROOT, capture_output=True)
     gates = [("`python -B tools/build_manifest.py` then `git diff --exit-code SOURCE-MANIFEST.json`",
-              "exit %d / %d" % (manifest.returncode, diff.returncode)),
-             ("`python -B tools/gen_docs.py --check`", "exit %d" % subprocess.run(
-                 [sys.executable, "-B", "tools/gen_docs.py", "--check"], cwd=ROOT, capture_output=True).returncode),
+              "exit %d / %d" % (manifest.returncode, diff.returncode), manifest.returncode == 0 and diff.returncode == 0),
+             ("`python -B tools/gen_docs.py --check`", "exit %d" % docs.returncode, docs.returncode == 0),
              gitleaks_gate()]
     REPORTS.mkdir(parents=True, exist_ok=True)
     RELEASES.mkdir(parents=True, exist_ok=True)

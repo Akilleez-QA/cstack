@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FFILM-ICD-CSTACK |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 852f976aacaf8f08618bd0f37777f37822ce2614 |
 | Applies to | foundation-film main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -39,7 +39,7 @@
 
 Tools, in catalog order: `cinematic_gate`, `reference_bands`, `audio_gate`, `drift_verdict`, `cue_vocabulary_check`, `look_gate`. Every field of every tool's input and result, with type and range, is in the generated [tool catalog](../guides/reference/tool-catalog.md) (generated from `foundation_film_bridge/schemas.py`). Times are integer milliseconds (`_ms`, at most 86400000). Measures are milli-units: a producer value of 1.234 crosses the wire as 1234; loudness in milli-LUFS, levels in milli-dB, shares and WER in per-mille.
 
-Receipt (from `foundation_film/tools.py`): `tool`, `version`, `status` (`ok` or `error`), `input_sha256` (SHA-256 of `json.dumps(arguments, sort_keys=True, separators=(",", ":"), ensure_ascii=True)`), `boundary` (`observation_only: true`, `acceptance_decision: false`, `control_action: false`), `result` (null on error), `error` (null or at most 1024 characters), `evidence` (1 to 16 entries, each with `applies_to` and `basis.kind` `cited`, `derived` or `caller`, and `status` `CHECK` or `RECORDED`).
+Receipt (from `foundation_film/tools.py`): `tool`, `version`, `status` (`ok` or `error`), `input_sha256` (SHA-256 of `json.dumps(arguments, sort_keys=True, separators=(",", ":"), ensure_ascii=True)`), `boundary` (`observation_only: true`, `acceptance_decision: false`, `control_action: false`), `result` (null on error), `error` (null or at most 1024 characters), `evidence` (1 to 16 entries, each `{"applies_to", "evidence": {"basis": {"kind", "source", "note"}, "status"}}`, where `evidence.basis.kind` is `cited`, `derived` or `caller` and `evidence.status` is `CHECK` or `RECORDED`, as `foundation_film/tools.py` `evidence()` builds it).
 
 Assessments: `reference_bands` returns `bands_measured`; the five judged tools return `thresholds_met`, `thresholds_not_met` or `not_scored`; any tool returns `tool_error` when it refuses its arguments.
 
@@ -110,3 +110,4 @@ The producer is a local command line program outside JSON-RPC. It takes a path, 
 | 1.1 | 2026-11-01 | e6e6405 | Offline measurement interface | PR #5 |
 | 1.2 | 2026-11-04 | 42a5e27 | Pin rule excludes the root `.github/` tree | PR #11 |
 | 2.0 | 2026-11-08 | 852f976 | Family standard. Added `ping` (missing from the method list). Corrected the numeric rule: floats are rejected for every message while parsing, and no decimal strings are used (the old text said "bounded decimal strings"). Error table with tests and gaps, identity table, security bounds, requirements trace | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | - | Evidence entries described with their real nesting (`evidence.basis.kind`, `evidence.status`), as `tools.py` `evidence()` builds them | PR fixing the 2026-11-09 backfill-review findings |
