@@ -121,6 +121,31 @@ def footer(today, commit, change):
             "| 1.0 | %s | %s | %s | PR adding the NASA-standard documentation set |" % (today, commit[:7], change)]
 
 
+def verdict(runs, problems, gates):
+    reasons = []
+    for run in runs:
+        if run["returncode"] != 0:
+            reasons.append("`%s` exited %d" % (run["command"], run["returncode"]))
+        if run["ran"] == 0:
+            reasons.append("`%s` ran no tests" % run["command"])
+        if len(run["results"]) != run["ran"]:
+            reasons.append("`%s` ran %d tests but %d outcomes were recorded" % (
+                run["command"], run["ran"], len(run["results"])))
+        reasons += ["`%s`: `%s` %s" % (run["command"], ref, outcome)
+                    for ref, outcome in sorted(run["results"].items()) if outcome != "ok"]
+    if len({frozenset(run["results"]) for run in runs}) > 1:
+        reasons.append("the normal and optimized runs recorded different tests")
+    if problems:
+        reasons.append("the trace check reported %d problem(s)" % len(problems))
+    unrun = []
+    for name, status, detail in gates:
+        if status == "not run":
+            unrun.append(name)
+        elif status != "passed":
+            reasons.append("%s failed: %s" % (name, detail))
+    return not reasons, reasons, unrun
+
+
 def write_str(label, commit, dirty, today, runs, trace, gates):
     problems, summary = trace.check()
     mapping = requirement_map(trace)
@@ -131,11 +156,17 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
     issues = issue_counts()
     merged = gh("pr", "list", "--state", "merged", "--limit", "500", "--json", "number")
     normal, optimized = runs
-    passed = all(r["returncode"] == 0 for r in runs) and not problems
+    passed, reasons, unrun = verdict(runs, problems, gates)
+    if not passed:
+        conclusion = "FAILED: %s" % "; ".join(reasons)
+    elif unrun:
+        conclusion = ("every test passed, every gate that ran passed and the trace check found no problems; not run, "
+                      "so not passed: %s" % ", ".join(unrun))
+    else:
+        conclusion = "every test passed, every gate passed and the trace check found no problems"
     out = header("FREFRIG-STR-%s" % label.upper(), "software test report %s" % label, commit, label, today)
     out += ["## 1. Summary", "",
-            "- Conclusion: %s." % ("all suites passed and the trace check found no problems" if passed else
-                                   "FAILED: see results and problems below"),
+            "- Conclusion: %s." % conclusion,
             "- Remaining deficiencies and limitations: %d untested behaviours are listed as gaps in the "
             "[requirements](../../requirements/requirements.md#9-untested-behaviour-gaps) (%s). No test exercises a "
             "live host; the Cstack side of the interface is verified in the Cstack repository." %
@@ -154,8 +185,8 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
             "%d supporting; %d markdown files link-checked |" % (
                 len(problems), summary["requirements"], summary["traced"], summary["tests"], summary["tests_traced"],
                 summary["tests_supporting"], summary["markdown_files"])]
-    for name, result in gates:
-        out.append("| %s | %s |" % (name, result))
+    for name, status, detail in gates:
+        out.append("| %s | %s: %s |" % (name, status, detail))
     out += ["", "## 3. Results", "", "| Test | Requirements | Normal | Optimized (-O) |", "|---|---|---|---|"]
     for ref in sorted(set(normal["results"]) | set(optimized["results"])):
         out.append("| `%s` | %s | %s | %s |" % (ref, ", ".join(mapping.get(ref, [])) or "supporting",
@@ -163,12 +194,14 @@ def write_str(label, commit, dirty, today, runs, trace, gates):
                                                optimized["results"].get(ref, "not run")))
     out += ["", "## 4. Problems and deviations", ""]
     failures = [(ref, outcome) for run in runs for ref, outcome in run["results"].items() if outcome != "ok"]
-    if failures or problems:
+    if not passed or unrun:
         out += ["| Item | Description |", "|---|---|"]
         out += ["| `%s` | %s |" % (ref, outcome) for ref, outcome in failures]
         out += ["| trace | %s |" % p.replace("|", "\\|") for p in problems]
+        out += ["| verdict | %s |" % r.replace("|", "\\|") for r in reasons]
+        out += ["| %s | not run |" % name for name in unrun]
     else:
-        out.append("None. No test failed or was skipped, and the trace check reported no problems.")
+        out.append("None. No test failed or was skipped, every gate passed, and the trace check reported no problems.")
     out += ["", "## 5. Metrics", "", "| Measure | Value | Command |", "|---|---|---|",
             "| Tests run / passed / failed (normal) | %d / %d / %d | `%s` |" % (
                 normal["ran"], sum(v == "ok" for v in normal["results"].values()),
@@ -260,11 +293,12 @@ def write_vdd(label, commit, today):
 
 def gitleaks_gate():
     if shutil.which("gitleaks") is None:
-        return ("gitleaks", "not run: gitleaks not installed")
+        return ("gitleaks", "not run", "gitleaks not installed")
     proc = subprocess.run(["gitleaks", "git", "--redact", "--no-banner", "--exit-code", "1", "--config",
                            ".gitleaks.toml", "."], cwd=ROOT, capture_output=True, text=True)
     summary = re.sub(r"\x1b\[[0-9;]*m", "", proc.stdout + proc.stderr).strip().splitlines()
     return ("`gitleaks git --redact --no-banner --exit-code 1 --config .gitleaks.toml .`",
+            "passed" if proc.returncode == 0 else "failed",
             "exit %d; %s" % (proc.returncode, summary[-1] if summary else "no output"))
 
 
@@ -281,17 +315,20 @@ def main():
     manifest = subprocess.run([sys.executable, "-B", "tools/build_manifest.py"], cwd=ROOT, capture_output=True,
                               text=True)
     diff = subprocess.run(["git", "diff", "--exit-code", "--quiet", "SOURCE-MANIFEST.json"], cwd=ROOT)
+    docs = subprocess.run([sys.executable, "-B", "tools/gen_docs.py", "--check"], cwd=ROOT, capture_output=True)
     gates = [("`python -B tools/build_manifest.py` then `git diff --exit-code SOURCE-MANIFEST.json`",
+              "passed" if manifest.returncode == 0 and diff.returncode == 0 else "failed",
               "exit %d / %d" % (manifest.returncode, diff.returncode)),
-             ("`python -B tools/gen_docs.py --check`", "exit %d" % subprocess.run(
-                 [sys.executable, "-B", "tools/gen_docs.py", "--check"], cwd=ROOT, capture_output=True).returncode),
+             ("`python -B tools/gen_docs.py --check`", "passed" if docs.returncode == 0 else "failed",
+              "exit %d" % docs.returncode),
              gitleaks_gate()]
     REPORTS.mkdir(parents=True, exist_ok=True)
     RELEASES.mkdir(parents=True, exist_ok=True)
     passed = write_str(args.label, commit, dirty, today, runs, trace_module(), gates)
     write_vdd(args.label, commit, today)
     print(json.dumps({"commit": commit, "dirty": dirty, "passed": passed,
-                      "normal": runs[0]["returncode"], "optimized": runs[1]["returncode"]}))
+                      "normal": runs[0]["returncode"], "optimized": runs[1]["returncode"],
+                      "gates": {name: status for name, status, _ in gates}}))
     return 0 if passed else 1
 
 

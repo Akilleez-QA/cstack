@@ -138,6 +138,8 @@ Assessments: `thresholds_met`, `thresholds_not_met`, `not_scored`, `tool_error`.
 | `cuts_with_hit` | null or integer 0..100000 | yes |
 | `heard` | null or array[0..128] of string matching `^[ -~]{1,96}$` | yes |
 | `line_wer` | null or array[1..512] of object | yes |
+| `line_wer[].line` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes |
+| `line_wer[].wer_permille` | integer 0..10000 | yes |
 | `contract` | object | no |
 | `contract.loudness_target` | integer -1000000000000..1000000000000 | no |
 | `contract.loudness_tolerance` | integer -1000000000000..1000000000000 | no |
@@ -318,6 +320,11 @@ Assessments: `thresholds_met`, `thresholds_not_met`, `not_scored`, `tool_error`.
 | `result.orders[].resolved` | integer 0..64 | yes |
 | `result.orders[].unresolved` | array[0..64] of string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes |
 | `result.orders[].first_violation` | null or object | yes |
+| `result.orders[].first_violation.index` | integer 0..63 | yes |
+| `result.orders[].first_violation.id` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes |
+| `result.orders[].first_violation.t_ms` | integer 0..86400000 | yes |
+| `result.orders[].first_violation.previous_id` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes |
+| `result.orders[].first_violation.previous_t_ms` | integer 0..86400000 | yes |
 | `result.gaps` | array[0..64] of object | yes |
 | `result.gaps[].rule` | string matching `^[A-Za-z0-9][A-Za-z0-9:_.\-]{0,63}$` | yes |
 | `result.gaps[].gap_ms` | null or integer -86400000..86400000 | yes |

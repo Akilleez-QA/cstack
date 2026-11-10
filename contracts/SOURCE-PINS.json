@@ -2,31 +2,31 @@
  "schema": "cstack.source-pins/0.1",
  "foundation_refrigeration": {
   "root": "foundations/refrigeration",
-  "source_manifest_sha256": "b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e",
+  "source_manifest_sha256": "198ec83162c24f090e8f29e335b8a5822d9d319d6a18b0168db27de2df7e0267",
   "source_manifest_entry_count": 79,
   "inventory_sha256": "aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b",
-  "commit": "069ea9e8b90308257565db7d00c1884119ed84d6"
+  "commit": "f78905d0aa5bbdec41faee600e27b96ca4d03732"
  },
  "foundation_film": {
   "root": "foundations/film",
-  "source_manifest_sha256": "be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31",
+  "source_manifest_sha256": "8f463e5329bdf8fc89f008380be3aad1091ce26d5c2c1595f92f5ee2e98d6699",
   "source_manifest_entry_count": 55,
   "inventory_sha256": "4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558",
-  "commit": "7601fc51d1e01771db5be3a3f0c576b93ed7b078"
+  "commit": "52fa82c08e278d306c5ab3ed16a6ad63cbab74da"
  },
  "foundation_robotics": {
   "root": "foundations/robotics",
-  "source_manifest_sha256": "624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97",
+  "source_manifest_sha256": "b7aa7b15d9afa430b6dd93dbb5f58498662b44a8176fb6d237b7d44dd367af01",
   "source_manifest_entry_count": 61,
   "inventory_sha256": "037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599",
-  "commit": "e6abce6d4b5b7c06ed87d8270ad4785af5be1886"
+  "commit": "d61de9657b3e33a5464742ee1eac178f0b8d21c5"
  },
  "foundation_template": {
   "root": "foundations/template",
-  "source_manifest_sha256": "38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31",
-  "source_manifest_entry_count": 49,
+  "source_manifest_sha256": "00bbbba7024dda926877d9f1522312d7bcb03c9608197ee3a3355b8895e40249",
+  "source_manifest_entry_count": 50,
   "inventory_sha256": "2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f",
-  "commit": "a57f14cb744093aec40a52d35420d2cee1b1797d"
+  "commit": "0dcf469894879cd42bb9bce575ae657ab8aac7d4"
  },
  "poodo_core_export": {
   "files": {
@@ -48,7 +48,7 @@
  "poodo_skill": {
   "root": "reasoning/poodo",
   "repository": "https://github.com/Akilleez-QA/poodo",
-  "commit": "4a111aab0a51ec5fc4c611390e7ea8eee7d3a3a9",
+  "commit": "aeba96775763dd96658cf9ce2bd41ad2ac94b8dd",
   "status": "partial-sync",
   "files": [
    ".github/pull_request_template.md",
@@ -136,7 +136,8 @@
    "docs/verification/verification-matrix.md",
    "tools/check_trace.py",
    "tools/gen_release_docs.py",
-   "tools/test_check_trace.py"
+   "tools/test_check_trace.py",
+   "tools/test_gen_release_docs.py"
   ]
  },
  "poodo_core_endoforge_port_0_1": {

@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FREFRIG-SRS |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 62764c7526ce2bbf064ccf633d5295f4390fc984 |
 | Applies to | foundation-refrigeration main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -405,6 +405,16 @@ The evaluator shall return `passed: false` with a reason for unknown checks and 
 - Verification: T
 - Status: Baselined
 
+### REQ-REF-037 — Test report verdict
+
+`tools/gen_reports.py` shall conclude "FAILED" and exit 1 when a unittest run exits non-zero, runs no tests, records a skipped, failed or unparsed outcome, or records different tests in the normal and optimized runs; when the trace check reports a problem; or when the manifest, generated-docs or Gitleaks gate fails. A gate that did not run shall be listed as "not run, so not passed" in the report.
+
+- Rationale: the test plan accepts no skips and no failed gates (TP-1), so the report must not call such a run passed.
+- Derivation: `tools/gen_reports.py`
+- Allocated to: SDD §4 (documentation tools)
+- Verification: T
+- Status: Baselined
+
 ## 9. Untested behaviour (gaps)
 
 The code does the following, but no test checks it. These are not baselined requirements. Each is a candidate for a test, after which it becomes a requirement. Found by reading the code at the baseline commit and searching `tests/` for the code path.
@@ -452,3 +462,4 @@ Test (T): automated `unittest` tests, run by `python -B -m unittest discover -s 
 | 1.1 | 2026-11-01 | 4bd3311 | REQ-REF-014 to REQ-REF-016 for the invariant evaluator | PR #3 |
 | 1.2 | 2026-11-04 | f51290c | REQ-REF-008 excludes the root `.github/` tree | PR #9 |
 | 2.0 | 2026-11-08 | 62764c7 | NASA-standard record format; REQ-REF-010 corrected to match code; REQ-REF-017 to REQ-REF-036 added for tested behaviour; untested behaviour listed as gaps | PR adding the NASA-standard documentation set |
+| 2.1 | 2026-11-09 | e58a71c | REQ-REF-037 (test report verdict) | PR fixing the 2026-11-09 backfill-review findings |

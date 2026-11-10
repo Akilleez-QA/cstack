@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FROBO-SDD |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | b4de079f2d99114e5efe6b204704df57d392e454 |
 | Applies to | foundation-robotics main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -86,7 +86,7 @@ sequenceDiagram
 | C-SERVER | `foundation_robotics_bridge/server.py`, `foundation_robotics_bridge/__main__.py` | Line framing, wire limits, JSON-RPC envelope, session state, response encoding, exit codes | stdin bytes to stdout bytes | REQ-ROB-011, REQ-ROB-012, REQ-ROB-013, REQ-ROB-016 |
 | C-SCHEMAS | `foundation_robotics_bridge/schemas.py` | JSON Schema (2020-12) input and output schema per tool; catalog order | none to tool definitions | REQ-ROB-014, REQ-ROB-022 |
 | C-MANIFEST | `tools/build_manifest.py`, `SOURCE-MANIFEST.json` | Hash the shipped tree; print file count, manifest SHA-256 and inventory SHA-256 | tree to manifest and pins | REQ-ROB-007 |
-| C-DOCTOOLS | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated reference pages; generated test report and version description | docs and tests to pass/fail and generated pages | infrastructure |
+| C-DOCTOOLS | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated reference pages, with every schema field including union branches and map values; generated test report and version description, whose verdict fails on any non-ok outcome, trace problem or stale manifest | docs and tests to pass/fail and generated pages | REQ-ROB-023, REQ-ROB-024 |
 
 `foundation_robotics/__init__.py` and `foundation_robotics_bridge/__init__.py` hold only `__version__ = "0.1.0"`.
 
@@ -144,3 +144,4 @@ Memory is bounded by the input frame limit (64 KiB per request) and the array li
 |---|---|---|---|---|
 | 1.0 | 2026-10-30 | d779a9f | Context, components, tools, data flow, decisions | Initial commit |
 | 2.0 | 2026-11-08 | b4de079 | Family standard: metadata, decisions table, static and runtime views, component IDs with requirements, execution, failure handling, resources, quality attributes, limitations | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | d5bbe35 | C-DOCTOOLS allocated REQ-ROB-023 and REQ-ROB-024 | PR fixing the 2026-11-09 backfill-review findings |

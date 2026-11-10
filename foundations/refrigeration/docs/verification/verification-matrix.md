@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FREFRIG-VM |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 62764c7526ce2bbf064ccf633d5295f4390fc984 |
 | Applies to | foundation-refrigeration main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -56,6 +56,7 @@ Method: T test, I inspection.
 | REQ-REF-034 | T | `tests/test_bridge.py::ReceiptTests.test_receipts_are_deterministic_and_bind_the_input` | Two runs with equal arguments return equal tuples | [STR-unreleased](reports/STR-unreleased.md) |
 | REQ-REF-035 | T | `tests/test_bridge.py::TransportTests.test_serve_round_trip_and_oversized_frame`<br>`tests/test_bridge.py::TransportTests.test_real_process_round_trip_without_options` | Exit 0 at end of input; exit 2 for an oversized line, a missing final newline and a command-line option | [STR-unreleased](reports/STR-unreleased.md) |
 | REQ-REF-036 | T | `tests/test_thermo.py::RefusalTests.test_fluid_aliases` | Eight aliases resolve; R1234yf, empty, 717 and a 65-character name refused | [STR-unreleased](reports/STR-unreleased.md) |
+| REQ-REF-037 | T | `tests/test_docs_trace.py::DocumentationTraceTests.test_generated_reference_documents_are_current` | Eight fixture reports through `write_str`: clean and Gitleaks-not-installed pass; a Gitleaks finding, a changed manifest, stale generated documents, a skip in either run and an unparsed outcome each give a FAILED conclusion | [STR-unreleased](reports/STR-unreleased.md) |
 
 ## Tests without a requirement
 
@@ -64,7 +65,7 @@ Method: T test, I inspection.
 | `tests/test_evidence_units.py::EvidenceTests.test_projection_json_is_stable_regardless_of_key_order` | Supporting: checks `projection.stable_json`, a library helper the shipped code does not call |
 | `tests/test_docs_trace.py::DocumentationTraceTests.test_requirements_trace_to_tests_design_and_live_links` | Infrastructure: documentation trace and link check |
 | `tests/test_docs_trace.py::DocumentationTraceTests.test_manifest_copy_passes_its_own_trace_check` | Infrastructure: a copy holding only `SOURCE-MANIFEST.json` and its listed files passes the trace and link check, as a vendoring consumer such as Cstack runs it; links into `.github/`, which the manifest excludes, are skipped only when `.github/` is absent |
-| `tests/test_docs_trace.py::DocumentationTraceTests.test_generated_reference_documents_are_current` | Infrastructure: generated reference documents match their sources |
+| `tests/test_docs_trace.py::DocumentationTraceTests.test_generated_reference_documents_are_current` | Infrastructure: generated reference documents match their sources (its report-verdict cases trace to REQ-REF-037) |
 
 ## Change history
 
@@ -73,3 +74,4 @@ Method: T test, I inspection.
 | 1.0 | 2026-10-30 | 9b459ef | Requirement to test-file table | Initial commit |
 | 1.1 | 2026-11-01 | 4bd3311 | Rows for REQ-REF-014 to REQ-REF-016 | PR #3 |
 | 2.0 | 2026-11-08 | 62764c7 | Test-method references for every row; rows for REQ-REF-017 to REQ-REF-036; supporting tests classified; results point to the generated test report | PR adding the NASA-standard documentation set |
+| 2.1 | 2026-11-09 | e58a71c | Row for REQ-REF-037 (test report verdict) | PR fixing the 2026-11-09 backfill-review findings |
