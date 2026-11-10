@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SDD |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -58,7 +58,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 
 | ID | Element | Implementation | Responsibility | Requirements |
 |---|---|---|---|---|
-| SDD-C1 | Composition root | `bootstrap.py` | Registers domains and runtimes, selects roots, checks grants against the inventory, binds ledgers and constructs cores | CS-REQ-001, CS-REQ-002, CS-REQ-014, CS-REQ-066 |
+| SDD-C1 | Composition root | `bootstrap.py` | Registers domains and runtimes, selects roots, checks grants against the inventory, binds ledgers and constructs cores; at session end keeps a core ledger with an unknown outcome as `.recovered` | CS-REQ-001, CS-REQ-002, CS-REQ-014, CS-REQ-045, CS-REQ-066 |
 | SDD-C2 | Control core | `poodo_core/` | Phases, goals and revisions, authority and lanes, approvals, budget, capacity, liveness, crash recovery and evidence admission | CS-REQ-012, CS-REQ-013, CS-REQ-037, CS-REQ-038, CS-REQ-040, CS-REQ-041, CS-REQ-042, CS-REQ-043, CS-REQ-044, CS-REQ-045, CS-REQ-046, CS-REQ-074, CS-REQ-075 |
 | SDD-C3 | Contracts and inventory | `contracts/`, `schemas/`, `adapters/adapter_inventory.py` | Host/core and bridge data contracts; the adapter inventory and its checks | CS-REQ-036 |
 | SDD-C4 | Vendored backends and Foundations | `vendor/foundation-math-v014/`, `vendor/foundation-engine-v020/`, `vendor/endoforge/`, `foundations/` | Byte-pinned upstream code: Math tools and bridge, Engine bridge, EndoForge slice, Template, Refrigeration, Robotics and Film Foundations, `fm_research` layer. Requirements live upstream | Infrastructure |
@@ -188,3 +188,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 1.x | 2026-10 to 2026-11-08 | various | Foundation integration, EndoForge evidence and workcell runtime sections | See `git log -- docs/architecture/architecture.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format; numbered sections; component table covers every directory with requirement allocation; design decisions, concurrency and quality attributes added | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #78 |
+| 2.2 | 2026-11-09 | 6088dd4 | SDD-C1 also allocated CS-REQ-045 (session-end ledger rename) | PR fixing the 2026-11-09 backfill-review findings |

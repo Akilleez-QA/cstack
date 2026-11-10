@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-ICD-ENDOFORGE |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -225,3 +225,4 @@ CS-REQ-020 to CS-REQ-030 (evidence port, file adapter and configured routing); C
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-endoforge.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | Pin commit updated; ENDOFORGE_DUMP_LIST row added to section 8 | PR #79 |
+| 2.2 | 2026-11-09 | 6088dd4 | Lost-controller row: a session that ends with an unknown outcome keeps its core ledger as `.recovered` | PR fixing the 2026-11-09 backfill-review findings |

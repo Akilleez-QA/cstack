@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-VM |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -156,3 +156,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 |---|---|---|---|---|
 | 1.x | 2026-10 to 2026-11-08 | various | Rows for CS-REQ-001 to CS-REQ-035 | See `git log -- docs/verification/verification-matrix.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | One row per requirement in `file::Class.method` form; rows for CS-REQ-036 to CS-REQ-077; gap table; every test file traced; `tools/check_trace.py` | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 row adds the session-end and workcell-kill tests; CS-REQ-047 row names a failed file open | PR fixing the 2026-11-09 backfill-review findings |

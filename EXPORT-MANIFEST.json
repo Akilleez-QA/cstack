@@ -475,8 +475,8 @@
    "bytes": 5277
   },
   "docs/architecture/architecture.md": {
-   "sha256": "321033b1fb873db9615508b33c29da81de40165e6b888454e7074c079bce3b22",
-   "bytes": 22085
+   "sha256": "d5a259bcfc07576eac4cea7a74036744a5320dec2d98e74debc53a1df47243c3",
+   "bytes": 22319
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "2abb767ed00dbd4566797232766e2c75a062244cbcd7f2a51d0d2f5ccdbe4fee",
@@ -551,8 +551,8 @@
    "bytes": 5086
   },
   "docs/icd/icd-endoforge.md": {
-   "sha256": "4244c31e19eced9cb05cff3b9e0d76cc263c63c5a5f7708d018128a1cd9054b8",
-   "bytes": 20853
+   "sha256": "46ebe62d65b97ef6d9f89fab8a9f2254a342cb5d1ef809df02bcf9ebae37cbb1",
+   "bytes": 21041
   },
   "docs/icd/icd-foundations.md": {
    "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
@@ -579,8 +579,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "7e886841e634f1cec263dc7f3caa3f4a7e78ec03b18f839e544f79b15f5d2bbb",
-   "bytes": 48720
+   "sha256": "aa5457afcdd3ae494306a74b75319ccd0fd0725de4c3587832083699a29491a7",
+   "bytes": 49158
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -683,8 +683,8 @@
    "bytes": 9734
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "2e440412cfb0f7951ffda91eac4656fb98f2b6db5079e198511457b82f6b72ec",
-   "bytes": 23659
+   "sha256": "36973230602038f7ee2a96fc73ff992c3a37ce7e8c2f89feb8e2aed3a13f2391",
+   "bytes": 23845
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
