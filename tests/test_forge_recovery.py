@@ -3,8 +3,11 @@ import json
 import os
 from pathlib import Path
 import signal
+import tempfile
 import unittest
 
+from adapters.durable_ledger import DurableLedger
+from bootstrap import endoforge_session
 from tests.forge_fixtures import Forge, GOAL, SATURATION, goal, outcome, wait_for
 
 
@@ -58,6 +61,46 @@ class LedgersAgree(unittest.TestCase):
         recovered = [json.loads(line) for path in core_files for line in path.read_text().splitlines() if "process_ended_before_outcome" in line]
         self.assertEqual(len(recovered), 1)
         self.assertEqual(outcome(result)["assessment"], "candidate_passed")
+
+
+def core_outcome(attempt_id, certainty="unknown"):
+    return {"outcome": {"attempt_id": attempt_id, "decision_id": f"decision-{attempt_id}", "request_sha256": "0" * 64,
+                        "goal_id": "forge.goal", "execution_certainty": certainty}}
+
+
+class SessionEnd(unittest.TestCase):
+    """A session whose controller survives an unknown outcome stays listed as unresolved in every later session."""
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        self.dir = Path(directory.name)
+        self.config = self.dir / "config.json"
+        self.config.write_text(json.dumps({"endoforge": {"path": "witness.jsonl"},
+                                           "workcell": {"ledger": "forge.sqlite", "foundation_imports": []}}))
+
+    def session_with(self, *outcomes):
+        with endoforge_session(self.config) as host:
+            ledger = DurableLedger(self.dir / "forge.sqlite.core" / f"{host['session_id']}.jsonl")
+            for data in outcomes:
+                ledger.append("outcome", data)
+            return host["session_id"]
+
+    def later_unresolved(self):
+        with endoforge_session(self.config) as host:
+            return host["unresolved"]
+
+    def test_an_unknown_outcome_left_by_a_surviving_controller_is_reported_by_later_sessions(self):
+        session_id = self.session_with(core_outcome("attempt-1"))
+        expected = [{"attempt_id": "attempt-1", "decision_id": "decision-attempt-1", "request_sha256": "0" * 64,
+                     "goal_id": "forge.goal", "session_id": session_id}]
+        self.assertEqual(self.later_unresolved(), expected)
+        self.assertEqual(self.later_unresolved(), expected)
+        self.assertTrue((self.dir / "forge.sqlite.core" / f"{session_id}.recovered").exists())
+
+    def test_a_session_with_only_known_outcomes_is_closed(self):
+        session_id = self.session_with(core_outcome("attempt-1", certainty="responded"))
+        self.assertEqual(self.later_unresolved(), [])
+        self.assertTrue((self.dir / "forge.sqlite.core" / f"{session_id}.closed").exists())
 
 
 class TornWitness(unittest.TestCase):

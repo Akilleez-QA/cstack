@@ -60,19 +60,27 @@ class DurableLedger(MemoryLedger):
     def append(self, kind, data):
         event = super().append(kind, data)
         line = (canonical(event) + "\n").encode("ascii")
-        created = not self.path.exists()
-        fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        try:
+            created = not self.path.exists()
+            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        except BaseException:
+            self._take_back()
+            raise
+        start = None
         try:
             start = os.fstat(fd).st_size
-            try:
-                self._write_all(fd, line)
-                os.fsync(fd)
-                if created:
-                    _sync_parent(self.path)
-            except BaseException:
-                self._bytes -= len(canonical(self._events.pop().read()))
+            self._write_all(fd, line)
+            os.fsync(fd)
+            if created:
+                _sync_parent(self.path)
+        except BaseException:
+            self._take_back()
+            if start is not None:
                 os.ftruncate(fd, start)
-                raise
+            raise
         finally:
             os.close(fd)
         return event
+
+    def _take_back(self):
+        self._bytes -= len(canonical(self._events.pop().read()))

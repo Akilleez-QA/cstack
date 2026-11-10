@@ -61,6 +61,31 @@ class DurableLedgerFailures(unittest.TestCase):
                 ledger.append("observation", {"n": 1})
         self.assertEqual(ledger._bytes, 0)
 
+    def test_a_failed_open_keeps_no_phantom_event_and_a_retry_starts_the_chain_clean(self):
+        missing = self.dir / "absent" / "core.jsonl"
+        ledger = DurableLedger(missing)
+        with self.assertRaises(FileNotFoundError):
+            ledger.append("observation", {"n": 1})
+        self.assertEqual(ledger.read(), [])
+        self.assertEqual(ledger._bytes, 0)
+        missing.parent.mkdir()
+        event = ledger.append("observation", {"n": 1})
+        self.assertEqual((event["sequence"], event["prior_event_sha256"]), (1, None))
+        self.assertEqual(self.numbers(DurableLedger(missing)), [1])
+        self.assertEqual(DurableLedger(missing).read(), ledger.read())
+
+    def test_a_refused_open_on_an_existing_file_keeps_no_phantom_event(self):
+        ledger = DurableLedger(self.path)
+        ledger.append("observation", {"n": 1})
+        size = ledger._bytes
+        with mock.patch("adapters.durable_ledger.os.open", side_effect=PermissionError(13, "Permission denied")):
+            with self.assertRaises(PermissionError):
+                ledger.append("observation", {"n": 2})
+        self.assertEqual(self.numbers(ledger), [1])
+        self.assertEqual(ledger._bytes, size)
+        ledger.append("observation", {"n": 2})
+        self.assertEqual(DurableLedger(self.path).read(), ledger.read())
+
     def test_a_torn_tail_from_a_killed_writer_survives_a_restart_and_the_next_append(self):
         ledger = DurableLedger(self.path)
         ledger.append("observation", {"n": 1})

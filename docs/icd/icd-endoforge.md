@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-ICD-ENDOFORGE |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 84cd19d238a057b1c07af63e64b50edfb515d615 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -192,7 +192,7 @@ A goal in the `cstack_forge` domain is one capability call on the RuntimeFace la
 | Judgement | Every case needs a held-out check. Checks run against the pinned Foundation kernel, compare as exact decimals, and never reach the prompt |
 | Refusal | A refused or invalid effect adds a name the frozen evaluator doesn't allow, so the gate fails whatever the kernel returns. A refusal ends the run; it isn't repaired past |
 | Lost cell or supervisor | `outcome_unknown`: an inconclusive receipt where a pool survives, `indeterminate`/`unknown` in the outcome, no retry. If nothing was in flight, or a failure came before dispatch, the outcome is `unavailable`/`not_dispatched` and says nothing ran |
-| Lost controller | The next session reads the run ledger. A durable receipt with no candidate left in flight becomes `candidate_passed_recovered` or `candidate_rejected_recovered`; anything else is recorded `process_ended_before_outcome`/`unknown`, once. Each forge session keeps a core ledger in `<ledger>.core/`, the next session's core replays a lost one, and the run result lists `unresolved_attempts` |
+| Lost controller | The next session reads the run ledger. A durable receipt with no candidate left in flight becomes `candidate_passed_recovered` or `candidate_rejected_recovered`; anything else is recorded `process_ended_before_outcome`/`unknown`, once. Each forge session keeps a core ledger in `<ledger>.core/`, the next session's core replays a lost one, and the run result lists `unresolved_attempts`. When a session ends, its core ledger is renamed `.recovered` if it holds an outcome whose certainty is `unknown`, and `.closed` otherwise, so later sessions keep listing that attempt in `unresolved_attempts` |
 | Ledger journal | The vendored group-commit ledger writer journals in `<ledger>.journal/`, beside the run ledger. The supervisor sets `ENDOFORGE_LEDGER_JOURNAL` to that path for every run, overriding any inherited value, so a run writes nothing under `~/.local/state/endoforge` |
 | Runtime pin | A run verifies `contracts/SOURCE-PINS.json` for every file in `adapters/workcell` and the vendored engine before starting, and `adapters/workcell` is the frozen tree. A local writer who changes the pins too isn't caught |
 | Coder approvals | Approvals don't reach coder cores. An operation in `workcell.decision_ask_operations` is refused for a coder (`approval_not_routed_to_coders`) instead of running unapproved |
@@ -225,3 +225,4 @@ CS-REQ-020 to CS-REQ-030 (evidence port, file adapter and configured routing); C
 | 1.x | 2026-10 to 2026-11-08 | various | Earlier versions | See `git log -- docs/icd/icd-endoforge.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | Pin commit updated; ENDOFORGE_DUMP_LIST row added to section 8 | PR #79 |
+| 2.2 | 2026-11-09 | 6088dd4 | Lost-controller row: a session that ends with an unknown outcome keeps its core ledger as `.recovered` | PR fixing the 2026-11-09 backfill-review findings |
