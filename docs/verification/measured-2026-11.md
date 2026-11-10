@@ -1,13 +1,12 @@
 # Measurements, November 2026
 
-This table was the "Measured" section of the README until 2026-11-08. It is kept here as written, as a historical record; it is not a current result. Current test results are in the generated [test reports](reports/STR-baseline.md).
+This table was the "Measured" section of the README until 2026-11-08. It is a historical record, not a current result. Current test results are in the generated [test report](reports/STR-baseline.md), which names its commit and environment.
 
-Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37` of the unmerged draft stack, except where the table says otherwise. GitHub CI results are on the pull requests.
+Measured on 2026-11-06 with Python 3.14.9 and Node 26.13.0 on Linux, at commit `e2efa37`, except where the table names another commit. Every commit named here is on `main`. One row was removed on 2026-11-10 (assurance finding F-7): a fresh-clone run of `tools/check_readme.py` against the `harden-tools` branch, which recorded no commit, so its result can't be tied to `main`. GitHub CI results are on the pull requests.
 
 | Check | Command | Result |
 |---|---|---|
 | Core test suite on `main`, Python 3.12.14 and Node 26.13.0, 2026-11-08 | `python -B -m unittest discover -s tests`, at `e02a0c4` | 711 tests, OK, 3 skipped |
-| Every README command, on a fresh clone | `python -B tools/check_readme.py --source https://github.com/Akilleez-QA/cstack --branch harden-tools` | 16 commands, 0 failed, 0 uncovered, 0 skipped. The forge goal ran twice and passed both times |
 | Core test suite, optimized | `python -B -O -m unittest discover -s tests` | 663 tests, OK, 2 skipped |
 | Core test suite, Python 3.12.14 on two cores, normal and optimized | `taskset -c 0,1 python -B [-O] -m unittest discover -s tests`, at `7225ae9` | 663 tests, OK, 2 skipped, each |
 | Core test suite with the Film and Robotics ports, Python 3.12.14 and Node 26.13.0, normal and optimized | `python -B [-O] -m unittest discover -s tests`, at `66420c3` | 681 tests, OK, 2 skipped, each |

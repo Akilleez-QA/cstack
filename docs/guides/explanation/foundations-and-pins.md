@@ -15,7 +15,7 @@ Most Foundations are vendored, meaning copied into this repository and pinned by
 | [foundation-template](https://github.com/Akilleez-QA/foundation-template) | [`foundations/template/`](../../../foundations/template/) | Vendored copy, byte-pinned. Also an in-process kernel in workcells |
 | [foundation-engine](https://github.com/Akilleez-QA/foundation-engine) | `vendor/foundation-engine-v020/`, partial: bridge, schema and manifest | Two read-only validators, run through `adapters/engine_stdio.py` and `extensions/foundation_engine.py`. The engine's TypeScript runtime isn't included |
 | [endoforge](https://github.com/Akilleez-QA/endoforge) | [`vendor/endoforge/`](../../../vendor/endoforge/), byte-pinned | Lifecycle, gates, ledger and `IsolatePool`, run through `adapters/endoforge_workcell.py` |
-| [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Earlier snapshot of the skill that the core follows |
+| [poodo](https://github.com/Akilleez-QA/poodo) | `reasoning/poodo/` | Partial copy of the skill that the core follows; the synced files and their upstream commit are listed in `contracts/SOURCE-PINS.json` |
 
 ## How pins work
 

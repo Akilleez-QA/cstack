@@ -45,9 +45,9 @@ seq  kind      what                          hash          prior
 4    decision  phase orient -> decide        843094c9c928  cbe281848503
 5    decision  precommit (expected result)   6f949be0547e  843094c9c928
 6    decision  phase decide -> orchestrate   32bed9851298  6f949be0547e
-7    decision  approved by cli-owner         dbbdfca2391e  32bed9851298
-8    action    dispatch                      c26863a347fd  dbbdfca2391e
-9    outcome   observation_echoed            9c121b9171ac  c26863a347fd
+7    decision  approved by cli-owner         959c7c7b347d  32bed9851298
+8    action    dispatch                      7078c22c2df3  959c7c7b347d
+9    outcome   observation_echoed            47d913b564b4  7078c22c2df3
 ```
 
 The phases come from [POODO](https://github.com/Akilleez-QA/poodo), a reasoning method in the style of the OODA loop (observe, orient, decide, act) with a step in front: *pontificate* (frame the problem), *observe*, *orient*, *decide*, then *orchestrate* (carry out the calls). To move to the next phase the agent sends a short checkpoint: its rationale, the sources it read and the options it weighed. (In the example they are pre-written in the JSON file.) A call can run only in the last phase, and only after its expected result is on record.
@@ -169,7 +169,7 @@ Cstack is the host of the Cstack family (code name Mjölnir). The other projects
 
 ## Engineering records
 
-You don't need these to use Cstack. For reviewers: the requirements, design, interface documents, test plan, verification matrix and other control documents follow a layout adapted from NASA's software documentation standards, and are listed in the [documentation index](docs/README.md#engineering-records). `python -B tools/check_trace.py` checks that every requirement traces to a test. Earlier README measurements are kept in [measurements, November 2026](docs/verification/measured-2026-11.md).
+You don't need these to use Cstack. For reviewers: the requirements, design, interface documents, test plan, verification matrix and other control documents follow a layout adapted from NASA's software documentation standards, and are listed in the [documentation index](docs/README.md#engineering-records). `python -B tools/check_trace.py` checks that every requirement traces to a test. Test results are in the generated [test report](docs/verification/reports/STR-baseline.md), which names the commit it ran at; older measurements are kept, with their commits, in [measurements, November 2026](docs/verification/measured-2026-11.md).
 
 Classification: self-assessed Class E analog under NPR 7150.2D, not safety-critical. Cstack is not NASA software and this is not a NASA compliance determination. See the [software management plan](docs/plan/software-management-plan.md).
 
