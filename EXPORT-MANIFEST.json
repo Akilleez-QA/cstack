@@ -51,8 +51,8 @@
    "bytes": 4333
   },
   "CHANGELOG.md": {
-   "sha256": "83daf3de3e0b0b46fa877546e918e5302b119c45f02effd374ab49414218b5f7",
-   "bytes": 5996
+   "sha256": "29eeb42f944739dfc8572a823cd37e851926ef20dddf22bc7f984152fced2eb3",
+   "bytes": 6573
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
@@ -483,7 +483,7 @@
    "bytes": 7981
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "1d28a2dcf982e3bf77d9321d418010c21202bb07e6e04f4c86bee50f6260eac5",
+   "sha256": "df65f3d26e003ab038b1a9f4df324ee2ae16b0c8fe05983b81626b6dcc902049",
    "bytes": 16687
   },
   "docs/data/data-dictionary.md": {
@@ -555,7 +555,7 @@
    "bytes": 21041
   },
   "docs/icd/icd-foundations.md": {
-   "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
+   "sha256": "bcabb16e735448824c89dcb91ca416b0f80a555e316991252dcc6fe01c67fd03",
    "bytes": 12026
   },
   "docs/icd/icd-poodo.md": {
@@ -679,7 +679,7 @@
    "bytes": 4756
   },
   "docs/verification/test-plan.md": {
-   "sha256": "94833a58259ca411c18cb07d8a452d76a8534aa4f4b8acc19a871f0e1d5096a3",
+   "sha256": "e7568f1451f2ee0f6b5685984bf96e7cc25fc762ca62e7d0cfb29a38c6c6a8aa",
    "bytes": 9734
   },
   "docs/verification/verification-matrix.md": {
@@ -1789,6 +1789,10 @@
   "foundations/template/tests/test_docs_trace.py": {
    "sha256": "29dfa169b487528c3c8992fec81bf462f0869db000e075f5443491d82947d038",
    "bytes": 1605
+  },
+  "foundations/template/tests/test_gen_reports.py": {
+   "sha256": "607d4d5d5340ea8939fa02b1ae4fa4203e5514f61ffd2075d65faf4ebb00576c",
+   "bytes": 7646
   },
   "foundations/template/tests/test_input_limits.py": {
    "sha256": "c7bb995e956fcc8ca8fc77d5c13c3ac1d4acefc1b65f66bab7fe049fac0307ae",
