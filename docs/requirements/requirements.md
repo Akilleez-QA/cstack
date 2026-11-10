@@ -507,7 +507,7 @@ Only trusted host configuration shall select EndoForge storage and session ident
 
 ### CS-REQ-047 — Durable JSONL ledger
 
-The durable JSONL ledger shall finish a short write before acknowledging an event, raise and keep nothing on a full disk or failed fsync, count only kept events against its budget, and survive a torn tail from a killed writer across restart and the next append.
+The durable JSONL ledger shall finish a short write before acknowledging an event, raise and keep nothing on a failed file open, a full disk or a failed fsync, count only kept events against its budget, and survive a torn tail from a killed writer across restart and the next append.
 
 - Rationale: a run ledger must not acknowledge what it did not keep.
 - Derivation: `adapters/durable_ledger.py`

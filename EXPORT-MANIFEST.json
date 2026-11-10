@@ -51,8 +51,8 @@
    "bytes": 4333
   },
   "CHANGELOG.md": {
-   "sha256": "30db3cdbbfad648b3c5aff0759e1dec1c0fa2e3577b29b9a87c02acfb9ba3b25",
-   "bytes": 5651
+   "sha256": "83daf3de3e0b0b46fa877546e918e5302b119c45f02effd374ab49414218b5f7",
+   "bytes": 5996
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
@@ -155,8 +155,8 @@
    "bytes": 3945
   },
   "adapters/durable_ledger.py": {
-   "sha256": "12b51dd8297fec6aac8d2fe1056bbd3d90b5890bc29444d837d456b92fce38e0",
-   "bytes": 2708
+   "sha256": "1bc99efed250a4e1b8171998d3a7906a2eb571a11281526781e03b6efd482881",
+   "bytes": 2870
   },
   "adapters/endoforge_ledger.py": {
    "sha256": "a5b2009d30f1952a6df8f4e4dddcd71e16a74c256542bdabc94d1d4869f2ecb6",
@@ -379,8 +379,8 @@
    "bytes": 1010
   },
   "bootstrap.py": {
-   "sha256": "ed45cea448be66a0674e76c81161368cedd0550848a3c635ced207637d0de2c9",
-   "bytes": 27697
+   "sha256": "cf066bfe377e5f02d24cfc0d040a1ba2efe5dde7026f11c72d00e8f8b3faf138",
+   "bytes": 27733
   },
   "ci/host-only.txt": {
    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -543,16 +543,16 @@
    "bytes": 489
   },
   "docs/guides/tutorials/first-run.md": {
-   "sha256": "718ff60d9d18be700665ed4a91ae83c135c6efb76bb405f160806f1040f4b773",
-   "bytes": 7534
+   "sha256": "e5ab29e2a4273b16620d255d618dfadaea6807f30b7d9fbc033d9638110b7d6c",
+   "bytes": 7598
   },
   "docs/icd/icd-endoforge-pin.md": {
    "sha256": "7602054207a725e24ef5c28153582ebdf09d3f89df5e82dac286f827f0147c06",
    "bytes": 5086
   },
   "docs/icd/icd-endoforge.md": {
-   "sha256": "46c1c65b338fa85091d880fc6bcf40337b1a77007bba14009aa1c2f1432ce68a",
-   "bytes": 20644
+   "sha256": "4244c31e19eced9cb05cff3b9e0d76cc263c63c5a5f7708d018128a1cd9054b8",
+   "bytes": 20853
   },
   "docs/icd/icd-foundations.md": {
    "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
@@ -579,8 +579,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "4cf24504500bc58f024e70ae9a8938f91c23f300e169d413c8955e8d93124cfe",
-   "bytes": 48698
+   "sha256": "7e886841e634f1cec263dc7f3caa3f4a7e78ec03b18f839e544f79b15f5d2bbb",
+   "bytes": 48720
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -683,8 +683,8 @@
    "bytes": 9734
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "4bbe82266f59491dc6df7c406b2621c5a42ffe69f558b167bbf53ed322be728c",
-   "bytes": 23522
+   "sha256": "2e440412cfb0f7951ffda91eac4656fb98f2b6db5079e198511457b82f6b72ec",
+   "bytes": 23659
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -2223,8 +2223,8 @@
    "bytes": 5535
   },
   "tests/test_durable_ledger.py": {
-   "sha256": "111e1c9994cb65a5b9937452a6c67b49ce9bbc2cda2430ee6deb9dfcd8812d37",
-   "bytes": 4020
+   "sha256": "6eb11d8f62f775007c8d74afca57805124a0da9e1c7e9b83da49c874a8d0020e",
+   "bytes": 5343
   },
   "tests/test_e2e_agent_ledger.py": {
    "sha256": "24ee550800482075b38a3c27bc8f187792eac59da1356504012d7b91944647b3",
@@ -2283,8 +2283,8 @@
    "bytes": 1321
   },
   "tests/test_forge_recovery.py": {
-   "sha256": "9eeb515ca35abc660884a46c6379739ee328f0f293ae9cfe0d5ac0543fa64d1c",
-   "bytes": 5477
+   "sha256": "2ba66514876365473f0898de13b5cc5ea85785e22d1c822c9c80fc561a5ecfbe",
+   "bytes": 7693
   },
   "tests/test_foundation_kernels.py": {
    "sha256": "6450fac6fbef445afd4eeec66f28b78172c57648fbda58ff72e9ea2dfcf79fbd",
@@ -2415,8 +2415,8 @@
    "bytes": 6057
   },
   "tests/test_workcell_kill.py": {
-   "sha256": "37c561287aa89ce893cd3bf55bc1c8c10f6ea64669638ff1f0fdffe259f41987",
-   "bytes": 9113
+   "sha256": "472af709cc1416533b4105a09d036beee2b3a86b3ce365d29dcb8cc570969732",
+   "bytes": 10090
   },
   "tests/test_workcell_other_foundations.py": {
    "sha256": "28bfd31e01b9cec4f7ccdcbd0328f6a2c29417a8144a99a36a4169291ae002a9",

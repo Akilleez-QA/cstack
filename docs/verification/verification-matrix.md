@@ -75,9 +75,9 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-042 | T | `tests/test_core.py::CoreTests` | Every CoreTests method except those mapped to CS-REQ-012 and CS-REQ-013 | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-043 | T | `tests/test_core_reentrancy.py` | Every mutator from every hook | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-044 | T | `tests/test_core_crash.py`; `tests/test_core_recovery_accounting.py` | Kill windows simulated by truncated ledgers and real restarts | [STR-baseline](reports/STR-baseline.md) |
-| CS-REQ-045 | T | `tests/test_core_unresolved.py` | Plain and witnessed ledgers | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-045 | T | `tests/test_core_unresolved.py`; `tests/test_forge_recovery.py`; `tests/test_workcell_kill.py` | Plain and witnessed ledgers; an unknown outcome stays listed after its session ends | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-046 | T | `tests/test_goal_liveness.py` | Liveness never closes goals | [STR-baseline](reports/STR-baseline.md) |
-| CS-REQ-047 | T | `tests/test_durable_ledger.py` | Injected short writes, full disk and fsync failure | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-047 | T | `tests/test_durable_ledger.py` | Injected short writes, failed file open, full disk and fsync failure | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-048 | T | `tests/test_witnessed_ledger.py`; `tests/test_aor_session.py::WitnessedSessionTests` | Requires the `cryptography` package; skips without it | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-049 | T | `tests/test_aor_registry.py`; `tests/test_shipped_examples.py` | Shipped `aors/fleet.json` and example config validated | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-050 | T | `tests/test_aor_session.py`; `tests/test_aor_session_ownership.py` | Same-process and cross-process refusal | [STR-baseline](reports/STR-baseline.md) |

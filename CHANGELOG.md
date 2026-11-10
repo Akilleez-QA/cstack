@@ -45,6 +45,7 @@ release yet; entries name the pull requests that made them.
 ### Fixed
 
 - Durable ledger events, relay messages and fleet mail budgets survive a torn or cut-short write (#65, #66, #67).
+- The durable ledger keeps no in-memory event when opening its file fails, so a retry starts a clean chain; a session that ends with an `unknown` outcome keeps its core ledger as `.recovered`, so later sessions still list the attempt in `unresolved_attempts`. Both found by the 2026-11-09 backfill review of PRs merged without automated review.
 - Candidates are bound to their task and decisions to one request; a changed judge is refused; refusals and kernel faults fail the candidate; decimal inputs are taken exactly (#54, #55, #56).
 - Recovery on the forge path: the ledgers agree and torn tails are quarantined (#57).
 - The claim gate fails closed without an approved-atoms Registry (#22).
