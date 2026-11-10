@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FREFRIG-SDD |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | 62764c7526ce2bbf064ccf633d5295f4390fc984 |
 | Applies to | foundation-refrigeration main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -105,7 +105,7 @@ sequenceDiagram
 | Manifest tool | `tools/build_manifest.py` | Writes `SOURCE-MANIFEST.json` and prints file count and manifest SHA-256 | source tree → manifest | REQ-REF-008 |
 | Package version | `foundation_refrigeration/__init__.py` | Holds `__version__` | none → version string | Infrastructure |
 | Golden generator | `tools/compute_golden.py` | Regenerates `golden/coolprop-8.0.0-points.json` offline; needs CoolProp 8.0.0 and `--date` | CoolProp → golden JSON | Infrastructure |
-| Documentation tools | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated tool catalog and data provenance; generated test report and version description | docs, tests, schemas, data → checks and generated Markdown | Infrastructure |
+| Documentation tools | `tools/check_trace.py`, `tools/gen_docs.py`, `tools/gen_reports.py` | Trace and link check; generated tool catalog and data provenance; generated test report and version description, whose verdict fails on any failed gate, skip or unrecorded test | docs, tests, schemas, data → checks and generated Markdown | REQ-REF-037 |
 
 ## 5. Execution concept
 
@@ -169,3 +169,4 @@ Nothing is retried. Nothing is quarantined, because nothing is written.
 | 1.0 | 2026-10-30 | 9b459ef | Context, components, tools, data flow, decisions | Initial commit |
 | 1.1 | 2026-11-01 | 4bd3311 | Invariant evaluator component | PR #3 |
 | 2.0 | 2026-11-08 | 62764c7 | NASA-standard structure; all modules listed with requirement IDs; process-safety module documented; execution, failure and quality sections | PR adding the NASA-standard documentation set |
+| 2.1 | 2026-11-09 | e58a71c | Documentation tools allocated REQ-REF-037 | PR fixing the 2026-11-09 backfill-review findings |

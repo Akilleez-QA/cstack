@@ -51,8 +51,8 @@
    "bytes": 4333
   },
   "CHANGELOG.md": {
-   "sha256": "83daf3de3e0b0b46fa877546e918e5302b119c45f02effd374ab49414218b5f7",
-   "bytes": 5996
+   "sha256": "29eeb42f944739dfc8572a823cd37e851926ef20dddf22bc7f984152fced2eb3",
+   "bytes": 6573
   },
   "CODE_OF_CONDUCT.md": {
    "sha256": "6228457a516409a784d807676564c8477f58d979eb7df3a4f690008d8a794442",
@@ -175,7 +175,7 @@
    "bytes": 10654
   },
   "adapters/film_stdio.py": {
-   "sha256": "9439883ac8b227d028d4b284393dfe5536c98e71cc3360ce6779a46b13f7b36c",
+   "sha256": "fe8ca36b71077a4de5368cbd1cb2663da2e33ce9abe88c349fd7a2917235632b",
    "bytes": 1359
   },
   "adapters/fleet_mail.py": {
@@ -251,7 +251,7 @@
    "bytes": 11889
   },
   "adapters/refrigeration_stdio.py": {
-   "sha256": "1518abda9dab0191aa05d3e495ba3de0385d69d5bf272cc1568133a0998399bf",
+   "sha256": "5e240d3ff086d338858b884631a72d04865d1356973a8a129223b67d3fca0701",
    "bytes": 4858
   },
   "adapters/relay_outbox.py": {
@@ -259,11 +259,11 @@
    "bytes": 6319
   },
   "adapters/robotics_stdio.py": {
-   "sha256": "e0a9e37d1900e0330902c14b4408e5ae5ac1a11ff9eb17ebdb9ee9a1a54dc9b8",
+   "sha256": "206593e2877051ab4fce42a2e24241c3e6765d06e8059181d93478ebcbdf8682",
    "bytes": 1409
   },
   "adapters/template_stdio.py": {
-   "sha256": "022e1543c456216c529cb59267ce7208fffdbe5421aa62c8a6b7f7d7a9b6d155",
+   "sha256": "529b65e78b96092e0fc5ca5e875952bc5a59cc647cc0ba138c2332e8fe903230",
    "bytes": 1354
   },
   "adapters/terminal_approver.py": {
@@ -447,8 +447,8 @@
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "5d4f9140f404cda15864ff04b122c5fce101dd33512a53367d1a128f03f7cdc2",
-   "bytes": 9170
+   "sha256": "ab1069af603ad59cd3e1b97dcb766c5df497b4ef2fa3867c6ca0aea6e52158e8",
+   "bytes": 9207
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -483,7 +483,7 @@
    "bytes": 7981
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "1d28a2dcf982e3bf77d9321d418010c21202bb07e6e04f4c86bee50f6260eac5",
+   "sha256": "df65f3d26e003ab038b1a9f4df324ee2ae16b0c8fe05983b81626b6dcc902049",
    "bytes": 16687
   },
   "docs/data/data-dictionary.md": {
@@ -555,7 +555,7 @@
    "bytes": 21041
   },
   "docs/icd/icd-foundations.md": {
-   "sha256": "e085b5719bfcc120711cc4b8961c1a27e7c697287f1012a907d0a99d8b5afaa0",
+   "sha256": "bcabb16e735448824c89dcb91ca416b0f80a555e316991252dcc6fe01c67fd03",
    "bytes": 12026
   },
   "docs/icd/icd-poodo.md": {
@@ -679,7 +679,7 @@
    "bytes": 4756
   },
   "docs/verification/test-plan.md": {
-   "sha256": "94833a58259ca411c18cb07d8a452d76a8534aa4f4b8acc19a871f0e1d5096a3",
+   "sha256": "e7568f1451f2ee0f6b5685984bf96e7cc25fc762ca62e7d0cfb29a38c6c6a8aa",
    "bytes": 9734
   },
   "docs/verification/verification-matrix.md": {
@@ -771,8 +771,8 @@
    "bytes": 4433
   },
   "foundations/film/CHANGELOG.md": {
-   "sha256": "d39217e306b7c302ac733ec744517a63cb834bd73a43c87e6580c3b5689634b1",
-   "bytes": 1299
+   "sha256": "183dba471ecb081d921c2b82c4cbfa7858a31fe0a049dfe09b8d80d226788680",
+   "bytes": 1756
   },
   "foundations/film/CODE_OF_CONDUCT.md": {
    "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
@@ -799,7 +799,7 @@
    "bytes": 1281
   },
   "foundations/film/SOURCE-MANIFEST.json": {
-   "sha256": "be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31",
+   "sha256": "8f463e5329bdf8fc89f008380be3aad1091ce26d5c2c1595f92f5ee2e98d6699",
    "bytes": 5693
   },
   "foundations/film/SUPPORT.md": {
@@ -855,8 +855,8 @@
    "bytes": 531
   },
   "foundations/film/docs/guides/reference/tool-catalog.md": {
-   "sha256": "d1324ac567cda9e1f8dc454e574f4a5618ef04eada3c644ea1cca7545864f606",
-   "bytes": 23896
+   "sha256": "1e5a690392d1fb773c0736b3d142179bf55e972223add122779bb461024b87db",
+   "bytes": 24467
   },
   "foundations/film/docs/guides/tutorials/README.md": {
    "sha256": "91076a55f35a2b988258eb9845092d2b36827c5702a49904938a1d31f1aefa35",
@@ -867,8 +867,8 @@
    "bytes": 3577
   },
   "foundations/film/docs/icd/icd-cstack.md": {
-   "sha256": "e48e4bf3331f3385c62c2b9c0639c9b9bbdd3a20827d830d978f4a7c250b50f1",
-   "bytes": 10563
+   "sha256": "495870c781d5aff1aa954681cb4ebcf5d776e3c2cfd4b7cf66b936508d488c5f",
+   "bytes": 10916
   },
   "foundations/film/docs/plan/compliance-matrix.md": {
    "sha256": "2b2750cae378c2927f9dc6c806c658dd8f60828d348515838e0d0c48ffb82a52",
@@ -1055,8 +1055,8 @@
    "bytes": 4605
   },
   "foundations/refrigeration/CHANGELOG.md": {
-   "sha256": "165f65619f3cfaeb72457933f1e1b8fbdb712227f9e65f6192459f058de88f11",
-   "bytes": 1567
+   "sha256": "da927a3a115231c3a901c81570a667cdd6c055314bb538fbdb503f822b2b6a31",
+   "bytes": 1902
   },
   "foundations/refrigeration/CODE_OF_CONDUCT.md": {
    "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
@@ -1083,7 +1083,7 @@
    "bytes": 1230
   },
   "foundations/refrigeration/SOURCE-MANIFEST.json": {
-   "sha256": "b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e",
+   "sha256": "198ec83162c24f090e8f29e335b8a5822d9d319d6a18b0168db27de2df7e0267",
    "bytes": 8721
   },
   "foundations/refrigeration/SUPPORT.md": {
@@ -1095,8 +1095,8 @@
    "bytes": 3983
   },
   "foundations/refrigeration/docs/architecture/architecture.md": {
-   "sha256": "4256cfaf868f5a61abeadcb5012fdaa332a1958748ee03b45bb92098f4e6bfbd",
-   "bytes": 14694
+   "sha256": "75286d7ef25817064f36cd11ddf7fdee0ef580475b53ed5fca23e2806cac7fac",
+   "bytes": 14883
   },
   "foundations/refrigeration/docs/assurance/assurance-record.md": {
    "sha256": "47c3402d1b512eac6962b380d8888c507c54c3c28c1d155489bd25e224ae8320",
@@ -1163,28 +1163,28 @@
    "bytes": 516
   },
   "foundations/refrigeration/docs/releases/VDD-unreleased.md": {
-   "sha256": "078c5539308f044cb8811b257348dcdbf48d66226ea518e28e0490693a5f0950",
-   "bytes": 6060
+   "sha256": "beb2c31d2d165145a789bf4dba87b632d5ae7f4c178813225adae7eafd8f6fcf",
+   "bytes": 6347
   },
   "foundations/refrigeration/docs/requirements/requirements.md": {
-   "sha256": "a966e30b5eeb462fcfcae7fa24015cff9f307598cc376b3e50a9ce2d3a6532bd",
-   "bytes": 28379
+   "sha256": "2f265d8f36fc943db65ea863a687d5b847db3243515b5ba11a86937d320735ad",
+   "bytes": 29182
   },
   "foundations/refrigeration/docs/verification/reports/README.md": {
    "sha256": "fedc7b9c7d0e448d90335d4eb26de46833d53598d0289097874a6d07081ab227",
    "bytes": 296
   },
   "foundations/refrigeration/docs/verification/reports/STR-unreleased.md": {
-   "sha256": "641a1939135d7ea476b32dd660d8ff03ad4f4ffbd8c417cf7824a75a18002a9d",
-   "bytes": 11345
+   "sha256": "505898b3b504080ed7cdfdc50457edc83b34bc3c337f6f1b39fb920a8370eff6",
+   "bytes": 11410
   },
   "foundations/refrigeration/docs/verification/test-plan.md": {
-   "sha256": "6d69bac729e0656a649adade773bf392f615e2a1ff7989b4ecb95aa559c87005",
-   "bytes": 8127
+   "sha256": "a9f62ebbb5e3046d7325ac96c6e8cb593b11514ef178828a4eba0c738dcbcccb",
+   "bytes": 8755
   },
   "foundations/refrigeration/docs/verification/verification-matrix.md": {
-   "sha256": "2ae5537a09b5078e00bd7b10e0b6cfa0913d126dd2900bae9c6d4803e94aa0a3",
-   "bytes": 15712
+   "sha256": "8636bd585f965fe6f56d40de5dde41dbf5180ec7a429b2c376ae6577984bea5f",
+   "bytes": 16280
   },
   "foundations/refrigeration/foundation_refrigeration/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1315,8 +1315,8 @@
    "bytes": 12393
   },
   "foundations/refrigeration/tests/test_docs_trace.py": {
-   "sha256": "d73dc163db828705f094311149063586330d8bb4ce65c0d37db3619e770984fd",
-   "bytes": 1670
+   "sha256": "9df09b8f7ee5b9ea3977453de26b62fb974bdcc899626d8c657da96b43a8b985",
+   "bytes": 7703
   },
   "foundations/refrigeration/tests/test_domain_data.py": {
    "sha256": "af000cbdca1ee73fab98648d80dfb68df4f5e7a5b9df103b79d2e9370585e55e",
@@ -1359,8 +1359,8 @@
    "bytes": 15461
   },
   "foundations/refrigeration/tools/gen_reports.py": {
-   "sha256": "57e8b09dec6cd262b5353e75be16539734f036234b12968704607ac66178b267",
-   "bytes": 17955
+   "sha256": "bc1c1f7036c7ffce28d6b8344f6af55eca2d22a0ccdd265ac6669e65fb4f457a",
+   "bytes": 19779
   },
   "foundations/robotics/.gitignore": {
    "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
@@ -1375,8 +1375,8 @@
    "bytes": 4093
   },
   "foundations/robotics/CHANGELOG.md": {
-   "sha256": "a4263e7d5510c1497ed43f6854ec8f9d5666afdb6190ed2da155cc265cae6737",
-   "bytes": 1598
+   "sha256": "003b23aaa89235f09a70b5c260f81869690378d4b0b15d3ee04097151fa262c5",
+   "bytes": 2092
   },
   "foundations/robotics/CODE_OF_CONDUCT.md": {
    "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
@@ -1403,7 +1403,7 @@
    "bytes": 1038
   },
   "foundations/robotics/SOURCE-MANIFEST.json": {
-   "sha256": "624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97",
+   "sha256": "b7aa7b15d9afa430b6dd93dbb5f58498662b44a8176fb6d237b7d44dd367af01",
    "bytes": 6373
   },
   "foundations/robotics/SUPPORT.md": {
@@ -1415,16 +1415,16 @@
    "bytes": 3651
   },
   "foundations/robotics/docs/architecture/architecture.md": {
-   "sha256": "437b0f35f27750ae7e737bbcf2fe01df7b6888047cfd46c09ade36d752a0367d",
-   "bytes": 11386
+   "sha256": "b67ac306beacd222c392f996c6c683ee866f85e28c1621571dc45c5af986a485",
+   "bytes": 11671
   },
   "foundations/robotics/docs/assurance/assurance-record.md": {
    "sha256": "35ed0cd9258302e63a8263ff66db1a6edf78c06f0d45d4c18a4b6e3f0f3afef1",
    "bytes": 7841
   },
   "foundations/robotics/docs/configuration/configuration-management.md": {
-   "sha256": "a8137069e4ec079730fa631f3bb7c2d1f91c382f3dbc39f6d7e569ee202f314c",
-   "bytes": 6690
+   "sha256": "32b95e67cc085bd81498eb349560db82f5bfac013c84cd10d409fdca69396ac2",
+   "bytes": 6974
   },
   "foundations/robotics/docs/data/calibration-cases.md": {
    "sha256": "0e2d6cf15cf97ebfdab40680ef2a67b2521b089911299cb4fd414c71e3e4fac2",
@@ -1463,8 +1463,8 @@
    "bytes": 724
   },
   "foundations/robotics/docs/guides/reference/tool-catalog.md": {
-   "sha256": "05d5dcc1849526af4673c302957457fbc27852e344ca1326c4b1a65107514a99",
-   "bytes": 20601
+   "sha256": "7de14ae2ca9544c6b33e0acf0faafa9c10a3289959a6960cb9720db451cefbcf",
+   "bytes": 25320
   },
   "foundations/robotics/docs/guides/tutorials/README.md": {
    "sha256": "4d603889b0c9bf51350265e895c09f2db438fa25171e51a011580022ff298149",
@@ -1495,8 +1495,8 @@
    "bytes": 4209
   },
   "foundations/robotics/docs/requirements/requirements.md": {
-   "sha256": "e21029885da391671029b17198d5e38dd4471648b3e4f58f770bbe7f79cc2c32",
-   "bytes": 16503
+   "sha256": "0439dc6817f87839e9fcd4151ee60abe67d3a45fa77fceaf618bef70b21057f3",
+   "bytes": 17928
   },
   "foundations/robotics/docs/verification/reports/README.md": {
    "sha256": "e7d47d7712cec1081eff793a9bc632e5628ad3e1ddd5067763710e7e0a7d73cf",
@@ -1511,8 +1511,8 @@
    "bytes": 6630
   },
   "foundations/robotics/docs/verification/verification-matrix.md": {
-   "sha256": "896d14009a701fa4ac0c520c11d74391aa6b2fc084236bc9346259657ccbdb76",
-   "bytes": 8538
+   "sha256": "a244ba0092811684eeb25c513b7161d02edaf442f6e338b1b8ae73d814ca2fd0",
+   "bytes": 9959
   },
   "foundations/robotics/foundation_robotics/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1587,8 +1587,8 @@
    "bytes": 4190
   },
   "foundations/robotics/tests/test_docs.py": {
-   "sha256": "22b0a50376915afae14a40f9256c26adfbf8b43dfd0e4516de3e30d8f6d4421b",
-   "bytes": 1328
+   "sha256": "2186d286d065726b7b1de88c9e6a8f176513fcfca90fbe38e7663a3ff2100c29",
+   "bytes": 6496
   },
   "foundations/robotics/tests/test_tools.py": {
    "sha256": "eace05bdb204f28f8fe8510db6338d70b7e522bc4f8a0385413a36a4ce42eb56",
@@ -1603,12 +1603,12 @@
    "bytes": 7881
   },
   "foundations/robotics/tools/gen_docs.py": {
-   "sha256": "2a3972d3d8fe8879a437324be6628dcdaab694d053b2d7e51068a418920d3490",
-   "bytes": 6622
+   "sha256": "ca84cd51ed3035da9b0de515bd2169afb908823101a727433ec7809507484300",
+   "bytes": 7353
   },
   "foundations/robotics/tools/gen_reports.py": {
-   "sha256": "0da7e1fb008b04c1283d565cef183e2eefa9c7a066c3d7c2519ff59b8d2b79a9",
-   "bytes": 13066
+   "sha256": "f4ceed320a10a535f14760cd61f8e3e8f5ee6fb761228cee6acdc3d2e9332b19",
+   "bytes": 15369
   },
   "foundations/template/.gitignore": {
    "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
@@ -1623,8 +1623,8 @@
    "bytes": 4303
   },
   "foundations/template/CHANGELOG.md": {
-   "sha256": "e84922b0e24e54e3e7fea4ff8c3a880e9f0028105207de30a7997cfc71634ada",
-   "bytes": 1326
+   "sha256": "fee27b3b15a44543f5a01a11260be8fae00ed272e62993b092cdd8df9de1076f",
+   "bytes": 1729
   },
   "foundations/template/CODE_OF_CONDUCT.md": {
    "sha256": "0546c72a2d1c68a44335a91e481a0f87ddbe42ebf79a83ebe96c80e63d08e0bf",
@@ -1651,8 +1651,8 @@
    "bytes": 1179
   },
   "foundations/template/SOURCE-MANIFEST.json": {
-   "sha256": "38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31",
-   "bytes": 5106
+   "sha256": "00bbbba7024dda926877d9f1522312d7bcb03c9608197ee3a3355b8895e40249",
+   "bytes": 5207
   },
   "foundations/template/SUPPORT.md": {
    "sha256": "c0eac342d89557cff7c0307713b8c991d5707308f36a159e36e559325173c836",
@@ -1663,8 +1663,8 @@
    "bytes": 4118
   },
   "foundations/template/docs/architecture/architecture.md": {
-   "sha256": "ee26d034b89f1a7b6b7dfd225816e4f4035b41561df80e12d60c6f4fab6f5570",
-   "bytes": 8381
+   "sha256": "cb635ac89f4e8bcaaf062dae174ab72dad9f2dba458bd0f8f37e8cbc08741b73",
+   "bytes": 8580
   },
   "foundations/template/docs/assurance/assurance-record.md": {
    "sha256": "ba014d238abea9c81561c3a35c98efbe0973cfef2d0af1359a5a281334c93abf",
@@ -1731,28 +1731,28 @@
    "bytes": 516
   },
   "foundations/template/docs/releases/VDD-unreleased.md": {
-   "sha256": "b85f5bdf30b7d7c498a6f82e6cfbe232f468424f335019e6ae57a78b860bbe13",
-   "bytes": 5792
+   "sha256": "03d601a444a94b643148361a56387ec947a4f40d1d2227698d51626736f4e13d",
+   "bytes": 6122
   },
   "foundations/template/docs/requirements/requirements.md": {
-   "sha256": "8c3a78dc9809c22a75c7943725e17975c335d54aa9919b6da966ec18088eadf6",
-   "bytes": 12075
+   "sha256": "9485e4d27c9bd558b1366dff49af5298cc70bca1ce93669a09d09b791bf81d85",
+   "bytes": 12811
   },
   "foundations/template/docs/verification/reports/README.md": {
    "sha256": "fedc7b9c7d0e448d90335d4eb26de46833d53598d0289097874a6d07081ab227",
    "bytes": 296
   },
   "foundations/template/docs/verification/reports/STR-unreleased.md": {
-   "sha256": "b7a401d870cab7c59fc335ab76d8d8c4af68dd7cb15eaaf791d538089451cc7c",
-   "bytes": 5993
+   "sha256": "d39f6d8559df5e883c875c4ba47db895a617fff2137dac45fb4213abd0669c71",
+   "bytes": 7090
   },
   "foundations/template/docs/verification/test-plan.md": {
-   "sha256": "90fcd77c136bcf0557f7d643e9cba653bebc98ced07f11bfc2bff2eca4a02f3b",
-   "bytes": 6453
+   "sha256": "ad4efb913e01e7d6c5a6730d205dada1137a0126a9478c47ff118139bacd9590",
+   "bytes": 7187
   },
   "foundations/template/docs/verification/verification-matrix.md": {
-   "sha256": "0958475707fdc48ee73a4841e220b0d057814bace927df9e74b4ffec208071b3",
-   "bytes": 6874
+   "sha256": "ccf90621e6dc19045b2ee777c5c00f9e41a956a9b27b684a460c55686434f4d8",
+   "bytes": 8322
   },
   "foundations/template/foundation_template/__init__.py": {
    "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
@@ -1790,6 +1790,10 @@
    "sha256": "29dfa169b487528c3c8992fec81bf462f0869db000e075f5443491d82947d038",
    "bytes": 1605
   },
+  "foundations/template/tests/test_gen_reports.py": {
+   "sha256": "607d4d5d5340ea8939fa02b1ae4fa4203e5514f61ffd2075d65faf4ebb00576c",
+   "bytes": 7646
+  },
   "foundations/template/tests/test_input_limits.py": {
    "sha256": "c7bb995e956fcc8ca8fc77d5c13c3ac1d4acefc1b65f66bab7fe049fac0307ae",
    "bytes": 2657
@@ -1807,8 +1811,8 @@
    "bytes": 7271
   },
   "foundations/template/tools/gen_reports.py": {
-   "sha256": "bcaf0dc0ac695564e94d938e044a5a833c9971e7aa1bf7481710d335e922fa2e",
-   "bytes": 17852
+   "sha256": "8fbee9c25493ab3e29593842058701d3663c4f0ab82222a0d45f0dce6c7d7431",
+   "bytes": 18863
   },
   "poodo_core/__init__.py": {
    "sha256": "8e1ac08df106fb3aa2e6c6eaa89008554ee59006ba9d681e2dbfea2d81e75a67",
@@ -2427,7 +2431,7 @@
    "bytes": 10945
   },
   "tests/test_workcell_run.py": {
-   "sha256": "b0f51c7880904ea4ab2191790548aa706b48dd7cf3b8d12cce9e5052394f8544",
+   "sha256": "2e869f4dfa73675aabf7d09bf7c9d497d7e8a02a32c3e5c10cce12e2b2b11b2d",
    "bytes": 4435
   },
   "tests/test_workspace_snapshots.py": {

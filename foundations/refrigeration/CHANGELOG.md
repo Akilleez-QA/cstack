@@ -17,6 +17,7 @@ Format: Keep a Changelog 1.1, SemVer.
 
 ### Fixed
 
+- `tools/gen_reports.py` fails the report ("FAILED" conclusion, exit 1) when the manifest, generated-docs or Gitleaks gate fails, or when any test is skipped or unrecorded in the normal or optimized run; before, only unittest exit codes and trace problems counted. New requirement REQ-REF-037. Found by the 2026-11-09 backfill review.
 - Exclude the root `.github/` automation and repository metadata tree from the source manifest so CI-only changes do not invalidate source pins.
 
 ### Added

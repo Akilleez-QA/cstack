@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | FROBO-SCMP |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Draft |
 | Owner | Akilleez-QA |
-| Date | 2026-11-08 |
+| Date | 2026-11-09 |
 | Baseline commit | b4de079f2d99114e5efe6b204704df57d392e454 |
 | Applies to | foundation-robotics main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see SMP §1) |
@@ -58,7 +58,7 @@ At each release, and for each documentation baseline, an audit entry in the [ass
 | `docs/guides/reference/tool-catalog.md` | `tools/gen_docs.py` | `foundation_robotics_bridge/schemas.py`, `server.LIMITS` | `tests/test_docs.py::DocTests.test_generated_docs_are_current` |
 | `docs/data/defaults.md` | `tools/gen_docs.py` | `foundation_robotics/data/defaults.json` | same test |
 | `docs/data/calibration-cases.md` | `tools/gen_docs.py` | `foundation_robotics/data/calibration.json` | same test |
-| `docs/verification/reports/STR-<label>.md`, `docs/releases/VDD-<label>.md` | `tools/gen_reports.py --label <label>` | test runs in both modes, git, `gh`, the manifest, the trace check | point-in-time records; regenerated, not edited |
+| `docs/verification/reports/STR-<label>.md`, `docs/releases/VDD-<label>.md` | `tools/gen_reports.py --label <label>` | test runs in both modes, git, `gh`, the manifest, the trace check | point-in-time records; regenerated, not edited. The tool exits 1 and the report says "NOT PASSED" on any non-ok test outcome, trace problem or stale manifest (REQ-ROB-024) |
 
 All generators use the standard library only and run on the same Python as the tests. Generated files are committed. They must not be edited by hand. There is no generated source code.
 
@@ -84,3 +84,4 @@ This plan is updated in the same pull request as any change to CI, the manifest 
 | 1.0 | 2026-10-30 | d779a9f | Versioning, baseline, change control, pins | Initial commit |
 | 1.1 | 2026-11-04 | 8bc1227 | Manifest excludes the root `.github/` tree | PR #10 |
 | 2.0 | 2026-11-08 | b4de079 | Family standard. Removed the claim that trufflehog runs before every push (no trufflehog configuration exists in the repository; CI runs gitleaks). Recorded that `main` has no branch protection. Added identification, status accounting, audits, generated outputs and release steps | docs/nasa-standard PR |
+| 2.1 | 2026-11-09 | d5bbe35 | Generated-outputs table says when `tools/gen_reports.py` fails the report | PR fixing the 2026-11-09 backfill-review findings |

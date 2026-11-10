@@ -16,5 +16,6 @@ Format: Keep a Changelog 1.1, SemVer.
 
 ### Fixed
 
+- The tool catalog lists the fields of nullable array items and nullable objects: `audio_gate` `line_wer[].line` and `line_wer[].wer_permille` (0..10000), and `cue_vocabulary_check` `result.orders[].first_violation.*`. Regenerated with the union-aware generator logic from foundation-robotics. The interface document describes evidence entries with their real nesting (`evidence.basis.kind`, `evidence.status`). Found during the 2026-11-09 backfill review.
 - Documentation claims that did not match the code: the verification matrix cited the bridge test for four tools' behaviour; the interface document omitted `ping` and mentioned decimal strings that the bridge never accepts; the configuration document and AGENTS.md claimed trufflehog runs before every push.
 - Exclude `.github/` automation and repository metadata from the source manifest so CI-only changes do not invalidate source pins.

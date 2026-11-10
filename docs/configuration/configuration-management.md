@@ -37,12 +37,12 @@ SHA-256 values below identify raw manifest files at the baseline, not repository
 |---|---|
 | `EXPORT-MANIFEST.json` | Regenerate with the export builder after changes |
 | `vendor/foundation-math-v014/SOURCE-MANIFEST.json` | `23219ba772c84796c007eee75458afc499b6ac257b154e78cf3068e41bfdb9a2` |
-| `foundations/template/SOURCE-MANIFEST.json` | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` |
-| `foundations/refrigeration/SOURCE-MANIFEST.json` | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` |
-| `foundations/robotics/SOURCE-MANIFEST.json` | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` |
+| `foundations/template/SOURCE-MANIFEST.json` | `00bbbba7024dda926877d9f1522312d7bcb03c9608197ee3a3355b8895e40249` |
+| `foundations/refrigeration/SOURCE-MANIFEST.json` | `198ec83162c24f090e8f29e335b8a5822d9d319d6a18b0168db27de2df7e0267` |
+| `foundations/robotics/SOURCE-MANIFEST.json` | `b7aa7b15d9afa430b6dd93dbb5f58498662b44a8176fb6d237b7d44dd367af01` |
 | `vendor/endoforge/SOURCE-MANIFEST.json` | `c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612` |
 | `vendor/foundation-engine-v020/SOURCE-MANIFEST.json` | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` |
-| `foundations/film/SOURCE-MANIFEST.json` | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` |
+| `foundations/film/SOURCE-MANIFEST.json` | `8f463e5329bdf8fc89f008380be3aad1091ce26d5c2c1595f92f5ee2e98d6699` |
 
 The source-manifest values above were recomputed with `sha256sum` at the baseline commit and match. The generated [version description](../releases/README.md) records every manifest digest, including `EXPORT-MANIFEST.json`, at its own commit.
 
@@ -56,10 +56,10 @@ These public main heads were copied on 2026-11-08. Each source manifest and ever
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_refrigeration` | `069ea9e8b90308257565db7d00c1884119ed84d6` |
-| `foundation_robotics` | `e6abce6d4b5b7c06ed87d8270ad4785af5be1886` |
-| `foundation_film` | `7601fc51d1e01771db5be3a3f0c576b93ed7b078` |
-| `foundation_template` | `a57f14cb744093aec40a52d35420d2cee1b1797d` |
+| `foundation_refrigeration` | `f78905d0aa5bbdec41faee600e27b96ca4d03732` |
+| `foundation_robotics` | `d61de9657b3e33a5464742ee1eac178f0b8d21c5` |
+| `foundation_film` | `52fa82c08e278d306c5ab3ed16a6ad63cbab74da` |
+| `foundation_template` | `0dcf469894879cd42bb9bce575ae657ab8aac7d4` |
 
 ### Endoforge source
 
@@ -81,7 +81,7 @@ Each vendored Foundation under `foundations/` carries its own `docs/` tree (requ
 
 ## POODO skill snapshot
 
-`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `4a111aab0a51ec5fc4c611390e7ea8eee7d3a3a9` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
+`contracts/SOURCE-PINS.json` pins `poodo_skill` to upstream main commit `aeba96775763dd96658cf9ce2bd41ad2ac94b8dd` from https://github.com/Akilleez-QA/poodo. Its `files` list identifies the byte-exact subset; `status: partial-sync` and both deferred lists prevent treating this as a complete mirror.
 
 Ten paths absent upstream were preserved with `git mv` under `TODELETE/reasoning/poodo/`. The under-400-line update defers README, licensing, repository metadata and engineering records; the unchanged export manifest is historical and must be regenerated separately before publishing an export.
 

@@ -15,8 +15,58 @@ sys.path.insert(0, str(ROOT / "tools"))
 import check_trace
 from build_manifest import canonical_inventory
 
-RESULT = re.compile(r"^(test_\w+) \(([\w.]+)\)(?:\n.*?)? \.\.\. (ok|FAIL|ERROR|skipped.*|expected failure|unexpected success)$",
-                    re.M)
+START = re.compile(r"^(test_\w+) \(([\w.]+)\)")
+OUTCOME = re.compile(r" \.\.\. (ok|FAIL|ERROR|skipped.*|expected failure|unexpected success)$")
+RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
+SEVERITY = ["ok", "expected failure", "skipped", "unexpected success", "FAIL", "ERROR"]
+
+
+def rank(outcome):
+    return SEVERITY.index("skipped" if outcome.startswith("skipped") else outcome)
+
+
+def parse(stderr):
+    results = {}
+    key = None
+    for line in stderr.splitlines():
+        if line.startswith(("=" * 10, "-" * 10)):
+            break
+        start = START.match(line)
+        if start:
+            name, where = start.groups()
+            parts = where.split(".")
+            cls = parts[-2] if parts[-1] == name else parts[-1]
+            module = parts[1] if parts[0] == "tests" else parts[0]
+            key = f"tests/{module}.py::{cls}.{name}"
+        outcome = OUTCOME.search(line)
+        if key and outcome:
+            found = outcome.group(1)
+            if key not in results or rank(found) > rank(results[key]):
+                results[key] = found
+    ran = RAN.search(stderr)
+    return results, int(ran.group(1)) if ran else None
+
+
+def assess(suites, problems, manifest_current):
+    gates = []
+    for command, code, results, _tail, _digest, ran in suites:
+        if code != 0:
+            gates.append(f"`{command}` exited {code}")
+        if ran is None or ran != len(results) or not results:
+            gates.append(f"`{command}` reported {ran} tests but {len(results)} outcomes were parsed")
+        counts = {}
+        for outcome in results.values():
+            if outcome != "ok":
+                label = "skipped" if outcome.startswith("skipped") else outcome
+                counts[label] = counts.get(label, 0) + 1
+        gates += [f"`{command}` had {n} {label}" for label, n in sorted(counts.items())]
+    if problems:
+        gates.append(f"trace check failed with {len(problems)} problems")
+    if not manifest_current:
+        gates.append("SOURCE-MANIFEST.json does not match the working tree")
+    if gates:
+        return "NOT PASSED: " + "; ".join(gates) + " (see sections 3 and 4)", gates
+    return "all suites passed with every test ok in both modes; trace check passed; manifest current", gates
 
 
 def git(*args):
@@ -27,15 +77,10 @@ def run_suite(optimized):
     command = [sys.executable, "-B", *(["-O"] if optimized else []), "-m", "unittest", "discover", "-s", "tests",
                "-t", ".", "-v"]
     proc = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
-    results = {}
-    for name, where, outcome in RESULT.findall(proc.stderr):
-        parts = where.split(".")
-        cls = parts[-2] if parts[-1] == name else parts[-1]
-        module = parts[1] if parts[0] == "tests" else parts[0]
-        results[f"tests/{module}.py::{cls}.{name}"] = outcome
+    results, ran = parse(proc.stderr)
     tail = proc.stderr.strip().splitlines()[-1] if proc.stderr.strip() else ""
     digest = hashlib.sha256(proc.stderr.encode()).hexdigest()
-    return " ".join(["python", *command[1:]]), proc.returncode, results, tail, digest
+    return " ".join(["python", *command[1:]]), proc.returncode, results, tail, digest, ran
 
 
 def gh(*args):
@@ -121,10 +166,9 @@ def main():
     env = f"{platform.system()} {platform.machine()}, Python {platform.python_version()}"
 
     str_lines = header(f"FROBO-STR-{args.label.upper()}", "software test report", args.label, date, commit)
-    failed = [s for s in suites if s[1] != 0]
+    conclusion, failed = assess(suites, problems, manifest["current"])
     str_lines += ["## 1. Summary", "",
-                  f"- Conclusion: {'all suites passed' if not failed else 'FAILURES: see section 3'}; trace check "
-                  f"{'passed' if not problems else 'failed with ' + str(len(problems)) + ' problems'}.",
+                  f"- Conclusion: {conclusion}.",
                   f"- Output-schema validation inside the suite: {schema_validation}.",
                   "- Remaining deficiencies: the untested behaviour listed in SRS §8 (GAP-ROB-*) is not exercised by "
                   "any test.",
@@ -132,8 +176,9 @@ def main():
                   "## 2. Test log", "", "| Item | Value |", "|---|---|", f"| Commit | `{commit}` |",
                   f"| Tags | {tags or 'none'} |", f"| Date | {date} |", f"| Environment | {env} |",
                   "| Run by | operator, local run of `tools/gen_reports.py` |"]
-    for command, code, results, tail, digest in suites:
-        str_lines.append(f"| `{command}` | exit {code}; {len(results)} tests; {tail}; stderr SHA-256 `{digest[:16]}` |")
+    for command, code, results, tail, digest, ran in suites:
+        str_lines.append(f"| `{command}` | exit {code}; {ran} tests reported, {len(results)} outcomes parsed; {tail}; "
+                         f"stderr SHA-256 `{digest[:16]}` |")
     str_lines += ["", "## 3. Results", "", "| Test | Requirements | Normal | `-O` |", "|---|---|---|---|"]
     names = sorted(set(suites[0][2]) | set(suites[1][2]))
     for name in names:
@@ -141,11 +186,16 @@ def main():
         str_lines.append(f"| `{name}` | {reqs} | {suites[0][2].get(name, 'not run')} | "
                          f"{suites[1][2].get(name, 'not run')} |")
     str_lines += ["", "## 4. Problems and deviations", ""]
-    deviations = [f"| `{n}` | {s[2].get(n)} |" for s in suites for n in names if s[2].get(n) != "ok"]
+    deviations = [f"| `{n}` | {s[2].get(n, 'not run')} |" for s in suites for n in names if s[2].get(n) != "ok"]
     str_lines += (["| Test | Outcome |", "|---|---|"] + deviations) if deviations else ["None recorded in this run."]
+    str_lines += ([""] + [f"- Gate not passed: {gate}." for gate in failed]) if failed else []
     str_lines += ["", "## 5. Metrics", "", "| Measure | Value | Command |", "|---|---|---|",
                   f"| Tests run (normal / -O) | {len(suites[0][2])} / {len(suites[1][2])} | unittest discover -v |",
-                  f"| Tests failed or errored | {sum(1 for s in suites for v in s[2].values() if v in ('FAIL', 'ERROR'))}"
+                  "| Tests failed, errored or unexpectedly passed | "
+                  f"{sum(1 for s in suites for v in s[2].values() if v in ('FAIL', 'ERROR', 'unexpected success'))}"
+                  " | unittest discover -v |",
+                  "| Tests skipped or expected failures | "
+                  f"{sum(1 for s in suites for v in s[2].values() if v.startswith('skipped') or v == 'expected failure')}"
                   " | unittest discover -v |",
                   f"| Requirements | {trace['requirements']} | tools/check_trace.py |",
                   f"| Tests traced to a requirement or listed as supporting | {trace['tests_traced']} of {trace['tests']}"
@@ -162,7 +212,9 @@ def main():
                   f"| Markdown lines under docs/ | {lines(['docs/**/*.md'])} | line count |",
                   "| Coverage | not measured: no coverage tool in CI; standard library only | — |", "",
                   "## 6. Rationale for decisions", "",
-                  "No known failure was accepted. The `-O` run exists because CI runs it; it confirms no behaviour "
+                  ("No known failure was accepted. " if not failed else
+                   "The gates not passed are listed in section 4; this report accepts none of them. ") +
+                  "The `-O` run exists because CI runs it; it confirms no behaviour "
                   "depends on `assert` statements."]
     str_lines += footer(date, commit)
 

@@ -45,16 +45,30 @@ def kind(schema):
     return json.dumps(schema, sort_keys=True)
 
 
-def walk(schema, prefix, rows):
+def descend(schema, path, rows, note):
+    if schema.get("type") == "array":
+        descend(schema["items"], path + "[]", rows, note)
+    elif schema.get("type") == "object" and "properties" in schema:
+        walk(schema, path + ".", rows, note)
+    elif schema.get("type") == "object" and type(schema.get("additionalProperties")) is dict:
+        descend(schema["additionalProperties"], path + ".<key>", rows, note)
+    elif "anyOf" in schema or "oneOf" in schema:
+        branches = []
+        for option in schema.get("anyOf", schema.get("oneOf")):
+            found = []
+            descend(option, path, found, "")
+            if found:
+                branches.append(found)
+        for number, found in enumerate(branches, 1):
+            label = f"; in `{path}` variant {number} of {len(branches)}" if len(branches) > 1 else ""
+            rows += [(p, k, r + label + note) for p, k, r in found]
+
+
+def walk(schema, prefix, rows, note=""):
     for name, sub in schema.get("properties", {}).items():
         path = f"{prefix}{name}"
-        rows.append((path, kind(sub), "yes" if name in schema.get("required", []) else "no"))
-        inner = sub
-        while inner.get("type") == "array":
-            inner = inner["items"]
-            path += "[]"
-        if inner.get("type") == "object" and "properties" in inner:
-            walk(inner, path + ".", rows)
+        rows.append((path, kind(sub), ("yes" if name in schema.get("required", []) else "no") + note))
+        descend(sub, path, rows, note)
 
 
 def table(rows):

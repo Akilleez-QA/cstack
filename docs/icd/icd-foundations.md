@@ -78,10 +78,10 @@ Copied from `contracts/SOURCE-PINS.json`. That file is the source of truth.
 
 | Foundation | Path | Files | Manifest SHA-256 | Inventory SHA-256 |
 |---|---|---|---|---|
-| `foundation_refrigeration` | `foundations/refrigeration` | 79 | `b7de586a4a67683e44beda5352c359df7cde43b4a8f4e9864ff2c6301c7aa74e` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
-| `foundation_film` | `foundations/film` | 55 | `be2c5614046704b773f8e28583910ddc3138adb01ca8b03635d97fa807685b31` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
-| `foundation_robotics` | `foundations/robotics` | 61 | `624cb8315a9d2483271eacc3b201e8456c061e5283ef00aad99a3df6f6e92d97` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
-| `foundation_template` | `foundations/template` | 49 | `38ff83296a5aaf468eaab28dc9d4d7aeb99aa305226fcfa997ce5cc462ca1a31` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
+| `foundation_refrigeration` | `foundations/refrigeration` | 79 | `198ec83162c24f090e8f29e335b8a5822d9d319d6a18b0168db27de2df7e0267` | `aa89d7ea2acdc601e997de880282877c5efdfeaa510823a2902c77374507fa1b` |
+| `foundation_film` | `foundations/film` | 55 | `8f463e5329bdf8fc89f008380be3aad1091ce26d5c2c1595f92f5ee2e98d6699` | `4432e0305a84ed9aa1b269f2378f869b5b36850001e503ed1ffc0e018dd17558` |
+| `foundation_robotics` | `foundations/robotics` | 61 | `b7aa7b15d9afa430b6dd93dbb5f58498662b44a8176fb6d237b7d44dd367af01` | `037919a5b4d2305de5a18e7d26994df2871a766ba1c2df2c1b11778d959ca599` |
+| `foundation_template` | `foundations/template` | 50 | `00bbbba7024dda926877d9f1522312d7bcb03c9608197ee3a3355b8895e40249` | `2d15f784589a077908d1a8e79dc0350ec62c090f08cb25ef63b04d947ac0622f` |
 | `foundation_engine` | `vendor/foundation-engine-v020` | 2513 (2 vendored) | `0617efcbbb594919137ca6b748de189516ee9ec35e49f56765109cfe9fb01349` | `c666da976a8a93e327dcaf09689fb9ed0f7d487c59e9f06a484a1b4ad9a9a9cc` |
 
 ### Upstream source commits
@@ -90,10 +90,10 @@ The vendored snapshots exclude `.git/`. Each upstream `SOURCE-MANIFEST.json` and
 
 | Foundation | Upstream commit |
 |---|---|
-| `foundation_template` | `a57f14cb744093aec40a52d35420d2cee1b1797d` |
-| `foundation_film` | `7601fc51d1e01771db5be3a3f0c576b93ed7b078` |
-| `foundation_robotics` | `e6abce6d4b5b7c06ed87d8270ad4785af5be1886` |
-| `foundation_refrigeration` | `069ea9e8b90308257565db7d00c1884119ed84d6` |
+| `foundation_template` | `0dcf469894879cd42bb9bce575ae657ab8aac7d4` |
+| `foundation_film` | `52fa82c08e278d306c5ab3ed16a6ad63cbab74da` |
+| `foundation_robotics` | `d61de9657b3e33a5464742ee1eac178f0b8d21c5` |
+| `foundation_refrigeration` | `f78905d0aa5bbdec41faee600e27b96ca4d03732` |
 
 ## Local CLI approval interface
 
