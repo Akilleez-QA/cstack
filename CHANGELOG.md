@@ -11,6 +11,7 @@ release yet; entries name the pull requests that made them.
 ### Changed
 
 - Re-vendored the four pinned foundations at the commits that merged the 2026-11-09 backfill-review fixes: refrigeration `f78905d`, film `52fa82c`, robotics `d61de96`, template `0dcf469` (template gains one test file, 50 entries). Upstream changed only docs, tests and tools; no bridge or schema changed, so inventory hashes are unchanged. `poodo_skill` moves to `aeba967` (its 45 synced files are byte-identical; the new upstream release-docs test file is listed as deferred). `EXPORT-MANIFEST.json` rebuilt. EndoForge stays pinned until its rounds 8-10 merge.
+- README and docs index rewritten for a first-time reader: purpose, a real approval run, a top-down diagram and install first; the NASA control documents sit behind one "Engineering records" section. Material moved out of the README went to new how-to guides (approve asks, define bots, use a real model, add a domain, merge train) and an explanation of Foundations and pins. The README's Measured table moved to `docs/verification/measured-2026-11.md`, with every figure tied to a commit on `main` (assurance finding F-7) (#80).
 
 
 ### Added

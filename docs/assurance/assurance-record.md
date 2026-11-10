@@ -66,7 +66,7 @@ Rolling record of requirements, design, testing, code-quality and configuration 
 | F-4 | S4 | `ci/requirements.txt` installs pillow and numpy for a hillclimb pixel-diff script under a `forge/` directory that does not exist in this repository; no tracked Python file imports either package | `ci/requirements.txt` | Not filed | Open |
 | F-5 | S4 | `tools/check_links.py` scans `forge/endoforge/docs/*.md` and its docstring describes that area; the path does not exist | `tools/check_links.py` | Not filed | Open |
 | F-6 | S4 | Operator tools have no tests: `tools/agent_profiles.py`, `tools/generate_aors.py`, `tools/measure_foundation_routes.py`, `tools/measure_routes_pyodide.mjs`, `tools/tty_approve.py`, `tools/gen_release_docs.py` | SDD-C23 | Not filed | Open; recorded as infrastructure |
-| F-7 | S4 | The README "Measured" table cites runs at older commits and an unmerged branch; it is not regenerated | `README.md` | Not filed | Open |
+| F-7 | S4 | The README "Measured" table cites runs at older commits and an unmerged branch; it is not regenerated | `README.md` | Not filed | Closed 2026-11-10 (PR #80): the table left the README, which now points to the generated [STR-baseline](../verification/reports/STR-baseline.md); the old figures are kept in [measured-2026-11](../verification/measured-2026-11.md), each tied to a commit on `main`, and the row with no commit was removed |
 | F-8 | Observation | No branch protection on `main`; CI results are not required to merge | GitHub settings | - | Recorded |
 
 ### Overall assessment

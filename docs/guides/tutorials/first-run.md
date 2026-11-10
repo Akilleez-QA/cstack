@@ -136,6 +136,6 @@ Keep `cstack.config.json` if you want to carry on. It is ignored by git.
 ## Where next
 
 - Run the checks CI runs: [run CI checks locally](../how-to/run-ci-locally.md).
-- Use a real model: set `workcell.transport` to `adapters/workcell/claude-transport.mjs`, as the [README](../../../README.md#run-a-goal) describes.
+- Use a real model: set `workcell.transport` to `adapters/workcell/claude-transport.mjs`, as [use a real model](../how-to/use-a-real-model.md) describes.
 - Understand what you just ran: [how Cstack vendors and runs EndoForge](../explanation/endoforge-vendoring.md).
 - Look up a flag, key or variable: [reference](../reference/README.md).

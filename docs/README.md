@@ -1,23 +1,55 @@
 # Documentation
 
-Cstack's documents, by what you need. The guides follow [Diátaxis](https://diataxis.fr/): tutorials teach, how-to guides solve a task, reference states facts, explanation gives background. The control documents follow the [Cstack family documentation standard](standards/family-doc-standard.md), whose canonical copy lives here.
+Find what you need by what you want to do. New here? Start with the [README](../README.md), then the tutorial.
 
-Control documents carry their own baseline commits. Reading or indexing them does not create a new verification result. Classification: self-assessed Class E analog, not safety-critical; this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+## Learn
 
-## Start here
-
-| Need | Start with |
+| You will | Start with |
 |---|---|
-| Install Cstack and run your first goals | [Tutorial: first run](guides/tutorials/first-run.md) |
-| Run the CI checks before a pull request | [How to run CI checks locally](guides/how-to/run-ci-locally.md) |
-| Move to a newer EndoForge | [How to repin EndoForge](guides/how-to/repin-endoforge.md) |
-| Other tasks: bots, merge train, domains | [How-to guides](guides/how-to/README.md) |
-| Look up a command, config key or environment variable | [Reference](guides/reference/README.md) |
-| Understand how EndoForge, the server and the adapters fit | [Explanation](guides/explanation/README.md) |
-| Know what results mean and what Cstack does not do | [Limitations and safety-relevant use](guides/explanation/limitations.md) |
-| Find where each user-manual topic lives | [User manual map](guides/SUM-MAP.md) |
+| Install Cstack and run a Foundation call, an approval and a forge goal, in about ten minutes | [Tutorial: first run](guides/tutorials/first-run.md) |
 
-## Control documents
+## Do a task
+
+| Task | Guide |
+|---|---|
+| Approve calls marked `ask`, on a terminal or from a file | [Approve ask calls](guides/how-to/approve-asks.md) |
+| Name your bots and what needs your approval | [Define your bots](guides/how-to/define-bots.md) |
+| Let a real model write forge code | [Use a real model](guides/how-to/use-a-real-model.md) |
+| Add your own domain tools | [Add a domain](guides/how-to/add-a-domain.md) |
+| Merge bot pull requests in dependency order | [Run the merge train](guides/how-to/merge-train.md) |
+| Run the checks CI runs, before a pull request | [Run CI checks locally](guides/how-to/run-ci-locally.md) |
+| Move to a newer EndoForge | [Repin EndoForge](guides/how-to/repin-endoforge.md) |
+| Everything else | [All how-to guides](guides/how-to/README.md) |
+
+## Look something up
+
+| Need | Reference |
+|---|---|
+| A `cli.py` option, a tool in `tools/`, an error code | [Commands](guides/reference/commands.md) |
+| A key in `cstack.config.json` | [Configuration](guides/reference/configuration.md) |
+| An environment variable | [Environment variables](guides/reference/environment.md) |
+| The core's records, lanes, ask and deny, budgets | [Interfaces](../contracts/INTERFACES.md) |
+| Every reference page | [Reference index](guides/reference/README.md) |
+
+## Understand the design
+
+| Question | Read |
+|---|---|
+| How do the CLI, the MCP server and the adapters fit together? | [The server, the driver and the adapters](guides/explanation/server-and-adapters.md) |
+| Why is EndoForge a pinned copy, and how does a forge goal run? | [How Cstack vendors and runs EndoForge](guides/explanation/endoforge-vendoring.md) |
+| Which Foundations ship here, and what does a pin prove? | [Foundations and pins](guides/explanation/foundations-and-pins.md) |
+| What do results mean, and what does Cstack not do? | [Limitations and safety-relevant use](guides/explanation/limitations.md) |
+| What are the core's rules? | [Control decisions](../contracts/DECISION.md) and the [design](architecture/architecture.md) |
+
+The guides follow [Diátaxis](https://diataxis.fr/): tutorials teach, how-to guides solve a task, reference states facts, explanation gives background. The [user manual map](guides/SUM-MAP.md) shows where each user-manual topic lives.
+
+## Engineering records
+
+Cstack keeps a control document set organised after NASA's software documentation standards. The documents follow the [Cstack family documentation standard](standards/family-doc-standard.md), whose canonical copy lives here. Each carries its own baseline commit; reading or indexing them does not create a new verification result.
+
+Classification: self-assessed Class E analog under NPR 7150.2D, not safety-critical. Cstack is not NASA software, and this is not a NASA compliance determination or certification (see the [software management plan](plan/software-management-plan.md#1-software-classification-self-assessed)).
+
+### Control documents
 
 | Document | ID | SWEHB | Path |
 |---|---|---|---|
@@ -41,7 +73,7 @@ Control documents carry their own baseline commits. Reading or indexing them doe
 
 Not applicable (rationale in the SMP and the standard): training plan (5.15), safety plan (5.18), assurance status report (5.19), IV&V plan (5.20), hazard report (5.24; the limitations page stands in).
 
-## Verification records
+### Verification records
 
 These are measurement and acceptance records kept as written.
 
@@ -49,8 +81,9 @@ These are measurement and acceptance records kept as written.
 |---|---|
 | [Foundation routes](verification/foundation-routes.md) | Measured routes from a workcell into each Foundation (2026-11-06) |
 | [Wiring acceptance](verification/wiring-acceptance.md) | The acceptance frozen before end-to-end wiring (historical) |
+| [Measurements, November 2026](verification/measured-2026-11.md) | The README's former "Measured" table (historical) |
 
-## Family standard
+### Family standard
 
 | Document | Use |
 |---|---|
@@ -64,6 +97,6 @@ Decision records and contracts live in [`contracts/`](../contracts/): [ADR 001](
 
 ## Repository layout exception
 
-Python entry points and composition files (`cli.py`, `bootstrap.py`, `__init__.py` and `__main__.py`) remain at the repository root. See the [repository layout](../README.md#layout). The documentation directories do not change those import paths.
+Python entry points and composition files (`cli.py`, `bootstrap.py`, `__init__.py` and `__main__.py`) remain at the repository root. See [what's inside](../README.md#whats-inside). The documentation directories do not change those import paths.
 
 See [Contributing](../CONTRIBUTING.md) for the review workflow and local checks, [Security](../SECURITY.md) for reporting guidance and [Support](../SUPPORT.md) for help.

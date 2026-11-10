@@ -14,6 +14,7 @@ FORGE = "CSTACK_STUB_TRANSPORT_SCRIPT=examples/forge/saturation-stub.json python
 FORGE_RUNS = 2
 NEEDS_GH = ("python3 tools/merge_train.py --wip", "python3 tools/merge_train.py --dry-run --policy low-risk")
 REAL_FORGE = "python -B cli.py < examples/forge/saturation-goal.json"
+DONE_BY_CHECKER = ("git clone https://github.com/Akilleez-QA/cstack", "cd cstack")
 STUB_TRANSPORT, CLAUDE_TRANSPORT = '"adapters/workcell/stub-transport.mjs"', '"adapters/workcell/claude-transport.mjs"'
 
 
@@ -115,7 +116,7 @@ def main():
         subprocess.run(["git", "clone", "--quiet", *(["--branch", args.branch] if args.branch else []), args.source, str(clone)], check=True)
         subprocess.run(["git", "remote", "set-url", "origin", args.github_remote], cwd=clone, check=True)
         commands = readme_commands((clone / "README.md").read_text())
-        covered = set()
+        covered = set(DONE_BY_CHECKER)
         check = Check(clone, covered)
         check.plain("python3 -m venv .venv && . .venv/bin/activate")
         check.plain("pip install -r requirements.txt -r ci/requirements.txt")
@@ -123,7 +124,7 @@ def main():
         check.plain("cp cstack.config.example.json cstack.config.json")
         check.run_status("python -B cli.py < examples/scalar-and-negative.json", "completed")
         check.plain("python -B -m unittest discover -s tests", timeout=1800)
-        check.plain("bash ci/run-local.sh python links", timeout=3600)
+        check.plain("bash ci/run-local.sh python links trace", timeout=3600)
         approve_on_tty(check, "python -B cli.py --approver < examples/ask-approval.json")
         check.run_status("python -B cli.py --approver=deny < examples/ask-approval.json", "stopped")
         request = subprocess.run([sys.executable, "-B", "-c", "import json,sys; sys.path.insert(0,'.'); from poodo_core import CapabilityRequest; d=json.load(open('examples/ask-approval.json')); print(CapabilityRequest.from_dict(d['calls'][0]['request']).sha256)"],
