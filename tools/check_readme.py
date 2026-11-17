@@ -90,8 +90,19 @@ def approve_on_tty(check, command):
     check.record(command, document.get("run_status") == "completed" and outcomes, f"typed approve on a real pty: run_status {document.get('run_status')}, outcomes {outcomes}")
 
 
+def init_session(check, command):
+    home = Path(tempfile.mkdtemp(prefix="cstack-home-"))
+    env = {**check.env, "HOME": str(home)}
+    first = subprocess.run(command.split(), cwd=check.clone, env=env, capture_output=True, text=True, timeout=120)
+    again = subprocess.run([*command.split(), "--check"], cwd=check.clone, env=env, capture_output=True, text=True, timeout=120)
+    ledger = (home / ".local/state/cstack/ledger.json").is_file()
+    shutil.rmtree(home, ignore_errors=True)
+    check.record(command, first.returncode == 0 and again.returncode == 0 and ledger, f"exit {first.returncode}, --check exit {again.returncode}, ledger.json {'written' if ledger else 'missing'}; {first.stdout.strip().splitlines()[-1:]}")
+
+
 def mcp_session(check, command):
     state = Path(tempfile.mkdtemp(prefix="cstack-state-"))
+    subprocess.run(["python", "-B", "tools/cstack_init.py", "--state-root", str(state), "--device", "example-host"], cwd=check.clone, env=check.env, capture_output=True, text=True, timeout=120)
     argv = command.replace("/tmp/cstack-state", str(state)).split()
     process = subprocess.Popen(argv, cwd=check.clone, env=check.env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     frames = [dict(jsonrpc="2.0", id=1, method="initialize", params=dict(protocolVersion="2024-11-05", capabilities={}, clientInfo=dict(name="check", version="1"))),
@@ -143,7 +154,8 @@ def main():
             check.run_status(REAL_FORGE, "completed", "candidate_passed")
             config.write_text(config.read_text().replace(CLAUDE_TRANSPORT, STUB_TRANSPORT))
         check.plain("python -B -c \"from adapters.aor_registry import load_fleet; print(load_fleet('aors/fleet.json').approver)\"", lambda out: out.strip() == "owner-via-approver")
-        mcp_session(check, "python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state")
+        init_session(check, "python -B tools/cstack_init.py")
+        mcp_session(check, "python -B tools/cstack_mcp.py --aor example --state-root /tmp/cstack-state")
         skipped = gh_unavailable(check.env)
         for command in NEEDS_GH:
             if skipped:

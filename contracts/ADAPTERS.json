@@ -34,14 +34,14 @@
    "lane": "HMIFace",
    "port": "none",
    "port_reason": "Host composition entry point: builds an AOR session and serves MCP directly; no core port protocol.",
-   "vendor": "cstack (in-repo), Tailscale CLI for device identity",
+   "vendor": "cstack (in-repo); Tailscale CLI optional, for device identity when cstack init recorded none",
    "kind": "python_module",
    "path": "tools/cstack_mcp.py",
    "fake": null,
    "fake_reason": "Launcher tests use host-supplied fixture configuration; no named HMIFace replaceability fake is registered.",
    "status": "hard_wired",
    "strategic_dependency_adr": null,
-   "notes": "Per-AOR MCP stdio launcher; fixes bot, device, fleet and state at host startup, marks the server process and closes the session on exit."
+   "notes": "Per-AOR MCP stdio launcher; fixes bot, device, fleet and state at host startup, marks the server process and closes the session on exit. Refuses to start without the durable ledger cstack init sets up, unless --allow-memory-ledger is given."
   },
   {
    "adapter_id": "foundations-mcp-server",
@@ -615,6 +615,16 @@
    "path": "adapters/adapter_inventory.py",
    "role": "host_config",
    "reason": "Loads this inventory; it attaches nothing."
+  },
+  {
+   "path": "adapters/local_setup.py",
+   "role": "host_config",
+   "reason": "Creates and checks host-owned state for cstack init: the private state folder, the recorded device name, and the witnessed ledger's keys, roster and settings. It attaches nothing."
+  },
+  {
+   "path": "tools/cstack_init.py",
+   "role": "host_config",
+   "reason": "The cstack init command: runs adapters/local_setup.py and prints a plain-language report. It attaches nothing."
   },
   {
    "path": "adapters/private_sqlite.py",
