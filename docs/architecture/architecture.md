@@ -84,6 +84,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C24 | Examples and placeholders | `examples/`, `products/`, `workshop/`, `cstack.config.example.json` | Example documents and configuration; empty component areas | Infrastructure |
 | SDD-C26 | Starter agent organization | `agents/`, `contracts/agent.schema.json`, `contracts/agent-org.schema.json`, `tools/agent_profiles.py`, `tools/agent_guard.py`, `tools/check_options.py`, `.claude/agents/` | Engine-neutral agent definitions and templates, the single-writer hand-off table, the Claude Code subagent generator, the guard hook that applies AOR effects to built-in tools and the twenty-option record check | CS-REQ-080, CS-REQ-081, CS-REQ-082, CS-REQ-083 |
 | SDD-C28 | Local setup (`cstack init`) | `adapters/local_setup.py`, `tools/cstack_init.py` | Creates and checks one machine's private state folder, device name and witnessed-ledger keys, roster and settings; resolves the device name with or without Tailscale | CS-REQ-084, CS-REQ-086 |
+| SDD-C29 | Hand-off channel | `adapters/work_tree.py` | Event-sourced work tree beside the cores: one node per hand-off, lineage, wake-once, chase, holds, loop and fan-out limits, witnessed in the session ledger, offered to bots as MCP tools | CS-REQ-087 |
 | SDD-C31 | Foundations MCP server | `adapters/foundations_mcp.py`, `tools/foundations_mcp.py` | Host-launched MCP server exposing the chosen pinned Foundations' tools to one bot, each call decided and executed through its AOR session | CS-REQ-091 |
 
 ```mermaid
