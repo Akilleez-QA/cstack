@@ -45,7 +45,7 @@ when host configuration binds this port, otherwise `False`.
 
 The current claim-gate CLI rejects `--atoms`, `--atom-refs` and `--consumer` requests with exit status 2 and a `cstack.claim-gate/0.1` JSON error on stderr stating that the approved-atoms Registry is unavailable. It emits no verdict on stdout. The pinned lifecycle slice does not provide that Registry; the dead optional import has been removed. Calls without atom options retain the ledger-only interface.
 
-[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin, Endoforge `main` commit `ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3`, adds the gates, ledger, `IsolatePool` and capacity planner that section 7 runs or carries. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
+[PR #16](https://github.com/Akilleez-QA/cstack/pull/16) added a pinned lifecycle-core slice from Endoforge commit `cebd463ea9828dfd9bbf09181a631ee604eac8cf`. That slice held data and lifecycle rules plus an import-boundary test; the current pin, Endoforge `main` commit `68eaa75a0ce5f65b5517077cb736d8d7ffebb755`, adds the gates, ledger, `IsolatePool` and capacity planner that section 7 runs or carries. It has no agent runner or caching implementation. Its source-pin ICD, [icd-endoforge-pin.md](icd-endoforge-pin.md), records the manifest hash. Vendoring source does not implement `EndoforgePort`.
 
 ## 3. Operations and sequencing
 
@@ -201,7 +201,7 @@ Limits, and what the runtime doesn't prove: V8 has no instruction fuel, so `fuel
 
 ## 8. Endoforge interfaces Cstack uses
 
-These are the only vendored Endoforge names Cstack code calls at the current pin. A repin that changes any of them changes this interface; see [the repin guide](../guides/how-to/repin-endoforge.md).
+These are the only vendored Endoforge names Cstack code calls at the current pin. A repin that changes any of them changes this interface; see [the repin guide](../guides/how-to/repin-endoforge.md). The repin to `68eaa75` changed none of them: `Ledger` and `FrozenEvaluators` are byte-identical, `IsolatePool` only gained the optional `toolingWasmModules` and `syncHostCalls` options (Cstack passes neither, so the pool behaves as before), `ENDOFORGE_LEDGER_JOURNAL` and `ENDOFORGE_DUMP_LIST` are read as before, and the ledger writer now syncs through `vendor/endoforge/tools/durable.py`.
 
 | Caller | Endoforge interface | Use |
 |---|---|---|
@@ -226,3 +226,4 @@ CS-REQ-020 to CS-REQ-030 (evidence port, file adapter and configured routing); C
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header and disclaimer; requirements-addressed section | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | Pin commit updated; ENDOFORGE_DUMP_LIST row added to section 8 | PR #79 |
 | 2.2 | 2026-11-09 | 6088dd4 | Lost-controller row: a session that ends with an unknown outcome keeps its core ledger as `.recovered` | PR fixing the 2026-11-09 backfill-review findings |
+| 2.3 | 2026-11-16 | this PR | Pin commit updated to 68eaa75; section 8 records that no Cstack-called interface changed | fix/repin-endoforge-macos PR |

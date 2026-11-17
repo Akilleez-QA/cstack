@@ -14,6 +14,7 @@ from poodo_core import (CapabilityRequest, ContractError, GoalContract, Phase, P
 
 CLI_SCHEMA = "cstack.run/0.1"
 MAX_OUTPUT = 33 * 1024 * 1024
+EXECUTED = ("completed", "tool_error")
 
 
 class DriverRefusal(ContractError):
@@ -103,13 +104,31 @@ def _run_document(document, host, approver):
                        "reason": "core_contract_or_retention_gate" if isinstance(error, ContractError)
                                  else "endoforge_storage_failure", "later_not_dispatched": decisions[index+1:]}
             break
+    outcomes = [e["data"]["outcome"] for e in core.ledger() if e["kind"] == "outcome"]
     return {"schema": "cstack.run-result/0.1", "goal": core.snapshot(goal.goal_id).to_dict(),
-        "events": core.ledger(), "run_status": "stopped" if stopped else "completed", "stopped": stopped,
+        "events": core.ledger(), "run_status": run_status(stopped, outcomes), "stopped": stopped,
+        "not_completed": [{key: o[key] for key in ("decision_id", "attempt_id", "execution_status", "execution_certainty",
+                                                   "assessment", "limitations")} for o in outcomes if not executed(o)],
         "outcome_unknown": [{"decision_id": e["data"]["outcome"]["decision_id"], "attempt_id": e["data"]["outcome"]["attempt_id"],
                              "assessment": e["data"]["outcome"]["assessment"]} for e in core.ledger() if e["kind"] == "outcome"
                             and e["data"]["outcome"]["execution_certainty"] == "unknown"],
         "mcp_compatible": False, "endoforge_implemented": "endoforge" in host,
         "note": "Preauthored checkpoint records were structurally checked, not researched or reasoned by this driver."}
+
+
+def executed(outcome):
+    return outcome["execution_status"] in EXECUTED and outcome["execution_certainty"] == "responded"
+
+
+def run_status(stopped, outcomes):
+    if stopped:
+        return "stopped"
+    missed = [o for o in outcomes if not executed(o)]
+    if any(o["execution_certainty"] == "unknown" for o in missed):
+        return "outcome_unknown"
+    if any(o["execution_certainty"] == "responded" for o in missed):
+        return "failed"
+    return "not_executed" if missed else "completed"
 
 
 def _goal_domain(value):

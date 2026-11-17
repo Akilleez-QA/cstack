@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { admitToolingWasm, guardToolingExports, toolingWasmPolicy } from './isolate-wasm-tooling.mjs';
 
 const pageBytes = 65536;
 const leb = value => {
@@ -50,8 +51,10 @@ export function trustedWasmPolicy(entries, maxMb) {
   }));
 }
 
-export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedWasmModules = []) {
+export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedWasmModules = [], toolingWasmModules = []) {
   const trustedModules = new Map(trustedWasmPolicy(trustedWasmModules, maxMb).map(entry => [entry.sha256, entry]));
+  const toolingModules = new Map(toolingWasmPolicy(toolingWasmModules, maxMb).map(entry => [entry.sha256, entry]));
+  if ([...toolingModules.keys()].some(sha256 => trustedModules.has(sha256))) throw new TypeError('a digest cannot be both trusted and tooling');
   const sharedModules = new Map(sharedWasmModules.map(entry => [entry.sha256, entry]));
   const native = Object.fromEntries(Object.getOwnPropertyNames(WebAssembly).map(key => [key, WebAssembly[key]]));
   const cap = maxMb * 1024 * 1024 / pageBytes;
@@ -91,6 +94,8 @@ export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedW
     const bytes = ArrayBuffer.isView(source)
       ? new Uint8Array(source.buffer, source.byteOffset, source.byteLength).slice()
       : new Uint8Array(source).slice();
+    const tooling = toolingModules.size ? toolingModules.get(createHash('sha256').update(bytes).digest('hex')) : undefined;
+    if (tooling) return admitToolingWasm(bytes, tooling);
     if (!native.validate(bytes)) throw new native.CompileError('invalid wasm module');
     const trusted = trustedModules.size ? trustedModules.get(createHash('sha256').update(bytes).digest('hex')) : undefined;
     const reader = new Reader(bytes);
@@ -260,6 +265,12 @@ export function installWasmLimit(maxMb, breach, trustedWasmModules = [], sharedW
   const instance = (module, imports, derived = WebAssembly.Instance) => {
     const data = modules.get(module);
     if (!data) throw new TypeError('workcell requires a locally checked WebAssembly.Module');
+    if (data.tooling) {
+      const result = Reflect.construct(native.Instance, [module, imports], derived);
+      for (const { name, memory } of data.exportedMemories) memoryLimits.set(result.exports[name], data.limits[memory]);
+      guardToolingExports(result, data.flag, fail);
+      return result;
+    }
     const result = Reflect.construct(native.Instance, [module, imports], derived);
     if (data.flag) {
       const limit = (object, memory) => { if (data.limits[memory] < cap) memoryLimits.set(object, data.limits[memory]); };

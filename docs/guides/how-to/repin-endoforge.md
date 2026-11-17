@@ -59,7 +59,7 @@ python -B -m unittest discover -s tests
 bash ci/run-local.sh python links trace
 ```
 
-The forge goal must print `completed ['candidate_passed']`. It needs a `cstack.config.json` copied from `cstack.config.example.json`. The workcell tests (`tests/test_workcell_*.py`) run the real pool, gates and ledger, so a breaking change upstream shows there.
+The forge goal must print `completed ['candidate_passed']`. If the workcell could not run (for example the ledger bridge exits), it prints `not_executed` and the result's `not_completed` list says why. It needs a `cstack.config.json` copied from `cstack.config.example.json`. The workcell tests (`tests/test_workcell_*.py`) run the real pool, gates and ledger, so a breaking change upstream shows there.
 
 ## 4. Update the records
 

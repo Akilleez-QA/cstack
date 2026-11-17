@@ -16,7 +16,7 @@ The cost is that the copy falls behind. A pin says the bytes are unchanged. It d
 
 ## What is in the slice
 
-The slice is the `SLICE` list in `tools/pin_endoforge.py`. It has 27 files:
+The slice is the `SLICE` list in `tools/pin_endoforge.py`. It has 29 files:
 
 | Part | Files | Used by Cstack for |
 |---|---|---|
@@ -25,7 +25,7 @@ The slice is the `SLICE` list in `tools/pin_endoforge.py`. It has 27 files:
 | Gates and evaluator | `vendor/endoforge/core/engine/` | The universal gates and frozen evaluator that judge each candidate inside a cell |
 | Workcell runtime | `vendor/endoforge/core/runtime/isolate-*.mjs`, `vendor/endoforge/core/runtime/dump-list.mjs` | `IsolatePool`, which `adapters/workcell/supervisor.mjs` imports, and the cells, WASM limits, cgroup attachment, ledger bridge and memguard dump-list registration it uses |
 | Capacity planner | `vendor/endoforge/core/runtime/capacity/` | Nothing at run time. It is carried because its CLI is its interface for non-Node callers. Since EndoForge P-68, `IsolatePool` doesn't import it, and Cstack sets the pool size itself (`workcell.size`, default 1) |
-| Support | `vendor/endoforge/tools/factory_quality/index.mjs`, `vendor/endoforge/tools/ledger_writer.py`, `vendor/endoforge/tools/dump_list.py`, `vendor/endoforge/LICENSE` | Contract and signature checks the gates import; the group-commit ledger writer the ledger bridge runs, and its dump-list registration |
+| Support | `vendor/endoforge/tools/factory_quality/index.mjs`, `vendor/endoforge/tools/ledger_writer.py`, `vendor/endoforge/tools/dump_list.py`, `vendor/endoforge/tools/durable.py`, `vendor/endoforge/LICENSE` | Contract and signature checks the gates import; the group-commit ledger writer the ledger bridge runs, its dump-list registration, and its portable durable sync (`F_FULLFSYNC` on macOS, else `fdatasync`, else `fsync`) |
 
 Everything else in EndoForge stays out: the agent pool and loop, the oracle, caching, experiments and the other tools. Cstack doesn't run coding agents through EndoForge's own loop; it runs one governed goal through the pool.
 

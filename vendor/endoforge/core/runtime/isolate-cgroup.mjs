@@ -51,8 +51,14 @@ export function attachCgroup(pid, root, limits, swapPresent = hostHasSwap) {
   }
 }
 
+const removeGroup = (directory, attempts) => {
+  try { rmdirSync(directory); } catch (error) {
+    if (error.code === 'EBUSY' && attempts > 0) setTimeout(removeGroup, 20, directory, attempts - 1).unref();
+  }
+};
+
 export function releaseCgroup(directory) {
   if (!directory) return;
   try { writeFileSync(join(directory, 'cgroup.kill'), '1'); } catch { }
-  try { rmdirSync(directory); } catch { }
+  removeGroup(directory, 100);
 }
