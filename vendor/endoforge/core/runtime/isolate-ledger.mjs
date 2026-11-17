@@ -101,6 +101,10 @@ export class LedgerBridge {
     return Boolean(this.#failure);
   }
 
+  get pid() {
+    return this.#child?.pid;
+  }
+
   request(action, job, result) {
     if (this.#failure) return Promise.reject(this.#failure);
     const id = ++this.#next;

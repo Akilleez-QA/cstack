@@ -10,6 +10,7 @@ class OneGoal(unittest.TestCase):
         self.addCleanup(forge.close)
         result = forge.run(GOAL)
         self.assertEqual(result["run_status"], "completed")
+        self.assertEqual(result["not_completed"], [])
         self.assertIs(result["endoforge_implemented"], True)
         self.assertEqual(result["outcome_unknown"], [])
         final = outcome(result)

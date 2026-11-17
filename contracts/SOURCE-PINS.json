@@ -39,11 +39,11 @@
  },
  "endoforge": {
   "root": "vendor/endoforge",
-  "commit": "ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3",
-  "source_manifest_sha256": "c59a2e91d89afc3b6a9cce0bc84edd53da793659e8d658837a21f42c2a8c7612",
-  "source_manifest_entry_count": 27,
+  "commit": "68eaa75a0ce5f65b5517077cb736d8d7ffebb755",
+  "source_manifest_sha256": "4dfd1e67e5ca1f5441e2ec5376161477d422d56ad1f2eff9a71200116b1f2e28",
+  "source_manifest_entry_count": 29,
   "on_main": true,
-  "main_commit": "ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3"
+  "main_commit": "68eaa75a0ce5f65b5517077cb736d8d7ffebb755"
  },
  "poodo_skill": {
   "root": "reasoning/poodo",

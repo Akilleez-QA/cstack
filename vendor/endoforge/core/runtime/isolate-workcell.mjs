@@ -26,7 +26,7 @@ WebAssembly.instantiate = nativeInstantiate;
 const checkWasm = installWasmLimit(wasmMemoryMaxMb, error => {
   send({ type: 'limit', error });
   process.exit(18);
-}, options.trustedWasmModules, options.sharedWasmModules);
+}, options.trustedWasmModules, options.sharedWasmModules, options.toolingWasmModules);
 
 const warmed = options.warm ? (async () => { await (await import(options.hostPort)).warm(options.warm); })().catch(error => error.message || String(error)) : null;
 

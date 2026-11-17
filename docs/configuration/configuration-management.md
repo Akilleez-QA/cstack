@@ -63,10 +63,10 @@ These public main heads were copied on 2026-11-08. Each source manifest and ever
 
 ### Endoforge source
 
-`vendor/endoforge/` holds a 27-file slice of Endoforge commit
-`ea7b8d651ce23acd100f5a5d81d6e8fda0d604a3` on `main`: the lifecycle model, run ledger,
-gates and evaluator, `IsolatePool` and its workcell, the capacity planner and two
-support tools. Control the slice list in `tools/pin_endoforge.py`, the upstream and
+`vendor/endoforge/` holds a 29-file slice of Endoforge commit
+`68eaa75a0ce5f65b5517077cb736d8d7ffebb755` on `main`: the lifecycle model, run ledger,
+gates and evaluator, `IsolatePool` and its workcell, the capacity planner and the
+support tools they import. Control the slice list in `tools/pin_endoforge.py`, the upstream and
 exported hashes, and the `endoforge` record in `contracts/SOURCE-PINS.json` together,
 as described in [the source-pin ICD](../icd/icd-endoforge-pin.md) and
 [the repin guide](../guides/how-to/repin-endoforge.md). Python comment tokens are
@@ -169,3 +169,4 @@ Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, an
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard header; organization, status accounting, audits, generated outputs, release management; vendored docs and upstream; trace suite in CI | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation, Engine and POODO repin: manifest digests, upstream commits, POODO commit | PR #78 |
 | 2.2 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | EndoForge repin to ea7b8d6: 27-file slice, manifest digest | PR #79 |
+| 2.3 | 2026-11-16 | this PR | EndoForge repin to 68eaa75: 29-file slice, manifest digest | fix/repin-endoforge-macos PR |

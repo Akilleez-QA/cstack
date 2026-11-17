@@ -31,7 +31,8 @@ Output, on stdout, exit 0: one `cstack.run-result/0.1` document.
 
 | Field | Meaning |
 |---|---|
-| `run_status` | `completed`, or `stopped` when a call was refused or storage failed |
+| `run_status` | `completed` only when every dispatched call executed and responded (execution status `completed` or `tool_error`). Otherwise `stopped` when a call was refused or storage failed, `outcome_unknown` when an attempt may have run but its result is unknown, `failed` when a call responded with another execution status, or `not_executed` when a call was not dispatched (for example no `node`, no `npm ci`, or a ledger that cannot open) |
+| `not_completed` | One entry per outcome that did not execute and respond: `decision_id`, `attempt_id`, `execution_status`, `execution_certainty`, `assessment` and `limitations`, so the reason is at top level. Empty when `run_status` is `completed` |
 | `stopped` | `null`, or the decision, its `execution_certainty` (`not_dispatched` or `unknown`), the reason and the decisions not dispatched after it |
 | `goal` | The goal snapshot. `closed` is always `false`; a run never closes a goal |
 | `events` | The core ledger for this run |

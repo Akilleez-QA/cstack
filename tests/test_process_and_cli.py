@@ -14,7 +14,7 @@ from bootstrap import DEFAULT_MATH_ROOT
 from poodo_core import *
 from adapters.memory_ledger import MemoryLedger
 from extensions.foundation_math import FoundationMath, MATH_CAPABILITY, TOOL_NAMES
-from cli import run_document
+from cli import run_document, run_status
 from tests.test_math_adapter import math_request
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +97,22 @@ class ExecutorTests(unittest.TestCase):
             result = cap.invoke(math_request(), "attempt-failed").to_dict()
             self.assertEqual((result["execution_status"], result["execution_certainty"]), (status, "unknown"))
             self.assertIsNone(result["raw_result"])
+
+
+class RunStatusTests(unittest.TestCase):
+    def outcome(self, status, certainty):
+        return {"execution_status": status, "execution_certainty": certainty}
+
+    def test_completed_only_when_every_attempt_executed_and_responded(self):
+        executed = [self.outcome("completed", "responded"), self.outcome("tool_error", "responded")]
+        self.assertEqual(run_status(None, executed), "completed")
+        self.assertEqual(run_status(None, executed + [self.outcome("unavailable", "not_dispatched")]), "not_executed")
+        self.assertEqual(run_status(None, executed + [self.outcome("protocol_error", "responded")]), "failed")
+        self.assertEqual(run_status(None, [self.outcome("unavailable", "not_dispatched"), self.outcome("indeterminate", "unknown")]),
+                         "outcome_unknown")
+        self.assertEqual(run_status(None, [self.outcome("protocol_error", "responded"), self.outcome("unavailable", "not_dispatched")]),
+                         "failed")
+        self.assertEqual(run_status({"decision_id": "d"}, [self.outcome("unavailable", "not_dispatched")]), "stopped")
 
 
 class CliTests(unittest.TestCase):

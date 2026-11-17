@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SRS |
-| Version | 2.2 |
+| Version | 2.3 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-16 |
@@ -368,6 +368,16 @@ The terminal adapter shall accept only an explicit approve answer, issue approva
 The CLI shall reject duplicate keys, floating-point and non-finite numbers, invalid UTF-8, empty documents and documents over 65,536 bytes with exit status 2, accept no path flags, grants or future capabilities from request data, run from a parent directory as a module, and keep completed run history when a later retention limit stops the run.
 
 - Rationale: the CLI reads untrusted documents; only trusted launch options select configuration.
+- Derivation: `cli.py`
+- Allocated to: SDD-C9
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-088 — Honest run status
+
+The CLI run result shall report `run_status` `completed` only when no call was stopped and every outcome has execution status `completed` or `tool_error` with certainty `responded`. Otherwise it shall report `stopped`, `outcome_unknown`, `failed` or `not_executed`, in that precedence, and list each outcome that did not execute and respond, with its execution status, certainty, assessment and limitations, in a top-level `not_completed` field.
+
+- Rationale: a run whose workcell never ran must not look like a success at top level.
 - Derivation: `cli.py`
 - Allocated to: SDD-C9
 - Verification: T
@@ -957,3 +967,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format: metadata, record fields, allocation to SDD components; CS-REQ-036 to CS-REQ-077 added from tested behaviour; CS-REQ-027 to CS-REQ-030 restated without repeating the port text | docs/nasa-standard PR |
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 covers a session that ends with an unknown outcome; CS-REQ-047 covers a failed file open | PR fixing the 2026-11-09 backfill-review findings |
 | 2.2 | 2026-11-16 | feat/cstack-init | CS-REQ-084 to CS-REQ-086 added: one-command setup, no memory ledger in agent mode, device identity without Tailscale | Draft PR for `cstack init` |
+| 2.3 | 2026-11-16 | this PR | CS-REQ-088 honest run status added | fix/repin-endoforge-macos PR |

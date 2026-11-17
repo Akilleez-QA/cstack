@@ -41,13 +41,21 @@ class NotExecuted(unittest.TestCase):
         self.assertEqual((final["execution_status"], final["execution_certainty"]), ("unavailable", "not_dispatched"), final)
         self.assertNotIn("may have executed", json.dumps(final["limitations"]))
 
+    def assert_run_not_executed(self, document):
+        final = outcome(document)
+        self.assert_not_executed(final)
+        self.assertEqual(document["run_status"], "not_executed")
+        self.assertEqual(document["not_completed"], [{key: final[key] for key in (
+            "decision_id", "attempt_id", "execution_status", "execution_certainty", "assessment", "limitations")}])
+        self.assertNotEqual(document["not_completed"][0]["assessment"], "candidate_passed")
+        return final
+
     def test_no_node_on_path(self):
         forge = Forge(SATURATION)
         self.addCleanup(forge.close)
         env = {**forge.env, "PATH": str(Path(sys.executable).parent)}
         result = forge.raw(GOAL, env=env)
-        final = outcome(json.loads(result.stdout))
-        self.assert_not_executed(final)
+        final = self.assert_run_not_executed(json.loads(result.stdout))
         self.assertIn("node", json.dumps(final["limitations"]))
 
     def test_missing_node_modules_says_how_to_fix_it(self):
@@ -57,20 +65,19 @@ class NotExecuted(unittest.TestCase):
         (copy.root / "adapters/workcell-toolchain/node_modules").unlink()
         forge = Forge(SATURATION, root=copy.root)
         self.addCleanup(forge.close)
-        final = outcome(forge.run(GOAL))
-        self.assert_not_executed(final)
+        final = self.assert_run_not_executed(forge.run(GOAL))
         self.assertIn("npm ci", json.dumps(final["limitations"]))
 
     def test_a_host_without_a_transport_ran_nothing(self):
         forge = Forge(transport=False)
         self.addCleanup(forge.close)
-        self.assert_not_executed(outcome(forge.run(GOAL)))
+        self.assert_run_not_executed(forge.run(GOAL))
 
     def test_a_ledger_that_cannot_open_ran_nothing(self):
         forge = Forge(SATURATION)
         self.addCleanup(forge.close)
         (forge.directory / "forge.sqlite").mkdir()
-        self.assert_not_executed(outcome(forge.run(GOAL)))
+        self.assert_run_not_executed(forge.run(GOAL))
 
 
 class RequestShape(unittest.TestCase):

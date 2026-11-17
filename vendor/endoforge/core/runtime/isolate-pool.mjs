@@ -4,11 +4,13 @@ import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Worker } from 'node:worker_threads';
 import { execFileSync, fork, spawn } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readSync, writeSync } from 'node:fs';
+import { deserialize, serialize } from 'node:v8';
 import { dumpListEnabled, registerHolder } from './dump-list.mjs';
 import { attachCgroup, prepareCgroup, releaseCgroup } from './isolate-cgroup.mjs';
 import { LedgerBridge } from './isolate-ledger.mjs';
 import { trustedWasmPolicy } from './isolate-wasm.mjs';
+import { toolingWasmPolicy } from './isolate-wasm-tooling.mjs';
 
 const positive = value => Number.isSafeInteger(value) && value > 0;
 const stackMargin = 192;
@@ -25,6 +27,10 @@ const requireProcessStack = stackSizeMb => {
 };
 const maxHostCalls = 4096;
 const maxHostCallBytes = 1048576;
+const maxSyncReplyBytes = 17 * 1048576;
+const syncHeader = 8;
+const syncIdle = 0, syncRequest = 1, syncReply = 2, syncClosed = 3;
+const syncRequestFd = 4, syncReplyFd = 5;
 const killGraceMs = 1000;
 const exitGraceMs = 500;
 export const POOL_DUMP_DEFAULTS = Object.freeze({ name: 'endoforge-isolate-pool', priority: 20, floor: 1, holdMs: 30000, intervalMs: 2000, settleMs: 1500 });
@@ -39,6 +45,7 @@ export class IsolatePool {
   #limits;
   #wasmMemoryMaxMb;
   #trustedWasmModules;
+  #toolingWasmModules;
   #isolation;
   #cgroupRoot;
   #cgroupLimits;
@@ -71,9 +78,10 @@ export class IsolatePool {
   #shedUntil = 0;
   #holdTimer = null;
   #rates;
+  #syncHostCalls;
 
   constructor({ hostPort, size = availableParallelism(), resourceLimits = {}, wasmMemoryMaxMb = 64,
-    isolation = 'thread', cgroupRoot, cgroupLimits = {}, trustedWasmModules = [], sharedWasmModules = [], prewarm = false, warm, warmTimeoutMs = 60000, jobTimeoutMs, jobDeadlineMs, hostCall, hostCalls, frozenThroughLedger = false, cellEnv, cellFlags = [], ledgerBridge, retireAfterJobs = 256, dumpList, rates = null } = {}) {
+    isolation = 'thread', cgroupRoot, cgroupLimits = {}, trustedWasmModules = [], sharedWasmModules = [], toolingWasmModules = [], prewarm = false, warm, warmTimeoutMs = 60000, jobTimeoutMs, jobDeadlineMs, hostCall, hostCalls, syncHostCalls, frozenThroughLedger = false, cellEnv, cellFlags = [], ledgerBridge, retireAfterJobs = 256, dumpList, rates = null } = {}) {
     if (!positive(retireAfterJobs)) throw new TypeError('retireAfterJobs must be a positive integer');
     this.#retireAfterJobs = retireAfterJobs;
     this.#rates = rates;
@@ -91,7 +99,9 @@ export class IsolatePool {
     if (!positive(warmTimeoutMs)) throw new TypeError('warmTimeoutMs must be a positive integer');
     if (hostCalls !== undefined && typeof hostCalls !== 'function') throw new TypeError('hostCalls must be a function');
     if (typeof frozenThroughLedger !== 'boolean') throw new TypeError('frozenThroughLedger must be boolean');
+    if (syncHostCalls !== undefined && typeof syncHostCalls !== 'function') throw new TypeError('syncHostCalls must be a function');
     this.#hostCalls = hostCalls;
+    this.#syncHostCalls = syncHostCalls;
     this.#frozenThroughLedger = frozenThroughLedger;
     this.#warmOptions = warm;
     this.#warmTimeoutMs = warmTimeoutMs;
@@ -116,6 +126,8 @@ export class IsolatePool {
     this.#limits = Object.freeze(limits);
     this.#wasmMemoryMaxMb = wasmMemoryMaxMb;
     this.#trustedWasmModules = trustedWasmPolicy(trustedWasmModules, wasmMemoryMaxMb);
+    this.#toolingWasmModules = toolingWasmPolicy(toolingWasmModules, wasmMemoryMaxMb);
+    if (this.#toolingWasmModules.some(({ sha256 }) => this.#trustedWasmModules.some(entry => entry.sha256 === sha256))) throw new TypeError('a digest cannot be both trusted and tooling');
     this.#isolation = isolation;
     if (!Array.isArray(sharedWasmModules) || !sharedWasmModules.every(({ sha256, path }) => typeof path === 'string' && path &&
         this.#trustedWasmModules.some(entry => entry.sha256 === sha256))) throw new TypeError('sharedWasmModules must name trustedWasmModules digests and paths');
@@ -271,10 +283,10 @@ export class IsolatePool {
   #spawn() {
     const subprocess = this.#isolation === 'process';
     const entry = new URL('./isolate-workcell.mjs', import.meta.url);
-    const policy = { wasmMemoryMaxMb: this.#wasmMemoryMaxMb, trustedWasmModules: this.#trustedWasmModules,
+    const policy = { wasmMemoryMaxMb: this.#wasmMemoryMaxMb, trustedWasmModules: this.#trustedWasmModules, toolingWasmModules: this.#toolingWasmModules,
       ...(this.#warmOptions ? { warm: this.#warmOptions, hostPort: this.#hostPort } : {}) };
     const heapArgv = [`--max-old-space-size=${this.#limits.maxOldGenerationSizeMb}`, `--max-semi-space-size=${this.#limits.maxYoungGenerationSizeMb}`, ...this.#cellFlags];
-    const processOptions = { serialization: 'advanced', stdio: ['ignore', 'ignore', 'pipe', 'ipc'], ...(this.#cellEnv ? { env: this.#cellEnv } : {}) };
+    const processOptions = { serialization: 'advanced', stdio: ['ignore', 'ignore', 'pipe', 'ipc', ...(this.#syncHostCalls ? ['pipe', 'pipe'] : [])], ...(this.#cellEnv ? { env: this.#cellEnv } : {}) };
     const processArguments = [JSON.stringify({ ...policy, resourceLimits: this.#limits })];
     const stackKb = this.#limits.stackSizeMb && this.#limits.stackSizeMb * 1024;
     const worker = subprocess ? (stackKb
@@ -303,6 +315,7 @@ export class IsolatePool {
         worker.kill();
       });
     }
+    if (this.#syncHostCalls) this.#openSync(cell);
     cell.started = new Promise(resolve => { cell.markStarted = resolve; });
     cell.gone = new Promise(resolve => { cell.markGone = resolve; });
     this.#cells.add(cell);
@@ -345,6 +358,7 @@ export class IsolatePool {
       clearTimeout(exitTimer);
       clearTimeout(cell.warmTimer);
       cell.markGone();
+      this.#closeSync(cell);
       this.#cells.delete(cell);
       cell.markStarted(false);
       releaseCgroup(directory);
@@ -395,7 +409,8 @@ export class IsolatePool {
         if (this.#jobDeadlineMs) job.total = setTimeout(() => this.#stop(cell), this.#jobDeadlineMs);
         const { reference, candidates, portOptions } = job.data;
         job.hostCalls = 0;
-        cell.worker.postMessage({ reference, candidates, portOptions, hostPort: this.#hostPort, frozenThroughLedger: this.#frozenThroughLedger });
+        cell.worker.postMessage({ reference, candidates, portOptions: cell.sync ? { ...portOptions, syncHostCall: cell.sync.channel } : portOptions,
+          hostPort: this.#hostPort, frozenThroughLedger: this.#frozenThroughLedger });
       } catch (error) {
         if (cell?.job === job) cell.job = null;
         if (this.#claim(job)) this.#finish(job, { status: 'outcome_unknown', reason: error.message,
@@ -448,6 +463,7 @@ export class IsolatePool {
       job.budget -= performance.now() - job.armed;
       job.pong = performance.now();
       job.liveness = setInterval(() => {
+        if (job.syncing) job.pong = performance.now();
         if (performance.now() - job.pong > this.#jobTimeoutMs) return this.#stop(cell);
         try { cell.worker.postMessage({ type: 'ping' }); } catch { }
       }, Math.ceil(this.#jobTimeoutMs / 3));
@@ -460,10 +476,99 @@ export class IsolatePool {
       job.calls -= 1;
       if (job.calls === 0 && this.#jobTimeoutMs) {
         clearInterval(job.liveness);
-        this.#arm(cell, job);
+        if (!job.syncing) this.#arm(cell, job);
       }
       try { cell.worker.postMessage({ type: 'host-reply', ...reply }); } catch { }
     });
+  }
+
+  #openSync(cell) {
+    if (this.#isolation === 'thread') {
+      const buffer = new SharedArrayBuffer(syncHeader + 65536, { maxByteLength: syncHeader + maxSyncReplyBytes });
+      cell.sync = { channel: { kind: 'shared', buffer }, control: new Int32Array(buffer, 0, 2) };
+      this.#watchShared(cell);
+      return;
+    }
+    const input = cell.worker.stdio[syncRequestFd], output = cell.worker.stdio[syncReplyFd];
+    cell.sync = { channel: { kind: 'pipe', request: syncRequestFd, reply: syncReplyFd } };
+    let pending = Buffer.alloc(0), queue = Promise.resolve();
+    input.on('error', () => {});
+    output.on('error', () => {});
+    input.on('data', chunk => {
+      pending = Buffer.concat([pending, chunk]);
+      while (pending.length >= 4) {
+        const length = pending.readUInt32LE(0);
+        if (length > maxHostCallBytes) {
+          pending = Buffer.alloc(0);
+          cell.error = { code: 'ERR_WORKCELL_HOST_CALL_SIZE' };
+          cell.stopping = true;
+          cell.worker.terminate();
+          return;
+        }
+        if (pending.length < 4 + length) return;
+        const body = pending.subarray(4, 4 + length);
+        pending = pending.subarray(4 + length);
+        queue = queue.then(() => this.#serveSync(cell, body)).then(reply => {
+          const head = Buffer.alloc(4);
+          head.writeUInt32LE(reply.length);
+          if (!output.destroyed) output.write(Buffer.concat([head, reply]));
+        });
+      }
+    });
+  }
+
+  async #watchShared(cell) {
+    const { channel: { buffer }, control } = cell.sync;
+    let expected = syncIdle;
+    for (;;) {
+      const waiting = Atomics.waitAsync(control, 0, expected);
+      if (waiting.async) await waiting.value;
+      const state = Atomics.load(control, 0);
+      if (state === syncClosed) return;
+      if (state !== syncRequest) { expected = state; continue; }
+      const length = control[1];
+      const body = length >= 0 && syncHeader + length <= buffer.byteLength ? new Uint8Array(buffer, syncHeader, length).slice() : null;
+      const reply = await this.#serveSync(cell, body);
+      if (Atomics.load(control, 0) === syncClosed) return;
+      if (buffer.byteLength < syncHeader + reply.length) buffer.grow(syncHeader + reply.length);
+      new Uint8Array(buffer, syncHeader, reply.length).set(reply);
+      control[1] = reply.length;
+      Atomics.store(control, 0, syncReply);
+      Atomics.notify(control, 0);
+      expected = syncReply;
+    }
+  }
+
+  #closeSync(cell) {
+    if (!cell.sync?.control) return;
+    Atomics.store(cell.sync.control, 0, syncClosed);
+    Atomics.notify(cell.sync.control, 0);
+  }
+
+  async #serveSync(cell, body) {
+    const job = cell.job;
+    let reply;
+    try {
+      if (!job || job.settled) throw new Error('no job is running in this workcell');
+      if (++job.hostCalls > maxHostCalls) throw new Error('host-call-limit');
+      if (!body || body.byteLength > maxHostCallBytes) throw new Error('host-call-size');
+      const request = deserialize(body);
+      job.syncing = true;
+      if (this.#jobTimeoutMs && job.deadline && !job.calls) {
+        clearTimeout(job.deadline);
+        job.budget -= performance.now() - job.armed;
+      }
+      try {
+        reply = { result: await this.#syncHostCalls(request, { candidates: job.data.candidates, workcell: cell.id, data: job.data }) };
+      } finally {
+        job.syncing = false;
+        if (this.#jobTimeoutMs && !job.calls && cell.job === job && !job.settled && !cell.stopping) this.#arm(cell, job);
+      }
+    } catch (error) { reply = { error: error?.message || String(error) }; }
+    try {
+      const encoded = serialize(reply);
+      return encoded.length > maxSyncReplyBytes ? serialize({ error: 'host-call-reply-size' }) : encoded;
+    } catch (error) { return serialize({ error: `host-call-reply: ${error.message}` }); }
   }
 
   #claim(job) {
@@ -474,7 +579,7 @@ export class IsolatePool {
   }
 
   async #finish(job, result) {
-    result = { ...result, trustedWasmModules: this.#trustedWasmModules };
+    result = { ...result, trustedWasmModules: this.#trustedWasmModules, ...(this.#toolingWasmModules.length ? { toolingWasmModules: this.#toolingWasmModules } : {}) };
     try {
       const evaluated = performance.now();
       const receipts = job.data.ledger === 'caller' ? [] : await this.#persist('append', job.data, result);
@@ -504,4 +609,65 @@ function poolDumpOptions(options) {
   const merged = { ...POOL_DUMP_DEFAULTS, ...rest, directory, env };
   if (!Number.isSafeInteger(merged.floor) || merged.floor < 0 || ![merged.holdMs, merged.intervalMs, merged.settleMs].every(positive)) throw new TypeError('dump list floor must be a non-negative integer and holdMs, intervalMs and settleMs positive integers');
   return merged;
+}
+
+const pause = new Int32Array(new SharedArrayBuffer(4));
+const retrying = (operation, fd, buffer, offset, length) => {
+  for (;;) {
+    try { return operation(fd, buffer, offset, length); }
+    catch (error) {
+      if (error.code !== 'EAGAIN' && error.code !== 'EINTR') throw error;
+      Atomics.wait(pause, 0, 0, 1);
+    }
+  }
+};
+const readExact = (fd, length) => {
+  const buffer = Buffer.alloc(length);
+  for (let offset = 0; offset < length;) {
+    const read = retrying(readSync, fd, buffer, offset, length - offset);
+    if (read === 0) throw new Error('host call channel closed');
+    offset += read;
+  }
+  return buffer;
+};
+const unwrap = reply => {
+  if (reply === null || typeof reply !== 'object') throw new Error('host call reply malformed');
+  if (Object.hasOwn(reply, 'error')) throw new Error(String(reply.error));
+  return reply.result;
+};
+
+export function connectSyncHostCall(channel) {
+  if (channel?.kind === 'shared' && channel.buffer instanceof SharedArrayBuffer) {
+    const { buffer } = channel;
+    const control = new Int32Array(buffer, 0, 2);
+    return request => {
+      const body = serialize(request);
+      if (body.length > maxHostCallBytes) throw new Error('host-call-size');
+      if (Atomics.load(control, 0) !== syncIdle) throw new Error('host call channel closed');
+      if (buffer.byteLength < syncHeader + body.length) buffer.grow(syncHeader + body.length);
+      new Uint8Array(buffer, syncHeader, body.length).set(body);
+      control[1] = body.length;
+      Atomics.store(control, 0, syncRequest);
+      Atomics.notify(control, 0);
+      Atomics.wait(control, 0, syncRequest);
+      if (Atomics.load(control, 0) !== syncReply) throw new Error('host call channel closed');
+      const encoded = new Uint8Array(buffer, syncHeader, control[1]).slice();
+      Atomics.store(control, 0, syncIdle);
+      return unwrap(deserialize(encoded));
+    };
+  }
+  if (channel?.kind === 'pipe' && channel.request === syncRequestFd && channel.reply === syncReplyFd) {
+    return request => {
+      const body = serialize(request);
+      if (body.length > maxHostCallBytes) throw new Error('host-call-size');
+      const frame = Buffer.alloc(4 + body.length);
+      frame.writeUInt32LE(body.length);
+      body.copy(frame, 4);
+      for (let offset = 0; offset < frame.length;) offset += retrying(writeSync, channel.request, frame, offset, frame.length - offset);
+      const length = readExact(channel.reply, 4).readUInt32LE(0);
+      if (length > maxSyncReplyBytes) throw new Error('host-call-reply-size');
+      return unwrap(deserialize(readExact(channel.reply, length)));
+    };
+  }
+  throw new TypeError('a synchronous host call channel from IsolatePool syncHostCalls is required');
 }

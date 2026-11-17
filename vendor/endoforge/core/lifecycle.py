@@ -54,7 +54,6 @@ class State(str, Enum):
 
 
 _LIVE = (State.PROPOSED, State.GENERATED, State.QUALIFIED, State.PREVIEWED)
-
 LEGAL = {
     State.GENERATED: (State.PROPOSED,),
     State.QUALIFIED: (State.GENERATED,),
@@ -64,7 +63,6 @@ LEGAL = {
     State.REJECTED: _LIVE,
     State.DISPOSED: tuple(s for s in State if s is not State.DISPOSED),
 }
-
 _EVIDENCE = {
     State.GENERATED: {"candidate_sha256"},
     State.QUALIFIED: {"receipt"},
@@ -236,7 +234,6 @@ class LifecycleRecord:
             artifact = replace(artifact, candidate_sha256=evidence["candidate_sha256"])
         elif proposal.to_state is State.QUALIFIED:
             artifact = replace(artifact, qualification_receipt_sha256=evidence["receipt"].sha256)
-
         record = object.__new__(LifecycleRecord)
         for name, value in (("artifact", artifact), ("frozen_oracle_id", self.frozen_oracle_id),
                             ("state", proposal.to_state),

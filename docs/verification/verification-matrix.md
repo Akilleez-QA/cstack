@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-VM |
-| Version | 2.2 |
+| Version | 2.3 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-16 |
@@ -103,6 +103,7 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-065 | T | `tests/test_engine_conformance.py` | Two read-only validators only | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-066 | T | `tests/test_domain_registry.py` | Copies the checkout without `foundations/refrigeration/` | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-067 | T | `tests/test_process_and_cli.py::CliTests` | Exit status 2 on each rejected document | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-088 | T | `tests/test_process_and_cli.py::RunStatusTests`; `tests/test_forge_identity.py::NotExecuted`; `tests/test_workcell_run.py::OneGoal` | Status precedence for each outcome mix; a forge run that never dispatched reports `not_executed` with the reason in `not_completed`; a passing run reports `completed` with an empty list | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-068 | T | `tests/test_forge_identity.py`; `tests/test_forge_inputs.py`; `tests/test_forge_journal.py` | Not-executed cases run nothing | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-069 | T | `tests/test_forge_integrity.py::Pins`; `tests/test_forge_integrity.py::Attribution`; `tests/test_foundation_kernels.py::Pins`; `tests/test_workcell_film_robotics.py::Pins` | Changed parts refuse to run | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-070 | T | `tests/test_endoforge_pin.py`; `tests/test_pin_endoforge_tool.py` | Byte identity of the vendored slice; upstream boundary suite needs `CSTACK_ENDOFORGE_CLONE` | [STR-baseline](reports/STR-baseline.md) |
@@ -167,3 +168,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | One row per requirement in `file::Class.method` form; rows for CS-REQ-036 to CS-REQ-077; gap table; every test file traced; `tools/check_trace.py` | docs/nasa-standard PR |
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 row adds the session-end and workcell-kill tests; CS-REQ-047 row names a failed file open | PR fixing the 2026-11-09 backfill-review findings |
 | 2.2 | 2026-11-16 | feat/cstack-init | Rows for CS-REQ-084 to CS-REQ-086 | Draft PR for `cstack init` |
+| 2.3 | 2026-11-16 | this PR | Row for CS-REQ-088 | fix/repin-endoforge-macos PR |
