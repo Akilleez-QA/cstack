@@ -2399,8 +2399,8 @@
    "bytes": 7726
   },
   "tests/test_cstack_init.py": {
-   "sha256": "4e51554a33b035389809023718a58eadfa04096f06b2997f66c942b43d1d6c83",
-   "bytes": 14744
+   "sha256": "cd3d53cb07d38cff7987b24b9631b5b63d01b5585f93177a04bc33e2375e7790",
+   "bytes": 15376
   },
   "tests/test_data_dictionary.py": {
    "sha256": "c07bd1cac36da3d80e39f387207bf754c2bd8eafab98fb80e58ae818315764a1",
