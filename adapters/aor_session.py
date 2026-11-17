@@ -110,6 +110,7 @@ def effective_class(bot, device, effect, shields_up):
 
 class AorSession:
     mail = None  # Host-configured fleet-mail port, enabled only by --fleet-mail.
+    handoff = None
 
     def __init__(self, *, fleet, bot_slug, hostname, state_dir, domains, make_core, ledger_label, shields_file):
         """domains: {domain_id: (operations, effect)}; make_core(domain, grants, anchors) -> (core, ledger, store_claim).
@@ -273,6 +274,8 @@ class AorSession:
         self._ledgers.clear()
         if self.mail is not None and hasattr(self.mail._ledger, "close"):
             self.mail._ledger.close()
+        if self.handoff is not None:
+            self.handoff.close()
         for claim in self._claims:
             claim.close()
         self._claims.clear()

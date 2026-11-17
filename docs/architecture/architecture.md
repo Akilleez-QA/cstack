@@ -82,6 +82,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C22 | Reasoning snapshot | `reasoning/poodo/`, `TODELETE/reasoning/poodo/` | Mirrored POODO skill subset and archived retired paths | CS-REQ-019 |
 | SDD-C23 | Operator tools without tests | `tools/agent_profiles.py`, `tools/generate_aors.py`, `tools/measure_foundation_routes.py`, `tools/measure_routes_pyodide.mjs`, `tools/tty_approve.py`, `tools/fuzz_ports.py`, `tools/spawncount.py`, `tools/gen_release_docs.py` | Generators, measurement, release-record and test-support scripts; no CS-REQ requirement. `tools/spawncount.py` and `tools/fuzz_ports.py` are used by tests | Infrastructure |
 | SDD-C24 | Examples and placeholders | `examples/`, `products/`, `workshop/`, `cstack.config.example.json` | Example documents and configuration; empty component areas | Infrastructure |
+| SDD-C29 | Hand-off channel | `adapters/work_tree.py` | Event-sourced work tree beside the cores: one node per hand-off, lineage, wake-once, chase, holds, loop and fan-out limits, witnessed in the session ledger, offered to bots as MCP tools | CS-REQ-087 |
 
 ```mermaid
 flowchart LR

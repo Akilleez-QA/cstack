@@ -463,6 +463,19 @@ def build_aor_session(bot_slug, *, state_root, hostname, fleet_path=DEFAULT_FLEE
                 ledger.close()
             session.close()
             raise
+    if (state_root / "handoff.json").exists():
+        ledger = None
+        try:
+            from adapters.work_tree import HandoffDesk, WorkTree, load_policy
+            tree_path, policy = load_policy(state_root / "handoff.json")
+            ledger = make_ledger("handoff", {}, paths["log"] if witnessed else None)
+            session.handoff = HandoffDesk(WorkTree(tree_path, clock=clock, policy=policy, witness=ledger),
+                                          session.bot.slug, shields_up=session.shields_up, clock=clock)
+        except BaseException:
+            if ledger is not None and hasattr(ledger, "close"):
+                ledger.close()
+            session.close()
+            raise
     return session
 
 

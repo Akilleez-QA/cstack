@@ -195,6 +195,8 @@ Module-level numeric limits found in the code. Names state the quantity; bytes u
 | `INPUT_FRAME_BYTES` | 65,536 | `adapters/foundation_stdio.py` |
 | `OUTPUT_FRAME_BYTES` | 1,048,576 | `adapters/foundation_stdio.py` |
 | `MAX_FRAME` | 1,048,576 | `adapters/mcp_stdio_server.py` |
+| `MAX_TEXT` | 4,000 | `adapters/work_tree.py` |
+| `MAX_ARTIFACTS` | 16 | `adapters/work_tree.py` |
 | `MAX_BYTES` | 268,435,456 | `adapters/workspace_snapshots.py` |
 | `MAX_FILES` | 50,000 | `adapters/workspace_snapshots.py` |
 | `MAX_DOCUMENT_BYTES` | 2,097,152 | `poodo_core/models.py` |

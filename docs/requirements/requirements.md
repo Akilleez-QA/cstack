@@ -669,6 +669,16 @@ The relay outbox shall send a click retried from several processes once, keep re
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-087 — Hand-off channel
+
+The work tree shall record every hand-off between bots as one node in an append-only, locked event log that rebuilds the same tree on reopen, sets a torn last line aside and refuses an event out of order. A node's lineage (owner, routine or outside, and the owner message id) shall be set at the root and copied unchanged to every child; only owner lineage with a message id, or routine lineage, shall be described as acting on the owner's behalf, and the harness-written provenance line shall escape model text that imitates it. A requester waiting on its children shall be woken once, when every child that replies has settled; an overdue child shall chase its requester once. Hand-offs shall be refused, with a typed refusal, when they go back to a bot already on the branch, pass the depth cap, target a bot the host does not list as reachable for the sender, would exceed the open nodes allowed per root (default 4), come from a bot that is not the running assignee, or arrive while shields are up; a bot shall run at most one node at a time. A node shall fail after two continuations in a row with no successful tool call. An owner hold on a domain shall cancel every open node in it and refuse new ones. An owner answer shall be returned to the caller and never written to the log or the ledger. Every event shall also be appended to the session's ledger as an observation, and a missed witness shall be reported. The MCP hand-off tools shall be listed only when the host configures `handoff.json`, shall stamp the requester from the session, and shall not offer owner holds, releases, sweeps or owner answers.
+
+- Rationale: hand-offs that never come back, chatter loops, fan-out, routines that override the owner's stop, borrowed authority and secrets in transcripts are the failure modes of persistent bot fleets. The tree lives beside the POODO core because a core is per-domain and single-caller with no parent or completion API.
+- Derivation: `adapters/work_tree.py`; `adapters/mcp_stdio_server.py`; `bootstrap.py`
+- Allocated to: SDD-C29
+- Verification: T
+- Status: Baselined
+
 ### 3.8 Memory, read models and watchers
 
 ### CS-REQ-062 — Memory store
@@ -827,7 +837,7 @@ The claim gate shall extract strong words and numbers with units as claims (not 
 
 ## 4. Interface requirements
 
-The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
+The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053, CS-REQ-087; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
 
 ## 5. Non-functional requirements
 

@@ -86,6 +86,7 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-053 | T | `tests/test_mcp_stdio_client.py` | `test_interop_with_official_typescript_sdk_server` skips unless `CSTACK_MCP_SDK_ESM` and `node` are present; a skip is not interop evidence | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-054 | T | `tests/test_fleet_mail.py`; `tests/test_fleet_mail_budget.py` | Uses a fake `gh`; no network | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-055 | T | `tests/test_relay_outbox.py` | Several processes, torn tails | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-087 | T | `tests/test_work_tree.py` | Scenario suite and seeded random walk checked against invariants I1, I2, I3, I4, I7, H1 and C2 after every step; temporary log files; MCP tests require the `cryptography` package | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-056 | T | `tests/test_scheduled_approvals.py` | SQLite and witnessed node logs | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-057 | T | `tests/test_runtime_watch.py` | Byte and time identity after a watch | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-058 | T | `tests/test_witness_watch.py` | Deadman boundaries | [STR-baseline](reports/STR-baseline.md) |

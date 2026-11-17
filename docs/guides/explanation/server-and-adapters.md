@@ -29,6 +29,24 @@ What makes it safe to hand to a bot:
 
 An AOR session composes Foundations (`bootstrap.DOMAINS`) only. The forge runtime is in `bootstrap.RUNTIMES`, so being on the registry gives a bot no run authority.
 
+### Hand-off tools
+
+With a `handoff.json` under `--state-root`, the server adds the hand-off tools of CS-REQ-087 (`adapters/work_tree.py`). Bots whose `handoff.json` names the same tree file share one work tree, kept consistent by a file lock; each node is one hand-off. The tree lives beside the POODO cores, not inside one: a core is per-domain and single-caller with no parent or completion API.
+
+`handoff.json` is host configuration: `tree` (the log file, relative to the state root), `reachable` (sender slug to the bot slugs it may hand off to), and optionally `max_open_per_root` (default 4), `max_depth` (default 3), `max_chase_after` (seconds, default 7 days) and `artifact_names` (the only artifact names a hand-off may carry). Unknown keys are refused.
+
+| Tool | Caller | Effect |
+|---|---|---|
+| `handoff_create` | assignee of a running node | Adds a child for a reachable bot with `mode` (`work`, `consult`, `notify`), `reply` (`resume`, `poll`, `none`), artifacts and an optional chase delay. The requester is the session's bot |
+| `handoff_start` | assignee | Runs a queued or resumed node; one running node per bot |
+| `handoff_status` | requester or assignee | One node with its children, or every open node of this bot. Results and answers are marked information only |
+| `handoff_wait` | assignee | Non-blocking. With `node_id`, parks the node until its replying children settle; always returns undelivered wakes, chases and answers once, and the nodes queued for this bot |
+| `handoff_settle` | assignee (`completed`, `failed`) or requester (`cancelled`, with the subtree) | Ends a node and reports it to its parent once |
+| `handoff_park` | assignee | Asks the owner (answered through the host, never recorded) or the requester |
+| `handoff_answer` | requester | Answers its child's question |
+
+A refusal is a tool error whose payload is `{"refused": code, "reason": text}`, with `code` one of `held`, `depth`, `loop`, `unreachable`, `root_full`, `busy`, `state`, `not_yours`, `shields`, `artifact`, `mode` or `unknown`. Owner holds and releases, chase sweeps, idle-continuation counting, owner answers and root creation are host calls on `WorkTree`, not tools. The assignee sees each node through a harness-written line (`[From <requester> · <mode> <id> in <domain> · <authority>]`) in which model text is escaped and cannot open a second line of its own. Every event is also appended as an observation to the session's ledger on stream `<bot>.handoff`, the witnessed node log when `ledger.json` exists.
+
 ### The cockpit
 
 DECISION-006 and the docstrings of `adapters/host_read_models.py` and `adapters/relay_outbox.py` refer to a "cstack server" cockpit. That server isn't in this repository. What is here are its read-only projections (`adapters/read_models.py`, `adapters/host_read_models.py`, printed by `tools/read_models.py`) and the relay's append-only outbox (`adapters/relay_outbox.py`). An outbox message is an intent, not authority, and approvals never pass through it.

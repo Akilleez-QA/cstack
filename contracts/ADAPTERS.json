@@ -580,6 +580,20 @@
    "strategic_dependency_adr": null,
    "notes": "One file per forge session, so a later session's core can replay a lost controller's attempts. Local fsync only.",
    "fake_reason": "MemoryLedger is the EvidenceFace fake; this adds only file persistence."
+  },
+  {
+   "adapter_id": "handoff-work-tree",
+   "lane": "TruthFace",
+   "port": "none",
+   "port_reason": "Host work state for hand-offs between bots, beside the per-domain cores; no TruthFace work-state port exists yet (ADR 005 item 11c). It witnesses through the session's LedgerPort.",
+   "vendor": "cstack (in-repo), append-only JSON lines chosen by the host in handoff.json",
+   "kind": "python_module",
+   "path": "adapters/work_tree.py",
+   "fake": null,
+   "fake_reason": "LANE_SUITES has no TruthFace work-state fake; tests/test_work_tree.py drives it in memory and in temporary files with a fixed clock.",
+   "status": "hard_wired",
+   "strategic_dependency_adr": null,
+   "notes": "Optional host-bound hand-off tools: one node per hand-off with immutable lineage, wake-once, chase, owner holds, loop, depth, per-root and one-live-instance limits, reachability from host config. Grants no authority."
   }
  ],
  "not_an_adapter": [
