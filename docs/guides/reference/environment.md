@@ -28,7 +28,7 @@ The Claude transport passes on only `PATH`, `HOME`, `LANG`, `LC_ALL`, `TERM`, `U
 |---|---|---|---|
 | `XDG_STATE_HOME` | `adapters/terminal_approver.py` | `~/.local/state` | Consumed CLI approval markers go in `$XDG_STATE_HOME/cstack/cli-approvals` |
 
-`tools/cstack_mcp.py` keeps AOR state in `~/.local/state/cstack` unless `--state-root` is given; it doesn't read `XDG_STATE_HOME`.
+`tools/cstack_mcp.py` and `tools/cstack_init.py` keep AOR state in `~/.local/state/cstack` unless `--state-root` is given; they don't read `XDG_STATE_HOME`.
 
 ## AOR sessions and the MCP server
 

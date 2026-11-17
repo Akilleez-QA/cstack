@@ -24,7 +24,7 @@ TOOL = ROOT / "tools/cstack_mcp.py"
 
 def argv(state, fleet, aor="alpha"):
     return [sys.executable, "-B", str(TOOL), "--aor", aor, "--state-root", str(state), "--device", "testbox",
-            "--fleet", str(fleet)]
+            "--fleet", str(fleet), "--allow-memory-ledger"]
 
 
 class Server:
@@ -157,7 +157,7 @@ class LauncherTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {}, clear=False), mock.patch.object(launcher, "build_aor_session", build):
             os.environ.pop("CSTACK_MCP_SERVER", None)
             with self.assertRaises(SystemExit):
-                launcher.main(["--aor", "alpha", "--device", "testbox"])
+                launcher.main(["--aor", "alpha", "--device", "testbox", "--allow-memory-ledger"])
         self.assertEqual(seen["marker"], "1")
 
 

@@ -73,6 +73,8 @@ The adapter validates the outputSchema, the tool identity, the false proof and a
 
 MCP is an application protocol with transport bindings. Any later adapter must state its tested revision and demonstrate actual client interoperability. Current 2026-07-28 uses per-request metadata and server/discover; legacy 2025-11-25 uses initialize/initialized. A legacy SDK does not prove current-revision support.
 
+`tools/foundations_mcp.py` serves the host-chosen pinned Foundations as read-only MCP tools for one bot's AOR, through that AOR session's goals and decisions; see `docs/icd/icd-foundations.md`.
+
 `adapters/mcp_stdio_client.py` is an MCP client CapabilityPort with tested revision **2025-11-25** only. It is not 2026-07-28. The host fixes:
 - the server argv, cwd and env allowlist;
 - per tool, a read/write/execute effect class and a sha256 pin of the whole reviewed tools/list entry (`tool_sha256`), including title, icons, execution and `_meta`;

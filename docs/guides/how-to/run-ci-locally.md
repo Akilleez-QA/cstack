@@ -23,7 +23,7 @@ pip install -r requirements.txt -r ci/requirements.txt
 npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund
 ```
 
-`ci/requirements.txt` adds `cryptography`, `pillow` and `numpy` to the root requirements. Without `cryptography` about 70 witnessed-ledger tests skip instead of running.
+`requirements.txt` includes `cryptography`, which the witnessed ledger and `cstack init` need; without it about 70 witnessed-ledger tests skip instead of running. `ci/requirements.txt` adds `pillow` and `numpy`.
 
 ## Run the `test` job
 

@@ -35,18 +35,19 @@ owner-via-approver
 
 This checks the file against `contracts/aor.schema.json`. Loading the registry grants nothing by itself; `bootstrap.py` derives each session's authority from it.
 
-## 3. Start a bot's session
+## 3. Set up the machine and start a bot's session
 
 ```sh
-python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state
+python -B tools/cstack_init.py
+python -B tools/cstack_mcp.py --aor example
 ```
 
-This starts an MCP server on stdin and stdout for one bot. Point your agent's MCP client configuration at this command. The host picks the bot (`--aor`) and the device; nothing the bot sends can change them. Asked who it is (the `aor` tool), the session answers with the registry entry (trimmed):
+`cstack init` gives every bot in the registry a signing key and a durable ledger, and records this machine's device name; run it again whenever you add a bot. [Set up Cstack](set-up.md) explains each part. The second command starts an MCP server on stdin and stdout for one bot. Point your agent's MCP client configuration at it. The host picks the bot (`--aor`) and the device; nothing the bot sends can change them. Asked who it is (the `aor` tool), the session answers with the registry entry (trimmed):
 
 ```text
-{"approver": "owner-via-approver", "bot": {"id": "00000001", "name": "Example", "slug": "example"}, "device": "example-host", ..., "ledger": "memory (not durable: no ADR 004 roster configured)", ...}
+{"approver": "owner-via-approver", "bot": {"id": "00000001", "name": "Example", "slug": "example"}, "device": "example-host", ..., "ledger": "witnessed", ...}
 ```
 
-The ledger is memory only until you configure a witnessed ledger under `--state-root`. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates a Claude Code subagent for each agent definition in `agents/`, wired to its bot's server; see [the starter agents](../explanation/starter-agents.md) and the [command reference](../reference/commands.md).
+Without `cstack init` the server refuses to start and names the command to run. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates a Claude Code subagent for each agent definition in `agents/`, wired to its bot's server; see [the starter agents](../explanation/starter-agents.md) and the [command reference](../reference/commands.md).
 
 Return to the [how-to guides](README.md).

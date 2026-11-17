@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SRS |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-09 |
+| Date | 2026-11-16 |
 | Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -649,6 +649,16 @@ The MCP stdio client shall take its descriptor and effects from the host, treat 
 - Verification: T. The TypeScript SDK interop test skips without that SDK.
 - Status: Baselined
 
+### CS-REQ-091 — Foundations MCP server
+
+The Foundations MCP server shall list, as `<foundation>.<tool>`, only the tools of the Foundations the host named at launch that the bot's AOR does not deny, each with its input schema from the pinned tool inventory (a top-level `allOf`, `oneOf` or `anyOf` projected into one object schema). It shall refuse an unknown tool as invalid params and refuse arguments that fail the exact pinned input schema before any decision. It shall run every other call through the bot's AOR session as a POODO goal, decision and execution on a read-only ToolFace grant and the pinned adapter, return the Foundation's `structuredContent` unchanged with the POODO record in `_meta`, and report a refused, tampered, unadmitted, pending or over-budget call as a tool error. A launch naming an unregistered Foundation or a runtime shall fail.
+
+- Rationale: agents need domain truth as tools, without bypassing source pins, authority, the ledger or the evidence ceiling.
+- Derivation: `adapters/foundations_mcp.py`; `tools/foundations_mcp.py`; `bootstrap.py`
+- Allocated to: SDD-C31
+- Verification: T. No test drives it from a real MCP client; one session allows 64 calls per Foundation.
+- Status: Baselined
+
 ### CS-REQ-054 — Fleet mail
 
 Fleet mail shall stamp the sender so input cannot override it, accept only fleet slugs, all-bots or host extras as recipients, refuse over-long strings, control and look-alike characters, mentions and cross-repository references, enforce send, all-bots and per-thread reply allowances with refusals recorded once per window, refuse writes while shields are up, record message number and digest but never the body, verify signatures against the roster and show forgeries as unverified, keep fleet mail out of the approval path, run `gh` with a fixed argument shape, fixed environment, stdin-only message text, deadline and output bounds, and keep the MCP mail tools off by default. The send-budget file shall be private, refuse an emptied state, and never let several processes pass the limit.
@@ -668,6 +678,36 @@ The relay outbox shall send a click retried from several processes once, keep re
 - Allocated to: SDD-C16
 - Verification: T
 - Status: Baselined
+
+### CS-REQ-084 — One-command setup
+
+`tools/cstack_init.py` (`cstack init`) shall create a state folder readable only by its owner (0700 folders, 0600 files), a device record, a signing key per fleet bot, a roster and ledger settings for the DECISION-004 witnessed ledger, writing the settings last. Run again, it shall change nothing when setup is complete, finish a partial setup with the keys already made, add writers for new bots, make loose folders and settings private, and never replace or repair a key that is exposed or does not match the roster. Its `--check` mode shall change nothing, verify every ledger file, and exit 1 when any problem needs the owner. It shall report each result in plain language with the fix.
+
+- Rationale: without a one-command setup, newcomers ran agent sessions on a memory ledger that was lost when the session ended (critic finding B2).
+- Derivation: `adapters/local_setup.py`; `tools/cstack_init.py`
+- Allocated to: SDD-C28
+- Verification: T
+- Status: Draft
+
+### CS-REQ-085 — No memory ledger in agent mode
+
+`tools/cstack_mcp.py` shall refuse to start, with exit 2 and a message naming the `cstack init` command, when its state root has no `ledger.json`, before creating any state, unless the host passes `--allow-memory-ledger`.
+
+- Rationale: a bot's record must survive the session; a memory ledger is for tests and throwaway development only.
+- Derivation: `tools/cstack_mcp.py`; `adapters/local_setup.py`
+- Allocated to: SDD-C15
+- Verification: T
+- Status: Draft
+
+### CS-REQ-086 — Device identity without Tailscale
+
+The device name shall be `--device` when given, else the name `cstack init` recorded, else the tailnet name. `cstack init` shall record, in that order, `--device`, an earlier record, the tailnet name, or the computer's own name; it shall substitute the fleet's only device when the found name is not listed, and otherwise report the unlisted name as a problem without recording it. An absent, failing or signed-out Tailscale shall yield no tailnet name rather than an error.
+
+- Rationale: requiring Tailscale to start a server blocked people without it (critic finding M9).
+- Derivation: `adapters/local_setup.py`; `tools/cstack_mcp.py`
+- Allocated to: SDD-C28
+- Verification: T
+- Status: Draft
 
 ### 3.8 Memory, read models and watchers
 
@@ -906,3 +946,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 1.x | 2026-10 to 2026-11-08 | various | CS-REQ-001 to CS-REQ-035 added across earlier PRs | See `git log -- docs/requirements/requirements.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format: metadata, record fields, allocation to SDD components; CS-REQ-036 to CS-REQ-077 added from tested behaviour; CS-REQ-027 to CS-REQ-030 restated without repeating the port text | docs/nasa-standard PR |
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 covers a session that ends with an unknown outcome; CS-REQ-047 covers a failed file open | PR fixing the 2026-11-09 backfill-review findings |
+| 2.2 | 2026-11-16 | feat/cstack-init | CS-REQ-084 to CS-REQ-086 added: one-command setup, no memory ledger in agent mode, device identity without Tailscale | Draft PR for `cstack init` |

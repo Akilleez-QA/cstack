@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SDD |
-| Version | 2.2 |
+| Version | 2.3 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-09 |
+| Date | 2026-11-16 |
 | Baseline commit | b7c64b19e3966baaf1aa6793491b454e28f51446 |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -72,7 +72,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C12 | Forge runtime | `extensions/cstack_forge.py`, `adapters/endoforge_workcell.py`, `adapters/workcell/`, `adapters/workcell-toolchain/`, `tools/pin_workcell.py` | One governed EndoForge run per call in `IsolatePool` workcells, registered in `bootstrap.RUNTIMES` | CS-REQ-032, CS-REQ-033, CS-REQ-034, CS-REQ-035, CS-REQ-068, CS-REQ-069 |
 | SDD-C13 | Local ledgers | `adapters/memory_ledger.py`, `adapters/durable_ledger.py`, `adapters/witnessed_ledger.py`, `adapters/ledger.py` | In-memory, durable JSONL and witnessed node-log implementations of `LedgerPort` | CS-REQ-047, CS-REQ-048 |
 | SDD-C14 | AOR fleet and sessions | `aors/`, `adapters/aor_registry.py`, `adapters/aor_session.py`, `tools/e2e_agent.py` | Per-bot areas of responsibility, sessions over per-domain cores, end-to-end agent check | CS-REQ-049, CS-REQ-050, CS-REQ-051 |
-| SDD-C15 | MCP server and client | `adapters/mcp_stdio_server.py`, `tools/cstack_mcp.py`, `adapters/mcp_stdio_client.py` | Agent-facing MCP server per bot; client for external MCP tool servers | CS-REQ-052, CS-REQ-053 |
+| SDD-C15 | MCP server and client | `adapters/mcp_stdio_server.py`, `tools/cstack_mcp.py`, `adapters/mcp_stdio_client.py` | Agent-facing MCP server per bot, which refuses to start without durable state; client for external MCP tool servers | CS-REQ-052, CS-REQ-053, CS-REQ-085 |
 | SDD-C16 | Fleet mail and relay | `adapters/fleet_mail.py`, `adapters/relay_outbox.py` | Signed bot-to-bot messages on GitHub issues; at-most-once relay outbox | CS-REQ-054, CS-REQ-055 |
 | SDD-C17 | Memory store | `adapters/memory/` | SQLite/FTS5 store of host-sanitized facts with review, redaction and ingest | CS-REQ-062 |
 | SDD-C18 | Read models and watchers | `adapters/read_models.py`, `adapters/host_read_models.py`, `tools/read_models.py`, `tools/runtime_watch.py`, `tools/witness_watch.py` | Read-only projections and alarms over ledgers and host state | CS-REQ-057, CS-REQ-058, CS-REQ-059, CS-REQ-060 |
@@ -83,11 +83,14 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C23 | Operator tools without tests | `tools/generate_aors.py`, `tools/measure_foundation_routes.py`, `tools/measure_routes_pyodide.mjs`, `tools/tty_approve.py`, `tools/fuzz_ports.py`, `tools/spawncount.py`, `tools/gen_release_docs.py` | Generators, measurement, release-record and test-support scripts; no CS-REQ requirement. `tools/spawncount.py` and `tools/fuzz_ports.py` are used by tests | Infrastructure |
 | SDD-C24 | Examples and placeholders | `examples/`, `products/`, `workshop/`, `cstack.config.example.json` | Example documents and configuration; empty component areas | Infrastructure |
 | SDD-C26 | Starter agent organization | `agents/`, `contracts/agent.schema.json`, `contracts/agent-org.schema.json`, `tools/agent_profiles.py`, `tools/agent_guard.py`, `tools/check_options.py`, `.claude/agents/` | Engine-neutral agent definitions and templates, the single-writer hand-off table, the Claude Code subagent generator, the guard hook that applies AOR effects to built-in tools and the twenty-option record check | CS-REQ-080, CS-REQ-081, CS-REQ-082, CS-REQ-083 |
+| SDD-C28 | Local setup (`cstack init`) | `adapters/local_setup.py`, `tools/cstack_init.py` | Creates and checks one machine's private state folder, device name and witnessed-ledger keys, roster and settings; resolves the device name with or without Tailscale | CS-REQ-084, CS-REQ-086 |
+| SDD-C31 | Foundations MCP server | `adapters/foundations_mcp.py`, `tools/foundations_mcp.py` | Host-launched MCP server exposing the chosen pinned Foundations' tools to one bot, each call decided and executed through its AOR session | CS-REQ-091 |
 
 ```mermaid
 flowchart LR
     CLI[SDD-C9 CLI] --> BOOT[SDD-C1 bootstrap]
     MCP[SDD-C15 MCP server] --> AOR[SDD-C14 AOR session]
+    FMCP[SDD-C31 Foundations MCP] --> AOR
     AOR --> BOOT
     BOOT --> CORE[SDD-C2 control core]
     CORE --> AD[SDD-C5/C6/C7 adapters]
@@ -190,3 +193,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format; numbered sections; component table covers every directory with requirement allocation; design decisions, concurrency and quality attributes added | docs/nasa-standard PR |
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #78 |
 | 2.2 | 2026-11-09 | 6088dd4 | SDD-C1 also allocated CS-REQ-045 (session-end ledger rename) | PR fixing the 2026-11-09 backfill-review findings |
+| 2.3 | 2026-11-16 | feat/cstack-init | SDD-C28 local setup added (CS-REQ-084, CS-REQ-086); SDD-C15 also allocated CS-REQ-085 | Draft PR for `cstack init` |
