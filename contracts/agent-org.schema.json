@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cstack.agent-org/0.1",
+  "title": "Agent organization: policy, owner-only steps, artifacts and templates",
+  "description": "agents/org.json. The concurrency policy, the steps only the owner takes, the single-writer artifact table every agent hand-off must reference, and the suggested AOR for each area-of-life template. It grants nothing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "policy", "owner_only", "artifacts", "templates"],
+  "properties": {
+    "schema": {"const": "cstack.agent-org/0.1"},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_active_per_task", "route_via", "broadcast", "live_instances_per_bot", "notes"],
+      "properties": {
+        "max_active_per_task": {"type": "integer", "minimum": 1, "maximum": 4},
+        "route_via": {"$ref": "#/$defs/slug"},
+        "broadcast": {"const": false},
+        "live_instances_per_bot": {"const": 1},
+        "notes": {"type": "array", "items": {"$ref": "#/$defs/line"}}
+      }
+    },
+    "owner_only": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "step"],
+        "properties": {"id": {"$ref": "#/$defs/artifact"}, "step": {"$ref": "#/$defs/line"}}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "writer", "readers", "format", "transport"],
+        "properties": {
+          "name": {"$ref": "#/$defs/artifact"},
+          "writer": {"$ref": "#/$defs/slug"},
+          "readers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"anyOf": [{"$ref": "#/$defs/slug"}, {"const": "*"}]}},
+          "format": {"$ref": "#/$defs/line"},
+          "transport": {
+            "oneOf": [
+              {"type": "object", "additionalProperties": false, "required": ["kind"], "properties": {"kind": {"enum": ["ledger_event", "fleet_mail"]}}},
+              {"type": "object", "additionalProperties": false, "required": ["kind", "slice"], "properties": {"kind": {"const": "file"}, "slice": {"type": "string", "pattern": "^[a-z0-9][a-z0-9/_-]*$"}}}
+            ]
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["purpose", "effects", "slice"],
+        "properties": {
+          "purpose": {"$ref": "#/$defs/line"},
+          "effects": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["read", "write_slice", "execute", "config"],
+            "properties": {
+              "read": {"enum": ["allow", "ask", "deny"]},
+              "write_slice": {"enum": ["allow", "ask", "deny"]},
+              "execute": {"enum": ["allow", "ask", "deny"]},
+              "config": {"enum": ["allow", "ask", "deny"]}
+            }
+          },
+          "slice": {"type": "string", "pattern": "^work/__SLUG__$"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "slug": {"type": "string", "maxLength": 64, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "artifact": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "line": {"type": "string", "minLength": 1, "maxLength": 400}
+  }
+}

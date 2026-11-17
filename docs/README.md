@@ -39,6 +39,7 @@ Find what you need by what you want to do. New here? Start with the [README](../
 | How do the CLI, the MCP server and the adapters fit together? | [The server, the driver and the adapters](guides/explanation/server-and-adapters.md) |
 | Why is EndoForge a pinned copy, and how does a forge goal run? | [How Cstack vendors and runs EndoForge](guides/explanation/endoforge-vendoring.md) |
 | Which Foundations ship here, and what does a pin prove? | [Foundations and pins](guides/explanation/foundations-and-pins.md) |
+| Which agents ship with Cstack, and how are they wired and checked? | [The starter agents](guides/explanation/starter-agents.md) |
 | What do results mean, and what does Cstack not do? | [Limitations and safety-relevant use](guides/explanation/limitations.md) |
 | What are the core's rules? | [Control decisions](../contracts/DECISION.md) and the [design](architecture/architecture.md) |
 

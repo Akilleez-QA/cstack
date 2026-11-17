@@ -9,6 +9,7 @@ Background that helps you reason about Cstack. These pages say why, not how-to.
 | [Architecture](../../architecture/architecture.md) | Control-core composition and the Foundation boundary |
 | [Foundations and pins](foundations-and-pins.md) | Which Foundations ship here and why Cstack refuses one whose files changed |
 | [Control decisions](../../../contracts/DECISION.md) | The core's invariants and capability model, and the later decision records beside it |
+| [The starter agents](starter-agents.md) | The nine named agents, their definitions and hand-off table, the Claude Code generator and where authority is enforced |
 | [Limitations and safety-relevant use](limitations.md) | What results mean, what Cstack does not do, and how not to use it |
 
 Return to the [documentation index](../../README.md).

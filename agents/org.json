@@ -1,0 +1,48 @@
+{
+  "schema": "cstack.agent-org/0.1",
+  "policy": {
+    "max_active_per_task": 3,
+    "route_via": "chief",
+    "broadcast": false,
+    "live_instances_per_bot": 1,
+    "notes": [
+      "Chief routes every task; no agent fans a message out to every other agent.",
+      "At most three agents work on one task at once; beyond three or four, each agent's share of the budget gets too thin to help.",
+      "One live instance per bot: the Cstack session refuses a second live session for the same bot and domain (LedgerStoreClaim in adapters/aor_session.py)."
+    ]
+  },
+  "owner_only": [
+    {"id": "go_confirm", "step": "Saying go or confirm on a goal, a plan or a release"},
+    {"id": "approvals", "step": "Approving any ask-class effect: send, payment, post, filing or delete"},
+    {"id": "budget_raise", "step": "Raising a budget, a spending limit or a paid or real model run"},
+    {"id": "approved_values", "step": "Marking a Foundation value APPROVED"},
+    {"id": "frozen_records", "step": "Freezing or amending an experiment PRECOMMIT or RESULT after it merges"},
+    {"id": "authority_changes", "step": "Editing aors/fleet.json, agents/ definitions or the generated .claude/agents/ files"},
+    {"id": "unpause_routines", "step": "Unpausing a routine"},
+    {"id": "merge", "step": "Merging a pull request into the main branch"}
+  ],
+  "artifacts": [
+    {"name": "intent", "writer": "chief", "readers": ["*"], "format": "Plain-language objective, acceptance criteria and constraints, recorded with POODO start_goal", "transport": {"kind": "ledger_event"}},
+    {"name": "status_brief", "writer": "chief", "readers": ["owner"], "format": "Plain-language status: what changed, what is blocked, which decisions are the owner's", "transport": {"kind": "file", "slice": "work/briefs"}},
+    {"name": "decision_record", "writer": "oracle", "readers": ["chief", "scribe"], "format": "POODO capsule: options considered, the precommit hash, the decision and its reversal condition", "transport": {"kind": "file", "slice": "work/decisions"}},
+    {"name": "expected_values", "writer": "sage", "readers": ["scribe", "warden", "lab"], "format": "Foundation tool outputs with their receipts; status CHECK until the owner approves them", "transport": {"kind": "file", "slice": "work/expected"}},
+    {"name": "spec", "writer": "scribe", "readers": ["smith", "warden"], "format": "EndoForge job spec: CONTRACT.md, tests.json, job.json and atoms.json, frozen before any build", "transport": {"kind": "file", "slice": "work/specs"}},
+    {"name": "candidate", "writer": "smith", "readers": ["warden"], "format": "A promoted candidate (branch or diff) with its EndoForge run receipt", "transport": {"kind": "ledger_event"}},
+    {"name": "escalation", "writer": "smith", "readers": ["chief"], "format": "A conductor escalation (NEEDS-COORDINATOR) with the run id and the one blocking question", "transport": {"kind": "fleet_mail"}},
+    {"name": "verdict", "writer": "warden", "readers": ["chief", "smith", "lab", "archivist"], "format": "Pass or fail per check, with the independent signal used and the evidence it produced", "transport": {"kind": "ledger_event"}},
+    {"name": "precommit", "writer": "lab", "readers": ["warden"], "format": "PRECOMMIT with a reserved experiment id, prediction, success boundary and content hash", "transport": {"kind": "file", "slice": "work/experiments"}},
+    {"name": "result", "writer": "lab", "readers": ["warden", "archivist", "chief"], "format": "RESULT for one experiment id, measured against its PRECOMMIT", "transport": {"kind": "file", "slice": "work/experiments"}},
+    {"name": "check", "writer": "archivist", "readers": ["warden"], "format": "A deterministic check (test, lint rule or gate) that turns one lesson into a failure the next run sees", "transport": {"kind": "file", "slice": "work/checks"}},
+    {"name": "lesson", "writer": "archivist", "readers": ["*"], "format": "One correction, its root cause and the check or change that removes it", "transport": {"kind": "file", "slice": "work/lessons"}},
+    {"name": "health_report", "writer": "keeper", "readers": ["chief"], "format": "Health, capacity, budget burn and pin drift, each with the command that measured it", "transport": {"kind": "fleet_mail"}},
+    {"name": "pin_change", "writer": "keeper", "readers": ["warden"], "format": "A repin in its own pull request, with the old and new pins and their receipts", "transport": {"kind": "file", "slice": "work/ops"}}
+  ],
+  "templates": {
+    "assistant": {"purpose": "Drafts messages, replies and calendar text; never sends", "effects": {"read": "allow", "write_slice": "allow", "execute": "deny", "config": "deny"}, "slice": "work/__SLUG__"},
+    "money": {"purpose": "Reads statements and budgets and drafts payments for approval; never pays", "effects": {"read": "allow", "write_slice": "allow", "execute": "deny", "config": "deny"}, "slice": "work/__SLUG__"},
+    "research": {"purpose": "Answers questions from sources and labels what is unverified", "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "deny"}, "slice": "work/__SLUG__"},
+    "home-ops": {"purpose": "Keeps home devices, services and chores running and reports drift", "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "ask"}, "slice": "work/__SLUG__"},
+    "security": {"purpose": "Reviews permissions, secrets and exposure and proposes fixes", "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "ask"}, "slice": "work/__SLUG__"},
+    "domain-specialist": {"purpose": "Owns one domain through a new Foundation's tools", "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "deny"}, "slice": "work/__SLUG__"}
+  }
+}

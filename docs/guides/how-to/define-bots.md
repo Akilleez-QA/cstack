@@ -48,6 +48,6 @@ python -B tools/cstack_mcp.py --aor example
 {"approver": "owner-via-approver", "bot": {"id": "00000001", "name": "Example", "slug": "example"}, "device": "example-host", ..., "ledger": "witnessed", ...}
 ```
 
-Without `cstack init` the server refuses to start and names the command to run. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates MCP wiring and one agent profile per bot; see the [command reference](../reference/commands.md).
+Without `cstack init` the server refuses to start and names the command to run. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates a Claude Code subagent for each agent definition in `agents/`, wired to its bot's server; see [the starter agents](../explanation/starter-agents.md) and the [command reference](../reference/commands.md).
 
 Return to the [how-to guides](README.md).

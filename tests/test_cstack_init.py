@@ -271,12 +271,20 @@ class LauncherTests(Case):
         spec = importlib.util.spec_from_file_location("agent_profiles_under_test", ROOT / "tools/agent_profiles.py")
         profiles = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(profiles)
-        from adapters.aor_registry import load_fleet
-        for fleet in (self.fleet, ROOT / "aors/fleet.json"):
-            files = profiles.build(load_fleet(fleet), ROOT, "/usr/bin/uv", None)
-            self.assertTrue(files)
+        # Every generated Claude Code subagent (one per agents/ definition, wired to aors/fleet.json) and every
+        # server command the generator builds start the server with the durable ledger only.
+        for target in profiles.FIELDS:
+            files, problems = profiles.build(ROOT, target)
+            if target == "claude-project":  # the committed target; claude-plugin reports the wiring it drops
+                self.assertEqual(problems, [], target)
+            self.assertTrue(files, target)
             for rel, text in files.items():
+                self.assertIn("tools/cstack_mcp.py", text, rel)
                 self.assertNotIn("--allow-memory-ledger", text, rel)
+        for slug in ("alpha", "example"):
+            self.assertNotIn("--allow-memory-ledger", profiles.server_args(ROOT, slug, self.state))
+            for mail in (False, True):
+                self.assertNotIn("--allow-memory-ledger", json.dumps(profiles.cstack_server(slug, mail)))
 
 
 @unittest.skipUnless(HAVE_CRYPTO, NO_CRYPTO)
