@@ -61,6 +61,7 @@ The example:
 | `aors/fleet.json` | `adapters.aor_registry.load_fleet`, `tools/cstack_mcp.py` | The bot registry, validated against `contracts/aor.schema.json` |
 | `contracts/SOURCE-PINS.json` | Adapters, the workcell runtime, pin tests | Expected hashes of every vendored source. Changed only by a reviewed pin change |
 | `contracts/ADAPTERS.json` | `bootstrap.check_grants` | Which adapter provides each capability, and on which lane |
-| `<state-root>/ledger.json` | `bootstrap.build_aor_session` | Optional witnessed-ledger setup for AOR sessions (writers, log, roster) |
+| `<state-root>/ledger.json` | `bootstrap.build_aor_session`, `tools/cstack_init.py` | Witnessed-ledger setup for AOR sessions (writers, log, roster), written by `cstack init`; `tools/cstack_mcp.py` refuses to start without it |
+| `<state-root>/device.json` | `tools/cstack_init.py`, `tools/cstack_mcp.py` | This machine's device name in `aors/fleet.json`, recorded by `cstack init` |
 
 Return to the [reference index](README.md).

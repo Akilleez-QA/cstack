@@ -1,43 +1,120 @@
 {
   "schema": "cstack.fleet/0.1",
   "approver": "owner-via-approver",
-  "source": {
-    "generated_by": "example",
-    "inputs": ["aors/README.md"]
-  },
+  "source": {"generated_by": "example", "inputs": ["aors/README.md", "agents/"]},
   "bots": [
     {
       "id": "00000001",
       "name": "Example",
       "slug": "example",
       "reports_to": null,
-      "owns": [
-        "Example observations"
-      ],
-      "not": [
-        "Actions outside the assigned scope"
-      ],
+      "owns": ["Example observations"],
+      "not": ["Actions outside the assigned scope"],
       "slices": [],
-      "effects": {
-        "read": "allow",
-        "write_slice": "deny",
-        "execute": "allow",
-        "config": "allow",
-        "send": "ask",
-        "payment": "ask",
-        "post": "ask",
-        "filing": "ask",
-        "delete": "ask"
-      },
+      "effects": {"read": "allow", "write_slice": "deny", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a001",
+      "name": "Chief",
+      "slug": "chief",
+      "reports_to": null,
+      "owns": ["Routing owner intent to the right agent", "Status briefs and owner attention", "Answering conductor escalations"],
+      "not": ["Approvals, go/confirm and budget, which stay with the owner", "Writing specs, code or verdicts"],
+      "slices": ["work/briefs"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a002",
+      "name": "Scribe",
+      "slug": "scribe",
+      "reports_to": "chief",
+      "owns": ["Turning intent into a spec before any build", "EndoForge job specs: CONTRACT.md, tests.json, job.json, atoms.json"],
+      "not": ["Writing the code that meets the spec", "Judging whether a candidate passes"],
+      "slices": ["work/specs"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a003",
+      "name": "Oracle",
+      "slug": "oracle",
+      "reports_to": "chief",
+      "owns": ["Consequential and ambiguous decisions through POODO", "Decision records with precommitted options"],
+      "not": ["Executing the decision", "Test oracles inside EndoForge"],
+      "slices": ["work/decisions"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a004",
+      "name": "Sage",
+      "slug": "sage",
+      "reports_to": "chief",
+      "owns": ["Domain truth from the pinned Foundations", "Expected values computed through Foundation tools"],
+      "not": ["Marking a value APPROVED, which stays with the owner", "Editing Foundation sources or pins"],
+      "slices": ["work/expected"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a005",
+      "name": "Smith",
+      "slug": "smith",
+      "reports_to": "chief",
+      "owns": ["Verified software through EndoForge runs", "Candidates with their run receipts"],
+      "not": ["Writing or changing the spec it builds against", "Declaring its own work verified"],
+      "slices": ["/"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a006",
+      "name": "Warden",
+      "slug": "warden",
+      "reports_to": "chief",
+      "owns": ["Independent verification of candidates and claims", "Running checks, gates and red teams"],
+      "not": ["Fixing the work it verifies", "Writing the checks it runs"],
+      "slices": ["work/verdicts"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a007",
+      "name": "Lab",
+      "slug": "lab",
+      "reports_to": "chief",
+      "owns": ["Precommitted experiments and measurement", "Experiment ids, PRECOMMIT and RESULT records"],
+      "not": ["Rewriting a merged PRECOMMIT or RESULT", "Judging its own results"],
+      "slices": ["work/experiments"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a008",
+      "name": "Keeper",
+      "slug": "keeper",
+      "reports_to": "chief",
+      "owns": ["Health, capacity, budgets watch and source pins", "Watchers and repins, each repin in its own PR"],
+      "not": ["Raising a budget, which stays with the owner", "Feature work"],
+      "slices": ["work/ops"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "status": "CHECK"
+    },
+    {
+      "id": "0000a009",
+      "name": "Archivist",
+      "slug": "archivist",
+      "reports_to": "chief",
+      "owns": ["Turning lessons into checks", "The library, skills and memory confirm or reject"],
+      "not": ["Running the checks it writes", "Editing frozen experiment records"],
+      "slices": ["work/checks", "work/lessons", "work/library"],
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
       "status": "CHECK"
     }
   ],
   "devices": [
-    {
-      "hostname": "example-host",
-      "owner": "example",
-      "guest_effects": {"read": "allow", "write_slice": "deny", "execute": "ask", "config": "ask", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
-      "status": "CHECK"
-    }
+    {"hostname": "example-host", "owner": "example", "guest_effects": {"read": "allow", "write_slice": "deny", "execute": "ask", "config": "ask", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"}, "status": "CHECK"}
   ]
 }

@@ -106,6 +106,43 @@ Fields of each contract schema; `yes` in Required means the schema requires it.
 | `attachments` | array, min items 1, of attachment | yes | - |
 | `not_an_adapter` | array, of not_an_adapter | yes | Scanned files that attach nothing to a lane: build and check tools, core seams, shared helpers and host-configuration loaders. |
 
+### Agent organization: policy, owner-only steps, artifacts and templates (`contracts/agent-org.schema.json`)
+
+| Field | Type and limits | Required | Meaning |
+|---|---|---|---|
+| `schema` | const "cstack.agent-org/0.1" | yes | - |
+| `policy` | object | yes | - |
+| `owner_only` | array, min items 1, of object | yes | - |
+| `artifacts` | array, min items 1, of object | yes | - |
+| `templates` | object | yes | - |
+
+### Engine-neutral agent definition (`contracts/agent.schema.json`)
+
+| Field | Type and limits | Required | Meaning |
+|---|---|---|---|
+| `schema` | const "cstack.agent/0.1" | yes | - |
+| `id` | string, pattern ^[0-9a-f]{8}$ | yes | Equals the id of the AOR entry named by aor. |
+| `slug` | slug | yes | - |
+| `name` | string, min length 1, max length 80 | yes | - |
+| `description` | string, min length 20, max length 1024 | yes | When to delegate to this agent, in the words a router reads. |
+| `role` | string, min length 1, max length 200 | yes | - |
+| `aor` | slug | yes | The AOR in aors/fleet.json that holds this agent's authority. |
+| `owns` | array, min items 1, of line | yes | - |
+| `not_owned` | array, min items 1, of line | yes | - |
+| `reports_to` | slug | yes | Another agent slug, or owner. |
+| `may_delegate_to` | array, of slug | yes | - |
+| `max_depth` | integer, min 0, max 3 | yes | How many levels of delegation may start below this agent. |
+| `model_hint` | one of "inherit", "fast", "balanced", "deep" | no | - |
+| `mcp_servers` | array, min items 1, of object | yes | - |
+| `skills` | array, of slug | yes | - |
+| `memory_scope` | one of "none", "agent", "project" | yes | - |
+| `routines` | array, of object | yes | - |
+| `independence` | array, of one of "fresh_context", "different_model_preferred" | yes | - |
+| `poodo` | object | yes | Every goal this agent starts or advances goes through POODO with twenty materially distinct options, generated and recorded by the agent itself. |
+| `handoff` | object | yes | - |
+| `status` | one of "CHECK", "OK", "APPROVED" | yes | - |
+| `version` | string, pattern ^[0-9]+\.[0-9]+\.[0-9]+$ | yes | - |
+
 ### Fleet AOR registry (ADR 003) (`contracts/aor.schema.json`)
 
 | Field | Type and limits | Required | Meaning |
@@ -195,6 +232,8 @@ Module-level numeric limits found in the code. Names state the quantity; bytes u
 | `INPUT_FRAME_BYTES` | 65,536 | `adapters/foundation_stdio.py` |
 | `OUTPUT_FRAME_BYTES` | 1,048,576 | `adapters/foundation_stdio.py` |
 | `MAX_FRAME` | 1,048,576 | `adapters/mcp_stdio_server.py` |
+| `MAX_TEXT` | 4,000 | `adapters/work_tree.py` |
+| `MAX_ARTIFACTS` | 16 | `adapters/work_tree.py` |
 | `MAX_BYTES` | 268,435,456 | `adapters/workspace_snapshots.py` |
 | `MAX_FILES` | 50,000 | `adapters/workspace_snapshots.py` |
 | `MAX_DOCUMENT_BYTES` | 2,097,152 | `poodo_core/models.py` |
@@ -202,8 +241,8 @@ Module-level numeric limits found in the code. Names state the quantity; bytes u
 | `MAX_CAPACITY` | 1,000,000 | `poodo_core/policy.py` |
 | `MAX_OUTPUT` | 34,603,008 | `cli.py` |
 | `_MAX_PROPOSALS_PER_RUN` | 16 | `bootstrap.py` |
-| `STARTUP_TIMEOUT_SEC` | 60 | `tools/agent_profiles.py` |
-| `TOOL_TIMEOUT_SEC` | 120 | `tools/agent_profiles.py` |
+| `STARTUP_TIMEOUT_SEC` | 60 | `tools/e2e_agent.py` |
+| `TOOL_TIMEOUT_SEC` | 120 | `tools/e2e_agent.py` |
 | `WIP_LIMIT` | 10 | `tools/merge_train.py` |
 | `MAX_BYTES` | 67,108,864 | `tools/read_models.py` |
 | `BRIEF_LIMIT` | 5 | `tools/scheduled_approvals.py` |

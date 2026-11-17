@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cstack.agent/0.1",
+  "title": "Engine-neutral agent definition",
+  "description": "The front block of agents/<slug>.md. It describes a named agent: when to delegate to it, what it wields and how it hands work on. It grants nothing: authority stays in aors/fleet.json, named here by the aor slug, and the Cstack MCP server enforces it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "slug", "name", "description", "role", "aor", "owns", "not_owned", "reports_to",
+               "may_delegate_to", "max_depth", "mcp_servers", "skills", "memory_scope", "routines", "independence",
+               "poodo", "handoff", "status", "version"],
+  "properties": {
+    "schema": {"const": "cstack.agent/0.1"},
+    "id": {"type": "string", "pattern": "^[0-9a-f]{8}$", "description": "Equals the id of the AOR entry named by aor."},
+    "slug": {"$ref": "#/$defs/slug"},
+    "name": {"type": "string", "minLength": 1, "maxLength": 80},
+    "description": {"type": "string", "minLength": 20, "maxLength": 1024, "description": "When to delegate to this agent, in the words a router reads."},
+    "role": {"type": "string", "minLength": 1, "maxLength": 200},
+    "aor": {"$ref": "#/$defs/slug", "description": "The AOR in aors/fleet.json that holds this agent's authority."},
+    "owns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/line"}},
+    "not_owned": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/line"}},
+    "reports_to": {"$ref": "#/$defs/slug", "description": "Another agent slug, or owner."},
+    "may_delegate_to": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/slug"}},
+    "max_depth": {"type": "integer", "minimum": 0, "maximum": 3, "description": "How many levels of delegation may start below this agent."},
+    "model_hint": {"enum": ["inherit", "fast", "balanced", "deep"], "default": "inherit"},
+    "mcp_servers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+          "allow": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/tool"}},
+          "deny": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/tool"}}
+        }
+      }
+    },
+    "skills": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/slug"}},
+    "memory_scope": {"enum": ["none", "agent", "project"]},
+    "routines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "schedule", "prompt", "paused"],
+        "properties": {
+          "id": {"$ref": "#/$defs/slug"},
+          "schedule": {"type": "string", "pattern": "^\\S+ \\S+ \\S+ \\S+ \\S+$", "description": "Five-field cron."},
+          "prompt": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "paused": {"const": true, "description": "Routines always ship paused; the owner unpauses them."}
+        }
+      }
+    },
+    "independence": {"type": "array", "uniqueItems": true, "items": {"enum": ["fresh_context", "different_model_preferred"]}},
+    "poodo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["options", "research_gate", "effort", "escalate_when"],
+      "description": "Every goal this agent starts or advances goes through POODO with twenty materially distinct options, generated and recorded by the agent itself. Only research and red-team effort varies.",
+      "properties": {
+        "options": {"const": 20, "description": "The POODO twenty-option rule; no agent may lower it."},
+        "research_gate": {"const": "required", "description": "The research record before Orient; no agent may skip it."},
+        "effort": {"enum": ["light", "standard", "thorough"], "description": "How much research and red-team effort to spend; never the option count or the research gate."},
+        "escalate_when": {"type": "array", "items": {"$ref": "#/$defs/line"}}
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepts", "returns"],
+      "properties": {
+        "accepts": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/artifact"}},
+        "returns": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/artifact"}}
+      }
+    },
+    "status": {"enum": ["CHECK", "OK", "APPROVED"]},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  },
+  "$defs": {
+    "slug": {"type": "string", "maxLength": 64, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "line": {"type": "string", "minLength": 1, "maxLength": 400},
+    "tool": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "artifact": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"}
+  }
+}

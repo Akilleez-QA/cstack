@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-SRS |
-| Version | 2.2 |
+| Version | 2.3 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
 | Date | 2026-11-16 |
@@ -659,6 +659,16 @@ The MCP stdio client shall take its descriptor and effects from the host, treat 
 - Verification: T. The TypeScript SDK interop test skips without that SDK.
 - Status: Baselined
 
+### CS-REQ-091 — Foundations MCP server
+
+The Foundations MCP server shall list, as `<foundation>.<tool>`, only the tools of the Foundations the host named at launch that the bot's AOR does not deny, each with its input schema from the pinned tool inventory (a top-level `allOf`, `oneOf` or `anyOf` projected into one object schema). It shall refuse an unknown tool as invalid params and refuse arguments that fail the exact pinned input schema before any decision. It shall run every other call through the bot's AOR session as a POODO goal, decision and execution on a read-only ToolFace grant and the pinned adapter, return the Foundation's `structuredContent` unchanged with the POODO record in `_meta`, and report a refused, tampered, unadmitted, pending or over-budget call as a tool error. A launch naming an unregistered Foundation or a runtime shall fail.
+
+- Rationale: agents need domain truth as tools, without bypassing source pins, authority, the ledger or the evidence ceiling.
+- Derivation: `adapters/foundations_mcp.py`; `tools/foundations_mcp.py`; `bootstrap.py`
+- Allocated to: SDD-C31
+- Verification: T. No test drives it from a real MCP client; one session allows 64 calls per Foundation.
+- Status: Baselined
+
 ### CS-REQ-054 — Fleet mail
 
 Fleet mail shall stamp the sender so input cannot override it, accept only fleet slugs, all-bots or host extras as recipients, refuse over-long strings, control and look-alike characters, mentions and cross-repository references, enforce send, all-bots and per-thread reply allowances with refusals recorded once per window, refuse writes while shields are up, record message number and digest but never the body, verify signatures against the roster and show forgeries as unverified, keep fleet mail out of the approval path, run `gh` with a fixed argument shape, fixed environment, stdin-only message text, deadline and output bounds, and keep the MCP mail tools off by default. The send-budget file shall be private, refuse an emptied state, and never let several processes pass the limit.
@@ -676,6 +686,46 @@ The relay outbox shall send a click retried from several processes once, keep re
 - Rationale: at-most-once delivery with crash tolerance.
 - Derivation: `adapters/relay_outbox.py`
 - Allocated to: SDD-C16
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-084 — One-command setup
+
+`tools/cstack_init.py` (`cstack init`) shall create a state folder readable only by its owner (0700 folders, 0600 files), a device record, a signing key per fleet bot, a roster and ledger settings for the DECISION-004 witnessed ledger, writing the settings last. Run again, it shall change nothing when setup is complete, finish a partial setup with the keys already made, add writers for new bots, make loose folders and settings private, and never replace or repair a key that is exposed or does not match the roster. Its `--check` mode shall change nothing, verify every ledger file, and exit 1 when any problem needs the owner. It shall report each result in plain language with the fix.
+
+- Rationale: without a one-command setup, newcomers ran agent sessions on a memory ledger that was lost when the session ended (critic finding B2).
+- Derivation: `adapters/local_setup.py`; `tools/cstack_init.py`
+- Allocated to: SDD-C28
+- Verification: T
+- Status: Draft
+
+### CS-REQ-085 — No memory ledger in agent mode
+
+`tools/cstack_mcp.py` shall refuse to start, with exit 2 and a message naming the `cstack init` command, when its state root has no `ledger.json`, before creating any state, unless the host passes `--allow-memory-ledger`.
+
+- Rationale: a bot's record must survive the session; a memory ledger is for tests and throwaway development only.
+- Derivation: `tools/cstack_mcp.py`; `adapters/local_setup.py`
+- Allocated to: SDD-C15
+- Verification: T
+- Status: Draft
+
+### CS-REQ-086 — Device identity without Tailscale
+
+The device name shall be `--device` when given, else the name `cstack init` recorded, else the tailnet name. `cstack init` shall record, in that order, `--device`, an earlier record, the tailnet name, or the computer's own name; it shall substitute the fleet's only device when the found name is not listed, and otherwise report the unlisted name as a problem without recording it. An absent, failing or signed-out Tailscale shall yield no tailnet name rather than an error.
+
+- Rationale: requiring Tailscale to start a server blocked people without it (critic finding M9).
+- Derivation: `adapters/local_setup.py`; `tools/cstack_mcp.py`
+- Allocated to: SDD-C28
+- Verification: T
+- Status: Draft
+
+### CS-REQ-087 — Hand-off channel
+
+The work tree shall record every hand-off between bots as one node in an append-only, locked event log that rebuilds the same tree on reopen, sets a torn last line aside and refuses an event out of order. A node's lineage (owner, routine or outside, and the owner message id) shall be set at the root and copied unchanged to every child; only owner lineage with a message id, or routine lineage, shall be described as acting on the owner's behalf, and the harness-written provenance line shall escape model text that imitates it. A requester waiting on its children shall be woken once, when every child that replies has settled; an overdue child shall chase its requester once. Hand-offs shall be refused, with a typed refusal, when they go back to a bot already on the branch, pass the depth cap, target a bot the host does not list as reachable for the sender, would exceed the open nodes allowed per root (default 4), come from a bot that is not the running assignee, or arrive while shields are up; a bot shall run at most one node at a time. A node shall fail after two continuations in a row with no successful tool call. An owner hold on a domain shall cancel every open node in it and refuse new ones. An owner answer shall be returned to the caller and never written to the log or the ledger. Every event shall also be appended to the session's ledger as an observation, and a missed witness shall be reported. The MCP hand-off tools shall be listed only when the host configures `handoff.json`, shall stamp the requester from the session, and shall not offer owner holds, releases, sweeps or owner answers.
+
+- Rationale: hand-offs that never come back, chatter loops, fan-out, routines that override the owner's stop, borrowed authority and secrets in transcripts are the failure modes of persistent bot fleets. The tree lives beside the POODO core because a core is per-domain and single-caller with no parent or completion API.
+- Derivation: `adapters/work_tree.py`; `adapters/mcp_stdio_server.py`; `bootstrap.py`
+- Allocated to: SDD-C29
 - Verification: T
 - Status: Baselined
 
@@ -835,9 +885,49 @@ The claim gate shall extract strong words and numbers with units as claims (not 
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-080 — Starter agent definitions
+
+Every `agents/<slug>.md` front block shall validate against `contracts/agent.schema.json` and `agents/org.json` against `contracts/agent-org.schema.json`; each agent shall name an AOR in `aors/fleet.json` with the same slug, id and reporting line and be wired to its own `cstack-<slug>` MCP server; every hand-off artifact shall have exactly one writer that returns it, every named reader shall accept it, a file artifact shall live in its writer's AOR slice, and routines shall ship paused. The nine starter agents shall pass, and every template in `agents/templates/` shall instantiate into an agent that passes, with every gated effect of its suggested AOR at `ask`.
+
+- Rationale: named agents are only useful when their authority, wiring and hand-offs are exact and checked, not described.
+- Derivation: `contracts/agent.schema.json`; `contracts/agent-org.schema.json`; `agents/`; `aors/fleet.json`; `tools/agent_profiles.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-081 — Claude Code subagent generator
+
+`tools/agent_profiles.py` shall write one Claude Code project subagent `.claude/agents/<slug>.md` per agent definition, using only documented subagent fields, with the agent's own MCP server inline, built-in tools granted by its AOR effect classes, and the guard hook; it shall write nothing outside the repository and remove only files carrying its marker. Its `--check` mode shall fail when a committed file differs from the generated one, an unmarked file is present, a definition field has no declared disposition for the target, or the target would drop a wiring field (any plugin target or plugin root).
+
+- Rationale: an engine that silently ignores a field turns a wired agent into a persona without anyone noticing.
+- Derivation: `tools/agent_profiles.py`; `.claude/agents/`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-082 — Agent guard hook
+
+`tools/agent_guard.py`, run as each generated agent's `PreToolUse` hook, shall deny a built-in file write outside the agent's AOR slices, inside another agent's slice, outside the project, or to the authority and agent configuration paths; shall return the AOR class (`ask` or `deny`) for reads, writes and commands whose class is not `allow` and for commands that match a send, post or delete pattern; shall run on the standard library alone; and shall deny on any error.
+
+- Rationale: Cstack's AOR effects were enforced only inside the MCP server, and Claude Code's built-in tools bypass it.
+- Derivation: `tools/agent_guard.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-083 — Twenty options for every goal
+
+Every agent definition and template shall fix `poodo.options` at 20 and `poodo.research_gate` at `required`, varying only research and red-team `effort`, and every generated subagent shall state the twenty-option rule and its purpose. `tools/check_options.py` shall reject an options record that does not hold exactly twenty options with distinct ids, lacks an unconventional, diagnostic, conservative, reversible, defer-or-stop or escalation option, has two options with the same mechanism, or has two options whose word overlap is 0.6 or more; it shall run on the standard library alone.
+
+- Rationale: twenty options distinct in mechanism push a model past its most probable answer into the long tail; a per-agent depth that skipped them, or padded rephrasings, would defeat that.
+- Derivation: `contracts/agent.schema.json`; `agents/PRACTICE.md`; `tools/check_options.py`; `poodo_core/core.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
 ## 4. Interface requirements
 
-The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
+The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053, CS-REQ-087; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
 
 ## 5. Non-functional requirements
 
@@ -876,4 +966,5 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 1.x | 2026-10 to 2026-11-08 | various | CS-REQ-001 to CS-REQ-035 added across earlier PRs | See `git log -- docs/requirements/requirements.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | Family standard format: metadata, record fields, allocation to SDD components; CS-REQ-036 to CS-REQ-077 added from tested behaviour; CS-REQ-027 to CS-REQ-030 restated without repeating the port text | docs/nasa-standard PR |
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 covers a session that ends with an unknown outcome; CS-REQ-047 covers a failed file open | PR fixing the 2026-11-09 backfill-review findings |
-| 2.2 | 2026-11-16 | this PR | CS-REQ-088 honest run status added | fix/repin-endoforge-macos PR |
+| 2.2 | 2026-11-16 | feat/cstack-init | CS-REQ-084 to CS-REQ-086 added: one-command setup, no memory ledger in agent mode, device identity without Tailscale | Draft PR for `cstack init` |
+| 2.3 | 2026-11-16 | this PR | CS-REQ-088 honest run status added | fix/repin-endoforge-macos PR |
