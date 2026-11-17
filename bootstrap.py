@@ -390,8 +390,23 @@ def _witnessed_config(state_root, bot_slug, hostname):
     return node, writer["writer"], paths
 
 
+def registered_foundations(domain_ids=None):
+    if domain_ids is None:
+        return tuple(DOMAINS.values())
+    if not domain_ids or len(set(domain_ids)) != len(domain_ids):
+        raise ContractError("Choose at least one Foundation, each once")
+    unknown = [domain_id for domain_id in domain_ids if domain_id not in DOMAINS]
+    if unknown:
+        raise ContractError(f"Foundation {unknown[0]} is not registered on this host")
+    return tuple(DOMAINS[domain_id] for domain_id in domain_ids)
+
+
+def foundation_inventories(domain_ids):
+    return {d.domain_id: d.capability(d.source_root).inventory() for d in registered_foundations(domain_ids)}
+
+
 def build_aor_session(bot_slug, *, state_root, hostname, fleet_path=DEFAULT_FLEET, clock=None, enforce=None,
-                      fleet_mail=None):
+                      fleet_mail=None, foundations=None):
     """Trusted HOST configuration only (ADR 003): one bot's AOR on this device, for the MCP driving adapter.
 
     The bot slug comes from the host's launch command, never from a request. Foundations are pure
@@ -401,6 +416,7 @@ def build_aor_session(bot_slug, *, state_root, hostname, fleet_path=DEFAULT_FLEE
     and anchor. A lifetime store claim refuses a second live session for the same bot and domain.
     enforce defaults to the host's LEDGER_ENFORCE=1 (ADR 004: off unless the owner turns it on).
     fleet_mail is a host-owned FleetMailConfig; None (the default) disables mail.
+    foundations, when given, is the host's subset of registered domain ids; the session opens only those.
     """
     import os
     import time
@@ -408,6 +424,7 @@ def build_aor_session(bot_slug, *, state_root, hostname, fleet_path=DEFAULT_FLEE
     from adapters.aor_session import AorSession, LedgerStoreClaim, SessionApprovalReader
     from adapters.approval_store import ApprovalReader
 
+    selected = registered_foundations(foundations)
     state_root = Path(state_root)
     state_root.mkdir(parents=True, exist_ok=True, mode=0o700)
     fleet = load_fleet(fleet_path)
@@ -447,7 +464,7 @@ def build_aor_session(bot_slug, *, state_root, hostname, fleet_path=DEFAULT_FLEE
             raise
         return core, ledger, claim
 
-    domains = {d.domain_id: (d.tool_names, "read") for d in DOMAINS.values()}
+    domains = {d.domain_id: (d.tool_names, "read") for d in selected}
     session = AorSession(fleet=fleet, bot_slug=bot_slug, hostname=hostname, state_dir=state_root, domains=domains,
                          make_core=make_core, ledger_label="witnessed" if witnessed else MEMORY_LEDGER,
                          shields_file=state_root / "SHIELDS_UP")

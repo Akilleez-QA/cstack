@@ -15,17 +15,17 @@ Cstack has two driving adapters. Both build cores through `bootstrap.py`, and ne
 `tools/cstack_mcp.py` is the long-running way in. A host starts one per bot, from its own MCP client configuration:
 
 ```text
-python -B tools/cstack_mcp.py --aor example --device example-host --state-root /tmp/cstack-state
+python -B tools/cstack_mcp.py --aor example
 ```
 
 It speaks newline-delimited JSON-RPC 2.0 on stdin and stdout (`adapters/mcp_stdio_server.py`), offering MCP revisions 2025-11-25, 2025-06-18 and 2024-11-05. It has no network listener.
 
 What makes it safe to hand to a bot:
 
-- **The bot is fixed at launch.** `--aor` names one entry in `aors/fleet.json`; the device comes from `--device` or the machine's tailnet name. No tool argument can name a bot, device, path, grant or approval.
+- **The bot is fixed at launch.** `--aor` names one entry in `aors/fleet.json`; the device comes from `--device`, else the name `cstack init` recorded, else the machine's tailnet name; Tailscale is optional. No tool argument can name a bot, device, path, grant or approval.
 - **The tool table is closed.** `aor`, `start_goal`, `advance`, `decide`, `execute` and `ledger` map one-to-one to core operations. `--fleet-mail` adds `mail_send`, `mail_inbox`, `mail_reply` and `mail_close`. The host assigns every goal, request and decision id.
 - **Effects resolve strictest first.** Each effect class (`read`, `execute`, `send` and the rest) is `allow`, `ask` or `deny`, taken from the bot's registry entry, then the device's guest rules when the bot doesn't own the device, then shields-up. An `ask` waits for the owner through the scheduled approval channel (`tools/scheduled_approvals.py`), which refuses to run inside an MCP server.
-- **State is the host's.** Ledgers and approvals live under `--state-root` (default `~/.local/state/cstack`). With a `ledger.json` there, the session writes through the witnessed ledger of DECISION-004; without one, it says its ledger is memory only.
+- **State is the host's.** Ledgers and approvals live under `--state-root` (default `~/.local/state/cstack`). `cstack init` ([set up Cstack](../how-to/set-up.md)) puts a `ledger.json` there, and the session writes through the witnessed ledger of DECISION-004. Without one the server refuses to start, unless `--allow-memory-ledger` asks for a throwaway memory-only session.
 
 An AOR session composes Foundations (`bootstrap.DOMAINS`) only. The forge runtime is in `bootstrap.RUNTIMES`, so being on the registry gives a bot no run authority.
 

@@ -3,8 +3,8 @@
     uv run -q --no-project --python 3.12 --with jsonschema==4.26.0 --with cryptography==50.0.2 \
         python -B tools/e2e_agent.py [--keep]
 
-Everything runs in a fresh temporary directory: a copy of the generated .agent/ wiring (tools/agent_profiles.py)
-whose server command gains --state-root <tmp>/state and a wire tap, and nothing in ~/.agent is edited. Stages:
+Everything runs in a fresh temporary directory: temporary agent CLI wiring for the bot (.agent/config.toml and one
+profile, written by this harness) whose server command gains --state-root <tmp>/state and a wire tap, and nothing in ~/.agent is edited. Stages:
 
 1. handshake: `agent mcp doctor` connects to the server. No model and no sign-in are needed. The tap records
    the initialize request, so the negotiated MCP protocolVersion comes from the wire, not from agent's text.
@@ -85,41 +85,30 @@ def prompt(slug, name):
 Use no other tools."""
 
 
+STARTUP_TIMEOUT_SEC = 60
+TOOL_TIMEOUT_SEC = 120
+
+
 def write_wiring(root, slug, *, uv, state_root, wire_log, enable_in_config):
-    """A temp copy of the generated .agent/ wiring, with the test-only --state-root and the wire tap."""
-    fleet = load_fleet(REPO / "aors/fleet.json")
-    files = agent_profiles.build(fleet, REPO, uv, state_root)
+    """Temporary agent CLI wiring for one bot: its MCP server behind the wire tap, with the test-only --state-root."""
+    bot = load_fleet(REPO / "aors/fleet.json").bot(slug)
     python = "/usr/bin/python3" if Path("/usr/bin/python3").exists() else sys.executable
     tap = root / "wire_tap.py"
     tap.write_text(TAP)
-    wrapped = {"command": python, "args": ["-I", "-B", str(tap), str(wire_log), uv,
-                                           *agent_profiles.server_args(REPO, slug, state_root)]}
     name = agent_profiles.server_name(slug)
-    original = json.dumps({"name": name, "command": uv, "args": agent_profiles.server_args(REPO, slug, state_root),
-                           "env": []}, ensure_ascii=False)
-    profile = files[f".agent/agents/{slug}.md"]
-    if original not in profile:
-        raise SystemExit("generated profile shape changed")
-    files[f".agent/agents/{slug}.md"] = profile.replace(
-        original, json.dumps({"name": name, **wrapped, "env": []}, ensure_ascii=False))
-    config = files[".agent/config.toml"]
-    head = f"[mcp_servers.{name}]\n"
-    start = config.index(head) + len(head)
-    end = config.index("\n\n", start)
-    block = (f"command = {json.dumps(wrapped['command'])}\nargs = {json.dumps(wrapped['args'])}\n"
-             f"enabled = {'true' if enable_in_config else 'false'}\n"
-             f"startup_timeout_sec = {agent_profiles.STARTUP_TIMEOUT_SEC}\n"
-             f"tool_timeout_sec = {agent_profiles.TOOL_TIMEOUT_SEC}")
-    files[".agent/config.toml"] = config[:start] + block + config[end:]
+    args = ["-I", "-B", str(tap), str(wire_log), uv, *agent_profiles.server_args(REPO, slug, state_root)]
+    server = {"name": name, "command": python, "args": args, "env": []}
+    config = (f"[mcp_servers.{name}]\ncommand = {json.dumps(python)}\nargs = {json.dumps(args)}\n"
+              f"enabled = {'true' if enable_in_config else 'false'}\nstartup_timeout_sec = {STARTUP_TIMEOUT_SEC}\n"
+              f"tool_timeout_sec = {TOOL_TIMEOUT_SEC}\n")
+    profile = (f"---\nname: {json.dumps(slug)}\ndescription: {json.dumps(bot.name + ' through ' + name + ' only.')}\n"
+               f"mcpServers:\n  - {json.dumps(server, ensure_ascii=False)}\n---\n\n"
+               f"You are {bot.name}. Use only the tools of your own MCP server, {name}.\n")
+    files = {".agent/config.toml": config, f".agent/agents/{slug}.md": profile}
     for rel, text in files.items():
         (root / rel).parent.mkdir(parents=True, exist_ok=True)
         (root / rel).write_text(text)
     return root / f".agent/agents/{slug}.md"
-
-
-def repo_wiring_current(uv):
-    fleet = load_fleet(REPO / "aors/fleet.json")
-    return not agent_profiles.check(agent_profiles.build(fleet, REPO, uv), REPO)
 
 
 def read_wire(path):
@@ -289,7 +278,7 @@ def main(argv=None):
     bot = fleet.bot(args.slug)
     tmp = Path(tempfile.mkdtemp(prefix="cstack-e2e-agent-"))
     started = time.monotonic()
-    report = {"slug": args.slug, "bot": bot.name, "tmp": str(tmp), "repo_wiring_current": repo_wiring_current(uv),
+    report = {"slug": args.slug, "bot": bot.name, "tmp": str(tmp),
               "agent_version": run([args.agent, "--version"], cwd=tmp, timeout=30)["stdout"].strip(), "stages": {}}
     code = 0
     try:

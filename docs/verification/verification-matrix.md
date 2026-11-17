@@ -3,10 +3,10 @@
 | Field | Value |
 |---|---|
 | Document ID | CSTACK-VM |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Baselined |
 | Owner | Akilleez-QA |
-| Date | 2026-11-09 |
+| Date | 2026-11-16 |
 | Baseline commit | 6ae5481fd302439dabb23044d1b715ac8c4a9bec |
 | Applies to | cstack main at baseline commit |
 | Classification | Self-assessed Class E analog; not safety-critical (see [SMP §1](../plan/software-management-plan.md#1-software-classification-self-assessed)) |
@@ -84,6 +84,10 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-051 | T | `tests/test_e2e_agent_ledger.py` | Verdict stream and anchor checks | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-052 | T | `tests/test_mcp_driving_adapter.py`; `tests/test_mcp_conformance.py` | Golden tool list; malformed input keeps serving | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-053 | T | `tests/test_mcp_stdio_client.py` | `test_interop_with_official_typescript_sdk_server` skips unless `CSTACK_MCP_SDK_ESM` and `node` are present; a skip is not interop evidence | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-084 | T | `tests/test_cstack_init.py::InitTests`; `tests/test_cstack_init.py::CommandTests` | Fresh, repeat, partial, permissions, exposed and mismatched keys, linked folder, check-only, tampered ledger, missing `cryptography` | Not yet in a test report; PR check run |
+| CS-REQ-085 | T | `tests/test_cstack_init.py::LauncherTests`; `tests/test_mcp_driving_adapter.py` | Refusal names the fix and creates no state; memory ledger only with the flag | Not yet in a test report; PR check run |
+| CS-REQ-086 | T | `tests/test_cstack_init.py::DeviceTests`; `tests/test_cstack_init.py::LauncherTests.test_after_init_the_launcher_starts_witnessed_without_tailscale_or_device_flag` | Tailscale absent, failing or present; sole-device fallback; unlisted name; flag validation | Not yet in a test report; PR check run |
+| CS-REQ-091 | T | `tests/test_foundations_mcp.py` | Every vendored Foundation called once over the real pinned bridges; tampered manifest; stdio launcher | Not yet in a recorded run |
 | CS-REQ-054 | T | `tests/test_fleet_mail.py`; `tests/test_fleet_mail_budget.py` | Uses a fake `gh`; no network | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-055 | T | `tests/test_relay_outbox.py` | Several processes, torn tails | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-087 | T | `tests/test_work_tree.py` | Scenario suite and seeded random walk checked against invariants I1, I2, I3, I4, I7, H1 and C2 after every step; temporary log files; MCP tests require the `cryptography` package | [STR-baseline](reports/STR-baseline.md) |
@@ -109,6 +113,10 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-075 | T | `tests/replaceability/test_shared.py`; `tests/replaceability/test_toolface.py` | Standard-library allow-list and fakes per lane | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-076 | T | `tests/test_check_trace.py` | Each failure kind produced on a fixture tree, plus the real repository | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-077 | T | `tests/test_data_dictionary.py` | Committed dictionary equals generated output | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-080 | T | `tests/test_agent_definitions.py` | The nine starters, mutation cases and every template on a temporary tree | Not yet in a test report |
+| CS-REQ-081 | T | `tests/test_agent_profiles.py` | Committed output, drift, undeclared fields, the plugin target and symlinked output | Not yet in a test report |
+| CS-REQ-082 | T | `tests/test_agent_guard.py` | Includes the hook command under `python3 -I` | Not yet in a test report |
+| CS-REQ-083 | T | `tests/test_check_options.py`; `tests/test_agent_definitions.py` | Count, kinds, shared mechanism, near-duplicates, the schema constants and the generated rule text | Not yet in a test report |
 
 ## Untested requirement gaps
 
@@ -124,7 +132,7 @@ Every `test_*.py` file under `tests/` is traced above. The remaining files under
 
 | File | Classification |
 |---|---|
-| `tests/helpers.py`, `tests/aor_fixtures.py`, `tests/forge_fixtures.py`, `tests/fake_gh.py` | Infrastructure: shared fixtures and fakes |
+| `tests/helpers.py`, `tests/aor_fixtures.py`, `tests/agent_fixtures.py`, `tests/forge_fixtures.py`, `tests/fake_gh.py` | Infrastructure: shared fixtures and fakes |
 | `tests/replaceability/compose.py` | Infrastructure: fake registry for CS-REQ-075 |
 | `tests/kernels/` | Infrastructure: differential vectors and reference implementations for CS-REQ-033 |
 | `tests/fixtures/` | Infrastructure: test data |
@@ -158,3 +166,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 1.x | 2026-10 to 2026-11-08 | various | Rows for CS-REQ-001 to CS-REQ-035 | See `git log -- docs/verification/verification-matrix.md` |
 | 2.0 | 2026-11-08 | 6ae5481fd302439dabb23044d1b715ac8c4a9bec | One row per requirement in `file::Class.method` form; rows for CS-REQ-036 to CS-REQ-077; gap table; every test file traced; `tools/check_trace.py` | docs/nasa-standard PR |
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 row adds the session-end and workcell-kill tests; CS-REQ-047 row names a failed file open | PR fixing the 2026-11-09 backfill-review findings |
+| 2.2 | 2026-11-16 | feat/cstack-init | Rows for CS-REQ-084 to CS-REQ-086 | Draft PR for `cstack init` |

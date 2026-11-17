@@ -515,7 +515,7 @@ class McpMailTests(MailCase):
                          ["--aor", "alpha", "--device", "testbox", "--fleet-mail", "--fleet-mail-extra", "agent",
                           "--fleet-mail-budget", "5"]):
                 with self.assertRaises(SystemExit):
-                    launcher.main(argv)
+                    launcher.main([*argv, "--allow-memory-ledger"])
         self.assertIsNone(seen[0])
         self.assertEqual(seen[1], FleetMailConfig())
         self.assertEqual((seen[2].extras, seen[2].budget_per_hour, seen[2].repo), (("agent",), 5,

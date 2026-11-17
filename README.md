@@ -74,10 +74,10 @@ A bot reaches Cstack in one of two ways. `cli.py` runs one JSON file to the end,
 ```json
 { "mcpServers": { "cstack-example": {
     "command": "/path/to/cstack/.venv/bin/python",
-    "args": ["-B", "/path/to/cstack/tools/cstack_mcp.py", "--aor", "example", "--device", "example-host", "--state-root", "/tmp/cstack-state"] } } }
+    "args": ["-B", "/path/to/cstack/tools/cstack_mcp.py", "--aor", "example"] } } }
 ```
 
-`--device` names the machine, and `--state-root` is where this bot's ledger and your approvals live. The agent then gets six tools: `aor` (who am I), `start_goal`, `advance` (next phase, with its checkpoint), `decide` (record a call and its expected result), `execute` and `ledger`. Their descriptions walk the agent through the phases.
+The server finds this bot's ledger, your approvals and the machine's device name in the state folder that `cstack init` set up (see [Install and run](#install-and-run)). If that setup is missing, it refuses to start and tells you the one command to run, rather than keep a record that would be lost. The agent then gets six tools: `aor` (who am I), `start_goal`, `advance` (next phase, with its checkpoint), `decide` (record a call and its expected result), `execute` and `ledger`. Their descriptions walk the agent through the phases.
 
 Cstack doesn't start your agents. Each agent connects to its own server; the shared registry, ledgers and approval channel are what make them one team. With `--fleet-mail`, bots can also leave each other messages. Either way, the core walks the goal through the POODO phases and applies each call's effect: `allow` runs it, `ask` waits for you, `deny` refuses it. Which bot may do what is set in `aors/fleet.json`, a file you own. Nothing in a request, a bot's output or a tool's reply can raise its own permissions.
 
@@ -96,7 +96,15 @@ npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fun
 cp cstack.config.example.json cstack.config.json
 ```
 
-The `npm` step installs the pinned compiler for code-writing runs; the approval example runs without it. `ci/requirements.txt` adds what the test suites need. `cstack.config.json` holds your host settings: where the ledger is written and what a code-writing run may use. Now run the example above. To check your install, run the test suite, then the Python, link and trace checks that CI runs:
+The `npm` step installs the pinned compiler for code-writing runs; the approval example runs without it. `ci/requirements.txt` adds what the test suites need. `cstack.config.json` holds your host settings: where the ledger is written and what a code-writing run may use. Now run the example above.
+
+Before you point an agent at Cstack, set up this machine once:
+
+```sh
+python -B tools/cstack_init.py
+```
+
+`cstack init` makes a private state folder, a signing key for each bot in `aors/fleet.json` and a durable ledger that survives restarts. Tailscale is optional. Run it again after adding a bot; it keeps what exists and adds what is missing. `--check` reports health without changing anything. [Set up Cstack](docs/guides/how-to/set-up.md) explains each part. To check your install, run the test suite, then the Python, link and trace checks that CI runs:
 
 ```sh
 python -B -m unittest discover -s tests
@@ -109,6 +117,7 @@ The [first-run tutorial](docs/guides/tutorials/first-run.md) walks through three
 
 | Task | Guide |
 |---|---|
+| Set up a machine so bots keep a durable ledger | [Set up Cstack](docs/guides/how-to/set-up.md) |
 | Approve calls from a terminal or an answer file | [Approve ask calls](docs/guides/how-to/approve-asks.md) |
 | Name your bots, what they own and what needs your approval | [Define your bots](docs/guides/how-to/define-bots.md) |
 | Let a real model write forge code (Claude Code subscription login) | [Use a real model](docs/guides/how-to/use-a-real-model.md) |
@@ -143,7 +152,7 @@ It ends with `"assessment": "candidate_passed"` and a receipt naming the compile
 - Early template. There is no tagged release; `main` is the supported version.
 - The bundled tools are read-only calculations and checks. Tools with outside effects, such as sending email, are yours to add: as a Foundation, or as an external MCP tool server through `adapters/mcp_stdio_client.py`.
 - Workcells and Foundations run as child processes with deadlines and output limits. Neither is an OS sandbox for hostile code.
-- The ledger is written on one machine. A compromised machine can rewrite its own ledger before anyone else sees it; it is not an independent witness.
+- The ledger is written on one machine. A compromised machine can rewrite its own ledger before anyone else sees it; it is not an independent witness. `cstack init`'s two witness keys live on the same machine; see [witnesses](docs/guides/how-to/set-up.md#witnesses).
 - `tools/scheduled_approvals.py`, the owner's tool for answering a bot's asks, doesn't yet find asks in the per-domain ledger files that MCP sessions write. See [approve ask calls](docs/guides/how-to/approve-asks.md#answer-a-bots-asks).
 - A forge goal runs one model at a time. EndoForge's parallel coding agents and its caching are not wired in yet.
 - Results are observations, not engineering, safety or compliance approvals. See [limitations](docs/guides/explanation/limitations.md).

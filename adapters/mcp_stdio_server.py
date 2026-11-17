@@ -148,6 +148,9 @@ def _check_arguments(tool, arguments):
 
 
 class McpServer:
+    INSTRUCTIONS = ("POODO tools for one bot's AOR on this device. Effects outside the AOR are refused by the host; "
+                    "ask-class effects wait for the owner through the approval channel.")
+
     def __init__(self, session, *, name="cstack"):
         self._session, self._name, self._ready = session, name, False
         domains = getattr(session, "classes", None)  # an AorSession reports every registered domain, denied included
@@ -173,8 +176,7 @@ class McpServer:
             self._ready = True
             return _result(ident, {"protocolVersion": version, "capabilities": {"tools": {"listChanged": False}},
                                    "serverInfo": {"name": self._name, "version": "0.1.0"},
-                                   "instructions": "POODO tools for one bot's AOR on this device. Effects outside "
-                                   "the AOR are refused by the host; ask-class effects wait for the owner through the approval channel."})
+                                   "instructions": self.INSTRUCTIONS})
         if method == "ping":
             return _result(ident, {})
         if not self._ready:

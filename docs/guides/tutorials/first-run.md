@@ -135,6 +135,7 @@ Keep `cstack.config.json` if you want to carry on. It is ignored by git.
 
 ## Where next
 
+- Connect an agent over MCP: run `python -B tools/cstack_init.py` once, as [set up Cstack](../how-to/set-up.md) describes, then [define your bots](../how-to/define-bots.md).
 - Run the checks CI runs: [run CI checks locally](../how-to/run-ci-locally.md).
 - Use a real model: set `workcell.transport` to `adapters/workcell/claude-transport.mjs`, as [use a real model](../how-to/use-a-real-model.md) describes.
 - Understand what you just ran: [how Cstack vendors and runs EndoForge](../explanation/endoforge-vendoring.md).
