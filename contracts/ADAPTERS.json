@@ -294,15 +294,29 @@
    "adapter_id": "agent-profiles-generator",
    "lane": "HMIFace",
    "port": "none",
-   "port_reason": "Offline generator of Agent MCP host configuration; nothing in the core calls it.",
-   "vendor": "Configured agent CLI configuration (.agent/config.toml, .agent/agents) generated from aors/fleet.json",
+   "port_reason": "Offline generator of Claude Code subagent configuration; nothing in the core calls it.",
+   "vendor": "Claude Code project subagents (.claude/agents) generated from agents/ and aors/fleet.json",
    "kind": "python_module",
    "path": "tools/agent_profiles.py",
    "fake": null,
-   "fake_reason": "Offline generator; no lane test runs it.",
+   "fake_reason": "Offline generator; tests/test_agent_profiles.py runs it on temporary trees, but no lane test runs it.",
    "status": "hard_wired",
    "strategic_dependency_adr": null,
-   "notes": "Writes per-bot Agent MCP wiring (ADR 003); every server disabled by default, each agent profile enables only its own bot's server. Configure the agent client for your environment."
+   "notes": "Writes one Claude Code subagent per agent definition: its own cstack-<slug> MCP server inline, built-in tools by AOR effect class and the agent_guard hook. --check fails on drift, undeclared fields and targets that would drop wiring."
+  },
+  {
+   "adapter_id": "agent-guard-hook",
+   "lane": "HMIFace",
+   "port": "none",
+   "port_reason": "Claude Code PreToolUse hook; it reads the registry directly and no core port protocol is involved.",
+   "vendor": "Claude Code hooks (PreToolUse JSON on stdin, decision on stdout)",
+   "kind": "python_module",
+   "path": "tools/agent_guard.py",
+   "fake": null,
+   "fake_reason": "Hook-side check; tests/test_agent_guard.py drives it with synthetic hook input, but no lane test runs it.",
+   "status": "hard_wired",
+   "strategic_dependency_adr": null,
+   "notes": "Applies one agent's AOR effects to Claude Code built-in tools outside MCP: denies writes outside its slices or to authority and agent configuration, returns ask or deny per effect class, fails closed. Standard library only."
   },
   {
    "adapter_id": "example-agent",
@@ -707,6 +721,11 @@
    "path": "tools/pin_workcell.py",
    "role": "build_or_check_tool",
    "reason": "Records the workcell runtime's file hashes in the pin record."
+  },
+  {
+   "path": "tools/check_options.py",
+   "role": "build_or_check_tool",
+   "reason": "Checks a POODO options record for twenty materially distinct options; reads one file and grants no runtime authority."
   }
  ]
 }

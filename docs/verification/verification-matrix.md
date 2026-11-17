@@ -108,6 +108,10 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-075 | T | `tests/replaceability/test_shared.py`; `tests/replaceability/test_toolface.py` | Standard-library allow-list and fakes per lane | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-076 | T | `tests/test_check_trace.py` | Each failure kind produced on a fixture tree, plus the real repository | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-077 | T | `tests/test_data_dictionary.py` | Committed dictionary equals generated output | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-080 | T | `tests/test_agent_definitions.py` | The nine starters, mutation cases and every template on a temporary tree | Not yet in a test report |
+| CS-REQ-081 | T | `tests/test_agent_profiles.py` | Committed output, drift, undeclared fields, the plugin target and symlinked output | Not yet in a test report |
+| CS-REQ-082 | T | `tests/test_agent_guard.py` | Includes the hook command under `python3 -I` | Not yet in a test report |
+| CS-REQ-083 | T | `tests/test_check_options.py`; `tests/test_agent_definitions.py` | Count, kinds, shared mechanism, near-duplicates, the schema constants and the generated rule text | Not yet in a test report |
 
 ## Untested requirement gaps
 
@@ -123,7 +127,7 @@ Every `test_*.py` file under `tests/` is traced above. The remaining files under
 
 | File | Classification |
 |---|---|
-| `tests/helpers.py`, `tests/aor_fixtures.py`, `tests/forge_fixtures.py`, `tests/fake_gh.py` | Infrastructure: shared fixtures and fakes |
+| `tests/helpers.py`, `tests/aor_fixtures.py`, `tests/agent_fixtures.py`, `tests/forge_fixtures.py`, `tests/fake_gh.py` | Infrastructure: shared fixtures and fakes |
 | `tests/replaceability/compose.py` | Infrastructure: fake registry for CS-REQ-075 |
 | `tests/kernels/` | Infrastructure: differential vectors and reference implementations for CS-REQ-033 |
 | `tests/fixtures/` | Infrastructure: test data |

@@ -47,6 +47,6 @@ This starts an MCP server on stdin and stdout for one bot. Point your agent's MC
 {"approver": "owner-via-approver", "bot": {"id": "00000001", "name": "Example", "slug": "example"}, "device": "example-host", ..., "ledger": "memory (not durable: no ADR 004 roster configured)", ...}
 ```
 
-The ledger is memory only until you configure a witnessed ledger under `--state-root`. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates MCP wiring and one agent profile per bot; see the [command reference](../reference/commands.md).
+The ledger is memory only until you configure a witnessed ledger under `--state-root`. [The server, the driver and the adapters](../explanation/server-and-adapters.md) explains the tool table, how effects resolve and where state lives. `tools/agent_profiles.py` generates a Claude Code subagent for each agent definition in `agents/`, wired to its bot's server; see [the starter agents](../explanation/starter-agents.md) and the [command reference](../reference/commands.md).
 
 Return to the [how-to guides](README.md).

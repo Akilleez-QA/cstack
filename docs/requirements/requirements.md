@@ -825,6 +825,46 @@ The claim gate shall extract strong words and numbers with units as claims (not 
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-080 — Starter agent definitions
+
+Every `agents/<slug>.md` front block shall validate against `contracts/agent.schema.json` and `agents/org.json` against `contracts/agent-org.schema.json`; each agent shall name an AOR in `aors/fleet.json` with the same slug, id and reporting line and be wired to its own `cstack-<slug>` MCP server; every hand-off artifact shall have exactly one writer that returns it, every named reader shall accept it, a file artifact shall live in its writer's AOR slice, and routines shall ship paused. The nine starter agents shall pass, and every template in `agents/templates/` shall instantiate into an agent that passes, with every gated effect of its suggested AOR at `ask`.
+
+- Rationale: named agents are only useful when their authority, wiring and hand-offs are exact and checked, not described.
+- Derivation: `contracts/agent.schema.json`; `contracts/agent-org.schema.json`; `agents/`; `aors/fleet.json`; `tools/agent_profiles.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-081 — Claude Code subagent generator
+
+`tools/agent_profiles.py` shall write one Claude Code project subagent `.claude/agents/<slug>.md` per agent definition, using only documented subagent fields, with the agent's own MCP server inline, built-in tools granted by its AOR effect classes, and the guard hook; it shall write nothing outside the repository and remove only files carrying its marker. Its `--check` mode shall fail when a committed file differs from the generated one, an unmarked file is present, a definition field has no declared disposition for the target, or the target would drop a wiring field (any plugin target or plugin root).
+
+- Rationale: an engine that silently ignores a field turns a wired agent into a persona without anyone noticing.
+- Derivation: `tools/agent_profiles.py`; `.claude/agents/`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-082 — Agent guard hook
+
+`tools/agent_guard.py`, run as each generated agent's `PreToolUse` hook, shall deny a built-in file write outside the agent's AOR slices, inside another agent's slice, outside the project, or to the authority and agent configuration paths; shall return the AOR class (`ask` or `deny`) for reads, writes and commands whose class is not `allow` and for commands that match a send, post or delete pattern; shall run on the standard library alone; and shall deny on any error.
+
+- Rationale: Cstack's AOR effects were enforced only inside the MCP server, and Claude Code's built-in tools bypass it.
+- Derivation: `tools/agent_guard.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
+### CS-REQ-083 — Twenty options for every goal
+
+Every agent definition and template shall fix `poodo.options` at 20 and `poodo.research_gate` at `required`, varying only research and red-team `effort`, and every generated subagent shall state the twenty-option rule and its purpose. `tools/check_options.py` shall reject an options record that does not hold exactly twenty options with distinct ids, lacks an unconventional, diagnostic, conservative, reversible, defer-or-stop or escalation option, has two options with the same mechanism, or has two options whose word overlap is 0.6 or more; it shall run on the standard library alone.
+
+- Rationale: twenty options distinct in mechanism push a model past its most probable answer into the long tail; a per-agent depth that skipped them, or padded rephrasings, would defeat that.
+- Derivation: `contracts/agent.schema.json`; `agents/PRACTICE.md`; `tools/check_options.py`; `poodo_core/core.py`
+- Allocated to: SDD-C26
+- Verification: T
+- Status: Proposed
+
 ## 4. Interface requirements
 
 The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
