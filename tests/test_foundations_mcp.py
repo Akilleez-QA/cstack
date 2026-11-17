@@ -184,7 +184,7 @@ class LauncherTests(unittest.TestCase):
     def run_server(self, frames, *foundations):
         with tempfile.TemporaryDirectory() as directory:
             argv = [sys.executable, "-B", str(TOOL), "--aor", "alpha", "--state-root", str(Path(directory) / "state"),
-                    "--device", "testbox", "--fleet", str(write_fleet(directory))]
+                    "--device", "testbox", "--allow-memory-ledger", "--fleet", str(write_fleet(directory))]
             for name in foundations:
                 argv += ["--foundation", name]
             return subprocess.run(argv, cwd=ROOT, input="".join(json.dumps(f) + "\n" for f in frames),
@@ -204,6 +204,15 @@ class LauncherTests(unittest.TestCase):
         content = replies[2]["result"]["structuredContent"]
         self.assertEqual(content["receipt"]["result"], {"observation": "synthetic"})
         self.assertEqual(content["receipt"]["evidence"][0]["evidence"]["status"], "CHECK")
+
+    def test_refuses_to_start_without_a_durable_ledger(self):
+        with tempfile.TemporaryDirectory() as directory:
+            argv = [sys.executable, "-B", str(TOOL), "--aor", "alpha", "--state-root", str(Path(directory) / "state"),
+                    "--device", "testbox", "--fleet", str(write_fleet(directory)), "--foundation", "template"]
+            done = subprocess.run(argv, cwd=ROOT, input="", capture_output=True, text=True, timeout=120)
+        self.assertEqual(done.returncode, 2, done.stderr)
+        self.assertIn("cstack_init.py", done.stderr)
+        self.assertFalse((Path(directory) / "state").exists())
 
     def test_unregistered_foundation_refuses_to_start(self):
         done = self.run_server([], "nope")
