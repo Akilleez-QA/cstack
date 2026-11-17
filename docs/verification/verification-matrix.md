@@ -84,6 +84,7 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-051 | T | `tests/test_e2e_agent_ledger.py` | Verdict stream and anchor checks | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-052 | T | `tests/test_mcp_driving_adapter.py`; `tests/test_mcp_conformance.py` | Golden tool list; malformed input keeps serving | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-053 | T | `tests/test_mcp_stdio_client.py` | `test_interop_with_official_typescript_sdk_server` skips unless `CSTACK_MCP_SDK_ESM` and `node` are present; a skip is not interop evidence | [STR-baseline](reports/STR-baseline.md) |
+| CS-REQ-091 | T | `tests/test_foundations_mcp.py` | Every vendored Foundation called once over the real pinned bridges; tampered manifest; stdio launcher | Not yet in a recorded run |
 | CS-REQ-054 | T | `tests/test_fleet_mail.py`; `tests/test_fleet_mail_budget.py` | Uses a fake `gh`; no network | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-055 | T | `tests/test_relay_outbox.py` | Several processes, torn tails | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-056 | T | `tests/test_scheduled_approvals.py` | SQLite and witnessed node logs | [STR-baseline](reports/STR-baseline.md) |
