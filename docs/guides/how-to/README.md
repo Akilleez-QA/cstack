@@ -4,6 +4,7 @@ Task recipes. Each assumes a working clone; the [tutorial](../tutorials/first-ru
 
 | Task | Guide |
 |---|---|
+| Set up a machine with one command, so bots keep a durable ledger | [Set up Cstack](set-up.md) |
 | Approve calls marked `ask`, on a terminal or from a file | [Approve ask calls](approve-asks.md) |
 | Name your bots, their slices and effects, validate the registry and start a bot's session | [Define your bots](define-bots.md) |
 | Let a real model write forge code | [Use a real model](use-a-real-model.md) |

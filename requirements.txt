@@ -1,2 +1,3 @@
 # Already available in the bound local environment. No installation performed.
 jsonschema==4.26.0
+cryptography==50.0.2

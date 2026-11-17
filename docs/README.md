@@ -12,6 +12,7 @@ Find what you need by what you want to do. New here? Start with the [README](../
 
 | Task | Guide |
 |---|---|
+| Set up a machine so bots keep a durable ledger | [Set up Cstack](guides/how-to/set-up.md) |
 | Approve calls marked `ask`, on a terminal or from a file | [Approve ask calls](guides/how-to/approve-asks.md) |
 | Name your bots and what needs your approval | [Define your bots](guides/how-to/define-bots.md) |
 | Let a real model write forge code | [Use a real model](guides/how-to/use-a-real-model.md) |
