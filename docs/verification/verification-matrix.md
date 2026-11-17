@@ -87,6 +87,7 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-084 | T | `tests/test_cstack_init.py::InitTests`; `tests/test_cstack_init.py::CommandTests` | Fresh, repeat, partial, permissions, exposed and mismatched keys, linked folder, check-only, tampered ledger, missing `cryptography` | Not yet in a test report; PR check run |
 | CS-REQ-085 | T | `tests/test_cstack_init.py::LauncherTests`; `tests/test_mcp_driving_adapter.py` | Refusal names the fix and creates no state; memory ledger only with the flag | Not yet in a test report; PR check run |
 | CS-REQ-086 | T | `tests/test_cstack_init.py::DeviceTests`; `tests/test_cstack_init.py::LauncherTests.test_after_init_the_launcher_starts_witnessed_without_tailscale_or_device_flag` | Tailscale absent, failing or present; sole-device fallback; unlisted name; flag validation | Not yet in a test report; PR check run |
+| CS-REQ-091 | T | `tests/test_foundations_mcp.py` | Every vendored Foundation called once over the real pinned bridges; tampered manifest; stdio launcher | Not yet in a recorded run |
 | CS-REQ-054 | T | `tests/test_fleet_mail.py`; `tests/test_fleet_mail_budget.py` | Uses a fake `gh`; no network | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-055 | T | `tests/test_relay_outbox.py` | Several processes, torn tails | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-056 | T | `tests/test_scheduled_approvals.py` | SQLite and witnessed node logs | [STR-baseline](reports/STR-baseline.md) |

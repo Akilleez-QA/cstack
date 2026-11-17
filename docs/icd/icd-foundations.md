@@ -64,6 +64,30 @@ Template, Refrigeration, Robotics and Film adapters use `BridgeProfile` and `Pin
 
 Adapter pins live in `adapters/template_stdio.py`, `adapters/refrigeration_stdio.py`, `adapters/robotics_stdio.py` and `adapters/film_stdio.py`; sources and manifest builders live under their respective `foundations/` directories. Changes require matched source, inventory, schema and conformance review.
 
+## Foundations MCP interface
+
+`tools/foundations_mcp.py` starts an agent-facing MCP stdio server, `adapters/foundations_mcp.py`, for one bot's AOR on one device. It is a driving adapter: it calls the AOR session's public goal, advance, decide and execute operations and never a Foundation bridge directly. The bridges above stay non-MCP.
+
+| Property | Controlled value / rule |
+|---|---|
+| Launch | `python -B tools/foundations_mcp.py --aor <slug> --foundation <name> [--foundation <name> ...] [--state-root DIR] [--fleet FILE]`; `<name>` is a registered domain id with or without the `foundation_` prefix |
+| Who chooses the Foundations | The host's launch arguments only. An unregistered name, a runtime such as `cstack_forge`, a repeat or an empty choice stops the launch. No request can add one |
+| Framing and lifecycle | As the Cstack MCP server (CS-REQ-052): newline-delimited JSON-RPC 2.0, `initialize`, 1 MiB frames, strict parsing, protocol revisions 2025-11-25, 2025-06-18 and 2024-11-05 |
+| Tool names | `<foundation>.<tool>`, for example `refrigeration.saturation_pressure`, `math.exact_scalar`. Clients that allow only `[A-Za-z0-9_-]` may rewrite the dot |
+| Tools listed | Each tool of each chosen Foundation whose effect class for this bot and device is `allow` or `ask`. A `deny` domain lists nothing |
+| Input schema | The pinned inventory's `inputSchema`, unchanged as a JSON value, except that a top-level `allOf`, `oneOf` or `anyOf` is projected into one object schema (branch properties merged, `anyOf` where branches differ, required names common to all branches). The server always validates against the exact pinned schema. Today this applies to `math.exact_scalar` and `robotics.mechanism_check` |
+| Description and annotations | The pinned description; `readOnlyHint` and `idempotentHint` true, `destructiveHint` and `openWorldHint` false |
+| Authority | The AOR session's read-only ToolFace grant for that domain (the Foundation's fixed tools, 32 goal ids, 64 calls per session), checked against `contracts/ADAPTERS.json` |
+
+Each call:
+
+1. Refuses arguments that fail the exact pinned input schema as a tool error, with no POODO event.
+2. Keeps one standing goal per Foundation and walks it to Decide with host-authored checkpoints (the tool's inventory entry as the research reference and 20 fixed option ids). These satisfy the structural gates; they are not research.
+3. Precommits the exact arguments with host-written expected observation, success boundary and failure meaning, advances to Orchestrate and executes through the pinned adapter, which verifies the manifest, the live inventory and, for the shared adapter, the receipt input digest.
+4. Returns the Foundation's `isError` and `structuredContent` exactly as admitted, and the same JSON as text. Engine results that are not objects are returned as text only, because MCP requires `structuredContent` to be an object. `_meta["cstack/poodo"]` carries the bot, domain, goal, decision, request digest, attempt, execution status and certainty, assessment, source and inventory digests and the ledger label.
+
+A core refusal, an approval still pending, an exhausted budget or an outcome the adapter did not admit (tampered source, out-of-profile numbers, protocol failure) is a tool error with the reason and, where a decision exists, the POODO record. Nothing is retried. CHECK values, the receipt boundary and the evidence ceiling are passed through, never rewritten. The ledger is witnessed only when the state root has an ADR 004 `ledger.json`; otherwise it is memory and is lost when the server stops. With a witnessed ledger, this server and `tools/cstack_mcp.py` cannot both hold the same bot and domain at once.
+
 ## Interface change acceptance
 
 Record old/new manifests, catalog identities, operation/schema differences and changed evidence semantics. Run adapter and domain conformance suites plus the root suite against the candidate. Incompatible upstream extractions require explicit migration design; a familiar repository name is not compatibility evidence. Keep an unmodified baseline available for comparison and rollback.
@@ -114,7 +138,7 @@ stops the run before dispatch with no action/outcome, preserving earlier history
 
 ## Requirements addressed
 
-CS-REQ-003 to CS-REQ-008 and CS-REQ-015 (Math adapter); CS-REQ-064 (Film, Refrigeration, Robotics and Template adapters); CS-REQ-065 (Engine adapter); CS-REQ-009 to CS-REQ-011 (process executor); CS-REQ-017 and CS-REQ-018 (local CLI approval). The tool and field tables generated from `schemas/` are in the [data dictionary](../data/data-dictionary.md). See the [verification matrix](../verification/verification-matrix.md) for the tests.
+CS-REQ-003 to CS-REQ-008 and CS-REQ-015 (Math adapter); CS-REQ-064 (Film, Refrigeration, Robotics and Template adapters); CS-REQ-065 (Engine adapter); CS-REQ-009 to CS-REQ-011 (process executor); CS-REQ-017 and CS-REQ-018 (local CLI approval); CS-REQ-091 (Foundations MCP server). The tool and field tables generated from `schemas/` are in the [data dictionary](../data/data-dictionary.md). See the [verification matrix](../verification/verification-matrix.md) for the tests.
 
 ## Change history
 

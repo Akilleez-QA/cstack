@@ -649,6 +649,16 @@ The MCP stdio client shall take its descriptor and effects from the host, treat 
 - Verification: T. The TypeScript SDK interop test skips without that SDK.
 - Status: Baselined
 
+### CS-REQ-091 — Foundations MCP server
+
+The Foundations MCP server shall list, as `<foundation>.<tool>`, only the tools of the Foundations the host named at launch that the bot's AOR does not deny, each with its input schema from the pinned tool inventory (a top-level `allOf`, `oneOf` or `anyOf` projected into one object schema). It shall refuse an unknown tool as invalid params and refuse arguments that fail the exact pinned input schema before any decision. It shall run every other call through the bot's AOR session as a POODO goal, decision and execution on a read-only ToolFace grant and the pinned adapter, return the Foundation's `structuredContent` unchanged with the POODO record in `_meta`, and report a refused, tampered, unadmitted, pending or over-budget call as a tool error. A launch naming an unregistered Foundation or a runtime shall fail.
+
+- Rationale: agents need domain truth as tools, without bypassing source pins, authority, the ledger or the evidence ceiling.
+- Derivation: `adapters/foundations_mcp.py`; `tools/foundations_mcp.py`; `bootstrap.py`
+- Allocated to: SDD-C31
+- Verification: T. No test drives it from a real MCP client; one session allows 64 calls per Foundation.
+- Status: Baselined
+
 ### CS-REQ-054 — Fleet mail
 
 Fleet mail shall stamp the sender so input cannot override it, accept only fleet slugs, all-bots or host extras as recipients, refuse over-long strings, control and look-alike characters, mentions and cross-repository references, enforce send, all-bots and per-thread reply allowances with refusals recorded once per window, refuse writes while shields are up, record message number and digest but never the body, verify signatures against the roster and show forgeries as unverified, keep fleet mail out of the approval path, run `gh` with a fixed argument shape, fixed environment, stdin-only message text, deadline and output bounds, and keep the MCP mail tools off by default. The send-budget file shall be private, refuse an emptied state, and never let several processes pass the limit.

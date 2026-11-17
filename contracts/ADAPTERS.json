@@ -44,6 +44,34 @@
    "notes": "Per-AOR MCP stdio launcher; fixes bot, device, fleet and state at host startup, marks the server process and closes the session on exit. Refuses to start without the durable ledger cstack init sets up, unless --allow-memory-ledger is given."
   },
   {
+   "adapter_id": "foundations-mcp-server",
+   "lane": "HMIFace",
+   "port": "none",
+   "port_reason": "Driving side: MCP tools call the host AOR session API, which drives each Foundation core; no core port protocol.",
+   "vendor": "cstack (in-repo), legacy MCP stdio JSON-RPC",
+   "kind": "python_module",
+   "path": "adapters/foundations_mcp.py",
+   "fake": null,
+   "fake_reason": "Tests drive it in process and through its launcher over the real pinned bridges; no named HMIFace replaceability fake is registered.",
+   "status": "hard_wired",
+   "strategic_dependency_adr": null,
+   "notes": "Read-only <foundation>.<tool> MCP tools for the host-chosen pinned Foundations; schemas from the pinned inventories; each call is a POODO decision in the bot's AOR session; the Foundation's structuredContent is returned unchanged."
+  },
+  {
+   "adapter_id": "foundations-mcp-launcher",
+   "lane": "HMIFace",
+   "port": "none",
+   "port_reason": "Host composition entry point: builds an AOR session limited to the chosen Foundations and serves MCP directly; no core port protocol.",
+   "vendor": "cstack (in-repo), Tailscale CLI for device identity",
+   "kind": "python_module",
+   "path": "tools/foundations_mcp.py",
+   "fake": null,
+   "fake_reason": "Launcher tests use host-supplied fixture configuration; no named HMIFace replaceability fake is registered.",
+   "status": "hard_wired",
+   "strategic_dependency_adr": null,
+   "notes": "Per-AOR Foundations MCP stdio launcher; the bot, device, fleet, state and exposed Foundations are fixed at host startup."
+  },
+  {
    "adapter_id": "aor-session",
    "lane": "HMIFace",
    "port": "none",

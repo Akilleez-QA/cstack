@@ -83,11 +83,13 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C23 | Operator tools without tests | `tools/agent_profiles.py`, `tools/generate_aors.py`, `tools/measure_foundation_routes.py`, `tools/measure_routes_pyodide.mjs`, `tools/tty_approve.py`, `tools/fuzz_ports.py`, `tools/spawncount.py`, `tools/gen_release_docs.py` | Generators, measurement, release-record and test-support scripts; no CS-REQ requirement. `tools/spawncount.py` and `tools/fuzz_ports.py` are used by tests | Infrastructure |
 | SDD-C24 | Examples and placeholders | `examples/`, `products/`, `workshop/`, `cstack.config.example.json` | Example documents and configuration; empty component areas | Infrastructure |
 | SDD-C28 | Local setup (`cstack init`) | `adapters/local_setup.py`, `tools/cstack_init.py` | Creates and checks one machine's private state folder, device name and witnessed-ledger keys, roster and settings; resolves the device name with or without Tailscale | CS-REQ-084, CS-REQ-086 |
+| SDD-C31 | Foundations MCP server | `adapters/foundations_mcp.py`, `tools/foundations_mcp.py` | Host-launched MCP server exposing the chosen pinned Foundations' tools to one bot, each call decided and executed through its AOR session | CS-REQ-091 |
 
 ```mermaid
 flowchart LR
     CLI[SDD-C9 CLI] --> BOOT[SDD-C1 bootstrap]
     MCP[SDD-C15 MCP server] --> AOR[SDD-C14 AOR session]
+    FMCP[SDD-C31 Foundations MCP] --> AOR
     AOR --> BOOT
     BOOT --> CORE[SDD-C2 control core]
     CORE --> AD[SDD-C5/C6/C7 adapters]
