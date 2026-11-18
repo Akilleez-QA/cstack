@@ -11,7 +11,7 @@
       "owns": ["Example observations"],
       "not": ["Actions outside the assigned scope"],
       "slices": [],
-      "effects": {"read": "allow", "write_slice": "deny", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "deny", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -22,7 +22,7 @@
       "owns": ["Routing owner intent to the right agent", "Status briefs and owner attention", "Answering conductor escalations"],
       "not": ["Approvals, go/confirm and budget, which stay with the owner", "Writing specs, code or verdicts"],
       "slices": ["work/briefs"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -33,7 +33,7 @@
       "owns": ["Turning intent into a spec before any build", "EndoForge job specs: CONTRACT.md, tests.json, job.json, atoms.json"],
       "not": ["Writing the code that meets the spec", "Judging whether a candidate passes"],
       "slices": ["work/specs"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -44,7 +44,7 @@
       "owns": ["Consequential and ambiguous decisions through POODO", "Decision records with precommitted options"],
       "not": ["Executing the decision", "Test oracles inside EndoForge"],
       "slices": ["work/decisions"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -55,7 +55,7 @@
       "owns": ["Domain truth from the pinned Foundations", "Expected values computed through Foundation tools"],
       "not": ["Marking a value APPROVED, which stays with the owner", "Editing Foundation sources or pins"],
       "slices": ["work/expected"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -66,7 +66,7 @@
       "owns": ["Verified software through EndoForge runs", "Candidates with their run receipts"],
       "not": ["Writing or changing the spec it builds against", "Declaring its own work verified"],
       "slices": ["/"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -77,7 +77,7 @@
       "owns": ["Independent verification of candidates and claims", "Running checks, gates and red teams"],
       "not": ["Fixing the work it verifies", "Writing the checks it runs"],
       "slices": ["work/verdicts"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -88,7 +88,7 @@
       "owns": ["Precommitted experiments and measurement", "Experiment ids, PRECOMMIT and RESULT records"],
       "not": ["Rewriting a merged PRECOMMIT or RESULT", "Judging its own results"],
       "slices": ["work/experiments"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -99,7 +99,7 @@
       "owns": ["Health, capacity, budgets watch and source pins", "Watchers and repins, each repin in its own PR"],
       "not": ["Raising a budget, which stays with the owner", "Feature work"],
       "slices": ["work/ops"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     },
     {
@@ -110,7 +110,7 @@
       "owns": ["Turning lessons into checks", "The library, skills and memory confirm or reject"],
       "not": ["Running the checks it writes", "Editing frozen experiment records"],
       "slices": ["work/checks", "work/lessons", "work/library"],
-      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"},
+      "effects": {"read": "allow", "write_slice": "allow", "execute": "allow", "config": "allow", "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"},
       "status": "CHECK"
     }
   ],

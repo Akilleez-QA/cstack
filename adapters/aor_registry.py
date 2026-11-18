@@ -12,8 +12,9 @@ from poodo_core.models import LANES, READ_ONLY_LANES, ContractError
 
 SCHEMA_PATH = Path(__file__).resolve().parent.parent / "contracts" / "aor.schema.json"
 EFFECTS = ("read", "write_slice", "execute", "config", "send", "payment", "post", "filing", "delete")
-# the owner's rule in every role file: sends, payments, posts, filings and deletions need his explicit yes.
-GATED = ("send", "payment", "post", "filing", "delete")
+# High trust buys speed and capability, so every effect is the owner's to set, except that a payment always needs
+# the owner's explicit yes.
+GATED = ("payment",)
 MAX_BYTES = 1_048_576
 
 

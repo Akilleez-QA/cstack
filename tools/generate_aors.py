@@ -17,8 +17,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from adapters.aor_registry import parse_fleet  # noqa: E402
 
 DEFAULT = {"read": "allow", "write_slice": "deny", "execute": "allow", "config": "allow",
-           "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"}
-GUEST = {**DEFAULT, "execute": "deny", "config": "deny"}
+           "send": "allow", "payment": "ask", "post": "allow", "filing": "allow", "delete": "allow"}
+# A guest runs on a device someone else owns, so its outward effects still go to that owner.
+GUEST = {**DEFAULT, "execute": "deny", "config": "deny",
+         "send": "ask", "payment": "ask", "post": "ask", "filing": "ask", "delete": "ask"}
 # Other names the role map uses for the same bot.
 ALIASES = {}
 # Owners stated in the role map; every other device is left unowned for the owner to assign.

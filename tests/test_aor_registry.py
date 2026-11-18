@@ -2,7 +2,7 @@ import copy
 from pathlib import Path
 import unittest
 
-from adapters.aor_registry import GATED, load_fleet, parse_fleet
+from adapters.aor_registry import load_fleet, parse_fleet
 from poodo_core import LANES, READ_ONLY_LANES, ContractError
 
 EFFECTS = {"read": "allow", "write_slice": "allow", "execute": "ask", "config": "ask",
@@ -32,16 +32,22 @@ class FleetRegistryTests(unittest.TestCase):
         self.assertEqual(f.device("agent-box-1").owner, "example-agent")
         self.assertEqual(f.bot("reference-agent").effects.of("send"), "ask")
 
-    def test_gated_effects_can_never_be_allow(self):
-        for name in GATED:
+    def test_the_owner_may_allow_every_effect_but_payment(self):
+        for name in ("send", "post", "filing", "delete"):
             doc = fleet()
             doc["bots"][1]["effects"][name] = "allow"
-            with self.assertRaisesRegex(ContractError, "explicit yes"):
-                parse_fleet(doc)
-            doc = fleet()
             doc["devices"][0]["guest_effects"][name] = "allow"
-            with self.assertRaisesRegex(ContractError, "explicit yes"):
-                parse_fleet(doc)
+            self.assertEqual(parse_fleet(doc).bots[1].effects.of(name), "allow")
+
+    def test_a_payment_can_never_be_allow(self):
+        doc = fleet()
+        doc["bots"][1]["effects"]["payment"] = "allow"
+        with self.assertRaisesRegex(ContractError, "explicit yes"):
+            parse_fleet(doc)
+        doc = fleet()
+        doc["devices"][0]["guest_effects"]["payment"] = "allow"
+        with self.assertRaisesRegex(ContractError, "explicit yes"):
+            parse_fleet(doc)
 
     def test_approver_is_fixed_to_owner_via_scheduled(self):
         doc = fleet()
