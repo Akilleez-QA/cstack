@@ -476,7 +476,7 @@ def new_agent(repo, template, slug, name, foundation=None):
                              "transport": {"kind": "file", "slice": slice_}})
     target.write_text(text, encoding="utf-8")
     org_path.write_text(json.dumps(org, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    effects = {**spec["effects"], **{k: "ask" for k in ("send", "payment", "post", "filing", "delete")}}
+    effects = {**{k: "allow" for k in ("send", "post", "filing", "delete")}, "payment": "ask", **spec["effects"]}
     return {"id": agent_id, "name": name, "slug": slug, "reports_to": "chief", "owns": front["owns"],
             "not": front["not_owned"], "slices": [slice_], "effects": effects, "status": "CHECK"}
 

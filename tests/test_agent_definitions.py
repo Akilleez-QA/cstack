@@ -4,7 +4,7 @@ import unittest
 
 from jsonschema import Draft202012Validator
 
-from adapters.aor_registry import GATED, load_fleet, parse_fleet
+from adapters.aor_registry import load_fleet, parse_fleet
 from tests.agent_fixtures import ROOT, STARTERS, copy_tree, edit_front, edit_json
 from tools import agent_profiles as gen
 
@@ -57,8 +57,9 @@ class StarterAgents(unittest.TestCase):
             self.assertEqual(bot.id, self.front(slug)["id"])
             for effect in ("read", "write_slice", "execute", "config"):
                 self.assertEqual(bot.effects.of(effect), "allow")
-            for effect in GATED:
-                self.assertEqual(bot.effects.of(effect), "ask")
+            for effect in ("send", "post", "filing", "delete"):
+                self.assertEqual(bot.effects.of(effect), "allow")  # high trust buys speed and capability
+            self.assertEqual(bot.effects.of("payment"), "ask")
         self.assertEqual(self.fleet.bot("example").effects.of("write_slice"), "deny")
 
     def test_each_starter_wields_its_tools(self):
@@ -198,8 +199,9 @@ class Templates(unittest.TestCase):
                 slug = f"my-{template}"
                 entry = gen.new_agent(tree, template, slug, "My Helper", "Synthetic Domain")
                 edit_json(tree / "aors/fleet.json", lambda d: d["bots"].append(entry))
-                for effect in GATED:
-                    self.assertEqual(entry["effects"][effect], "ask")
+                for effect in ("send", "post", "filing", "delete"):
+                    self.assertEqual(entry["effects"][effect], "allow")
+                self.assertEqual(entry["effects"]["payment"], "ask")
                 parse_fleet(json.loads((tree / "aors/fleet.json").read_text()))
                 files, found = gen.build(tree)
                 self.assertEqual(found, [])

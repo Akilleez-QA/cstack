@@ -40,9 +40,9 @@ Every artifact in `agents/org.json` has exactly one writer, its readers, its for
 
 1. **Cstack MCP server.** Each agent's own `cstack-<slug>` server (`tools/cstack_mcp.py --aor <slug>`) applies the AOR to every goal, decision and execution, as before.
 2. **Tool lists.** The generated `tools` list grants built-in tools by effect class (read, write, execute), the agent's own MCP servers only, and `Agent` only to agents that may delegate.
-3. **Guard hook.** A `PreToolUse` hook runs `tools/agent_guard.py --aor <slug>` on Edit, Write, NotebookEdit and Bash (and on reads when reading is not `allow`). It denies writes outside the agent's slices and any write to `aors/`, `agents/`, `.claude/`, `.mcp.json` or the generator and guard themselves; it asks the person before commands that look like a send, post or delete; it fails closed. Its command patterns catch the common cases, not every possible command; the MCP server stays the authority.
+3. **Guard hook.** A `PreToolUse` hook runs `tools/agent_guard.py --aor <slug>` on Edit, Write, NotebookEdit and Bash (and on reads when reading is not `allow`). It denies writes outside the agent's slices and any write to `aors/`, `agents/`, `.claude/`, `.mcp.json` or the generator and guard themselves; it asks the person before commands that look like a send, post or delete when the agent's class for that effect is `ask` (the starter fleet allows them); it fails closed. Its command patterns catch the common cases, not every possible command; the MCP server stays the authority.
 
-The registry forbids `allow` for send, payment, post, filing and delete, so these stay `ask` for every agent. Chief is not on the approval path.
+Cstack runs on high trust: the trust is what buys speed and capability, so the starter agents send, post, file and delete without asking. A payment is the one exception. The registry forbids `allow` for payment, so it stays `ask` for every agent. The owner can still set any other effect to `ask` or `deny` in `aors/fleet.json`, and the guard then asks or refuses. Chief is not on the approval path.
 
 ## Working limits
 

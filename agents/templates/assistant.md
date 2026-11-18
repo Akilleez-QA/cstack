@@ -11,7 +11,7 @@
     "Drafts of messages, replies, documents and calendar entries"
   ],
   "not_owned": [
-    "Sending, posting or accepting anything, which needs the owner's approval"
+    "Paying for anything, which needs the owner's approval"
   ],
   "reports_to": "chief",
   "may_delegate_to": [],

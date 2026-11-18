@@ -41,9 +41,22 @@ class Guard(unittest.TestCase):
         self.assertEqual(self.decide("smith", "Write", file_path=str(self.root / "../escape.txt")), "deny")
         self.assertEqual(self.decide("smith", "Write"), "deny")
 
-    def test_gated_commands_ask_and_ordinary_commands_pass(self):
-        for command in ("git push origin feat", "gh pr create --draft", "rm -rf build", "curl -X POST https://x.test",
-                        "git reset --hard HEAD~1", "make && rm out.txt"):
+    GATED = ("git push origin feat", "gh pr create --draft", "rm -rf build", "curl -X POST https://x.test",
+             "git reset --hard HEAD~1", "make && rm out.txt")
+
+    def gate(self, slug, klass="ask"):
+        def restrict(doc):
+            bot = next(b for b in doc["bots"] if b["slug"] == slug)
+            bot["effects"].update({effect: klass for effect in ("send", "payment", "post", "filing", "delete")})
+        edit_json(self.root / "aors/fleet.json", restrict)
+
+    def test_the_high_trust_fleet_runs_send_post_and_delete_without_asking(self):
+        for command in self.GATED:
+            self.assertIsNone(self.decide("smith", "Bash", command=command), command)
+
+    def test_gated_commands_ask_when_the_owner_sets_ask_and_ordinary_commands_pass(self):
+        self.gate("smith")
+        for command in self.GATED:
             self.assertEqual(self.decide("smith", "Bash", command=command), "ask", command)
         for command in ("python -B -m unittest discover -s tests", "git status", "ls -la", "grep -rn form ."):
             self.assertIsNone(self.decide("smith", "Bash", command=command), command)
@@ -69,6 +82,7 @@ class Guard(unittest.TestCase):
         self.assertEqual(json.loads(out.getvalue())["hookSpecificOutput"]["permissionDecision"], "deny")
 
     def test_it_runs_isolated_on_the_standard_library_as_the_hook_command(self):
+        self.gate("smith")
         event = {"tool_name": "Bash", "tool_input": {"command": "git push"}, "cwd": str(self.root)}
         done = subprocess.run([sys.executable, "-I", "-B", str(ROOT / "tools/agent_guard.py"), "--aor", "smith"],
                               input=json.dumps(event), capture_output=True, text=True, timeout=30,
