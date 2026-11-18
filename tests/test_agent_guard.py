@@ -48,6 +48,59 @@ class Guard(unittest.TestCase):
         for command in ("python -B -m unittest discover -s tests", "git status", "ls -la", "grep -rn form ."):
             self.assertIsNone(self.decide("smith", "Bash", command=command), command)
 
+    # E4: commands the old pattern list let through. Each must now ask (a gated effect) or be denied (a protected path).
+    BYPASSES = (
+        "/bin/rm -rf build", "/usr/bin/env rm out.txt", "command rm x", "sudo -u me rm x", "unlink a.txt",
+        "find . -name '*.pyc' -delete", "find . -type f -exec /bin/rm {} \\;", "ls | xargs rm",
+        "python3 -c 'import shutil; shutil.rmtree(\"build\")'", "python -Bc 'print(1)'", "node -e 'require(\"fs\")'",
+        "perl -e 'unlink q(x)'", "echo rm x | sh", "bash -c 'rm -rf build'", "sh -c \"git push origin main\"",
+        "eval 'rm x'", "echo $(rm x)", "echo `rm x`", "X=1 rm x", "(cd build && rm -f a)", "$CMD x",
+        "git push --force origin main", "git clean -xdf", "git checkout -- .", "git restore src/app.py",
+        "git stash drop", "gh api repos/o/r/issues -f title=x", "gh repo delete o/r --yes", "gh secret set TOKEN",
+        "curl --json '{}' https://x.test", "curl -XPOST https://x.test", "wget --post-data=a https://x.test",
+        "scp out.txt host:/tmp/", "ssh host uptime", "rsync -a out/ host:/srv/",
+        "cat <<EOF > notes.txt\n$(rm -rf build)\nEOF",
+    )
+    PROTECTED_WRITES = (
+        "echo '{}' > aors/fleet.json", "cp /tmp/x agents/smith.md", "sed -i '' s/a/b/ agents/chief.md",
+        "cd aors && echo x >> fleet.json", "tee .mcp.json < /tmp/x", "mv /tmp/g tools/agent_guard.py",
+        "git checkout main -- aors/fleet.json", "python3 tools/x.py > .claude/settings.json",
+    )
+    ORDINARY = (
+        "python -B -m unittest discover -s tests", "python3 tools/agent_profiles.py --check", "node --test",
+        "git status", "git diff HEAD~1", "git log --oneline -5", "git add src/app.py", "git commit -m 'fix'",
+        "git restore --staged src/app.py", "gh pr view 12", "gh pr checks 12", "gh api repos/o/r/pulls",
+        "ls -la | grep x", "cat aors/fleet.json", "grep -rn form . 2>/dev/null", "make test 2>&1 | tail -5",
+        "bash ci/run-local.sh python links trace", ". .venv/bin/activate && python -m pytest",
+        "curl -fsSL https://x.test/file -o out.txt", "mkdir -p build && cp src/a build/",
+        "git commit -m \"$(cat <<'EOF'\nfix the thing\nEOF\n)\"", "echo done > /dev/null",
+        "cat <<'EOF' > notes.txt\n$(not run)\nEOF",
+    )
+
+    def test_commands_the_old_patterns_missed_are_gated(self):
+        for command in self.BYPASSES:
+            self.assertEqual(self.decide("smith", "Bash", command=command), "ask", command)
+
+    def test_bash_writes_to_authority_paths_are_denied(self):
+        for command in self.PROTECTED_WRITES:
+            self.assertEqual(self.decide("smith", "Bash", command=command), "deny", command)
+        self.assertIsNone(self.decide("smith", "Bash", command="echo m > .claude/agent-memory-local/smith/m.md"))
+        self.assertEqual(self.decide("smith", "Bash", command="echo m > .claude/agent-memory-local/sage/m.md"), "deny")
+
+    def test_ordinary_commands_still_pass(self):
+        for command in self.ORDINARY:
+            self.assertIsNone(self.decide("smith", "Bash", command=command), command)
+
+    def test_a_write_the_guard_cannot_place_asks_even_when_effects_are_allowed(self):
+        def open_up(doc):
+            bot = next(b for b in doc["bots"] if b["slug"] == "keeper")
+            bot["effects"].update(delete="allow", post="allow", send="allow")
+        edit_json(self.root / "aors/fleet.json", open_up)
+        self.assertIsNone(self.decide("keeper", "Bash", command="rm -rf work/ops/old"))
+        self.assertIsNone(self.decide("keeper", "Bash", command="python3 -c 'print(1)'"))
+        self.assertEqual(self.decide("keeper", "Bash", command="cp x $DEST"), "ask")
+        self.assertEqual(self.decide("keeper", "Bash", command="rm aors/fleet.json"), "deny")
+
     def test_denied_and_ask_classes_apply_to_built_in_tools(self):
         def restrict(doc):
             bot = next(b for b in doc["bots"] if b["slug"] == "keeper")

@@ -907,7 +907,7 @@ Every `agents/<slug>.md` front block shall validate against `contracts/agent.sch
 
 ### CS-REQ-082 — Agent guard hook
 
-`tools/agent_guard.py`, run as each generated agent's `PreToolUse` hook, shall deny a built-in file write outside the agent's AOR slices, inside another agent's slice, outside the project, or to the authority and agent configuration paths; shall return the AOR class (`ask` or `deny`) for reads, writes and commands whose class is not `allow` and for commands that match a send, post or delete pattern; shall run on the standard library alone; and shall deny on any error.
+`tools/agent_guard.py`, run as each generated agent's `PreToolUse` hook, shall deny a built-in file write outside the agent's AOR slices, inside another agent's slice, outside the project, or to the authority and agent configuration paths; shall return the AOR class (`ask` or `deny`) for reads, writes and commands whose class is not `allow` and for commands that its parse of the command line classifies as a send, post or delete effect, cannot read, or write to a path it cannot place; shall deny a command that writes to the authority and agent configuration paths; shall run on the standard library alone; and shall deny on any error.
 
 - Rationale: Cstack's AOR effects were enforced only inside the MCP server, and Claude Code's built-in tools bypass it.
 - Derivation: `tools/agent_guard.py`
