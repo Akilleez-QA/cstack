@@ -1,0 +1,17 @@
+{
+  "name": "cstack-ts",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "gen": "node packages/contracts/scripts/gen.ts",
+    "check": "node packages/contracts/scripts/gen.ts --check && tsc -p tsconfig.json",
+    "test": "node --test 'packages/*/test/*.test.ts'"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "json-schema-to-typescript": "15.0.4",
+    "typescript": "5.9.3"
+  }
+}

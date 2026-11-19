@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cstack.dev/contracts/intent.schema.json",
+  "title": "IntentContract",
+  "description": "cstack.intent/1: the one record from the owner's words to delivered software. Integers, strings, booleans, arrays and objects only; no floats, so the v1 canonical digest applies unchanged.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "intent_id", "revision", "supersedes", "owner_words", "restatement", "roles", "acceptance", "delivery", "limits"],
+  "properties": {
+    "schema": { "const": "cstack.intent/1" },
+    "intent_id": { "$ref": "#/$defs/Identifier", "description": "Stable across revisions and restarts; not session-scoped." },
+    "revision": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+    "supersedes": {
+      "description": "sha256 of the prior revision; null on revision 1.",
+      "anyOf": [{ "$ref": "#/$defs/Sha256" }, { "type": "null" }]
+    },
+    "owner_words": {
+      "description": "The owner's text, verbatim and never rewritten. It stays in the owner's ledger.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "channel", "received_at"],
+      "properties": {
+        "text": { "$ref": "#/$defs/Prose" },
+        "channel": { "$ref": "#/$defs/Identifier" },
+        "received_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "restatement": {
+      "description": "Chief's reading of the owner's words.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["objective", "assumptions", "exclusions", "questions_asked"],
+      "properties": {
+        "objective": { "$ref": "#/$defs/Prose" },
+        "assumptions": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/Prose" } },
+        "exclusions": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/Prose" } },
+        "questions_asked": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["q", "owner_answer"],
+            "properties": { "q": { "$ref": "#/$defs/Prose" }, "owner_answer": { "$ref": "#/$defs/Prose" } }
+          }
+        }
+      }
+    },
+    "roles": {
+      "description": "Who restated, who writes the spec and who builds. Acceptance authors must be none of the last two.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chief", "spec_writer", "builder"],
+      "properties": {
+        "chief": { "$ref": "#/$defs/Identifier" },
+        "spec_writer": { "$ref": "#/$defs/Identifier" },
+        "builder": { "$ref": "#/$defs/Identifier" }
+      }
+    },
+    "acceptance": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "$ref": "#/$defs/AcceptanceTest" } },
+    "delivery": { "$ref": "#/$defs/DeliveryTarget" },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["budget_cents", "model_runs", "deadline"],
+      "properties": {
+        "budget_cents": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "model_runs": { "enum": ["none", "stand-in", "real"] },
+        "deadline": { "anyOf": [{ "$ref": "#/$defs/Timestamp" }, { "type": "null" }] }
+      }
+    }
+  },
+  "$defs": {
+    "Identifier": { "type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,128}$" },
+    "Sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "Prose": { "type": "string", "minLength": 1, "maxLength": 4096, "pattern": "\\S" },
+    "Timestamp": {
+      "type": "string",
+      "description": "RFC 3339.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "Json": {
+      "description": "Any JSON value without floats.",
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "integer", "minimum": -9007199254740991, "maximum": 9007199254740991 },
+        { "type": "string", "maxLength": 65536 },
+        { "type": "array", "maxItems": 4096, "items": { "$ref": "#/$defs/Json" } },
+        { "type": "object", "maxProperties": 4096, "additionalProperties": { "$ref": "#/$defs/Json" } }
+      ]
+    },
+    "AcceptanceTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "says", "author", "check"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Identifier" },
+        "says": { "$ref": "#/$defs/Prose", "description": "Plain words the owner reads on the card." },
+        "author": { "$ref": "#/$defs/Identifier", "description": "Bot id; never the spec writer or the builder." },
+        "check": {
+          "oneOf": [
+            { "$ref": "#/$defs/ExampleCheck" },
+            { "$ref": "#/$defs/PropertyCheck" },
+            { "$ref": "#/$defs/CommandCheck" },
+            { "$ref": "#/$defs/OwnerCheck" }
+          ]
+        }
+      }
+    },
+    "ExampleCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "call", "inputs", "expect", "tolerance_ulps"],
+      "properties": {
+        "kind": { "const": "example" },
+        "call": { "$ref": "#/$defs/Identifier" },
+        "inputs": { "$ref": "#/$defs/Json" },
+        "expect": { "$ref": "#/$defs/Json" },
+        "tolerance_ulps": { "type": "integer", "minimum": 0, "maximum": 1048576 }
+      }
+    },
+    "PropertyCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "call", "domain", "predicate", "samples"],
+      "properties": {
+        "kind": { "const": "property" },
+        "call": { "$ref": "#/$defs/Identifier" },
+        "domain": { "$ref": "#/$defs/Json" },
+        "predicate": { "$ref": "#/$defs/Prose" },
+        "samples": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+      }
+    },
+    "CommandCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "argv", "expect_exit"],
+      "properties": {
+        "kind": { "const": "command" },
+        "argv": { "type": "array", "minItems": 1, "maxItems": 256, "items": { "type": "string", "minLength": 1, "maxLength": 4096 } },
+        "expect_exit": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "expect_stdout_sha256": { "$ref": "#/$defs/Sha256" }
+      }
+    },
+    "OwnerCheck": {
+      "description": "The owner judges this one. It is never automatic.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "prompt"],
+      "properties": { "kind": { "const": "owner_check" }, "prompt": { "$ref": "#/$defs/Prose" } }
+    },
+    "DeliveryTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "how_to_run", "where"],
+      "properties": {
+        "kind": { "enum": ["kernel", "package", "branch", "service"] },
+        "how_to_run": { "type": "array", "minItems": 1, "maxItems": 256, "items": { "type": "string", "minLength": 1, "maxLength": 4096 } },
+        "where": { "$ref": "#/$defs/Prose" }
+      }
+    },
+    "IntentRef": {
+      "description": "Carried by everything downstream: specs, forge runs, candidates, PRs, receipts, verdicts.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent_id", "revision", "sha256"],
+      "properties": {
+        "intent_id": { "$ref": "#/$defs/Identifier" },
+        "revision": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "sha256": { "$ref": "#/$defs/Sha256" }
+      }
+    }
+  }
+}

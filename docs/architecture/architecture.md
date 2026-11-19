@@ -86,6 +86,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C28 | Local setup (`cstack init`) | `adapters/local_setup.py`, `tools/cstack_init.py` | Creates and checks one machine's private state folder, device name and witnessed-ledger keys, roster and settings; resolves the device name with or without Tailscale | CS-REQ-084, CS-REQ-086 |
 | SDD-C29 | Hand-off channel | `adapters/work_tree.py` | Event-sourced work tree beside the cores: one node per hand-off, lineage, wake-once, chase, holds, loop and fan-out limits, witnessed in the session ledger, offered to bots as MCP tools | CS-REQ-087 |
 | SDD-C31 | Foundations MCP server | `adapters/foundations_mcp.py`, `tools/foundations_mcp.py` | Host-launched MCP server exposing the chosen pinned Foundations' tools to one bot, each call decided and executed through its AOR session | CS-REQ-091 |
+| SDD-C32 | Intent contract (TypeScript) | `ts/packages/contracts/`, `ts/packages/intent/`, `tools/intent_vectors.py` | First TypeScript-port packages: the `cstack.intent/1` schema with generated types, the v1 canonical digest matched to Python by golden vectors, and the pure intent lifecycle | CS-REQ-092 |
 
 ```mermaid
 flowchart LR

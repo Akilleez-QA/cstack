@@ -1,0 +1,202 @@
+{
+ "generated_by": "tools/intent_vectors.py",
+ "vectors": [
+  {
+   "name": "contract",
+   "value": {
+    "schema": "cstack.intent/1",
+    "intent_id": "intent.example-clamp",
+    "revision": 1,
+    "supersedes": null,
+    "owner_words": {
+     "text": "I need a clamp for integer arrays that never allocates.",
+     "channel": "chat",
+     "received_at": "2026-11-19T09:00:00Z"
+    },
+    "restatement": {
+     "objective": "A kernel that clamps every element of an i32 array into [lo, hi] in place.",
+     "assumptions": [
+      "lo <= hi is the caller\u2019s job"
+     ],
+     "exclusions": [
+      "floating-point arrays"
+     ],
+     "questions_asked": [
+      {
+       "q": "In place, or a new array?",
+       "owner_answer": "In place."
+      }
+     ]
+    },
+    "roles": {
+     "chief": "chief",
+     "spec_writer": "scribe",
+     "builder": "smith"
+    },
+    "acceptance": [
+     {
+      "id": "clamps-example",
+      "says": "Values below lo become lo and above hi become hi.",
+      "author": "sage",
+      "check": {
+       "kind": "example",
+       "call": "clamp",
+       "inputs": {
+        "xs": [
+         -5,
+         0,
+         9
+        ],
+        "lo": 0,
+        "hi": 3
+       },
+       "expect": [
+        0,
+        0,
+        3
+       ],
+       "tolerance_ulps": 0
+      }
+     },
+     {
+      "id": "stays-in-range",
+      "says": "Every output is between lo and hi.",
+      "author": "sage",
+      "check": {
+       "kind": "property",
+       "call": "clamp",
+       "domain": {
+        "xs": "i32[0..1024]",
+        "lo": "i32",
+        "hi": "i32"
+       },
+       "predicate": "out.every(v => lo <= v && v <= hi)",
+       "samples": 1000
+      }
+     },
+     {
+      "id": "runs",
+      "says": "The delivered package runs its own self-check.",
+      "author": "sage",
+      "check": {
+       "kind": "command",
+       "argv": [
+        "node",
+        "clamp.mjs",
+        "--self-check"
+       ],
+       "expect_exit": 0
+      }
+     }
+    ],
+    "delivery": {
+     "kind": "kernel",
+     "how_to_run": [
+      "node",
+      "clamp.mjs"
+     ],
+     "where": "artifacts/clamp"
+    },
+    "limits": {
+     "budget_cents": 0,
+     "model_runs": "stand-in",
+     "deadline": null
+    }
+   },
+   "canonical": "{\"acceptance\":[{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"expect\":[0,0,3],\"inputs\":{\"hi\":3,\"lo\":0,\"xs\":[-5,0,9]},\"kind\":\"example\",\"tolerance_ulps\":0},\"id\":\"clamps-example\",\"says\":\"Values below lo become lo and above hi become hi.\"},{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"domain\":{\"hi\":\"i32\",\"lo\":\"i32\",\"xs\":\"i32[0..1024]\"},\"kind\":\"property\",\"predicate\":\"out.every(v => lo <= v && v <= hi)\",\"samples\":1000},\"id\":\"stays-in-range\",\"says\":\"Every output is between lo and hi.\"},{\"author\":\"sage\",\"check\":{\"argv\":[\"node\",\"clamp.mjs\",\"--self-check\"],\"expect_exit\":0,\"kind\":\"command\"},\"id\":\"runs\",\"says\":\"The delivered package runs its own self-check.\"}],\"delivery\":{\"how_to_run\":[\"node\",\"clamp.mjs\"],\"kind\":\"kernel\",\"where\":\"artifacts/clamp\"},\"intent_id\":\"intent.example-clamp\",\"limits\":{\"budget_cents\":0,\"deadline\":null,\"model_runs\":\"stand-in\"},\"owner_words\":{\"channel\":\"chat\",\"received_at\":\"2026-11-19T09:00:00Z\",\"text\":\"I need a clamp for integer arrays that never allocates.\"},\"restatement\":{\"assumptions\":[\"lo <= hi is the caller\\u2019s job\"],\"exclusions\":[\"floating-point arrays\"],\"objective\":\"A kernel that clamps every element of an i32 array into [lo, hi] in place.\",\"questions_asked\":[{\"owner_answer\":\"In place.\",\"q\":\"In place, or a new array?\"}]},\"revision\":1,\"roles\":{\"builder\":\"smith\",\"chief\":\"chief\",\"spec_writer\":\"scribe\"},\"schema\":\"cstack.intent/1\",\"supersedes\":null}",
+   "sha256": "391162e2057ca287174e2da7fcd92890596dbac64bdc05e3a16212485ed1a84d"
+  },
+  {
+   "name": "empty-object",
+   "value": {},
+   "canonical": "{}",
+   "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  {
+   "name": "nested-order",
+   "value": {
+    "b": {
+     "z": 1,
+     "a": [
+      3,
+      2,
+      1
+     ]
+    },
+    "a": null,
+    "A": true,
+    "_": false
+   },
+   "canonical": "{\"A\":true,\"_\":false,\"a\":null,\"b\":{\"a\":[3,2,1],\"z\":1}}",
+   "sha256": "82e9b440a75ff6576bb77b5b571d8e45355cc8b7e23bb8850b751408fd1f03e6"
+  },
+  {
+   "name": "non-ascii",
+   "value": {
+    "text": "caf\u00e9 \u2014 \u6f22\u5b57 \ud83d\ude00"
+   },
+   "canonical": "{\"text\":\"caf\\u00e9 \\u2014 \\u6f22\\u5b57 \\ud83d\\ude00\"}",
+   "sha256": "2899365040aeff811d75da44d13f0cead38fe81a2fa4a056075d416132e4cf20"
+  },
+  {
+   "name": "astral-key-order",
+   "value": {
+    "\ud83d\ude00": 1,
+    "\uffff": 2,
+    "\ue000": 3,
+    "z": 4
+   },
+   "canonical": "{\"z\":4,\"\\ue000\":3,\"\\uffff\":2,\"\\ud83d\\ude00\":1}",
+   "sha256": "d8fa8bb5d248f820368c4df03978d114d235b8635dcd0288bd3669d3552a4463"
+  },
+  {
+   "name": "del-and-controls",
+   "value": {
+    "s": "\u007f\u0000\u0001\b\t\n\f\r\u001f\"\\/"
+   },
+   "canonical": "{\"s\":\"\\u007f\\u0000\\u0001\\b\\t\\n\\f\\r\\u001f\\\"\\\\/\"}",
+   "sha256": "18f1a782f648dd183fdfd66bf749dd9b2f36e009b030c5a5d6cbb6193f0a432d"
+  },
+  {
+   "name": "lone-surrogate",
+   "value": {
+    "s": "\ud800x"
+   },
+   "canonical": "{\"s\":\"\\ud800x\"}",
+   "sha256": "fdcc2c72d7292223d999036df79143b5a626f4f1ce5e5f83ca2cf143e1b34a9d"
+  },
+  {
+   "name": "safe-integer-edges",
+   "value": {
+    "max": 9007199254740991,
+    "min": -9007199254740991,
+    "zero": 0,
+    "neg": -42
+   },
+   "canonical": "{\"max\":9007199254740991,\"min\":-9007199254740991,\"neg\":-42,\"zero\":0}",
+   "sha256": "9469cd310334e83149791bb63c074f091a11db56e149aaf2cc6005d3282ffaab"
+  },
+  {
+   "name": "stored-separators",
+   "value": {
+    "k": ", : {} []"
+   },
+   "canonical": "{\"k\":\", : {} []\"}",
+   "sha256": "a4f4ce5062b92f621895406626dbb57af632afff0f4e03f7c4476caa22761391"
+  }
+ ],
+ "ts_refuses": [
+  {
+   "name": "float",
+   "canonical": "{\"x\":1.5}"
+  },
+  {
+   "name": "one-point-zero",
+   "canonical": "{\"x\":1.0}"
+  },
+  {
+   "name": "big-int",
+   "canonical": "{\"x\":9007199254740993}"
+  }
+ ]
+}
