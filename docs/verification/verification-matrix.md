@@ -88,6 +88,7 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-085 | T | `tests/test_cstack_init.py::LauncherTests`; `tests/test_mcp_driving_adapter.py` | Refusal names the fix and creates no state; memory ledger only with the flag | Not yet in a test report; PR check run |
 | CS-REQ-086 | T | `tests/test_cstack_init.py::DeviceTests`; `tests/test_cstack_init.py::LauncherTests.test_after_init_the_launcher_starts_witnessed_without_tailscale_or_device_flag` | Tailscale absent, failing or present; sole-device fallback; unlisted name; flag validation | Not yet in a test report; PR check run |
 | CS-REQ-091 | T | `tests/test_foundations_mcp.py` | Every vendored Foundation called once over the real pinned bridges; tampered manifest; stdio launcher | Not yet in a recorded run |
+| CS-REQ-092 | T | `tests/test_intent_vectors.py` | Python side of the shared golden vectors; the lifecycle, draft and digest cases run in `ts/` under `node --test` (E2, E3′, E5, E9, E10, E11, E13 in pure form) | Not yet in a recorded run |
 | CS-REQ-054 | T | `tests/test_fleet_mail.py`; `tests/test_fleet_mail_budget.py` | Uses a fake `gh`; no network | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-055 | T | `tests/test_relay_outbox.py` | Several processes, torn tails | [STR-baseline](reports/STR-baseline.md) |
 | CS-REQ-087 | T | `tests/test_work_tree.py` | Scenario suite and seeded random walk checked against invariants I1, I2, I3, I4, I7, H1 and C2 after every step; temporary log files; MCP tests require the `cryptography` package | [STR-baseline](reports/STR-baseline.md) |
@@ -169,3 +170,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 row adds the session-end and workcell-kill tests; CS-REQ-047 row names a failed file open | PR fixing the 2026-11-09 backfill-review findings |
 | 2.2 | 2026-11-16 | feat/cstack-init | Rows for CS-REQ-084 to CS-REQ-086 | Draft PR for `cstack init` |
 | 2.3 | 2026-11-16 | this PR | Row for CS-REQ-088 | fix/repin-endoforge-macos PR |
+| 2.4 | 2026-11-19 | this PR | Row for CS-REQ-092 | feat/ts-intent-contract PR |
