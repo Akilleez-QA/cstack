@@ -725,6 +725,11 @@
    "reason": "CI gate: requirement, design and test traceability and control-document links; reads docs and tests only."
   },
   {
+   "path": "tools/intent_vectors.py",
+   "role": "build_or_check_tool",
+   "reason": "Writes the golden digest vectors the TypeScript intent contract must match, from Python's v1 canonical form; grants no runtime authority."
+  },
+  {
    "path": "tools/gen_data_dictionary.py",
    "role": "build_or_check_tool",
    "reason": "Writes docs/data/data-dictionary.md from schemas, config and code limits; grants no runtime authority."
