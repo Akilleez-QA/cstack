@@ -170,3 +170,13 @@ Control `examples/refrigeration-e2e.json`, `tests/test_refrigeration_e2e.py`, an
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Foundation, Engine and POODO repin: manifest digests, upstream commits, POODO commit | PR #78 |
 | 2.2 | 2026-11-08 | 84cd19d238a057b1c07af63e64b50edfb515d615 | EndoForge repin to ea7b8d6: 27-file slice, manifest digest | PR #79 |
 | 2.3 | 2026-11-16 | this PR | EndoForge repin to 68eaa75: 29-file slice, manifest digest | fix/repin-endoforge-macos PR |
+
+## Forge Core F3 core baseline
+
+The intentional ApprovalPort and LedgerPort extensions are pinned by
+`poodo_core_forge_core_f3_0_4` in `contracts/SOURCE-PINS.json`. The historical
+crash-recovery pin and all vendor pins retain their previous values. The current
+core-pin test now names the F3 baseline, verifies all core hashes, and checks that
+only `poodo_core/ports.py` differs from the preceding core pin. This expectation
+change reflects the requested interface change; it does not relax byte checking.
+See [Forge Core](../architecture/forge-core.md) for behavior and compatibility.

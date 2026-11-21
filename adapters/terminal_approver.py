@@ -44,6 +44,18 @@ class TerminalApprover:
             "cli-" + uuid4().hex, request.decision_id, request.sha256, request.goal_id,
             request.goal_revision, APPROVER, "approved" if answer == "approve" else "declined", int(time.time()) + 300)
 
+    def consume_envelope(self, approval_id):
+        return False
+
+    def meter(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, cost, effect="read"):
+        return False
+
+    def commit_scope(self, approval_id, objects):
+        return False
+
+    def meter_commit(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, objects, resources):
+        return False
+
     def lookup(self, decision_id):
         return self.records.get(decision_id)
 

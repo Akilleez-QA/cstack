@@ -54,6 +54,8 @@ import weakref
 _LIVE = weakref.WeakSet()  # instances holding a claim, so a forked child can drop its inherited copies
 
 from poodo_core.models import ContractError, canonical, digest
+from adapters.memory_ledger import batch_items, merkle_root
+from adapters.durable_ledger import _sync_parent, DurableLedger
 
 KINDS = ("proposal", "observation", "inference", "decision", "action", "outcome", "learning", "correction")
 ENVELOPE_BYTES = 1024  # ADR 004 fields + signature + hash around each POODO event
@@ -195,6 +197,8 @@ class WitnessedLedger:
         self._seen = anchor[:2] if anchor else (0, L.GENESIS)
         self._tip = (0, None)  # this stream's (events, last event_sha256) at self._seen
         self._intents = {}  # decision_id -> intent hash, for this core's decisions
+        self._log = None
+        self._indexed, self._cached_scan = 0, ([], 0, 0)
         self._claim = self._claim_stream()
         try:
             with self._open() as log:
@@ -257,7 +261,11 @@ class WitnessedLedger:
             os.close(_private(self._path + suffix))
         with ExitStack() as stack:
             try:
-                log = L.Log(self._path, self._origin, self._roster)
+                self._recover_batch()
+                if self._log is None or self._log.stamp() != self._log._stamp:
+                    self._log = L.Log(self._path, self._origin, self._roster)
+                    self._indexed, self._cached_scan = 0, ([], 0, 0)
+                log = self._log
                 stack.enter_context(log.locked())  # exclusive flock on <log>.lock, then refresh
                 self._check_claim()  # not closed while this operation waited for the node lock
                 size, head = self._seen
@@ -302,9 +310,12 @@ class WitnessedLedger:
         several cores may have interleaved in that one chain, which is the defect streams fix, so no stream can
         claim it, and skipping it would hide signed decisions. Such a log is retired, not migrated.
         """
-        events, prior, count, stored = [], None, 0, 0
-        entries = log.entries if size is None else log.entries[:size]
-        for entry in entries:
+        end = len(log.entries) if size is None else size
+        cached = end >= self._indexed
+        events, count, stored = self._cached_scan if cached else ([], 0, 0)
+        prior = events[-1]["event_sha256"] if events else None
+        for index in range(self._indexed if cached else 0, end):
+            entry = log.entries[index]
             body = entry.get("body")
             if entry["writer"] != self._writer or type(body) is not dict:
                 continue
@@ -325,7 +336,9 @@ class WitnessedLedger:
                 raise ContractError(f"POODO event chain broken at node seq {entry['seq']}")
             events.append(event)
             prior = event["event_sha256"]
-        self._fresh = (len(entries), (len(events), prior))
+        if cached:
+            self._indexed, self._cached_scan = end, (events, count, stored)
+        self._fresh = (end, (len(events), prior))
         return events, count, stored
 
     def _budget(self, scan, event_count, byte_count):
@@ -348,7 +361,7 @@ class WitnessedLedger:
         """ADR 004 authorize() for this action, plus: one attempt per intent. Denials are recorded, then raised."""
         L = self._L
         try:
-            intent = next((e for e in log.entries if e["hash"] == ref), None)
+            intent = log.by_hash.get(ref)
             if intent is None or intent["writer"] != self._writer or intent["body"].get("stream") != self._stream:
                 raise L.Denied("no-intent: execute-then-log is not allowed")
             try:
@@ -358,7 +371,7 @@ class WitnessedLedger:
             if data.get("request_sha256") != L.digest(request):
                 raise L.Denied("action does not match the registered intent")
             L.authorize(log, ref, request)
-            if any(e.get("ref") == ref for e in log.entries):
+            if ref in log.refs:
                 raise L.Denied("intent-already-attempted")
         except L.LedgerError as denied:
             self._write(log, "note", {"poodo_denied": {"decision_id": data.get("decision_id"), "intent": ref,
@@ -370,45 +383,132 @@ class WitnessedLedger:
             self._budget(self._scan(log), event_count, byte_count)
 
     def append(self, kind, data):
+        with self._open() as log:
+            return json.loads(canonical(self._append(log, kind, data)))
+
+    def _append(self, log, kind, data):
         if kind not in KINDS or type(data) is not dict:
             raise ContractError("Unknown event classification")
         L = self._L
+        scan = self._scan(log)
+        events = scan[0]
+        frame = {"sequence": len(events) + 1, "kind": kind, "data": data,
+                 "prior_event_sha256": events[-1]["event_sha256"] if events else None}
+        event = json.loads(canonical({**frame, "event_sha256": digest(frame)}))
+        self._budget(scan, 1, len(_encode(event)))
+        entry_kind, body, ref = "note", {"event_json": _encode(event)}, None
+        if kind == "decision" and data.get("action") == "precommit":
+            request = data.get("request")
+            if type(request) is not dict or L.digest(request) != data.get("request_sha256"):
+                raise ContractError("Precommitment does not match its request digest")
+            entry_kind, body = "intent", {"digest": L.digest(request), "op": "poodo.execute",
+                                 "event_json": _encode(event)}
+        elif kind == "action":
+            ref = self._intents.get(data.get("decision_id"))
+            if self._enforce:
+                self._gate(log, ref, data)
+            if ref is not None:  # consume the intent as Log.claim() does, in this same locked section
+                intent = log.by_hash.get(ref)
+                if intent is None:
+                    raise ContractError("Required intent index miss")
+                entry_kind, body = "claim", {"digest": intent["body"]["digest"], "event_json": _encode(event)}
+        elif kind == "outcome":
+            outcome = data.get("outcome") if type(data.get("outcome")) is dict else {}
+            ref = self._intents.get(outcome.get("decision_id"))
+            if ref is not None:
+                if ref not in log.by_hash:
+                    raise ContractError("Required intent index miss")
+                entry_kind, body = "result", {"outcome": result_outcome(outcome),
+                                                "event_json": _encode(event)}
+        entry = self._write(log, entry_kind, body, ref)
+        events.append(event)
+        self._indexed = len(log.entries)
+        self._cached_scan = (events, scan[1] + 1, scan[2] + len(json.dumps(entry, sort_keys=True)) + 1)
+        self._fresh = (len(log.entries), (event["sequence"], event["event_sha256"]))
+        if entry_kind == "intent":
+            self._intents[data["request"].get("decision_id")] = entry["hash"]
+        return event
+
+    def _recover_batch(self):
+        journal = Path(self._path + ".batch-pending")
+        fd = _private(self._path + ".lock")
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            if journal.exists():
+                os.close(_private(journal))
+                offset = json.loads(journal.read_text())["offset"]
+                if type(offset) is not int or not 0 <= offset <= os.path.getsize(self._path):
+                    raise ContractError("Invalid batch recovery offset")
+                raw = Path(self._path).read_bytes()
+                if offset < len(raw):
+                    DurableLedger.quarantine_tail(Path(self._path), raw[offset:], offset)
+                journal.unlink()
+                _sync_parent(journal)
+                self._log = None
+        finally:
+            os.close(fd)
+
+    def _persist_batch(self, persist, entries):
+        journal = Path(self._path + ".batch-pending")
+        offset = os.path.getsize(self._path)
+        fd = _private(journal)
+        try:
+            os.ftruncate(fd, 0)
+            DurableLedger._write_all(fd, canonical({"offset": offset}).encode("ascii"))
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        _sync_parent(journal)
+        try:
+            persist(entries)
+        except BaseException:
+            fd = _private(self._path)
+            try:
+                os.ftruncate(fd, offset)
+                os.fsync(fd)
+            finally:
+                os.close(fd)
+            journal.unlink()
+            _sync_parent(journal)
+            raise
+        journal.unlink()
+        _sync_parent(journal)
+
+    def append_batch(self, items):
+        items = batch_items(items)
         with self._open() as log:
-            scan = self._scan(log)
-            events = scan[0]
-            frame = {"sequence": len(events) + 1, "kind": kind, "data": data,
-                     "prior_event_sha256": events[-1]["event_sha256"] if events else None}
-            event = json.loads(canonical({**frame, "event_sha256": digest(frame)}))
-            self._budget(scan, 1, len(_encode(event)))
-            entry_kind, body, ref = "note", {"event_json": _encode(event)}, None
-            if kind == "decision" and data.get("action") == "precommit":
-                request = data.get("request")
-                if type(request) is not dict or L.digest(request) != data.get("request_sha256"):
-                    raise ContractError("Precommitment does not match its request digest")
-                entry_kind, body = "intent", {"digest": L.digest(request), "op": "poodo.execute",
-                                     "event_json": _encode(event)}
-            elif kind == "action":
-                ref = self._intents.get(data.get("decision_id"))
-                if self._enforce:
-                    self._gate(log, ref, data)
-                if ref is not None:  # consume the intent as Log.claim() does, in this same locked section
-                    intent = next(e for e in log.entries if e["hash"] == ref)
-                    entry_kind, body = "claim", {"digest": intent["body"]["digest"], "event_json": _encode(event)}
-            elif kind == "outcome":
-                outcome = data.get("outcome") if type(data.get("outcome")) is dict else {}
-                ref = self._intents.get(outcome.get("decision_id"))
-                if ref is not None:
-                    entry_kind, body = "result", {"outcome": result_outcome(outcome),
-                                                    "event_json": _encode(event)}
-            entry = self._write(log, entry_kind, body, ref)
-            self._fresh = (len(log.entries), (event["sequence"], event["event_sha256"]))
-            if entry_kind == "intent":
-                self._intents[data["request"].get("decision_id")] = entry["hash"]
-            return event
+            start, wseq = len(log.entries), dict(log.wseq)
+            touched = {data["request"].get("decision_id") for kind, data in items
+                       if kind == "decision" and data.get("action") == "precommit"
+                       and type(data.get("request")) is dict}
+            intents = {key: self._intents.get(key) for key in touched}
+            persisted = log._persist
+            pending = []
+            log._persist = lambda entries: pending.extend(entries)
+            try:
+                events = [self._append(log, kind, data) for kind, data in items]
+                self._persist_batch(persisted, pending)
+                log._stamp = log.stamp()
+                return merkle_root(events)
+            except BaseException:
+                del log.entries[start:]
+                log.wseq = wseq
+                for key, previous in intents.items():
+                    if previous is None:
+                        self._intents.pop(key, None)
+                    else:
+                        self._intents[key] = previous
+                log.by_hash = {entry["hash"]: entry for entry in log.entries}
+                log.refs = {entry["ref"] for entry in log.entries if entry.get("ref") is not None}
+                log.used_refs = {entry["ref"] for entry in log.entries if entry["kind"] in ("claim", "result")}
+                self._log = None
+                raise
+            finally:
+                log._persist = persisted
 
     def read(self):
         with self._open() as log:
-            return self._scan(log)[0]
+            return json.loads(canonical(self._scan(log)[0]))
 
     def close(self):
         """Release the stream claim. Idempotent; every later operation on this instance is refused."""

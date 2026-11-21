@@ -97,7 +97,7 @@ class PoodoCore:
                    "_grant_uses", "_ledger", "_goals", "_decisions", "_used_requests", "_consumed",
                    "_attempt_number", "_busy", "_guard", "_interrupted", "_liveness", "_costs", "_budget_units", "_budget_limits",
                    "_spent", "_held", "_paused", "_budget_noted", "_lanes_noted", "MAX_NOTED",
-                   "_capacity_port", "_capacity_noted", "_live", "_endoforge", "_session_id", "_witness_failed", "_prior_decisions"}
+                   "_kills", "_capacity_port", "_capacity_noted", "_live", "_endoforge", "_session_id", "_witness_failed", "_prior_decisions"}
     MAX_NOTED = 256
 
     def __init_subclass__(cls, **kwargs):
@@ -117,7 +117,7 @@ class PoodoCore:
                  approvals: ApprovalPort | None = None, approver: str | None = None, clock=None,
                  budgets: tuple[CostBudget, ...] = (), costs: CostPort | None = None,
                  admission: AdmissionPort | None = None, endoforge: EndoforgePort | None = None,
-                 session_id: str | None = None):
+                 session_id: str | None = None, kills=None):
         if _state(self, "_guard") is not None:
             raise ReentryRefused("A core is constructed once; re-running __init__ is refused and changed nothing")
         object.__setattr__(self, "_guard", [])  # an empty token: every operation and nested __init__ is refused
@@ -174,6 +174,9 @@ class PoodoCore:
                 costs is None or any(g.aor_id not in aors for g in grants)):
             # Once spend is governed, every grant must be paid from a budget, so a plain grant cannot bypass it.
             raise ContractError("Budgeted authority needs a host cost port and a budget for every grant's AOR")
+        if kills is not None and any(g.aor_id is None for g in grants):
+            raise ContractError("Kill-governed authority requires mission AORs")
+        self._kills = kills
         self._costs = costs
         # ADR 005 item 5a: once admission is configured, every grant names an AOR and every AOR has host limits.
         self._capacity_port, self._capacity_noted, self._live = admission, set(), {}
@@ -264,7 +267,8 @@ class PoodoCore:
             self._ledger.append("outcome", {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": "unassessed", "covered_scope": "No accepted result",
                 "limitations": ["No proof or goal acceptance."], "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False})
+                "runtime_goal_acceptance": False, "verdict": "unverified",
+                "evidence_hash": digest(None), "verify_cost": None}, "goal_closed": False})
             outcomes[attempt_id] = result
         for attempt_id, action in unsettled.items():
             aor, reserved = action["aor_id"], action["cost_reserved"]
@@ -540,6 +544,12 @@ class PoodoCore:
         """ADR 005 item 5a: refuse unless every AOR's host capacity admits this gate now. Runs after deny and lane
         and before budget and approval, so a refusal holds no spend and spends no approval. The first refusal per
         exact request and gate is recorded (capacity_refused), bounded."""
+        if self._kills is not None:
+            for aor in aors:
+                try:
+                    self._kills.check((aor,))
+                except Exception as error:
+                    raise CapacityRefused("Mission kill gate refused") from error
         if _state(self, "_capacity_port") is None:
             return
         for aor in sorted(aors) or [None]:  # a goal no grant's AOR covers has no capacity: refused
@@ -614,6 +624,8 @@ class PoodoCore:
     def _pause_at_limit(self, aor):
         if self._spent[aor] >= self._budget_limits[aor] and aor not in self._paused:
             self._paused[aor] = "hard_stop"
+            if self._kills is not None:
+                self._kills.kill((aor,))
             self._ledger.append("decision", {"action": "budget_paused", "aor_id": aor, "reason": "hard_stop",
                 "spent": self._spent[aor], "limit": self._budget_limits[aor]})
 
@@ -704,13 +716,15 @@ class PoodoCore:
                     or interpretation.formal_proof is not False or interpretation.runtime_goal_acceptance is not False
                     or type(interpretation.limitations) is not tuple or len(interpretation.limitations) > 32):
                 raise ContractError("Extension attempted evidence escalation")
+            Interpretation.validate_verification(interpretation, result)
             prose(interpretation.covered_scope)
             for limitation in interpretation.limitations:
                 prose(limitation)
             terminal = {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": interpretation.evidence_kind, "covered_scope": interpretation.covered_scope,
                 "limitations": list(interpretation.limitations), "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False}
+                "runtime_goal_acceptance": False, "verdict": interpretation.verdict,
+                "evidence_hash": interpretation.evidence_hash, "verify_cost": interpretation.verify_cost}, "goal_closed": False}
             # Validate the WHOLE eventual event, not character-count estimates.
             # Placeholder IDs reserve more bytes than the bounded memory ledger uses.
             framed = {"sequence": 999999999, "kind": "outcome", "data": terminal,
@@ -721,11 +735,13 @@ class PoodoCore:
             _contain(self, error)
             result = outcome_for(request, attempt_id, "protocol_error", "core_evidence_admission_failed",
                 certainty="unknown", limitations=("Response quarantined; no mathematical evidence admitted.",))
-            interpretation = Interpretation("unassessed", "No accepted result", ("No proof or goal acceptance.",))
+            interpretation = Interpretation("unassessed", "No accepted result", ("No proof or goal acceptance.",),
+                evidence_hash=digest(result.to_dict()["raw_result"]))
             terminal = {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": interpretation.evidence_kind, "covered_scope": interpretation.covered_scope,
                 "limitations": list(interpretation.limitations), "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False}
+                "runtime_goal_acceptance": False, "verdict": interpretation.verdict,
+                "evidence_hash": interpretation.evidence_hash, "verify_cost": interpretation.verify_cost}, "goal_closed": False}
         self._witness("outcome", result)
         self._ledger.append("outcome", terminal)
         return result

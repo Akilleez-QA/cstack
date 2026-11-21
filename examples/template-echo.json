@@ -12,9 +12,7 @@
       "No domain determination, control action or goal acceptance."
     ],
     "acceptance_version": "synthetic-v1",
-    "acceptance_criteria": [
-      "Each echo is a scoped observation with a receipt and Evidence."
-    ]
+    "acceptance_criteria": [{"kind": "test", "target": "tests.test_template_conformance"}]
   },
   "checkpoints": [
     {

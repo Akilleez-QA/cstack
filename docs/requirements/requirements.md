@@ -925,9 +925,126 @@ Every agent definition and template shall fix `poodo.options` at 20 and `poodo.r
 - Verification: T
 - Status: Proposed
 
+### CS-REQ-092 — Forge Core envelopes
+
+The approval store shall durably consume a scoped, expiring goal/policy envelope once and meter unique read items atomically against an explicit integer USD cap; unknown costs, overspend, scope/policy/goal mismatch, expiry, replay and sensitive effects shall refuse. Exhaustion shall refuse every later meter. Existing per-item approvals shall retain their behavior.
+
+- Rationale: a kernel launch bounds repeated work without granting money or outgoing-message authority.
+- Derivation: `poodo_core/ports.py`; `adapters/approval_store.py`
+- Allocated to: SDD-C10
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-093 — Forge Core batch roots
+
+Memory, durable and witnessed ledgers shall accept a nonempty sequence of event pairs, return a reproducible Merkle root, and refuse malformed batches. Durable batch writes shall use one file sync per batch and quarantine a torn batch whole; replay shall retain accepted events once. Witnessed batches shall recover interrupted writes without adopting partial batches.
+
+- Rationale: batching reduces durable write overhead while retaining evidence integrity.
+- Derivation: `adapters/memory_ledger.py`; `adapters/durable_ledger.py`; `adapters/witnessed_ledger.py`
+- Allocated to: SDD-C13
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-094 — Forge Core indexed append
+
+The witnessed ledger shall use verified hash/ref and stream-state indexes for warm local append and intent gating without traversing prior events; required ref index misses shall refuse. Startup and verification after external disk changes may rebuild indexes.
+
+- Rationale: local append work must not grow linearly with retained history.
+- Derivation: `adapters/ledger.py`; `adapters/witnessed_ledger.py`
+- Allocated to: SDD-C13
+- Verification: T
+- Status: Baselined
+
 ## 4. Interface requirements
 
 The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053, CS-REQ-087; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
+
+### CS-REQ-095 — Forge Core verifier-first interpretation
+
+Every DomainExtension interpretation shall expose a scoped verdict, deterministic evidence hash and explicit nonnegative verification cost in canonical evidence bytes. The core shall recompute the raw_result hash and byte cost, require a status-matched verdict, and quarantine missing, malformed or inconsistent metadata. Unverified or failed evidence shall never establish a merged result or goal acceptance. Unknown verification cost shall remain unknown, never default to zero.
+
+- Rationale: ECC requires reproducible evidence and visible verification work before admitting observations.
+- Derivation: `poodo_core/models.py`; `poodo_core/core.py`; [Forge Core](../architecture/forge-core.md#f2-verifier-first-evidence-and-ecc)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-096 — Forge Core executable launch contract
+
+GoalContract acceptance criteria shall be typed executable test references or oracle IDs, never free prose. A Launch shall bind a mission, goal revision, grid, budget vector, policy, scope locks, priority/weight, dependency events and expiry. Launch admission shall refuse unresolved or noncallable acceptance before consuming an F3 envelope; each issued block shall debit the matching envelope and obey its launch budget and expiry.
+
+- Rationale: no runnable success test, no launch.
+- Derivation: `poodo_core/models.py`; `poodo_core/streams.py`; `adapters/stream_admission.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-097 — Forge Core weighted stream scheduling
+
+The optional host AdmissionPort scheduler shall share trusted integer block-cost service across contending missions by weight within five percentage points in deterministic sustained-contention tests, aggregate streams belonging to one mission, reconsider scheduling only at block boundaries, serialize overlapping scope leases through commit, and withhold dependent streams until all named events occur. Failed commits shall release locks without publishing success events.
+
+- Rationale: bounded cooperative scheduling preserves authority and isolates conflicting commits.
+- Derivation: `adapters/stream_admission.py`; [Forge Core](../architecture/forge-core.md#s1-launches-and-streams)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-098 — Forge Core hierarchical kill gates
+
+The optional host kill hierarchy shall seal isolate, warp, block, kernel/envelope, mission and global scopes, signal registered descendants, replay recorded kills and measure gate/signal latency against a host bound. Global kill shall force every mission live_cap to zero and freeze the outbox. An overrun shall remain sealed. Core budget hard_stop shall seal its shared mission. Physical worker termination remains an EndoForge integration obligation.
+
+- Rationale: revoke authority at the smallest affected execution scope.
+- Derivation: `poodo_core/kill.py`; `poodo_core/core.py`; `adapters/stream_admission.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-099 — Forge Core staged commit evidence
+
+The host outbox shall stage bounded canonical world-write proposals with explicit objects and compensation action or irreversible classification. Rollback before commit shall invoke no world handler and leave no world_commit record. Dispatch shall follow an acknowledged commit record; failed recording shall dispatch nothing. Restart shall refuse recorded item reuse. Ambiguous world outcomes require host reconciliation.
+
+- Rationale: pure worker death must not cause unrecorded world effects.
+- Derivation: `poodo_core/outbox.py`; [Forge Core](../architecture/forge-core.md#s2-staged-world-writes-and-blast-radius)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-100 — Forge Core blast radius and rate gate
+
+Each world commit shall be confined to its envelope's explicit exact object set and share its finite cost cap. The durable gate shall atomically reserve positive trusted commit cost and rolling sixty-second money, message and write caps before dispatch, refusing unknown prices, expiry, duplicate items, exhausted caps and out-of-scope objects across competing processes.
+
+- Rationale: a runaway worker cannot multiply its envelope authority.
+- Derivation: `adapters/approval_store.py`; `poodo_core/outbox.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-101 — Forge Core irreversible item approval
+
+Every irreversible outbox item shall consume its own ApprovalPort approval bound to the item ID, canonical digest, goal revision, approver and expiry. Blanket envelope authority shall never satisfy that approval.
+
+- Rationale: irreversible actions retain individual host control.
+- Derivation: `poodo_core/outbox.py`; `poodo_core/ports.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-102 — Forge Core ledger profiler and judgment read-model
+
+The host profiler shall reconstruct per-kernel occupancy, divergence, verification,
+cache, burn/envelope and dependency critical-path metrics from ledger aggregates,
+F2 verdict references and F3 roots. The mission board shall compare versioned
+executable acceptance intent with recorded results and report descriptive confidence.
+An exceptions-only projection shall detect excess planned burn, low verification,
+high divergence, scope-lock wait cycles and ungoverned goal conflicts without raw
+per-token payloads. Contextual host judgments shall export as versioned Honcho rows.
+Identical ledger bytes shall produce identical board data.
+
+- Rationale: the board summarizes evidence without becoming an authority store.
+- Derivation: `poodo_core/profiler.py`; `docs/architecture/forge-core.md`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
 
 ## 5. Non-functional requirements
 

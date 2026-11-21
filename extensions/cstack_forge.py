@@ -74,7 +74,7 @@ class ForgeExtension:
     def interpret(self, goal, request, outcome):
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
-                              "Only this candidate, evaluator and environment; nothing outside them is assessed.", LIMITATIONS)
+                              "Only this candidate, evaluator and environment; nothing outside them is assessed.", LIMITATIONS, **Interpretation.verification(outcome))
 
 
 class CstackForge(PoodoCore):
