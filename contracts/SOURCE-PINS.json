@@ -207,5 +207,14 @@
    "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
    "poodo_core/ports.py": "fe6b79f067d8b6a4088a3845c1ca6e48aebf92e776f9df56888b50bed53d156e"
   }
+ },
+ "poodo_core_forge_core_f2_0_5": {
+  "files": {
+   "poodo_core/__init__.py": "8e1ac08df106fb3aa2e6c6eaa89008554ee59006ba9d681e2dbfea2d81e75a67",
+   "poodo_core/core.py": "28039682ccc14fbb66df2286b502c8489a3fdd75f7716f00a1740634f8483f56",
+   "poodo_core/models.py": "e30de62540cd3237e17681d8ad3a76b03f4f76b09e4b29a2b3ffd56412b18002",
+   "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
+   "poodo_core/ports.py": "c96f47721e27403af20ba6c67d3273023333365937521596efad83f2802c8760"
+  }
  }
 }

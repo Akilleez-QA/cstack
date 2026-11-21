@@ -333,6 +333,30 @@ class Interpretation:
     limitations: tuple[str, ...]
     formal_proof: bool = False
     runtime_goal_acceptance: bool = False
+    verdict: str = "unverified"
+    evidence_hash: str | None = None
+    verify_cost: int | None = None
+
+    @staticmethod
+    def verification(outcome):
+        data = outcome.to_dict()
+        evidence = canonical(data["raw_result"]).encode("ascii")
+        status = data["execution_status"]
+        return {"verdict": "passed" if status == "completed" else "failed" if status == "tool_error" else "unverified",
+                "evidence_hash": hashlib.sha256(evidence).hexdigest(), "verify_cost": len(evidence)}
+
+    def validate_verification(self, outcome):
+        if type(self.verdict) is not str or self.verdict not in ("passed", "failed", "unverified"):
+            raise ContractError("Invalid verification verdict")
+        if type(self.evidence_hash) is not str or _SHA.fullmatch(self.evidence_hash) is None:
+            raise ContractError("Missing or malformed evidence hash")
+        if type(self.verify_cost) is not int or self.verify_cost < 0:
+            raise ContractError("Unknown or malformed verification cost")
+        expected = Interpretation.verification(outcome)
+        if self.evidence_hash != expected["evidence_hash"] or self.verify_cost != expected["verify_cost"]:
+            raise ContractError("Verification does not bind the evidence payload")
+        if self.verdict != expected["verdict"]:
+            raise ContractError("Verification verdict does not admit this outcome")
 
 
 @dataclass(frozen=True)

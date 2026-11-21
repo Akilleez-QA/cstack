@@ -959,6 +959,16 @@ The witnessed ledger shall use verified hash/ref and stream-state indexes for wa
 
 The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053, CS-REQ-087; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
 
+### CS-REQ-095 — Forge Core verifier-first interpretation
+
+Every DomainExtension interpretation shall expose a scoped verdict, deterministic evidence hash and explicit nonnegative verification cost in canonical evidence bytes. The core shall recompute the raw_result hash and byte cost, require a status-matched verdict, and quarantine missing, malformed or inconsistent metadata. Unverified or failed evidence shall never establish a merged result or goal acceptance. Unknown verification cost shall remain unknown, never default to zero.
+
+- Rationale: ECC requires reproducible evidence and visible verification work before admitting observations.
+- Derivation: `poodo_core/models.py`; `poodo_core/core.py`; [Forge Core](../architecture/forge-core.md#f2-verifier-first-evidence-and-ecc)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
 ## 5. Non-functional requirements
 
 Bounded resource use is stated as requirements where a test checks it: CS-REQ-006 (wire limits), CS-REQ-011 (output bounds), CS-REQ-009 (deadlines), CS-REQ-041 (capacity), CS-REQ-040 (budget). Replaceability is CS-REQ-075. Reuse (SWE-147) is met by the public GPL-3.0-only license and the family standard; no further obligation is stated.

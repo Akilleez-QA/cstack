@@ -89,3 +89,37 @@ Acceptance lives in tests/test_forge_core.py and tests/test_witnessed_ledger.py:
 file sync count, subprocess SIGKILL during both batch formats, and traversal traps
 at synthetic 10k and 100k verified-history lengths. Those traps prove index use,
 not real 100k-entry disk throughput. See the [verification matrix](../verification/verification-matrix.md).
+
+## F2 verifier-first evidence and ECC
+
+F2 stacks on the F3 envelope and batch-ledger implementation. Every domain
+interpretation now supplies verdict, evidence_hash and verify_cost explicitly.
+The scoped verdict is passed for a completed, adapter-admitted observation,
+failed for tool_error, and unverified for other execution statuses. This verifies
+the observation contract; it does not independently establish predicate truth,
+formal proof, engineering approval or goal acceptance. Forge candidate gates
+remain the adapter's responsibility before it can report completed.
+
+Evidence is exactly the outcome's raw_result, including null for absent evidence.
+The hash is SHA-256 of the existing canonical JSON encoding: sorted keys, compact
+separators, ASCII escapes and finite JSON numbers. Attempt IDs and timestamps
+outside that payload do not affect replay; changes within the payload do.
+verify_cost measures canonical evidence bytes processed, not USD or wall time.
+The core recomputes both hash and cost and admits only the status-matched verdict.
+This is the cstack evidence/cost contract for ECC; it adds no scheduler or pricing.
+
+Legacy Interpretation construction remains possible with unverified, unknown hash
+and unknown cost defaults. Such a result fails admission. Missing fields, invalid
+types (including boolean costs), negative costs, mismatched hashes or costs, and
+failed or unverified verdicts on completed results quarantine the original payload.
+The core records protocol_error with null raw_result, an unverified verdict, the
+hash of null and unknown verify_cost. It never silently prices failed verification
+at zero. The terminal record keeps goal_closed and runtime_goal_acceptance false;
+there is no result-merge or goal-acceptance operation in this packet.
+
+The new poodo_core_forge_core_f2_0_5 entry in contracts/SOURCE-PINS.json records
+the intentionally changed core bytes; historical pins and Foundation pins remain
+unchanged. A source pin identifies bytes, not verification or approval.
+
+Focused coverage is in tests/test_interpretation.py (CS-REQ-095). F3 envelopes,
+batch roots and indexed-ledger behavior remain separate requirements.

@@ -42,7 +42,7 @@ class FilmExtension:
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
             "Only the supplied measures against the pinned Film Foundation; no film, audio file or person is assessed.",
-            INTERPRETATION_LIMITS)
+            INTERPRETATION_LIMITS, **Interpretation.verification(outcome))
 
 
 class FoundationFilm(PoodoCore):

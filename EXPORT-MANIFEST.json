@@ -559,16 +559,16 @@
    "bytes": 2422
   },
   "contracts/INTERFACES.md": {
-   "sha256": "490e959c9f33ea33a7550437d554e81b5558670e86223eb749625a34e599b761",
-   "bytes": 27846
+   "sha256": "abfd39fe4f6adc412da70c9e63c311476c7baa0494398220373b355e1f0be56f",
+   "bytes": 28439
   },
   "contracts/RESEARCH.md": {
    "sha256": "633318d6f72fce2caa8ccfbed7ab34c2f5ff8f1b6e350fe761b27a3a96e8d80d",
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "2e2fe2b81508353cccb5187a27b70d5338537d841058b07a856dd7094df22b2b",
-   "bytes": 9736
+   "sha256": "b504b07e32774d5da0c60bb7b6436cb76cdfa49d8a7ba190f32372f7c9def877",
+   "bytes": 10265
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -599,16 +599,16 @@
    "bytes": 684
   },
   "docs/README.md": {
-   "sha256": "09ed17c7174c6803829ff7ff1db68574ba47e1776acdfb516d5df67d4f2d27a1",
-   "bytes": 7407
+   "sha256": "c05b670e20e0caf337f1121bfe2dbc44996f3c7ac1906c585f72ac9842621c14",
+   "bytes": 7410
   },
   "docs/architecture/architecture.md": {
-   "sha256": "2a8d8d854177f5f04b027b0facca15f097d00af07e49d4d18ce859c807bf8b24",
-   "bytes": 24178
+   "sha256": "dd6dc1d9c1595e6abaa5d71a6d213b2f962f07b6f2124205a4e57b04b370f9d7",
+   "bytes": 24276
   },
   "docs/architecture/forge-core.md": {
-   "sha256": "d3e4704e1c1fd5fae019390b3237facb082d3acff1425c90de6012c5b056e4b1",
-   "bytes": 5524
+   "sha256": "d6d50a7e0eb6b2df401b73c0aca8998c8d171f3a29a05a525e6b50b3b37f0d4d",
+   "bytes": 7695
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "125c34adde85a2d1e2ffecc200fdc6836d1a694e7d7e09cb15505930323cdd00",
@@ -743,8 +743,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "4cad6bc210b7027a418b69d11a3afc5b31d421bd1a5c0a00fe06b2dc0b5a04bc",
-   "bytes": 61234
+   "sha256": "c8d5803a35d6582ef477ded50a867773d225b496db344307d1447586c0c6cf66",
+   "bytes": 62087
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -851,8 +851,8 @@
    "bytes": 9725
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "122db3738ef5fbabb3cc60240bf6ce1f683ec918c404e63d43233a3c177fcf33",
-   "bytes": 27499
+   "sha256": "1dc4c9a0dd89f4ca600efb55b18512c00a8a2b4eaa748f3b39a6285038531b1b",
+   "bytes": 27787
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -899,32 +899,32 @@
    "bytes": 66
   },
   "extensions/cstack_forge.py": {
-   "sha256": "fd1fad2a277f8edb53aae1f3b142d0bc976abc637cb576277d010f75fb3f2c13",
-   "bytes": 4571
+   "sha256": "be4cd737de5d944f598b7033ce76af7928d822b062f54e1d5810de02d4bf9fe6",
+   "bytes": 4611
   },
   "extensions/foundation_engine.py": {
-   "sha256": "fe5e8a1382d4ebbc721df64423f26c0cd062f906231a83a72fa8587a54098e22",
-   "bytes": 2279
+   "sha256": "e83818ec7b7037f5d67e828d2987f1474716ab2e5b2a0bebd58c473ff677825c",
+   "bytes": 2319
   },
   "extensions/foundation_film.py": {
-   "sha256": "635c04527c08ff1a7d87b6079ce49596d50ae408134add7c5349861d72f28c86",
-   "bytes": 2915
+   "sha256": "f4905a3b54736716ae49d0457c60751318d70285add8ab6da6319bcd65f80061",
+   "bytes": 2955
   },
   "extensions/foundation_math.py": {
-   "sha256": "afaa3104d82471b587e67bec50545812cf04bbfd9ac5076d6033245dd34c387a",
-   "bytes": 3409
+   "sha256": "c33a65565e3d24e80f49719e8cec92a7e45877d8cc70350806eabbd96955598b",
+   "bytes": 3461
   },
   "extensions/foundation_refrigeration.py": {
-   "sha256": "61f2e56b4cff8d04a1ca07d17a096972fa331156debbf432ea92ec8ac0fe43d4",
-   "bytes": 3078
+   "sha256": "46f17398110c68976ca2adcb670436f18b926cf2a1ea7c1fcf1815ec910be7bf",
+   "bytes": 3118
   },
   "extensions/foundation_robotics.py": {
-   "sha256": "0f4867c137e096e153bb0369143632801fb68fe99b77c93a273b24f28bbd44bc",
-   "bytes": 2932
+   "sha256": "44d66319333b4a3d578c9a9743eb592158041287b45ede526bad023db5a88f4b",
+   "bytes": 2972
   },
   "extensions/foundation_template.py": {
-   "sha256": "bb6e0d606cee4a582728ec9f26621a55d5e178f3bcac12bf1c8577725bf5a325",
-   "bytes": 2374
+   "sha256": "afbb665fe925b3978885d0ea2b99ed2c9d0de61dfd43e7d9b890bcacafac1167",
+   "bytes": 2414
   },
   "foundations/film/.gitignore": {
    "sha256": "f1bb8745e827993437963d477a5ee256ca6a098946da514125ce8c0373fc0b51",
@@ -1987,20 +1987,20 @@
    "bytes": 312
   },
   "poodo_core/core.py": {
-   "sha256": "c5259be73d0129919817b5e80a42a7c0dd601af4c864bda4f9aba14a392f0b6d",
-   "bytes": 49263
+   "sha256": "28039682ccc14fbb66df2286b502c8489a3fdd75f7716f00a1740634f8483f56",
+   "bytes": 49781
   },
   "poodo_core/models.py": {
-   "sha256": "e767c59e0285341cb318270925cabcbf1eae9f0d94de937c81d49e4b117dcba6",
-   "bytes": 14711
+   "sha256": "e30de62540cd3237e17681d8ad3a76b03f4f76b09e4b29a2b3ffd56412b18002",
+   "bytes": 16123
   },
   "poodo_core/policy.py": {
    "sha256": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
    "bytes": 6600
   },
   "poodo_core/ports.py": {
-   "sha256": "fe6b79f067d8b6a4088a3845c1ca6e48aebf92e776f9df56888b50bed53d156e",
-   "bytes": 3443
+   "sha256": "c96f47721e27403af20ba6c67d3273023333365937521596efad83f2802c8760",
+   "bytes": 3537
   },
   "products/README.md": {
    "sha256": "43bf0d16c9e768d14e58adf8b84867dbbea5a6298327e434e41900bddb878a4e",
@@ -2263,8 +2263,8 @@
    "bytes": 5630
   },
   "tests/helpers.py": {
-   "sha256": "bc2ae39268ef1e83066ccdd637988bfd62b55f074d84015d1be2d81a727e297b",
-   "bytes": 3987
+   "sha256": "5bc00fb822670af2c70aeb5cd25fb1454229548d4e2548de7188ff8bf88fe578",
+   "bytes": 4057
   },
   "tests/kernels/differential.mjs": {
    "sha256": "91e0fa421e0f0d0de00944f06fe76f6ad9398a21eeb80c022a3608cd619b6e70",
@@ -2509,6 +2509,10 @@
   "tests/test_host_read_models.py": {
    "sha256": "e918e122cb612bd61abd2aeafb378079b64d408879334865c562798b078865b8",
    "bytes": 8189
+  },
+  "tests/test_interpretation.py": {
+   "sha256": "8bf8086e14521952cd9055a7c4b0786e8e9c70bc5e46eb519e2483598ebbea44",
+   "bytes": 6885
   },
   "tests/test_inventory_crosscheck.py": {
    "sha256": "4fea41b3645955e41b719dfd944c6655ffda10ce8a631dfce21d9e2b5129677f",

@@ -13,7 +13,15 @@ Ports describe purposeful conversations, not a framework layer around every func
 
 ## Base and extension contract
 
-DomainExtension version poodo.domain-extension/0.1 provides descriptor, admit_goal, validate_call and interpret. It returns immutable data and scoped proposals. It receives no core reference, ledger writer or authority mutator.
+DomainExtension version poodo.domain-extension/0.1 provides descriptor, admit_goal, validate_call and interpret. It returns immutable data and scoped proposals.
+
+Each interpret result exposes verdict (passed, failed or unverified), evidence_hash (lowercase
+SHA-256 of canonical raw_result JSON) and verify_cost (nonnegative integer canonical evidence
+bytes). The core recomputes the hash and byte cost and requires passed for completed observations.
+Missing or malformed metadata quarantines the response as protocol_error. Legacy construction
+defaults to unverified with unknown hash and cost, never zero. A quarantine record retains an
+unverified verdict, the hash of its null evidence and unknown cost. No verdict authorizes goal
+acceptance or merge. It receives no core reference, ledger writer or authority mutator.
 
 PoodoCore owns start_goal, revise_goal, advance, decide, execute and evidence admission. Supported extensions cannot override protected inherited control methods. This prevents accidental API misuse; trusted Python code is not a hostile-code security boundary, and typing.final is not runtime enforcement.
 
