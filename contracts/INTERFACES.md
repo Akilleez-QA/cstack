@@ -171,3 +171,19 @@ Every count is a bounded non-negative `int`.
 - **Order.** deny, then lane, then capacity, then budget, then approval. A capacity refusal holds no spend, looks up or spends no approval, and does not consume its decision. The decision executes once capacity allows.
 - **Live means unsettled.** An attempt is live from its action event until its outcome and settlement are written. One whose outcome fails to record stays live, which fails closed, as its budget hold does. `soonest_reset_at` is bounded so a refusal record always fits the ledger; like `budget_refused`, the record is appended without a prior reservation.
 - Requests, hooks and tool text cannot reach the port or its limits. A subclass cannot override the checks or shadow their state. Cores built without `admission=` behave and ledger exactly as before. Leases (item 5b) are out of scope.
+
+## Forge Core F3 extensions
+
+ApprovalPort adds consume_envelope(approval_id) and meter(approval_id, *, item_id,
+goal_id, goal_revision, policy, scope, cost, effect="read"). ApprovalWriter's
+host-only record_envelope supplies the explicit cap and expiry. Only durable
+ApprovalReader supports launches; TerminalApprover refuses. Existing lookup and
+consume callers require no changes. Money and outgoing messages still require
+per-item approval; F3 adds no automatic envelope fallback in the core.
+
+LedgerPort adds append_batch(items), a nonempty sequence of (kind, data) pairs,
+returning a Merkle root string. MemoryLedger, DurableLedger and WitnessedLedger
+implement it. Existing append/reserve/read callers require no changes. See
+[Forge Core](../docs/architecture/forge-core.md) for hashing, storage compatibility,
+crash recovery and index boundaries. EndoforgePort's runtime-checked four-method
+surface and the upstream pin remain unchanged.

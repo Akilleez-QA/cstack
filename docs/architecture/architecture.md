@@ -67,10 +67,10 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | SDD-C7 | Engine adapter | `adapters/engine_stdio.py`, `extensions/foundation_engine.py` | Pinned partial copy of the Foundation Engine bridge; two read-only validators | CS-REQ-065 |
 | SDD-C8 | Process executor | `adapters/execution.py` | Fixed module launch, deadlines, cancellation, output bounds and process-group cleanup | CS-REQ-009, CS-REQ-010, CS-REQ-011 |
 | SDD-C9 | CLI driver and terminal approval | `cli.py`, `__main__.py`, `adapters/terminal_approver.py`, `tools/e2e_refrigeration.sh` | Reads one structured document, drives the core, asks for approval, prints one JSON result | CS-REQ-017, CS-REQ-018, CS-REQ-031, CS-REQ-067, CS-REQ-088 |
-| SDD-C10 | Approval store and scheduled approvals | `adapters/approval_store.py`, `adapters/private_sqlite.py`, `tools/scheduled_approvals.py` | Durable owner approvals: write once, consume once; the owner's ask list | CS-REQ-039, CS-REQ-056 |
+| SDD-C10 | Approval store and scheduled approvals | `adapters/approval_store.py`, `adapters/private_sqlite.py`, `tools/scheduled_approvals.py` | Durable owner approvals: write once, consume once; the owner's ask list | CS-REQ-039, CS-REQ-056, CS-REQ-092 |
 | SDD-C11 | Witnessed evidence (EndoForge port) | `poodo_core/ports.py` (EndoforgePort), `adapters/endoforge_ledger.py` | Hash-chained, fsynced, exclusively locked evidence file; routing from configured cores | CS-REQ-020, CS-REQ-021, CS-REQ-022, CS-REQ-023, CS-REQ-024, CS-REQ-025, CS-REQ-026, CS-REQ-027, CS-REQ-028, CS-REQ-029, CS-REQ-030 |
 | SDD-C12 | Forge runtime | `extensions/cstack_forge.py`, `adapters/endoforge_workcell.py`, `adapters/workcell/`, `adapters/workcell-toolchain/`, `tools/pin_workcell.py` | One governed EndoForge run per call in `IsolatePool` workcells, registered in `bootstrap.RUNTIMES` | CS-REQ-032, CS-REQ-033, CS-REQ-034, CS-REQ-035, CS-REQ-068, CS-REQ-069 |
-| SDD-C13 | Local ledgers | `adapters/memory_ledger.py`, `adapters/durable_ledger.py`, `adapters/witnessed_ledger.py`, `adapters/ledger.py` | In-memory, durable JSONL and witnessed node-log implementations of `LedgerPort` | CS-REQ-047, CS-REQ-048 |
+| SDD-C13 | Local ledgers | `adapters/memory_ledger.py`, `adapters/durable_ledger.py`, `adapters/witnessed_ledger.py`, `adapters/ledger.py` | In-memory, durable JSONL and witnessed node-log implementations of `LedgerPort` | CS-REQ-047, CS-REQ-048, CS-REQ-093, CS-REQ-094 |
 | SDD-C14 | AOR fleet and sessions | `aors/`, `adapters/aor_registry.py`, `adapters/aor_session.py`, `tools/e2e_agent.py` | Per-bot areas of responsibility, sessions over per-domain cores, end-to-end agent check | CS-REQ-049, CS-REQ-050, CS-REQ-051 |
 | SDD-C15 | MCP server and client | `adapters/mcp_stdio_server.py`, `tools/cstack_mcp.py`, `adapters/mcp_stdio_client.py` | Agent-facing MCP server per bot, which refuses to start without durable state; client for external MCP tool servers | CS-REQ-052, CS-REQ-053, CS-REQ-085 |
 | SDD-C16 | Fleet mail and relay | `adapters/fleet_mail.py`, `adapters/relay_outbox.py` | Signed bot-to-bot messages on GitHub issues; at-most-once relay outbox | CS-REQ-054, CS-REQ-055 |
@@ -195,3 +195,7 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.1 | 2026-11-08 | b7c64b19e3966baaf1aa6793491b454e28f51446 | Engine pin commit updated by the repin | PR #78 |
 | 2.2 | 2026-11-09 | 6088dd4 | SDD-C1 also allocated CS-REQ-045 (session-end ledger rename) | PR fixing the 2026-11-09 backfill-review findings |
 | 2.3 | 2026-11-16 | feat/cstack-init | SDD-C28 local setup added (CS-REQ-084, CS-REQ-086); SDD-C15 also allocated CS-REQ-085 | Draft PR for `cstack init` |
+
+## Forge Core F3
+
+[Forge Core](forge-core.md) defines the GPU mapping, envelope launch and metering contract, batch Merkle roots, crash recovery, and indexed append boundary (CS-REQ-092 to CS-REQ-094). The existing core per-item approval path remains authoritative; S1 will consume the new primitives later.
