@@ -21,7 +21,7 @@ Input, on stdin, at most 65,536 bytes:
 | Field | Rule |
 |---|---|
 | `schema` | `cstack.run/0.1` |
-| `goal` | A `GoalContract`: `goal_id`, `revision`, `domain_id`, `objective`, `assumptions`, `exclusions`, `acceptance_version`, `acceptance_criteria` |
+| `goal` | A `GoalContract`: `goal_id`, `revision`, `domain_id`, `objective`, `assumptions`, `exclusions`, `acceptance_version`, `acceptance_criteria`. Each criterion is an object with `kind` (`test` or `oracle`) and a bounded `target` ID; prose is refused. |
 | `checkpoints` | Exactly four: observe, orient, decide, orchestrate. Each has exactly `checkpoint_id`, `rationale`, `research_references`, `option_ids`. Decide needs 20 distinct option ids |
 | `calls` | 1 to 64. Each has exactly `request` (a `poodo.capability-request/0.1`), `precommitment` (`expected_observation`, `success_boundary`, `failure_meaning`, `oracle_id`, `oracle_version`) and optionally `effect`: `allow` (default) or `ask` |
 

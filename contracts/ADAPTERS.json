@@ -96,7 +96,7 @@
    "fake_reason": "MemoryLedger supplies in-memory LedgerPort events; EvidenceFace has no named replaceability suite yet (item 2c).",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "WitnessedLedger wraps adapters/ledger.py without copying it; signed per-stream POODO events, optional witnessed authorization and exclusive stream ownership."
+   "notes": "WitnessedLedger wraps adapters/ledger.py; signed per-stream POODO events, indexed warm append/gate, Forge Core append_batch roots with a recovery journal, optional witnessed authorization and exclusive stream ownership."
   },
   {
    "adapter_id": "foundation-math-stdio",
@@ -208,7 +208,7 @@
    "fake": "fake.approver.memory",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "Standalone CLI request-bound approval with durable exclusive consumption markers."
+   "notes": "Standalone CLI request-bound approval with durable exclusive consumption markers; envelope operations refuse."
   },
   {
    "adapter_id": "approval-store",
@@ -220,7 +220,7 @@
    "fake": "fake.approver.memory",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "ApprovalReader implements ApprovalPort (lookup, consume); ApprovalWriter.record is the host-only Scheduled path. Not composed in bootstrap yet."
+   "notes": "ApprovalReader implements per-item lookup/consume and durable Forge Core envelope launch/meter; ApprovalWriter records host answers and envelopes."
   },
   {
    "adapter_id": "memory-ledger",
@@ -233,7 +233,7 @@
    "fake_reason": "MemoryLedger is itself the EvidenceFace fake (ADR 005 decision 3); the lane test waits for #25.",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "In-process append-only events; hash chaining is not authentication. The only LedgerPort adapter on main until #25 (WitnessedLedger)."
+   "notes": "In-process append-only events with Forge Core append_batch Merkle roots; hash chaining is not authentication."
   },
   {
    "adapter_id": "aor-registry",
@@ -386,7 +386,7 @@
    "fake_reason": "The EvidenceFace test (item 2c) waits for #25.",
    "status": "hard_wired",
    "strategic_dependency_adr": null,
-   "notes": "Signed per-node ledger primitives shared by adapters and local read tools."
+   "notes": "Signed per-node ledger primitives with hash/ref indexes, shared by adapters and local read tools."
   },
   {
    "adapter_id": "github-work-state",
@@ -620,7 +620,7 @@
    "fake": null,
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "One file per forge session, so a later session's core can replay a lost controller's attempts. Local fsync only.",
+   "notes": "One file per forge session; Forge Core append_batch stores a root and events in one frame with one file sync and whole-frame torn-tail quarantine. Local fsync only.",
    "fake_reason": "MemoryLedger is the EvidenceFace fake; this adds only file persistence."
   },
   {
@@ -636,6 +636,19 @@
    "status": "hard_wired",
    "strategic_dependency_adr": null,
    "notes": "Optional host-bound hand-off tools: one node per hand-off with immutable lineage, wake-once, chase, owner holds, loop, depth, per-root and one-live-instance limits, reachability from host config. Grants no authority."
+  },
+  {
+   "adapter_id": "stream-admission",
+   "lane": "SupervisorFace",
+   "port": "AdmissionPort",
+   "vendor": "cstack (in-repo)",
+   "kind": "python_module",
+   "path": "adapters/stream_admission.py",
+   "fake": null,
+   "fake_reason": "Focused deterministic clock, callable registry and cost fakes in tests/test_stream_scheduler.py.",
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "Optional host-owned weighted block scheduler; delegates capacity, resolves executable acceptance, meters F3 envelopes and serializes scope leases through commit. Single process only."
   }
  ],
  "not_an_adapter": [

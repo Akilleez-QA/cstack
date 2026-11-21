@@ -118,6 +118,12 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-081 | T | `tests/test_agent_profiles.py` | Committed output, drift, undeclared fields, the plugin target and symlinked output | Not yet in a test report |
 | CS-REQ-082 | T | `tests/test_agent_guard.py` | Includes the hook command under `python3 -I` | Not yet in a test report |
 | CS-REQ-083 | T | `tests/test_check_options.py`; `tests/test_agent_definitions.py` | Count, kinds, shared mechanism, near-duplicates, the schema constants and the generated rule text | Not yet in a test report |
+| CS-REQ-092 | T | `tests/test_forge_core.py::EnvelopeTests`; `tests/test_approval_store.py`; `tests/test_approval_policy.py` | 100 over-cap refusals, exact exhaustion, scope/policy/goal/expiry/effects, process races and restart; per-item compatibility | F3 working tree on b0761b1; local acceptance run, not a release report |
+| CS-REQ-093 | T | `tests/test_forge_core.py::BatchTests`; `tests/test_witnessed_ledger.py::WitnessedLedgerTest.test_batch_root_and_malformed_batch`; `tests/test_witnessed_ledger.py::WitnessedLedgerTest.test_killed_batch_recovers_without_a_partial_batch` | Independent roots, malformed batches, one durable file sync, SIGKILL mid-write and whole-batch replay recovery; power loss unqualified | F3 working tree on b0761b1; local acceptance run, not a release report |
+| CS-REQ-095 | T | `tests/test_interpretation.py::InterpretationTests` | All seven extensions, deterministic payload replay, invalid metadata quarantine, legacy fail-closed defaults and no goal acceptance | F2 working tree on 6c3dba2; see host handoff for local results and limitations |
+| CS-REQ-096 | T | `tests/test_stream_scheduler.py::StreamTests` | Structured references, unknown oracle refusal before envelope consumption, grid, budget, unknown cost and expiry | S1 local checks on 5df0015; see host handoff for sandbox limits |
+| CS-REQ-097 | T | `tests/test_stream_scheduler.py::StreamTests` | Variable-cost deterministic weighted share, multiple streams per mission, dependencies, disjoint leases, commit overlap, preemption boundary and failure release | S1 local checks on 5df0015; single-process scope only |
+| CS-REQ-094 | T | `tests/test_witnessed_ledger.py::WitnessedLedgerTest.test_warm_append_and_gate_never_traverse_prior_entries` | Prior-entry iteration/slicing forbidden at synthetic 10k/100k history lengths; startup/external-change verification excluded | F3 working tree on b0761b1; local acceptance run, not a release report |
 
 ## Untested requirement gaps
 

@@ -30,7 +30,7 @@ from extensions.cstack_forge import CstackForge, FORGE_DOMAIN_ID, FORGE_TOOL_NAM
 from extensions.foundation_math import FoundationMath, TOOL_NAMES
 from extensions.foundation_template import FoundationTemplate, TEMPLATE_TOOL_NAMES
 from extensions.foundation_engine import FoundationEngine, ENGINE_TOOL_NAMES
-from poodo_core import AuthorityGrant, CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment
+from poodo_core import AcceptanceReference, AuthorityGrant, CapabilityRequest, ContractError, GoalContract, Phase, PhaseCheckpoint, Precommitment
 from poodo_core.models import REQUEST_VERSION
 
 _HERE = Path(__file__).resolve().parent
@@ -233,7 +233,7 @@ def _coder_decisions(config, endoforge, session_id):
         try:
             core, _ = build_domain(domain, goal_id, operations=operations, max_calls=1, endoforge=endoforge, session_id=session_id)
             goal = GoalContract(goal_id, 1, domain, f"A coder's proposal under decision {run.request.decision_id}.", (), ("No authority beyond the host grant.",),
-                                "coder-proposal-v1", ("The core accepts or refuses this exact request.",))
+                                "coder-proposal-v1", (AcceptanceReference("test", "tests.test_core"),))
             core.start_goal(goal)
             checkpoint = lambda n, refs=(), options=(): PhaseCheckpoint(f"coder-{n}", "Host-authored checkpoint for a coder proposal.", refs, options)
             core.advance(goal_id, Phase.OBSERVE, checkpoint(1))

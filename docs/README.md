@@ -58,6 +58,7 @@ Classification: self-assessed Class E analog under NPR 7150.2D, not safety-criti
 | Software management plan | CSTACK-SMP | 5.08, 5.04, 5.17, 5.27 | [plan/software-management-plan.md](plan/software-management-plan.md) |
 | Requirements mapping matrix | CSTACK-RMM | 7.16 | [plan/compliance-matrix.md](plan/compliance-matrix.md) |
 | Requirements | CSTACK-SRS | 5.09 | [requirements/requirements.md](requirements/requirements.md) |
+| Forge Core F2/F3/S1 | Architecture note | — | [architecture/forge-core.md](architecture/forge-core.md) |
 | Design | CSTACK-SDD | 5.13 | [architecture/architecture.md](architecture/architecture.md) |
 | Foundation interfaces | CSTACK-ICD-FOUNDATIONS | 5.02 | [icd/icd-foundations.md](icd/icd-foundations.md) |
 | EndoForge interface | CSTACK-ICD-ENDOFORGE | 5.02 | [icd/icd-endoforge.md](icd/icd-endoforge.md) |

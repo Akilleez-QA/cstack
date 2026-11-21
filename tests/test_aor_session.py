@@ -29,7 +29,7 @@ class SessionCase(unittest.TestCase):
 
     def to_decide(self, s):
         domain = self.sample.domain
-        goal_id = s.start_goal(domain, self.sample.objective, ["A scoped tool observation."])
+        goal_id = s.start_goal(domain, self.sample.objective, [{"kind": "test", "target": "tests.test_core"}])
         goal_id = goal_id["contract"]["goal_id"]
         s.advance(domain, goal_id, "observe", "Fixture checkpoint.")
         s.advance(domain, goal_id, "orient", "Fixture checkpoint.", research_references=[self.sample.reference])
@@ -78,7 +78,7 @@ class MemorySessionTests(SessionCase):
         s = self.open(write_fleet(self.dir, alpha_read="deny"))
         self.assertEqual(s.aor()["domains"][DOMAIN], "deny")
         with self.assertRaisesRegex(ContractError, "not available"):
-            s.start_goal(DOMAIN, "x", ["y"])
+            s.start_goal(DOMAIN, "x", [{"kind": "test", "target": "tests.test_core"}])
         guest = self.open(write_fleet(self.dir, owner="beta", guest_read="ask"))
         self.assertTrue(self.decide(guest, self.to_decide(guest))["approval_required"])
 
@@ -134,7 +134,7 @@ class WitnessedSessionTests(SessionCase):
     def test_each_domain_core_has_its_own_stream_on_the_one_node_log(self):
         s = self.open()
         self.run_to_execute(s)
-        math = s.start_goal("foundation_math", "Add two numbers.", ["A scoped tool observation."])
+        math = s.start_goal("foundation_math", "Add two numbers.", [{"kind": "test", "target": "tests.test_core"}])
         s.advance("foundation_math", math["contract"]["goal_id"], "observe", "Fixture checkpoint.")
         both = s.ledger(last=50)["streams"]
         self.assertEqual(set(both), set(DOMAINS))  # every registered domain has a stream; untouched ones are empty

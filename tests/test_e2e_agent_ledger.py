@@ -23,7 +23,7 @@ class VerifyLedgerTests(SessionCase):
         s = self.open()
         _, decision = self.run_to_execute(s)
         s.execute(DOMAIN, decision["decision_id"])
-        s.start_goal("foundation_math", "Add two numbers.", ["A scoped tool observation."])
+        s.start_goal("foundation_math", "Add two numbers.", [{"kind": "test", "target": "tests.test_core"}])
         s.close()
 
     def test_verdict_follows_the_refrigeration_stream_and_checks_every_anchored_stream(self):

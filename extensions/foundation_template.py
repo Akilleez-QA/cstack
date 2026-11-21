@@ -37,7 +37,7 @@ class TemplateExtension:
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
             "Only the supplied request against the pinned template Foundation; nothing outside it is assessed.",
-            INTERPRETATION_LIMITS)
+            INTERPRETATION_LIMITS, **Interpretation.verification(outcome))
 
 
 class FoundationTemplate(PoodoCore):

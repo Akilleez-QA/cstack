@@ -12,9 +12,7 @@
    "No engineering, safety or compliance determination, and no goal acceptance."
   ],
   "acceptance_version": "forge-v1",
-  "acceptance_criteria": [
-   "The kernel's outputs equal the pinned Foundation's own result on held-out checks."
-  ]
+  "acceptance_criteria": [{"kind": "test", "target": "tests.test_forge_identity.RerunAndIdentity.test_the_same_goal_runs_twice_and_both_pass"}]
  },
  "checkpoints": [
   {
