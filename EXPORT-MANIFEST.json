@@ -191,20 +191,20 @@
    "bytes": 12573
   },
   "adapters/approval_store.py": {
-   "sha256": "6d31137b5febcf04574ce4d21e57eac8157c03a0ef4823e0277acf0ba34030e0",
-   "bytes": 3945
+   "sha256": "0315177ead036ed834c627a1cf37a6aaa4d1a8c4d742c99533497ff1ea06505e",
+   "bytes": 7097
   },
   "adapters/durable_ledger.py": {
-   "sha256": "1bc99efed250a4e1b8171998d3a7906a2eb571a11281526781e03b6efd482881",
-   "bytes": 2870
+   "sha256": "a702d22b38d12b4393f993af43421540616080935e9da7fbc4d16b5def6f7a39",
+   "bytes": 4492
   },
   "adapters/endoforge_ledger.py": {
    "sha256": "a5b2009d30f1952a6df8f4e4dddcd71e16a74c256542bdabc94d1d4869f2ecb6",
    "bytes": 12310
   },
   "adapters/endoforge_workcell.py": {
-   "sha256": "ccf3435d3643570fbd04792052de73b0969f65faf5e0b2099d3c58c600ad5d52",
-   "bytes": 22556
+   "sha256": "c98006a15c94520178c134c143b77d23743241098c3b0462a202d815b4a02b27",
+   "bytes": 22921
   },
   "adapters/engine_stdio.py": {
    "sha256": "def86d6d0f9ce8ce7329531c749fc54a66fa352ede30232b7bd1cd8cbb8882fa",
@@ -235,8 +235,8 @@
    "bytes": 21208
   },
   "adapters/ledger.py": {
-   "sha256": "356cf0918fc5fba8752ee11ddd78dee9ce577ef546e80ef319ff2ce074690a3c",
-   "bytes": 23532
+   "sha256": "85eb5231902f2f0c2ea3add393c2742762e5bd3de01e1e879da55c7411ebf620",
+   "bytes": 24433
   },
   "adapters/local_setup.py": {
    "sha256": "b1bc30924dc4de0e45a1df589f14168546fabcd9a95bf29ee026862de8f548c8",
@@ -283,8 +283,8 @@
    "bytes": 18704
   },
   "adapters/memory_ledger.py": {
-   "sha256": "dbf5de8dee167d5aa0ace909b53dedbc780e483d3584ac4819e81019dc3f3547",
-   "bytes": 1516
+   "sha256": "01b50dc6d3336d55db110eddde29fa8c5e2b8c69b3c82e3328a8f88d9e264fa5",
+   "bytes": 2836
   },
   "adapters/private_sqlite.py": {
    "sha256": "9010003027c67f77a1a3af6cf35a4f3e67d3a696ac06d84bcb15f1d9e5f8e05a",
@@ -315,16 +315,16 @@
    "bytes": 1354
   },
   "adapters/terminal_approver.py": {
-   "sha256": "c0b8489521b6d1eac278c58f73df5eb043ca55493c7a6c8438d2680ddd899b3b",
-   "bytes": 2875
+   "sha256": "77e795b708a36821fc0c6db0273bda9080bb47ad080569104c853cb047a6e0ea",
+   "bytes": 3070
   },
   "adapters/wire.py": {
    "sha256": "98ff446c9adde4145036aa78b9fda9840a79d255d7f5eb3173cd921df4574d94",
    "bytes": 2856
   },
   "adapters/witnessed_ledger.py": {
-   "sha256": "26f8e1d9126f1a31605165d7dccbe739b9a1d06a93f8439de0c1fe482496b261",
-   "bytes": 23322
+   "sha256": "9365f853ccb411c21d3dda831443d951b0a4c88201e1b1550e2925048f82b834",
+   "bytes": 27519
   },
   "adapters/work_tree.py": {
    "sha256": "f0ed712cbb7875e4d1b971d23c7d3e2ce7cbebbe14c023b54598dc6d46dce378",
@@ -531,8 +531,8 @@
    "bytes": 8349
   },
   "contracts/ADAPTERS.json": {
-   "sha256": "84bd10645ccdaab28761a4c9df4cf69cf6d637100ae3e26eb32421422b48eed6",
-   "bytes": 35716
+   "sha256": "745f294ceabc066f545324ac3eb7f10fe9e55e03d33f3ce5d4cd1fd91ced5854",
+   "bytes": 35861
   },
   "contracts/CONTRACT.json": {
    "sha256": "05848bff545d839bdcc9e30f4c8d2352f768e0298129e4bc57cbb68ed9e0c0c5",
@@ -559,16 +559,16 @@
    "bytes": 2422
   },
   "contracts/INTERFACES.md": {
-   "sha256": "78e96fde981a066f2f9a57d8e57c6b04bca08169af7770635e82986e89646fc1",
-   "bytes": 26900
+   "sha256": "490e959c9f33ea33a7550437d554e81b5558670e86223eb749625a34e599b761",
+   "bytes": 27846
   },
   "contracts/RESEARCH.md": {
    "sha256": "633318d6f72fce2caa8ccfbed7ab34c2f5ff8f1b6e350fe761b27a3a96e8d80d",
    "bytes": 2565
   },
   "contracts/SOURCE-PINS.json": {
-   "sha256": "cc32fd5f8fa33886c07eabb12b1741b1ae2c144e0918811845bcb929b0660a23",
-   "bytes": 9207
+   "sha256": "2e2fe2b81508353cccb5187a27b70d5338537d841058b07a856dd7094df22b2b",
+   "bytes": 9736
   },
   "contracts/adapters.schema.json": {
    "sha256": "87544f6d352cbc9117a665c6437deb92fd24d09dc0041a8c033feb1d0d122447",
@@ -599,20 +599,24 @@
    "bytes": 684
   },
   "docs/README.md": {
-   "sha256": "8e9dc4fb52fc80902e54d4a4b48de4ac6d0278ac1553a03c2baa14857de4720a",
-   "bytes": 7304
+   "sha256": "09ed17c7174c6803829ff7ff1db68574ba47e1776acdfb516d5df67d4f2d27a1",
+   "bytes": 7407
   },
   "docs/architecture/architecture.md": {
-   "sha256": "f18d64ad76d08bc51f944873f015506ccbc33695b47c8f1fe1ad5a4916b9f9bb",
-   "bytes": 23833
+   "sha256": "2a8d8d854177f5f04b027b0facca15f097d00af07e49d4d18ce859c807bf8b24",
+   "bytes": 24178
+  },
+  "docs/architecture/forge-core.md": {
+   "sha256": "d3e4704e1c1fd5fae019390b3237facb082d3acff1425c90de6012c5b056e4b1",
+   "bytes": 5524
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "125c34adde85a2d1e2ffecc200fdc6836d1a694e7d7e09cb15505930323cdd00",
    "bytes": 8252
   },
   "docs/configuration/configuration-management.md": {
-   "sha256": "1b23d089f1bd3f689bde48a37af660bf03de1cc4d9bf7e5336ed9a4b33dbf8a2",
-   "bytes": 16822
+   "sha256": "fef09146a15409aa9641e8d088d41ed2e159dd6a4675969074879c3fb1b4d4aa",
+   "bytes": 17409
   },
   "docs/data/data-dictionary.md": {
    "sha256": "fb3f92aa10724aa5cd93ec35426e330c6ecb8f0c001aff830afc58298e6ad027",
@@ -739,8 +743,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "745e24783b0ee28122e0d782eb9b858b5edf870419db53592e71336ccf5448cc",
-   "bytes": 59408
+   "sha256": "4cad6bc210b7027a418b69d11a3afc5b31d421bd1a5c0a00fe06b2dc0b5a04bc",
+   "bytes": 61234
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -847,8 +851,8 @@
    "bytes": 9725
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "b36a52ca65f048b71ab34b2f9ea196907617584cf782aeabc6bdf4d9d1bb39f9",
-   "bytes": 26374
+   "sha256": "122db3738ef5fbabb3cc60240bf6ce1f683ec918c404e63d43233a3c177fcf33",
+   "bytes": 27499
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -1995,8 +1999,8 @@
    "bytes": 6600
   },
   "poodo_core/ports.py": {
-   "sha256": "2bec15ebf8c4ff1713ecb82bc0f7f8db6c25fe7acbfa0355664fea392812b3c2",
-   "bytes": 3116
+   "sha256": "fe6b79f067d8b6a4088a3845c1ca6e48aebf92e776f9df56888b50bed53d156e",
+   "bytes": 3443
   },
   "products/README.md": {
    "sha256": "43bf0d16c9e768d14e58adf8b84867dbbea5a6298327e434e41900bddb878a4e",
@@ -2462,6 +2466,10 @@
    "sha256": "39bac88d15171a8d2f60953ba9a7ea848b6001cbee4d0927c46e5b672e7c1fbd",
    "bytes": 2651
   },
+  "tests/test_forge_core.py": {
+   "sha256": "f8003e8e827a83b3bd8aacdc5e29e0466638f8eff54d6e93a5451fb05be02a6d",
+   "bytes": 8866
+  },
   "tests/test_forge_identity.py": {
    "sha256": "1e1772fa8ce0f6c3c4c70aa9365b9f93dccca2ced4a836314c37d4144b194170",
    "bytes": 7915
@@ -2559,8 +2567,8 @@
    "bytes": 1683
   },
   "tests/test_readme_tools.py": {
-   "sha256": "d6d957c460d4090e908092f143a3239c02d3ff8d6cacae0e2e2856e7dda84ff4",
-   "bytes": 3327
+   "sha256": "561544b35e52c735f065184f50d488e37c39d906fa2270c8253271ccda236388",
+   "bytes": 3551
   },
   "tests/test_refrigeration_conformance.py": {
    "sha256": "fa09df1f83231ad3416c3f1725d53800e1f512a4756e4c328c7ce78b0a7b61b4",
@@ -2603,8 +2611,8 @@
    "bytes": 17858
   },
   "tests/test_witnessed_ledger.py": {
-   "sha256": "fdd0dd815cdba00a9ce7b8c46d95b5337d14837e09c6057420e73467662e9dd9",
-   "bytes": 23004
+   "sha256": "4d913e93966672b9ef675437096907d1966c2b38ea468f5fd42a1c733adb4456",
+   "bytes": 27372
   },
   "tests/test_work_tree.py": {
    "sha256": "cf4ff3e78b5365e11adb51679a8c1e1e20140f445adba45e1ed978c4cf3f6571",

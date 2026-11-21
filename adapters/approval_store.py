@@ -9,6 +9,7 @@ still write it directly. Separating writer and reader prevents accidents and kee
 record(), but it is not protection against hostile code running as the same user.
 """
 import os
+import json
 import sqlite3
 from pathlib import Path
 
@@ -32,6 +33,13 @@ class _Store:
         self._clock = clock
         self._db, self._fd = open_private_db(Path(path))
         self._db.execute(_SCHEMA)
+        self._db.execute("""CREATE TABLE IF NOT EXISTS envelopes (
+            approval_id TEXT PRIMARY KEY, goal_id TEXT NOT NULL, goal_revision INTEGER NOT NULL,
+            policy TEXT NOT NULL, cap INTEGER NOT NULL, remaining INTEGER NOT NULL,
+            scope TEXT NOT NULL, not_after INTEGER NOT NULL, consumed_by TEXT, consumed_at INTEGER)""")
+        self._db.execute("""CREATE TABLE IF NOT EXISTS envelope_items (
+            approval_id TEXT NOT NULL, item_id TEXT NOT NULL, cost INTEGER NOT NULL,
+            PRIMARY KEY (approval_id, item_id))""")
 
     def _now(self):
         now = self._clock()
@@ -64,6 +72,21 @@ class ApprovalWriter(_Store):
         except sqlite3.IntegrityError:
             raise ContractError("This decision or approval already has a recorded answer") from None
 
+    def record_envelope(self, *, approval_id, goal_id, goal_revision, policy, cap, scope, not_after):
+        for value in (approval_id, goal_id, policy):
+            identifier(value)
+        if (type(cap) is not int or not 0 < cap <= 2 ** 63 - 1 or
+                type(goal_revision) is not int or goal_revision < 1 or type(not_after) is not int or
+                type(scope) not in (list, tuple) or not scope):
+            raise ContractError("Invalid envelope: explicit cap, scope and expiry required")
+        for value in scope:
+            identifier(value)
+        try:
+            self._open().execute("INSERT INTO envelopes VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+                                 (approval_id, goal_id, goal_revision, policy, cap, cap, json.dumps(scope), not_after))
+        except sqlite3.IntegrityError:
+            raise ContractError("Envelope already recorded") from None
+
 
 class ApprovalReader(_Store):
     """What a core receives as its ApprovalPort. consumer names the bot whose core spends approvals."""
@@ -85,3 +108,36 @@ class ApprovalReader(_Store):
             "UPDATE approvals SET consumed_at = ?, consumed_by = ? WHERE approval_id = ? AND consumed_at IS NULL "
             "AND verdict = 'approved' AND not_after >= ?", (now, self._consumer, approval_id, now))
         return cursor.rowcount == 1
+
+    def consume_envelope(self, approval_id):
+        now = self._now()
+        return self._open().execute(
+            "UPDATE envelopes SET consumed_at = ?, consumed_by = ? WHERE approval_id = ? "
+            "AND consumed_at IS NULL AND remaining > 0 AND not_after >= ?",
+            (now, self._consumer, approval_id, now)).rowcount == 1
+
+    def meter(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, cost, effect="read"):
+        if type(cost) is not int or not 0 <= cost <= 2 ** 63 - 1 or effect != "read":
+            return False
+        identifier(item_id)
+        db = self._open()
+        db.execute("BEGIN IMMEDIATE")
+        try:
+            row = db.execute("SELECT scope FROM envelopes WHERE approval_id = ?", (approval_id,)).fetchone()
+            if row is None or scope not in json.loads(row[0]):
+                return False
+            changed = db.execute(
+                "UPDATE envelopes SET remaining = remaining - ? WHERE approval_id = ? AND goal_id = ? "
+                "AND goal_revision = ? AND policy = ? AND consumed_by = ? AND consumed_at IS NOT NULL "
+                "AND not_after >= ? AND remaining > 0 AND remaining >= ?",
+                (cost, approval_id, goal_id, goal_revision, policy, self._consumer, self._now(), cost))
+            if changed.rowcount != 1:
+                return False
+            db.execute("INSERT INTO envelope_items VALUES (?, ?, ?)", (approval_id, item_id, cost))
+            db.execute("COMMIT")
+            return True
+        except sqlite3.IntegrityError:
+            return False
+        finally:
+            if db.in_transaction:
+                db.execute("ROLLBACK")

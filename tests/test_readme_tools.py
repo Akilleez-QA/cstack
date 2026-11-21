@@ -56,14 +56,17 @@ class ExportManifest(unittest.TestCase):
 
 
 class CorePin(unittest.TestCase):
-    def test_the_named_crash_recovery_pin_holds(self):
+    def test_the_named_forge_core_pin_holds(self):
         import hashlib
         pins = json.loads((ROOT / "contracts/SOURCE-PINS.json").read_text())
         recovery = pins["poodo_core_crash_recovery_0_3"]["files"]
-        self.assertIn("poodo_core/core.py", recovery)
-        for name, expected in recovery.items():
+        current = pins["poodo_core_forge_core_f3_0_4"]["files"]
+        self.assertEqual(set(current), set(recovery))
+        self.assertEqual({name for name in current if current[name] != recovery[name]}, {"poodo_core/ports.py"})
+        self.assertIn("poodo_core/core.py", current)
+        for name, expected in current.items():
             self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), expected, name)
-        self.assertEqual([k for k in pins if k.startswith("poodo_core_")][-1], "poodo_core_crash_recovery_0_3")
+        self.assertEqual([k for k in pins if k.startswith("poodo_core_")][-1], "poodo_core_forge_core_f3_0_4")
 
 
 if __name__ == "__main__":
