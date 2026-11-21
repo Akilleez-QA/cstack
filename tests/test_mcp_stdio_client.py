@@ -126,7 +126,36 @@ def call(i=1, args=None, op="echo"):
     return request(op, args if args is not None else {"text": "hello"}, "ext_mcp", i=i)
 
 
-class McpStdioClientTest(unittest.TestCase):
+class McpClientContract:
+    def test_is_error_is_a_completed_tool_error_not_a_protocol_failure(self):
+        result = self.expect("iserror", "tool_error", "responded", "mcp_tool_error")
+        self.assertTrue(result["raw_result"]["mcp_result"]["isError"])
+        result = self.expect("rpcerror", "protocol_error", "responded", "mcp_rpc_error_-32602")
+        self.assertIsNone(result["raw_result"])
+
+    def test_unknown_new_changed_or_conflicting_tools_are_refused_before_dispatch(self):
+        self.expect("ok", "unavailable", "not_dispatched", "unknown_mcp_tool", req=call(op="rm_rf"))
+        self.expect("extra", "unavailable", "not_dispatched", "mcp_tool_catalog_mismatch")
+        self.expect("rugpull", "unavailable", "not_dispatched", "mcp_tool_pin_mismatch")
+        self.expect("conflict", "unavailable", "not_dispatched", "mcp_effect_annotation_conflict")
+        self.expect("noann", "unavailable", "not_dispatched", "mcp_effect_annotation_conflict")
+        self.expect("ok", "unavailable", "not_dispatched", "mcp_tool_catalog_mismatch",
+                    tools=(pinned("echo", "read", fixture_tool()), pinned("absent", "execute", fixture_tool())))
+        self.expect("old", "unavailable", "not_dispatched", "mcp_revision_unsupported")
+        result = self.expect("modern", "unavailable", "not_dispatched", "mcp_revision_unsupported")  # C1
+        self.assertIn("server supports 2026-07-28", result["limitations"][-1])
+        self.expect("retitle", "unavailable", "not_dispatched", "mcp_tool_pin_mismatch")  # C3
+        self.expect("arrayout", "unavailable", "not_dispatched", "mcp_tool_definition_invalid")  # C5
+        self.expect("dialect", "unavailable", "not_dispatched", "mcp_schema_dialect_unsupported")  # C4
+        self.expect("draft07", "resource_rejected", "not_dispatched", "mcp_arguments_rejected")
+        self.expect("draft07", "completed", "responded", req=call(args={"text": "hi", "lang": "en"}))
+        self.expect("extra", "completed", "responded", ignored=("rm_rf",))  # C2: listed, never callable.
+        self.expect("extra", "unavailable", "not_dispatched", "unknown_mcp_tool", req=call(op="rm_rf"), ignored=("rm_rf",))
+        self.assertRaises(ValueError, self.cap, ignored=("echo",))
+        self.expect("ok", "resource_rejected", "not_dispatched", "mcp_arguments_rejected", req=call(args={"text": 5}))
+
+
+class McpStdioClientTest(McpClientContract, unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.TemporaryDirectory()
@@ -182,33 +211,6 @@ class McpStdioClientTest(unittest.TestCase):
             self.assertIn("Untrusted", result["limitations"][0])
             self.assertIn("read", result["limitations"][1])
             self.assertIn(b"ready", adapter.last_stderr)
-
-    def test_is_error_is_a_completed_tool_error_not_a_protocol_failure(self):
-        result = self.expect("iserror", "tool_error", "responded", "mcp_tool_error")
-        self.assertTrue(result["raw_result"]["mcp_result"]["isError"])
-        result = self.expect("rpcerror", "protocol_error", "responded", "mcp_rpc_error_-32602")
-        self.assertIsNone(result["raw_result"])
-
-    def test_unknown_new_changed_or_conflicting_tools_are_refused_before_dispatch(self):
-        self.expect("ok", "unavailable", "not_dispatched", "unknown_mcp_tool", req=call(op="rm_rf"))
-        self.expect("extra", "unavailable", "not_dispatched", "mcp_tool_catalog_mismatch")
-        self.expect("rugpull", "unavailable", "not_dispatched", "mcp_tool_pin_mismatch")
-        self.expect("conflict", "unavailable", "not_dispatched", "mcp_effect_annotation_conflict")
-        self.expect("noann", "unavailable", "not_dispatched", "mcp_effect_annotation_conflict")
-        self.expect("ok", "unavailable", "not_dispatched", "mcp_tool_catalog_mismatch",
-                    tools=(pinned("echo", "read", fixture_tool()), pinned("absent", "execute", fixture_tool())))
-        self.expect("old", "unavailable", "not_dispatched", "mcp_revision_unsupported")
-        result = self.expect("modern", "unavailable", "not_dispatched", "mcp_revision_unsupported")  # C1
-        self.assertIn("server supports 2026-07-28", result["limitations"][-1])
-        self.expect("retitle", "unavailable", "not_dispatched", "mcp_tool_pin_mismatch")  # C3
-        self.expect("arrayout", "unavailable", "not_dispatched", "mcp_tool_definition_invalid")  # C5
-        self.expect("dialect", "unavailable", "not_dispatched", "mcp_schema_dialect_unsupported")  # C4
-        self.expect("draft07", "resource_rejected", "not_dispatched", "mcp_arguments_rejected")
-        self.expect("draft07", "completed", "responded", req=call(args={"text": "hi", "lang": "en"}))
-        self.expect("extra", "completed", "responded", ignored=("rm_rf",))  # C2: listed, never callable.
-        self.expect("extra", "unavailable", "not_dispatched", "unknown_mcp_tool", req=call(op="rm_rf"), ignored=("rm_rf",))
-        self.assertRaises(ValueError, self.cap, ignored=("echo",))
-        self.expect("ok", "resource_rejected", "not_dispatched", "mcp_arguments_rejected", req=call(args={"text": 5}))
 
     def test_timeout_crash_and_cancellation_after_dispatch_are_unknown(self):
         self.expect("hang", "timed_out", "unknown", timeout=1.0)

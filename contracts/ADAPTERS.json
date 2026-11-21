@@ -499,6 +499,18 @@
    "notes": "McpStdioCapability implements describe/invoke with host-fixed argv, environment, effect classes and tool pins. Fresh initialize/tools/list/tools/call session per invocation; bounded process-group cleanup and no automatic retry."
   },
   {
+   "adapter_id": "mcp-http-client",
+   "lane": "ToolFace",
+   "port": "CapabilityPort",
+   "vendor": "Host-configured external MCP HTTP servers (2025-11-25)",
+   "kind": "python_module",
+   "path": "adapters/mcp_http_client.py",
+   "fake": "fake.capability.scripted",
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "McpHttpCapability implements describe/invoke with host-fixed URL, effect classes and tool pins. Bearer comes from env via inherit_env, never from the repo. Fresh bounded session per invoke; JSON and POST SSE responses; no redirects or automatic retry."
+  },
+  {
    "adapter_id": "ledger-read-models",
    "lane": "ReadModelFace",
    "port": "none",
