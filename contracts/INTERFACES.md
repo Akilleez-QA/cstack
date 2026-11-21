@@ -208,3 +208,22 @@ GoalContract JSON acceptance_criteria entries are now objects with exactly kind
 same shape. There is no implicit conversion of prose into executable acceptance.
 See [launches and streams](../docs/architecture/forge-core.md#s1-launches-and-streams)
 for budget units, priority, event, lease, expiry and single-process boundaries.
+
+
+## Forge Core kill and commit gate (S2)
+
+ApprovalPort adds commit_scope(envelope_id, objects) and meter_commit(envelope_id,
+item_id, goal_id, goal_revision, policy, scope, objects, resources). Resources are
+an immutable tuple of positive envelope cost and nonnegative money, message and
+write usage. ApprovalWriter.record_commit_policy attaches exact object IDs and
+per-minute caps before launch. Legacy readers lacking these methods cannot serve
+S2; TerminalApprover remains a per-item-only adapter. Original meter is read-only.
+
+StreamAdmission accepts optional shared kills and outbox host objects. With outbox,
+commit's action argument is a staged item ID; raw callbacks refuse. KillHierarchy
+uses mission/kernel/block/warp/isolate tuples, with () for the global brake, and
+register returns a cancellation Event. PoodoCore optionally accepts the same kills
+object for mission admission and budget stops. These are host APIs, not MCP tools.
+CommitOutbox stages JSON data plus compensation or irreversible classification;
+only trusted host handlers dispatch. See [S2](../docs/architecture/forge-core.md#s2-staged-world-writes-and-blast-radius)
+for write-ahead evidence, replay, per-item approvals and crash limitations.

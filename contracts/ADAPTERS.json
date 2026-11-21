@@ -208,7 +208,7 @@
    "fake": "fake.approver.memory",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "Standalone CLI request-bound approval with durable exclusive consumption markers; envelope operations refuse."
+   "notes": "Standalone CLI request-bound approval with durable exclusive consumption markers; envelope operations refuse. S2 commit scope and metering also refuse."
   },
   {
    "adapter_id": "approval-store",
@@ -220,7 +220,7 @@
    "fake": "fake.approver.memory",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "ApprovalReader implements per-item lookup/consume and durable Forge Core envelope launch/meter; ApprovalWriter records host answers and envelopes."
+   "notes": "ApprovalReader implements per-item lookup/consume and durable Forge Core envelope launch/meter; ApprovalWriter records host answers and envelopes. S2 adds immutable prelaunch object/rate policy and atomic durable commit metering; original meter remains read-only."
   },
   {
    "adapter_id": "memory-ledger",
@@ -648,7 +648,7 @@
    "fake_reason": "Focused deterministic clock, callable registry and cost fakes in tests/test_stream_scheduler.py.",
    "status": "behind_port",
    "strategic_dependency_adr": null,
-   "notes": "Optional host-owned weighted block scheduler; delegates capacity, resolves executable acceptance, meters F3 envelopes and serializes scope leases through commit. Single process only."
+   "notes": "Optional host-owned weighted block scheduler; delegates capacity, resolves executable acceptance, meters F3 envelopes and serializes scope leases through commit. Single process only. S2 optionally shares KillHierarchy and CommitOutbox; staged item IDs replace raw commit callbacks when configured."
   }
  ],
  "not_an_adapter": [

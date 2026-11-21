@@ -1,8 +1,7 @@
 # Forge Core
 
 Packet F3 implements the envelope and batch ledger layer on the b0761b1 baseline.
-S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 (kill/outbox) and S3
-(profiler) are outside this packet.
+S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 adds host kill gates and a staged commit outbox. S3 (profiler) remains outside this packet.
 
 ## GPU mapping
 
@@ -34,8 +33,8 @@ both operations. An exact-cap debit exhausts the envelope; all subsequent meters
 including zero-cost ones, refuse. Oversized items refuse without spending the
 remaining budget. Expiry is inclusive, matching consume's existing contract.
 
-Only effect=read is supported by envelopes. Money, outgoing messages and unknown
-effects refuse; the core's existing request-bound lookup/consume path remains
+The original meter supports only effect=read. Money, outgoing messages and unknown
+effects refuse on that method; the core's existing request-bound lookup/consume path remains
 required for those actions. The trusted host supplies cost and effect metadata;
 requests cannot choose their own classification. F3 exposes these primitives for
 S1; it does not automatically replace any core ask with an envelope. Terminal
@@ -175,6 +174,92 @@ One scheduler must own the whole scope namespace in one process. Queues, depende
 events and fairness counters are in memory. F3 envelope consumption and debits remain
 durable: restart cannot relaunch an envelope, and hosts must reconcile ambiguous
 work before issuing replacement authority. Cross-process locking, restart recovery,
-kill/outbox and profiler integration remain outside S1. No throughput claim is made.
+S2 extends these host boundaries below; profiler integration remains outside S1. No throughput claim is made.
 
 Acceptance is in `tests/test_stream_scheduler.py` (CS-REQ-096 and CS-REQ-097).
+
+
+## S2 kill hierarchy
+
+The host owns KillHierarchy and supplies a capacity provider, integer monotonic
+clock, ledger and latency bound in that clock's units. Paths are tuples ordered
+mission, kernel/envelope, block, warp, isolate; the empty tuple is global. Killing
+a prefix seals registration, dispatch and commit for its descendants and sets their
+cancellation Events. S2 host wiring passes the same hierarchy to StreamAdmission,
+CommitOutbox and optionally PoodoCore through kills=. Mission IDs must equal the
+core's AOR IDs when sharing it. A core budget hard_stop seals that mission in the
+shared hierarchy. Raising the core budget alone does not clear a kill.
+
+The global brake overrides every queried mission's CapacityLimits.live_cap to zero,
+including future missions, and freezes staged outbox work. Kill records replay into
+a fresh hierarchy. There is no unkill API. Ledger failure leaves this process sealed;
+the host must reconcile an unacknowledged kill before restarting authority.
+Registrations and explicit kill prefixes are bounded at 10,000 each. Global kill
+remains available at the prefix bound. Registry exhaustion refuses new work.
+
+Latency is measured from entry through sealing and cancellation signalling, including
+lock acquisition, before ledger I/O. A bound overrun raises after sealing, and the
+receipt records the overrun. Deterministic tests measure one clock unit against a
+two-unit bound at all six levels, plus an overrun. This establishes host gate and
+signal behavior only. It does not establish OS process termination latency, ledger
+fsync latency or a production wall-time bound. EndoForge must connect its F1 tree
+workers to the registered cancellation tokens and qualify physical termination.
+An effect admitted by its final dispatch kill gate may finish, including a handler
+about to enter. Killing cannot retract an external operation already in flight. Host callbacks and kernels must obey this
+boundary; in-process Python is not an adversarial isolation boundary.
+
+## S2 staged world writes and blast radius
+
+Before launch, the trusted ApprovalWriter attaches a single immutable commit policy
+to the F3 envelope with record_commit_policy: explicit exact world-object IDs and
+rolling sixty-second caps for money, messages and writes. Missing policy denies all
+writes. Object IDs are exact identifiers, not hierarchical wildcard scopes. Launch
+scope locks still cover execution through commit. Kernels propose JSON data only;
+the host stages each item against an issued Block lease with an operation, objects,
+payload, and either a compensation operation plus payload or irreversible=true.
+A leaf execution_scope binds a warp/isolate item to its block's kill ancestry.
+Compensation is recorded for host reconciliation; it is not automatically executed.
+
+CommitOutbox snapshots canonical JSON at staging, bounds each item to 64 KiB and
+the staged queue to 10,000 items, and refuses duplicate item IDs. Rollback discards
+staged data without invoking a world handler or writing a world_commit event.
+The host quote callback supplies (envelope cost, money, messages, writes) as bounded
+integers. Cost must be positive; absent or malformed prices refuse. This means even
+zero-money writes exhaust the finite envelope. Host handlers are the only world
+writers and must restrict effects to the item's declared objects, including any
+compensation. Workers receive neither handlers, approval writers nor world credentials.
+
+ApprovalReader.meter_commit atomically checks goal revision, consumer, policy,
+operation scope, expiry, remaining F3 cost, exact objects and all three rolling caps.
+It reserves cost and resource usage with unique item identity in one SQLite
+transaction. Concurrent processes cannot multiply the cap. Rate usage survives
+reader restart; a clock reversal into retained usage refuses. F3 meter remains
+read-only and does not gain a world-write fallback. Envelope cost is shared between
+block scheduling and commits; it is not refunded for uncertain or failed execution.
+
+Irreversible items additionally require ApprovalPort.lookup/consume for that item's
+ID and canonical digest, exact goal revision, expected approver and inclusive expiry.
+An envelope never substitutes for this approval. A refusal after consumption may
+spend approval without dispatch; reconciliation requires fresh authority.
+
+Before calling a world handler, the outbox reserves the durable gate, consumes the
+item locally and acknowledges a world_commit ledger record containing its digest,
+objects, compensation and resources. Ledger failure dispatches nothing. A durable
+LedgerPort is required for crash-surviving evidence; MemoryLedger is a test fake.
+A crash can leave a debit without a commit, or a commit without an effect/outcome.
+Never blindly retry these cases. Commit IDs replay from the ledger, and durable
+SQLite debits independently reject reuse. This is write-ahead authorization, not an
+atomic transaction with an arbitrary external service or an exactly-once promise.
+
+Hosts opt into S2 by supplying kills and outbox to StreamAdmission; commit then
+accepts a staged item ID and refuses raw callbacks. The S1 callback API remains for
+legacy hosts. CLI/MCP dispatch does not automatically adopt S2. A single host owns
+scheduler leases and the outbox; SQLite gates coordinate consumers, not world locks.
+The host must not expose direct outbox.commit access to workers or fabricate Block
+leases. Staging is volatile, so worker death before commit loses proposals only.
+
+Acceptance lives in tests/test_kill_outbox.py: all kill levels and leaf isolation,
+restart and overrun, global freeze, 100 out-of-scope refusals, rollback, rolling caps,
+parallel gate races, per-item approvals, failed ledger/handler behavior and subprocess
+SIGKILL before commit and after a durable record precedes a synthetic world write.
+These are local synthetic checks, not qualification of remote-world transports.

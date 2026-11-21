@@ -6,7 +6,10 @@ from poodo_core.streams import Block, Launch, positive
 
 
 class StreamAdmission:
-    def __init__(self, *, capacity, approvals, acceptance, cost, clock, slots=1):
+    def __init__(self, *, capacity, approvals, acceptance, cost, clock, slots=1, kills=None, outbox=None):
+        if outbox is not None and (kills is None or outbox.kills is not kills):
+            raise ContractError('S2 scheduler and outbox require one shared kill hierarchy')
+        self.kills, self.outbox = kills, outbox
         positive(slots)
         self._capacity = capacity
         self.approvals, self.acceptance = approvals, dict(acceptance)
@@ -16,7 +19,7 @@ class StreamAdmission:
         self._committing, self._events = set(), set()
 
     def capacity(self, aor_id):
-        return self._capacity(aor_id)
+        return self.kills.capacity(aor_id) if self.kills else self._capacity(aor_id)
 
     def launch(self, launch):
         with self._lock:
@@ -29,6 +32,8 @@ class StreamAdmission:
             mission = self._missions.get(launch.mission_id)
             if mission and mission[:2] != (launch.weight, launch.priority):
                 raise ContractError('A mission has one weight and priority')
+            if self.kills:
+                self.kills.register((launch.mission_id, launch.launch_id))
             if not self.approvals.consume_envelope(launch.launch_id):
                 raise ContractError('Envelope launch refused')
             if mission is None:
@@ -47,6 +52,14 @@ class StreamAdmission:
 
     def next_block(self):
         with self._lock:
+            if self.kills:
+                for key, block in tuple(self._active.items()):
+                    if key in self._committing:
+                        continue
+                    try:
+                        self.kills.check((block.launch.mission_id, key, f'block-{block.index}'))
+                    except ContractError:
+                        del self._active[key]
             if len(self._active) >= self.slots:
                 return None
             ready = []
@@ -57,6 +70,11 @@ class StreamAdmission:
                         or spec.launch_id in self._active
                         or any(self._overlap(spec.scope_locks, b.launch.scope_locks) for b in self._active.values())):
                     continue
+                if self.kills:
+                    try:
+                        self.kills.check((spec.mission_id, spec.launch_id, f'block-{index}'))
+                    except ContractError:
+                        continue
                 weight, priority, service = self._missions[spec.mission_id]
                 ready.append((service, -priority, index, spec.launch_id, state))
             for _, _, _, _, state in sorted(ready):
@@ -70,6 +88,8 @@ class StreamAdmission:
                         goal_revision=spec.goal.revision, policy=spec.policy, scope=spec.scope, cost=cost):
                     raise ContractError('Envelope meter refused')
                 block = Block(spec, index, cost)
+                if self.kills:
+                    self.kills.register((spec.mission_id, spec.launch_id, f'block-{index}'))
                 state[1], state[2] = index + 1, spent + cost
                 weight, priority, service = self._missions[spec.mission_id]
                 self._missions[spec.mission_id] = (weight, priority, service + Fraction(max(1, cost), weight))
@@ -89,7 +109,14 @@ class StreamAdmission:
         try:
             if self.clock() > block.launch.expires_at:
                 raise ContractError('Expired block')
-            result = action()
+            if self.kills:
+                self.kills.check((block.launch.mission_id, key, f'block-{block.index}'))
+            if self.outbox:
+                if type(action) is not str:
+                    raise ContractError('S2 requires a staged outbox item')
+                result = self.outbox.commit(block, action)
+            else:
+                result = action()
             succeeded = True
             return result
         finally:

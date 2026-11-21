@@ -989,6 +989,46 @@ The optional host AdmissionPort scheduler shall share trusted integer block-cost
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-098 — Forge Core hierarchical kill gates
+
+The optional host kill hierarchy shall seal isolate, warp, block, kernel/envelope, mission and global scopes, signal registered descendants, replay recorded kills and measure gate/signal latency against a host bound. Global kill shall force every mission live_cap to zero and freeze the outbox. An overrun shall remain sealed. Core budget hard_stop shall seal its shared mission. Physical worker termination remains an EndoForge integration obligation.
+
+- Rationale: revoke authority at the smallest affected execution scope.
+- Derivation: `poodo_core/kill.py`; `poodo_core/core.py`; `adapters/stream_admission.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-099 — Forge Core staged commit evidence
+
+The host outbox shall stage bounded canonical world-write proposals with explicit objects and compensation action or irreversible classification. Rollback before commit shall invoke no world handler and leave no world_commit record. Dispatch shall follow an acknowledged commit record; failed recording shall dispatch nothing. Restart shall refuse recorded item reuse. Ambiguous world outcomes require host reconciliation.
+
+- Rationale: pure worker death must not cause unrecorded world effects.
+- Derivation: `poodo_core/outbox.py`; [Forge Core](../architecture/forge-core.md#s2-staged-world-writes-and-blast-radius)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-100 — Forge Core blast radius and rate gate
+
+Each world commit shall be confined to its envelope's explicit exact object set and share its finite cost cap. The durable gate shall atomically reserve positive trusted commit cost and rolling sixty-second money, message and write caps before dispatch, refusing unknown prices, expiry, duplicate items, exhausted caps and out-of-scope objects across competing processes.
+
+- Rationale: a runaway worker cannot multiply its envelope authority.
+- Derivation: `adapters/approval_store.py`; `poodo_core/outbox.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-101 — Forge Core irreversible item approval
+
+Every irreversible outbox item shall consume its own ApprovalPort approval bound to the item ID, canonical digest, goal revision, approver and expiry. Blanket envelope authority shall never satisfy that approval.
+
+- Rationale: irreversible actions retain individual host control.
+- Derivation: `poodo_core/outbox.py`; `poodo_core/ports.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
 ## 5. Non-functional requirements
 
 Bounded resource use is stated as requirements where a test checks it: CS-REQ-006 (wire limits), CS-REQ-011 (output bounds), CS-REQ-009 (deadlines), CS-REQ-041 (capacity), CS-REQ-040 (budget). Replaceability is CS-REQ-075. Reuse (SWE-147) is met by the public GPL-3.0-only license and the family standard; no further obligation is stated.

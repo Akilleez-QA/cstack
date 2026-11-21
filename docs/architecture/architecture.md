@@ -59,7 +59,7 @@ Each component lists the requirements allocated to it. `python -B tools/check_tr
 | ID | Element | Implementation | Responsibility | Requirements |
 |---|---|---|---|---|
 | SDD-C1 | Composition root | `bootstrap.py` | Registers domains and runtimes, selects roots, checks grants against the inventory, binds ledgers and constructs cores; at session end keeps a core ledger with an unknown outcome as `.recovered` | CS-REQ-001, CS-REQ-002, CS-REQ-014, CS-REQ-045, CS-REQ-066 |
-| SDD-C2 | Control core | `poodo_core/` | Phases, goals and revisions, authority and lanes, approvals, budget, capacity, liveness, crash recovery and evidence admission | CS-REQ-012, CS-REQ-013, CS-REQ-037, CS-REQ-038, CS-REQ-040, CS-REQ-041, CS-REQ-042, CS-REQ-043, CS-REQ-044, CS-REQ-045, CS-REQ-046, CS-REQ-074, CS-REQ-075, CS-REQ-095, CS-REQ-096, CS-REQ-097 |
+| SDD-C2 | Control core | `poodo_core/` | Phases, goals and revisions, authority and lanes, approvals, budget, capacity, liveness, crash recovery and evidence admission | CS-REQ-012, CS-REQ-013, CS-REQ-037, CS-REQ-038, CS-REQ-040, CS-REQ-041, CS-REQ-042, CS-REQ-043, CS-REQ-044, CS-REQ-045, CS-REQ-046, CS-REQ-074, CS-REQ-075, CS-REQ-095, CS-REQ-096, CS-REQ-097, CS-REQ-098, CS-REQ-099, CS-REQ-100, CS-REQ-101 |
 | SDD-C3 | Contracts and inventory | `contracts/`, `schemas/`, `adapters/adapter_inventory.py` | Host/core and bridge data contracts; the adapter inventory and its checks | CS-REQ-036 |
 | SDD-C4 | Vendored backends and Foundations | `vendor/foundation-math-v014/`, `vendor/foundation-engine-v020/`, `vendor/endoforge/`, `foundations/` | Byte-pinned upstream code: Math tools and bridge, Engine bridge, EndoForge slice, Template, Refrigeration, Robotics and Film Foundations, `fm_research` layer. Requirements live upstream | Infrastructure |
 | SDD-C5 | Math adapter | `adapters/math_stdio.py`, `adapters/wire.py`, `extensions/foundation_math.py` | Dedicated pinned v0.14 protocol, strict wire parsing and schema enforcement, evidence ceiling | CS-REQ-003, CS-REQ-004, CS-REQ-005, CS-REQ-006, CS-REQ-007, CS-REQ-008, CS-REQ-015 |
@@ -199,3 +199,5 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 ## Forge Core F3
 
 [Forge Core](forge-core.md) defines F2 verifier verdicts, replayable evidence hashes and byte costs (CS-REQ-095), plus the F3 GPU mapping, envelope launch and metering contract, batch Merkle roots, crash recovery, and indexed append boundary (CS-REQ-092 to CS-REQ-094). The existing core per-item approval path remains authoritative; S1 consumes these primitives through an optional host launch and weighted stream scheduler (CS-REQ-096 and CS-REQ-097).
+
+S2 extends the same host boundary with hierarchical kill gates, staged commit evidence, blast-radius/rate gates and per-item irreversible approvals (CS-REQ-098 to CS-REQ-101); [Forge Core](forge-core.md#s2-kill-hierarchy) states the measured signal boundary and EndoForge termination obligations.

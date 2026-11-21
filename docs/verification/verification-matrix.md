@@ -123,6 +123,10 @@ The matrix does not embed pass counts. A mapped test shows the requirement is ex
 | CS-REQ-095 | T | `tests/test_interpretation.py::InterpretationTests` | All seven extensions, deterministic payload replay, invalid metadata quarantine, legacy fail-closed defaults and no goal acceptance | F2 working tree on 6c3dba2; see host handoff for local results and limitations |
 | CS-REQ-096 | T | `tests/test_stream_scheduler.py::StreamTests` | Structured references, unknown oracle refusal before envelope consumption, grid, budget, unknown cost and expiry | S1 local checks on 5df0015; see host handoff for sandbox limits |
 | CS-REQ-097 | T | `tests/test_stream_scheduler.py::StreamTests` | Variable-cost deterministic weighted share, multiple streams per mission, dependencies, disjoint leases, commit overlap, preemption boundary and failure release | S1 local checks on 5df0015; single-process scope only |
+| CS-REQ-098 | T | `tests/test_kill_outbox.py::KillOutboxTests` | Six deterministic kill latencies, leaf isolation, global freeze, replay, overrun and shared budget stop | Local synthetic gates/signals; physical EndoForge termination unverified |
+| CS-REQ-099 | T | `tests/test_kill_outbox.py::KillOutboxTests` | Rollback, record before handler, failed ledger, ambiguous handler restart and subprocess SIGKILL | Durable local synthetic world; external transactions unverified |
+| CS-REQ-100 | T | `tests/test_kill_outbox.py::KillOutboxTests` | 100 scope refusals, all resource caps, rolling window, restart and eight competing processes | Exact object declarations and trusted host quoting/handlers |
+| CS-REQ-101 | T | `tests/test_kill_outbox.py::KillOutboxTests` | Envelope-only irreversible refusal, digest mismatch, exact single-use approval | Host ApprovalPort path; no blanket fallback |
 | CS-REQ-094 | T | `tests/test_witnessed_ledger.py::WitnessedLedgerTest.test_warm_append_and_gate_never_traverse_prior_entries` | Prior-entry iteration/slicing forbidden at synthetic 10k/100k history lengths; startup/external-change verification excluded | F3 working tree on b0761b1; local acceptance run, not a release report |
 
 ## Untested requirement gaps

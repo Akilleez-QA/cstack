@@ -226,5 +226,17 @@
    "poodo_core/ports.py": "b81bce46964ed3525505e6a16869eaf266a92c623eb7deb12db7ab9bc399a424",
    "poodo_core/streams.py": "2e30a658acd8ad6d361a4153bebceb4f16beb384930aa72d3f5f840e38fef8e6"
   }
+ },
+ "poodo_core_forge_core_s2_0_7": {
+  "files": {
+   "poodo_core/__init__.py": "53dae78e996e3b6fcf6c776241e5e351b388b905a626954f9464524a9e95a946",
+   "poodo_core/core.py": "4d73c9e1b43956f3305358d7e480803f00035edad9ec256dcd17eb16da7415c4",
+   "poodo_core/models.py": "3575a48656b88e38069ccde5518472661286e5f647fb910cc1755daf54c288fe",
+   "poodo_core/policy.py": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
+   "poodo_core/ports.py": "087e9671dcbad023f70b97247e4db5c5d6c338b200f20a1d23e818b317e0b607",
+   "poodo_core/streams.py": "2e30a658acd8ad6d361a4153bebceb4f16beb384930aa72d3f5f840e38fef8e6",
+   "poodo_core/kill.py": "9d70527f82b91a30e60bc2f92f962989b8afa5c2ed026803fa496179e9e2188a",
+   "poodo_core/outbox.py": "a572da9f3072492493b5db045df2a9bcad1f566fffd495431e268d6c1a2745b5"
+  }
  }
 }

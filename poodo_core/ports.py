@@ -36,6 +36,10 @@ class ApprovalPort(Protocol):
     def meter(self, approval_id: str, *, item_id: str, goal_id: str, goal_revision: int,
               policy: str, scope: str, cost: int | None, effect: str = "read") -> bool: ...
 
+    def commit_scope(self, approval_id: str, objects: tuple[str, ...]) -> bool: ...
+    def meter_commit(self, approval_id: str, *, item_id: str, goal_id: str, goal_revision: int,
+                     policy: str, scope: str, objects: tuple[str, ...], resources: tuple[int, int, int, int]) -> bool: ...
+
 
 class CostPort(Protocol):
     """Trusted host pricing (PR 9). None, a non-integer or a failure means the cost is unknown, never free."""

@@ -50,6 +50,12 @@ class TerminalApprover:
     def meter(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, cost, effect="read"):
         return False
 
+    def commit_scope(self, approval_id, objects):
+        return False
+
+    def meter_commit(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, objects, resources):
+        return False
+
     def lookup(self, decision_id):
         return self.records.get(decision_id)
 

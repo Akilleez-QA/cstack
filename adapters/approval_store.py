@@ -41,6 +41,13 @@ class _Store:
             approval_id TEXT NOT NULL, item_id TEXT NOT NULL, cost INTEGER NOT NULL,
             PRIMARY KEY (approval_id, item_id))""")
 
+        self._db.execute("""CREATE TABLE IF NOT EXISTS commit_policy (
+            approval_id TEXT PRIMARY KEY, objects TEXT NOT NULL, caps TEXT NOT NULL)""")
+        self._db.execute("""CREATE TABLE IF NOT EXISTS commit_debits (
+            approval_id TEXT NOT NULL, item_id TEXT NOT NULL, at INTEGER NOT NULL,
+            money INTEGER NOT NULL, messages INTEGER NOT NULL, writes INTEGER NOT NULL,
+            PRIMARY KEY (approval_id, item_id))""")
+
     def _now(self):
         now = self._clock()
         if type(now) is not int:
@@ -86,6 +93,24 @@ class ApprovalWriter(_Store):
                                  (approval_id, goal_id, goal_revision, policy, cap, cap, json.dumps(scope), not_after))
         except sqlite3.IntegrityError:
             raise ContractError("Envelope already recorded") from None
+
+    def record_commit_policy(self, approval_id, *, objects, per_minute):
+        identifier(approval_id)
+        if (type(objects) is not tuple or not objects or len(objects) > 32
+                or len(set(objects)) != len(objects) or type(per_minute) is not tuple or len(per_minute) != 3
+                or any(type(v) is not int or not 0 <= v <= 10**15 for v in per_minute)):
+            raise ContractError("Explicit blast radius and resource caps required")
+        for value in objects:
+            identifier(value)
+        db = self._open()
+        try:
+            changed = db.execute("INSERT INTO commit_policy SELECT approval_id, ?, ? FROM envelopes "
+                "WHERE approval_id = ? AND consumed_at IS NULL",
+                (json.dumps(objects), json.dumps(per_minute), approval_id))
+            if changed.rowcount != 1:
+                raise ContractError("Commit policy requires an unlaunched envelope")
+        except sqlite3.IntegrityError:
+            raise ContractError("Commit policy already recorded") from None
 
 
 class ApprovalReader(_Store):
@@ -134,6 +159,50 @@ class ApprovalReader(_Store):
             if changed.rowcount != 1:
                 return False
             db.execute("INSERT INTO envelope_items VALUES (?, ?, ?)", (approval_id, item_id, cost))
+            db.execute("COMMIT")
+            return True
+        except sqlite3.IntegrityError:
+            return False
+        finally:
+            if db.in_transaction:
+                db.execute("ROLLBACK")
+
+    def commit_scope(self, approval_id, objects):
+        if type(objects) is not tuple or not objects:
+            return False
+        row = self._open().execute("SELECT objects FROM commit_policy WHERE approval_id = ?",
+                                   (approval_id,)).fetchone()
+        return row is not None and set(objects) <= set(json.loads(row[0]))
+
+    def meter_commit(self, approval_id, *, item_id, goal_id, goal_revision, policy, scope, objects, resources):
+        if (type(resources) is not tuple or len(resources) != 4 or resources[0] == 0
+                or any(type(v) is not int or not 0 <= v <= 10**15 for v in resources)):
+            return False
+        identifier(item_id)
+        db, now = self._open(), self._now()
+        db.execute("BEGIN IMMEDIATE")
+        try:
+            if not self.commit_scope(approval_id, objects):
+                return False
+            row = db.execute("SELECT caps FROM commit_policy WHERE approval_id = ?", (approval_id,)).fetchone()
+            used = db.execute("SELECT COALESCE(SUM(money),0), COALESCE(SUM(messages),0), "
+                "COALESCE(SUM(writes),0), MAX(at) FROM commit_debits WHERE approval_id = ? AND at > ?",
+                (approval_id, now - 60)).fetchone()
+            if ((used[3] is not None and used[3] > now)
+                    or any(a + b > cap for a, b, cap in zip(used[:3], resources[1:], json.loads(row[0])))):
+                return False
+            envelope = db.execute("SELECT scope FROM envelopes WHERE approval_id = ?", (approval_id,)).fetchone()
+            if envelope is None or scope not in json.loads(envelope[0]):
+                return False
+            changed = db.execute("UPDATE envelopes SET remaining = remaining - ? WHERE approval_id = ? "
+                "AND goal_id = ? AND goal_revision = ? AND policy = ? AND consumed_by = ? "
+                "AND consumed_at IS NOT NULL AND not_after >= ? AND remaining > 0 AND remaining >= ?",
+                (resources[0], approval_id, goal_id, goal_revision, policy, self._consumer, now, resources[0]))
+            if changed.rowcount != 1:
+                return False
+            db.execute("INSERT INTO envelope_items VALUES (?, ?, ?)", (approval_id, item_id, resources[0]))
+            db.execute("INSERT INTO commit_debits VALUES (?, ?, ?, ?, ?, ?)",
+                       (approval_id, item_id, now, *resources[1:]))
             db.execute("COMMIT")
             return True
         except sqlite3.IntegrityError:

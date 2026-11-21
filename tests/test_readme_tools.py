@@ -64,11 +64,11 @@ class CorePin(unittest.TestCase):
         self.assertEqual(set(current), set(recovery))
         self.assertEqual({name for name in current if current[name] != recovery[name]}, {"poodo_core/ports.py"})
         self.assertIn("poodo_core/core.py", current)
-        latest = pins["poodo_core_forge_core_s1_0_6"]["files"]
-        self.assertEqual(set(latest), set(current) | {"poodo_core/streams.py"})
+        latest = pins["poodo_core_forge_core_s2_0_7"]["files"]
+        self.assertEqual(set(latest), set(current) | {"poodo_core/streams.py", "poodo_core/kill.py", "poodo_core/outbox.py"})
         for name, expected in latest.items():
             self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), expected, name)
-        self.assertEqual([k for k in pins if k.startswith("poodo_core_")][-1], "poodo_core_forge_core_s1_0_6")
+        self.assertEqual([k for k in pins if k.startswith("poodo_core_")][-1], "poodo_core_forge_core_s2_0_7")
 
 
 if __name__ == "__main__":
