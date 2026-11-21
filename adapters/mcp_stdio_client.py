@@ -300,6 +300,8 @@ class _Session:
 
 
 class McpStdioCapability:
+    SERVER_CONFIG = McpServerConfig
+    CONTRACT_VERSION = CONTRACT_VERSION
     REQUEST_FRAME_CAP = 65_536
     RESPONSE_FRAME_CAP = 1_048_576
     STDERR_CAP = 16_384
@@ -307,7 +309,7 @@ class McpStdioCapability:
 
     def __init__(self, capability_id, server, tools, *, ignored_tools=(), timeout_seconds=15.0, grace_seconds=2.0):
         identifier(capability_id)
-        if type(server) is not McpServerConfig:
+        if type(server) is not self.SERVER_CONFIG:
             raise ValueError("Server configuration must come from the host")
         if (type(tools) is not tuple or not 1 <= len(tools) <= 64 or any(type(t) is not McpTool for t in tools)
                 or len({t.name for t in tools}) != len(tools)):
@@ -323,7 +325,7 @@ class McpStdioCapability:
         self.last_stderr, self.last_pid = b"", None
 
     def describe(self):
-        return CapabilityDescriptor(self._id, CONTRACT_VERSION, tuple(self._tools), lane="ToolFace")
+        return CapabilityDescriptor(self._id, self.CONTRACT_VERSION, tuple(self._tools), lane="ToolFace")
 
     def effects(self):
         return {name: t.effect for name, t in self._tools.items()}
@@ -375,6 +377,20 @@ class McpStdioCapability:
         return subprocess.Popen(list(c.argv), cwd=c.cwd, env=c.environment(), stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, close_fds=True, start_new_session=True)
 
+    def _open_session(self, cancellation):
+        proc = self._spawn()
+        self.last_pid = proc.pid
+        try:
+            return _Session(proc, self, time.monotonic() + self._timeout, cancellation)
+        except BaseException:
+            self._shutdown(proc)
+            raise
+
+    def _close_session(self, session):
+        session.selector.close()
+        self.last_stderr = bytes(session.stderr)
+        self._shutdown(session.proc)
+
     def _shutdown(self, proc):
         # EOF, grace, then TERM and KILL to the whole group. The leader stays unreaped until the end,
         # so its pid (the group id) cannot be reused while signals are sent.
@@ -407,7 +423,7 @@ class McpStdioCapability:
                 raise WireFailure("Malformed content item")
 
     def invoke(self, request: CapabilityRequest, attempt_id: str, cancellation=None):
-        dispatched, proc, session = False, None, None
+        dispatched, session = False, None
         request = CapabilityRequest.from_dict(request.to_dict())
         try:
             if request.capability_id != self._id or request.operation not in self._tools:
@@ -419,11 +435,9 @@ class McpStdioCapability:
             if cancellation is not None and cancellation.is_set():
                 return outcome_for(request, attempt_id, "cancelled", "cancelled_before_dispatch")
             try:
-                proc = self._spawn()
+                session = self._open_session(cancellation)
             except (OSError, ValueError):
                 return outcome_for(request, attempt_id, "unavailable", "mcp_server_unavailable")
-            self.last_pid = proc.pid
-            session = _Session(proc, self, time.monotonic() + self._timeout, cancellation)
             tool = self._handshake(session)[request.operation]
             if not tool["_inputSchema"].is_valid(request.arguments):  # Pinned schema.
                 return outcome_for(request, attempt_id, "resource_rejected", "mcp_arguments_rejected")
@@ -453,7 +467,7 @@ class McpStdioCapability:
             if isinstance(error, _Stop):
                 status, assessment, detail = error.status, error.assessment, error.detail
             elif isinstance(error, (ValueError, ContractError, KeyError, TypeError)):  # WireFailure included.
-                status, assessment = "protocol_error" if proc is not None else "resource_rejected", "mcp_contract_rejected"
+                status, assessment = "protocol_error" if session is not None else "resource_rejected", "mcp_contract_rejected"
             else:
                 status, assessment = "indeterminate", "unexpected_adapter_failure"
             return outcome_for(request, attempt_id, status, assessment, certainty="unknown" if dispatched else "not_dispatched",
@@ -461,7 +475,4 @@ class McpStdioCapability:
                 + ((detail,) if detail else ()))
         finally:
             if session is not None:
-                session.selector.close()
-                self.last_stderr = bytes(session.stderr)
-            if proc is not None:
-                self._shutdown(proc)
+                self._close_session(session)

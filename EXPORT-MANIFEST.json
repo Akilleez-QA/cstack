@@ -246,9 +246,13 @@
    "sha256": "7332a747fbb96aa2699073ed9f6b6ca7ce88c285b47f7d6fc73cdb07f0ba35e7",
    "bytes": 11813
   },
+  "adapters/mcp_http_client.py": {
+   "sha256": "d17a08619780fd738dd40ddaa79ad4ce22366ae18839c9e1771217ad9fd36bcf",
+   "bytes": 8038
+  },
   "adapters/mcp_stdio_client.py": {
-   "sha256": "7f31082393501e231ae241b5a50b07cb957603e4b8ef782ef499379fa4324ef7",
-   "bytes": 25742
+   "sha256": "594f51c3f33ebeb35cd14d7e7347058a2f48685cd4a4a86f4844eebde577c59b",
+   "bytes": 26035
   },
   "adapters/mcp_stdio_server.py": {
    "sha256": "85ec747279ea6f903b4f7679888e2b65ee123dda793acf7469702b81169f8b34",
@@ -531,8 +535,8 @@
    "bytes": 8349
   },
   "contracts/ADAPTERS.json": {
-   "sha256": "84bd10645ccdaab28761a4c9df4cf69cf6d637100ae3e26eb32421422b48eed6",
-   "bytes": 35716
+   "sha256": "edb1d191ba6c6d72e63659f3eb7fc05a99551789e7b90547c422f40cf8d8184a",
+   "bytes": 36324
   },
   "contracts/CONTRACT.json": {
    "sha256": "05848bff545d839bdcc9e30f4c8d2352f768e0298129e4bc57cbb68ed9e0c0c5",
@@ -559,8 +563,8 @@
    "bytes": 2422
   },
   "contracts/INTERFACES.md": {
-   "sha256": "78e96fde981a066f2f9a57d8e57c6b04bca08169af7770635e82986e89646fc1",
-   "bytes": 26900
+   "sha256": "e3d0734bac5086259d1585f8cb68b55fc23be7f286ebcb413dff079bc23e3684",
+   "bytes": 28411
   },
   "contracts/RESEARCH.md": {
    "sha256": "633318d6f72fce2caa8ccfbed7ab34c2f5ff8f1b6e350fe761b27a3a96e8d80d",
@@ -603,8 +607,8 @@
    "bytes": 7304
   },
   "docs/architecture/architecture.md": {
-   "sha256": "f18d64ad76d08bc51f944873f015506ccbc33695b47c8f1fe1ad5a4916b9f9bb",
-   "bytes": 23833
+   "sha256": "cde72c4b0f316ce3dc172a4d7461650cf8adfef21ac6dd38d56940afb5be672c",
+   "bytes": 23936
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "125c34adde85a2d1e2ffecc200fdc6836d1a694e7d7e09cb15505930323cdd00",
@@ -739,8 +743,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "745e24783b0ee28122e0d782eb9b858b5edf870419db53592e71336ccf5448cc",
-   "bytes": 59408
+   "sha256": "82abfeaf1c9f01574e174a3ad63c676ffc50f63ffcecd71499fae56990442eba",
+   "bytes": 59751
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -847,8 +851,8 @@
    "bytes": 9725
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "b36a52ca65f048b71ab34b2f9ea196907617584cf782aeabc6bdf4d9d1bb39f9",
-   "bytes": 26374
+   "sha256": "19e0936da8e3c1fb4f32f9e2b1481bb9fb431cbce5bfed5463c2c18107e84ac8",
+   "bytes": 26469
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -2518,9 +2522,13 @@
    "sha256": "f1445aac99c7a386c3d353fb8716ef06eb7f7877e33900f1839d710c865b9772",
    "bytes": 11778
   },
+  "tests/test_mcp_http_client.py": {
+   "sha256": "0702c785b35eeee332f7af89fead1359615538fb36c62b30f7b201a6db8526a2",
+   "bytes": 9213
+  },
   "tests/test_mcp_stdio_client.py": {
-   "sha256": "f4a362be20e12fcc20d05942a7f4cbcd6126a22017f48b20e13effc696bae613",
-   "bytes": 17200
+   "sha256": "ce96339b18915e066f2e32213094c29386b86b3da7d963327ce542e0d12f0c5c",
+   "bytes": 17245
   },
   "tests/test_memory_cli.py": {
    "sha256": "66fffd8e2d4b5ec8f56621e63c7ef0792b9d57bad0edfc1c3e3c76da59f5aa8a",

@@ -651,10 +651,12 @@ The MCP stdio server shall echo a supported protocol version on initialize (fall
 
 ### CS-REQ-053 — MCP client
 
-The MCP stdio client shall take its descriptor and effects from the host, treat `isError` as a completed tool error, refuse unknown, new, changed or conflicting tools before dispatch, treat timeout, crash and cancellation after dispatch as unknown without retry, kill the whole process group, and enforce frame caps, duplicate-key and non-finite-number rejection.
+The MCP stdio and HTTP clients shall take their descriptors and effects from the host, treat `isError` as a completed tool error, refuse unknown, new, changed or conflicting tools before dispatch, treat timeout, crash and cancellation after dispatch as unknown without retry, kill the whole stdio process group, and enforce frame caps, duplicate-key and non-finite-number rejection.
+
+The HTTP client shall use a host-fixed HTTPS endpoint (loopback HTTP for tests), accept JSON and POST SSE replies, take its optional bearer only from a host-named inherited environment variable, fail closed when that value is missing, and bound each fresh session without redirects or retry.
 
 - Rationale: an external MCP server is untrusted.
-- Derivation: `adapters/mcp_stdio_client.py`; `adapters/wire.py`
+- Derivation: `adapters/mcp_stdio_client.py`; `adapters/mcp_http_client.py`; `adapters/wire.py`
 - Allocated to: SDD-C15
 - Verification: T. The TypeScript SDK interop test skips without that SDK.
 - Status: Baselined

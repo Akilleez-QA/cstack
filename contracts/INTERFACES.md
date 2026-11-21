@@ -90,6 +90,10 @@ The live catalog must match the allowlist and its pins. Each pinned entry must f
 
 Results are fenced as `raw_result = {provenance: "mcp:<capability_id>", trust: "untrusted", mcp_result}`. Cleanup kills the server's process group. A descendant that calls setsid escapes it. The env allowlist is not secret isolation from a same-user server.
 
+`adapters/mcp_http_client.py` provides the HTTP twin, `McpHttpCapability`, on the same CapabilityPort / ToolFace. It shares the 2025-11-25 lifecycle, catalog, effect, schema, pin and result validation above. The host supplies `McpHttpServerConfig(url, inherit_env=())`: an absolute HTTPS URL, or literal loopback HTTP for tests. At most one inherited environment name selects the bearer; a configured but missing or empty value fails closed before networking. The token is never taken from requests, repository files or fixed headers. With no configured name, no Authorization header is sent.
+
+Each invoke creates a fresh session, forwards a server-issued MCP session ID and the protocol version, and accepts JSON or POST SSE responses as specified by the [2025-11-25 transport](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports). Redirects, automatic retry, stream resumption, unsolicited GET streams and legacy HTTP+SSE fallback are unsupported. Connections close on completion, timeout or cancellation; remote session deletion and cancellation notifications are not sent. Cancellation stops waiting and closes connected sockets; system DNS resolution may finish in a daemon thread, which checks the deadline/cancellation before sending. HTTP errors and connection failures become unavailable outcomes; after tools/call dispatch their execution certainty is unknown. Local fake-server tests live in `tests/test_mcp_http_client.py`; live vendor interoperability has not been verified.
+
 Interop evidence (2026-10-25):
 - A fixture server in `tests/test_mcp_stdio_client.py`.
 - The official `@modelcontextprotocol/sdk` 1.30.0 TypeScript server (LATEST_PROTOCOL_VERSION 2025-11-25), via the opt-in `CSTACK_MCP_SDK_ESM` test: a completed call, an `isError` call and a catalog refusal.
