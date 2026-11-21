@@ -104,6 +104,24 @@ class Phase(str, Enum):
 
 
 @dataclass(frozen=True)
+class AcceptanceReference:
+    kind: str
+    target: str
+
+    def __post_init__(self):
+        if type(self.kind) is not str or self.kind not in ('test', 'oracle'):
+            raise ContractError("Acceptance must name a test or oracle")
+        identifier(self.target)
+
+    def to_dict(self):
+        return dict(vars(self))
+
+    @classmethod
+    def from_dict(cls, value):
+        return cls(**exact_fields(value, {'kind', 'target'}))
+
+
+@dataclass(frozen=True)
 class GoalContract:
     goal_id: str
     revision: int
@@ -112,7 +130,7 @@ class GoalContract:
     assumptions: tuple[str, ...]
     exclusions: tuple[str, ...]
     acceptance_version: str
-    acceptance_criteria: tuple[str, ...]
+    acceptance_criteria: tuple[AcceptanceReference, ...]
 
     def __post_init__(self):
         for field in (self.goal_id, self.domain_id, self.acceptance_version):
@@ -120,19 +138,20 @@ class GoalContract:
         if type(self.revision) is not int or not 1 <= self.revision <= 1_000_000:
             raise ContractError("Invalid goal revision")
         prose(self.objective)
-        for values in (self.assumptions, self.exclusions, self.acceptance_criteria):
+        for values in (self.assumptions, self.exclusions):
             if type(values) is not tuple or len(values) > 32:
                 raise ContractError("Goal lists must be bounded immutable tuples")
             for value in values:
                 prose(value)
-        if not self.acceptance_criteria:
+        if (type(self.acceptance_criteria) is not tuple or not 1 <= len(self.acceptance_criteria) <= 32
+                or any(type(ref) is not AcceptanceReference for ref in self.acceptance_criteria)):
             raise ContractError("A versioned acceptance criterion is required")
 
     def to_dict(self):
         return {"goal_id": self.goal_id, "revision": self.revision, "domain_id": self.domain_id,
                 "objective": self.objective, "assumptions": list(self.assumptions),
                 "exclusions": list(self.exclusions), "acceptance_version": self.acceptance_version,
-                "acceptance_criteria": list(self.acceptance_criteria)}
+                "acceptance_criteria": [ref.to_dict() for ref in self.acceptance_criteria]}
 
     @classmethod
     def from_dict(cls, value):
@@ -140,7 +159,8 @@ class GoalContract:
                                      "exclusions", "acceptance_version", "acceptance_criteria"})
         if any(type(value[k]) is not list for k in ("assumptions", "exclusions", "acceptance_criteria")):
             raise ContractError("Goal lists must be JSON arrays")
-        return cls(**{**value, **{k: tuple(value[k]) for k in ("assumptions", "exclusions", "acceptance_criteria")}})
+        return cls(**{**value, **{k: tuple(value[k]) for k in ("assumptions", "exclusions")},
+                      "acceptance_criteria": tuple(AcceptanceReference.from_dict(ref) for ref in value["acceptance_criteria"])})
 
 
 @dataclass(frozen=True)
@@ -333,6 +353,30 @@ class Interpretation:
     limitations: tuple[str, ...]
     formal_proof: bool = False
     runtime_goal_acceptance: bool = False
+    verdict: str = "unverified"
+    evidence_hash: str | None = None
+    verify_cost: int | None = None
+
+    @staticmethod
+    def verification(outcome):
+        data = outcome.to_dict()
+        evidence = canonical(data["raw_result"]).encode("ascii")
+        status = data["execution_status"]
+        return {"verdict": "passed" if status == "completed" else "failed" if status == "tool_error" else "unverified",
+                "evidence_hash": hashlib.sha256(evidence).hexdigest(), "verify_cost": len(evidence)}
+
+    def validate_verification(self, outcome):
+        if type(self.verdict) is not str or self.verdict not in ("passed", "failed", "unverified"):
+            raise ContractError("Invalid verification verdict")
+        if type(self.evidence_hash) is not str or _SHA.fullmatch(self.evidence_hash) is None:
+            raise ContractError("Missing or malformed evidence hash")
+        if type(self.verify_cost) is not int or self.verify_cost < 0:
+            raise ContractError("Unknown or malformed verification cost")
+        expected = Interpretation.verification(outcome)
+        if self.evidence_hash != expected["evidence_hash"] or self.verify_cost != expected["verify_cost"]:
+            raise ContractError("Verification does not bind the evidence payload")
+        if self.verdict != expected["verdict"]:
+            raise ContractError("Verification verdict does not admit this outcome")
 
 
 @dataclass(frozen=True)

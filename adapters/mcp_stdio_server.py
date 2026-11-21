@@ -32,7 +32,10 @@ TOOLS = (
     _tool("aor", "This bot's AOR", "Who this bot is on this device: owns, not owned, effect classes per domain, approver, shields, "
           "and whether the ledger is witnessed (ADR 004) or memory only.", {}, [], read_only=True),
     _tool("start_goal", "Start a goal", "Start a POODO goal in a domain. The host assigns the goal id.",
-          {"domain": _DOMAIN, "objective": _STR, "acceptance_criteria": {**_LIST, "minItems": 1},
+          {"domain": _DOMAIN, "objective": _STR, "acceptance_criteria": {"type": "array", "minItems": 1, "maxItems": 32, "items": {
+              "type": "object", "additionalProperties": False, "required": ["kind", "target"],
+              "properties": {"kind": {"enum": ["test", "oracle"]},
+                             "target": {"type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,128}$"}}}},
            "assumptions": _LIST, "exclusions": _LIST}, ["domain", "objective", "acceptance_criteria"]),
     _tool("advance", "Advance a goal", "Advance a goal one phase: pontificate>observe>orient>decide>orchestrate. Orient needs "
           "research_references; Decide needs exactly 20 distinct option_ids.",

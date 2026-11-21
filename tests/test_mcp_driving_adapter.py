@@ -71,7 +71,7 @@ class Server:
 
     def to_execute(self):
         goal_id = self.ok("start_goal", domain=DOMAIN, objective=SAMPLE.objective,
-                          acceptance_criteria=["A scoped tool observation with Evidence."])["contract"]["goal_id"]
+                          acceptance_criteria=[{"kind": "test", "target": "tests.test_core"}])["contract"]["goal_id"]
         for phase, extra in (("observe", {}), ("orient", {"research_references": [SAMPLE.reference]}),
                              ("decide", {"option_ids": OPTIONS})):
             self.ok("advance", domain=DOMAIN, goal_id=goal_id, next_phase=phase, rationale="Fixture.", **extra)
@@ -174,7 +174,7 @@ class GoalTests(McpCase):
     def test_identity_is_fixed_at_launch_and_extra_arguments_are_refused(self):
         server = self.launch()
         for name, arguments in (("aor", {"bot": "beta"}), ("aor", {"aor": "beta"}),
-                                ("start_goal", {"domain": DOMAIN, "objective": "x", "acceptance_criteria": ["y"],
+                                ("start_goal", {"domain": DOMAIN, "objective": "x", "acceptance_criteria": [{"kind": "test", "target": "tests.test_core"}],
                                                 "path": "/tmp/elsewhere"}),
                                 ("ledger", {"domain": DOMAIN, "bot": "beta"})):
             self.assertTrue(server.call(name, **arguments)[1], (name, arguments))

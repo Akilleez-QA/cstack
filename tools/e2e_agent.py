@@ -77,7 +77,7 @@ def prompt(slug, name):
     options = ", ".join(f'"option-{i:02d}"' for i in range(1, 21))
     return f"""You are {name}, working only through your own MCP server cstack-{slug}. Do exactly these steps with its tools, in order, taking every id from the previous tool result:
 1. Call `aor` and note your bot slug and the class of {DOMAIN}.
-2. Call `start_goal` with domain "{DOMAIN}", objective "Read the R717 saturation pressure at 20 degF from Foundation Refrigeration.", acceptance_criteria ["One scoped Foundation Refrigeration tool observation, with Evidence, giving psig."].
+2. Call `start_goal` with domain "{DOMAIN}", objective "Read the R717 saturation pressure at 20 degF from Foundation Refrigeration.", acceptance_criteria [{{"kind": "test", "target": "tests.test_refrigeration_e2e"}}].
 3. Call `advance` three times on that goal_id: next_phase "observe" (rationale "Observe the request."); next_phase "orient" (rationale "Orient on the refrigeration contract.", research_references ["contracts/DECISION-002-foundation-refrigeration.md"]); next_phase "decide" (rationale "Decide among 20 options.", option_ids [{options}]).
 4. Call `decide` with domain "{DOMAIN}", that goal_id, operation "saturation_pressure", arguments {{"fluid": "R717", "temperature": {{"value": 20, "unit": "degF"}}}}, expected_observation "R717 saturation pressure at 20 degF in psig", success_boundary "Only this one synthetic R717 reading.", failure_meaning "The pinned Refrigeration contract does not match.".
 5. If decide says approval_required is true, stop and report the decision_id. Otherwise call `advance` with next_phase "orchestrate" (rationale "Run the precommitted call."), then `execute` with that decision_id.

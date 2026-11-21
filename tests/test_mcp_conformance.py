@@ -109,7 +109,7 @@ class AnchorFailureTests(SessionCase):
         result = session.execute(DOMAIN, decision["decision_id"])
         self.assertEqual((result["status"], result["anchor_warning"]), ("executed", "ledger anchor not saved: "
                                                                                     "IsADirectoryError"))
-        [crash, ping] = run(call(1, "start_goal", {"domain": DOMAIN, "objective": "x", "acceptance_criteria": ["y"]}),
+        [crash, ping] = run(call(1, "start_goal", {"domain": DOMAIN, "objective": "x", "acceptance_criteria": [{"kind": "test", "target": "tests.test_core"}]}),
                             PING, session=session)
         self.assertEqual((crash["error"]["code"], ping["id"]), (-32603, 99))
 

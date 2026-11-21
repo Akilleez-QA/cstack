@@ -31,7 +31,8 @@ class MathExtension:
             "Only the exact supplied request in its declared formal domain; goal assumptions remain unproved.",
             ("Tool success is not predicate truth, formal proof, or goal acceptance.",
              "Caller-authored objects, hypotheses and physical identifications are not established by the tool.",
-             "Hashes identify bytes, not authentic provenance or mathematical truth."))
+             "Hashes identify bytes, not authentic provenance or mathematical truth."),
+            **Interpretation.verification(outcome))
 
 
 class FoundationMath(PoodoCore):

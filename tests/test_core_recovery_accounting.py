@@ -120,7 +120,7 @@ class GrantScopeAcrossSessions(Case):
 
     def run_call(self, session):
         domain = "synthetic_sensor"
-        goal_id = session.start_goal(domain, "Read the sensor.", ["A scoped tool observation."])["contract"]["goal_id"]
+        goal_id = session.start_goal(domain, "Read the sensor.", [{"kind": "test", "target": "tests.test_core"}])["contract"]["goal_id"]
         session.advance(domain, goal_id, "observe", "Fixture checkpoint.")
         session.advance(domain, goal_id, "orient", "Fixture checkpoint.", research_references=["contracts/RESEARCH.md"])
         session.advance(domain, goal_id, "decide", "Fixture checkpoint.",

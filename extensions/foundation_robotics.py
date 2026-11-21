@@ -42,7 +42,7 @@ class RoboticsExtension:
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
             "Only the supplied numbers against the pinned Robotics Foundation; no rig, clip or render is assessed.",
-            INTERPRETATION_LIMITS)
+            INTERPRETATION_LIMITS, **Interpretation.verification(outcome))
 
 
 class FoundationRobotics(PoodoCore):

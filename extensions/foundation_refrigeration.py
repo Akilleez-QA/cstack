@@ -43,7 +43,7 @@ class RefrigerationExtension:
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
             "Only the supplied request against the Foundation's pinned data; no plant, sensor or person is assessed.",
-            INTERPRETATION_LIMITS)
+            INTERPRETATION_LIMITS, **Interpretation.verification(outcome))
 
 
 class FoundationRefrigeration(PoodoCore):

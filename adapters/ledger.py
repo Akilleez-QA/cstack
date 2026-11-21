@@ -74,15 +74,31 @@ class Log:
     def __init__(self, path, origin, roster):
         self.path, self.origin, self.roster = path, origin, roster
         self.entries, self.wseq, self.cps, self._mu = [], {}, [], threading.Lock()
+        self.by_hash, self.refs, self.used_refs = {}, set(), set()
+        self._stamp = None
         self.refresh()
     def refresh(self):
         """Verify and load entries other writers appended since we last read (the whole file on first open)."""
-        if os.path.exists(self.path):
+        if os.path.exists(self.path + ".batch-pending"):
+            raise Alarm("batch-recovery-required")
+        stamp = self.stamp()
+        if stamp != self._stamp and os.path.exists(self.path):
             with open(self.path) as f: lines = [l for l in f if l.strip()]
             if len(lines) < len(self.entries): raise Alarm("rollback", f"{self.path} shrank to {len(lines)} < {len(self.entries)}")
+            if self.entries:
+                loaded = [json.loads(l) for l in lines]
+                if loaded[:len(self.entries)] != self.entries:
+                    raise Alarm("rollback", "verified prefix changed")
             self.extend([json.loads(l) for l in lines[len(self.entries):]], persist=False)
+            self._stamp = stamp
         if os.path.exists(self.path + ".cp"):
             with open(self.path + ".cp") as f: self.cps = [json.loads(l) for l in f if l.strip()]
+    def stamp(self):
+        try:
+            st = os.stat(self.path)
+            return st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns
+        except FileNotFoundError:
+            return None
     @contextlib.contextmanager
     def locked(self):
         """Exclusive across threads and processes (flock on <log>.lock); re-reads the file so seq/wseq/use are current."""
@@ -111,6 +127,13 @@ class Log:
             seq += 1; self._check(e, seq, prev, wseq); prev, wseq[e["writer"]] = e["hash"], e["wseq"]
         if persist: self._persist(new)
         self.entries.extend(new); self.wseq = wseq
+        for e in new:
+            self.by_hash[e["hash"]] = e
+            if e.get("ref") is not None:
+                self.refs.add(e["ref"])
+                if e["kind"] in ("claim", "result"):
+                    self.used_refs.add(e["ref"])
+        self._stamp = self.stamp()
     def _persist(self, new):
         if not new: return
         with open(self.path, "a") as f:
@@ -146,10 +169,10 @@ class Log:
 
 def authorize(log, intent_hash, action):
     """The gate. Valid only if a signed intent for exactly this action exists, is unused, and is quorum-witnessed."""
-    e = next((x for x in log.entries if x["hash"] == intent_hash), None)
+    e = log.by_hash.get(intent_hash)
     if not e or e["kind"] != "intent": raise Denied("no-intent: execute-then-log is not allowed")
     if e["body"].get("digest") != digest(action): raise Denied("intent-digest-mismatch")
-    if any(x["kind"] in ("claim", "result") and x.get("ref") == intent_hash for x in log.entries): raise Denied("intent-already-used")
+    if intent_hash in log.used_refs: raise Denied("intent-already-used")
     if action.get("op") in SAFE_DIRECTION: return e
     if log.witnessed_size() < e["seq"]: raise Denied("intent-not-witnessed-by-quorum")
     return e

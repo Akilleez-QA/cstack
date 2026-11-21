@@ -12,9 +12,7 @@
       "No general theorem, actual geometry, proof acceptance or Endoforge generation."
     ],
     "acceptance_version": "synthetic-v1",
-    "acceptance_criteria": [
-      "Exact scalar 5/6 and negative polynomial result remain scoped observations."
-    ]
+    "acceptance_criteria": [{"kind": "test", "target": "tests.test_math_adapter"}]
   },
   "checkpoints": [
     {

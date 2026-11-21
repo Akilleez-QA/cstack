@@ -20,7 +20,7 @@ class SessionSerializationTests(SessionCase):
     def test_concurrent_goal_writes_have_unique_ids_and_contiguous_events(self):
         session = self.open()
         def write(i):
-            goal = session.start_goal(DOMAIN, f"Observe fixture {i}.", ["Scoped observation."])
+            goal = session.start_goal(DOMAIN, f"Observe fixture {i}.", [{"kind": "test", "target": "tests.test_core"}])
             session.ledger()  # readers must use the same lock as writers
             return goal["contract"]["goal_id"]
         with ThreadPoolExecutor(max_workers=8) as pool:
@@ -32,7 +32,7 @@ class SessionSerializationTests(SessionCase):
     def test_every_public_call_waits_for_the_session_lock(self):
         # Include invalid calls: validation and refusal must be serialized too.
         calls = [lambda s: s.aor(), lambda s: s.shields_up(), lambda s: s.ledger(),
-                 lambda s: s.start_goal(DOMAIN, "Observe.", ["Evidence."]),
+                 lambda s: s.start_goal(DOMAIN, "Observe.", [{"kind": "test", "target": "tests.test_core"}]),
                  lambda s: s.advance(DOMAIN, "absent", "observe", "Checkpoint."),
                  lambda s: s.decide(DOMAIN, "absent", "echo_observation", {}, "x", "y", "z"),
                  lambda s: s.execute(DOMAIN, "absent"), lambda s: s.close()]
@@ -82,7 +82,7 @@ class SessionStoreTests(SessionCase):
     def test_domain_stores_and_core_ledgers_are_separate(self):
         session = self.open()
         for domain in ("foundation_math", DOMAIN):
-            session.start_goal(domain, f"Observe {domain}.", ["Scoped observation."])
+            session.start_goal(domain, f"Observe {domain}.", [{"kind": "test", "target": "tests.test_core"}])
         self.assertFalse(self.base_log.exists())
         self.assertNotEqual(self.path(DOMAIN), self.path("foundation_math"))
         for domain in ("foundation_math", DOMAIN):
@@ -98,7 +98,7 @@ class SessionStoreTests(SessionCase):
 
     def test_second_session_refused_until_close_and_reopens_at_domain_anchor(self):
         first = self.open()
-        first.start_goal(DOMAIN, "Observe.", ["Evidence."])
+        first.start_goal(DOMAIN, "Observe.", [{"kind": "test", "target": "tests.test_core"}])
         head = first.ledger(DOMAIN)["head"]
         with self.assertRaisesRegex(ContractError, "already has a live owner"):
             self.open()

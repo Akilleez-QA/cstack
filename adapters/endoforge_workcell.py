@@ -152,7 +152,17 @@ def core_events(path):
     if not path.exists():
         return []
     raw = path.read_bytes()
-    return [json.loads(line) for line in raw[:raw.rfind(b"\n") + 1].splitlines()]
+    from adapters.memory_ledger import merkle_root
+    events = []
+    for line in raw[:raw.rfind(b"\n") + 1].splitlines():
+        record = json.loads(line)
+        if record.get("schema") == "forge.batch/1":
+            if merkle_root(record["events"]) != record.get("root"):
+                raise ContractError("Batch root mismatch")
+            events.extend(record["events"])
+        else:
+            events.append(record)
+    return events
 
 
 def resolver(config, core_directory):

@@ -12,9 +12,7 @@
       "No diagnosis, engineering, safety or compliance determination, control action or goal acceptance."
     ],
     "acceptance_version": "synthetic-v1",
-    "acceptance_criteria": [
-      "Saturation, reading-delta, limit and taxonomy results remain scoped observations with Evidence."
-    ]
+    "acceptance_criteria": [{"kind": "test", "target": "tests.test_refrigeration_conformance"}]
   },
   "checkpoints": [
     {
