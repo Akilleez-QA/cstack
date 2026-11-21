@@ -636,6 +636,19 @@
    "status": "hard_wired",
    "strategic_dependency_adr": null,
    "notes": "Optional host-bound hand-off tools: one node per hand-off with immutable lineage, wake-once, chase, owner holds, loop, depth, per-root and one-live-instance limits, reachability from host config. Grants no authority."
+  },
+  {
+   "adapter_id": "stream-admission",
+   "lane": "SupervisorFace",
+   "port": "AdmissionPort",
+   "vendor": "cstack (in-repo)",
+   "kind": "python_module",
+   "path": "adapters/stream_admission.py",
+   "fake": null,
+   "fake_reason": "Focused deterministic clock, callable registry and cost fakes in tests/test_stream_scheduler.py.",
+   "status": "behind_port",
+   "strategic_dependency_adr": null,
+   "notes": "Optional host-owned weighted block scheduler; delegates capacity, resolves executable acceptance, meters F3 envelopes and serializes scope leases through commit. Single process only."
   }
  ],
  "not_an_adapter": [

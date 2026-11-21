@@ -14,7 +14,7 @@ import stat
 from threading import Lock
 import weakref
 
-from poodo_core import (ApprovalDeclined, ApprovalPending, AuthorityGrant, CapabilityRequest, ContractError,
+from poodo_core import (AcceptanceReference, ApprovalDeclined, ApprovalPending, AuthorityGrant, CapabilityRequest, ContractError,
                         GoalContract, Phase, PhaseCheckpoint, Precommitment, REQUEST_VERSION)
 
 STRICTNESS = ("allow", "ask", "deny")
@@ -191,7 +191,7 @@ class AorSession:
         if not self._goal_pool[domain]:
             raise ContractError("This session's goal budget is exhausted")
         goal = GoalContract(self._goal_pool[domain][0], 1, domain, objective, tuple(assumptions), tuple(exclusions),
-                            "1", tuple(acceptance_criteria))
+                            "1", tuple(AcceptanceReference.from_dict(ref) for ref in acceptance_criteria))
         snapshot = core.start_goal(goal)
         self._goal_pool[domain].pop(0)
         self._save_anchors()

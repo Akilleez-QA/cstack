@@ -3,6 +3,7 @@ from typing import Protocol, runtime_checkable, Sequence
 from .models import (Admission, CapabilityDescriptor, CapabilityOutcome, CapabilityRequest,
                      DecisionRecord, Document, DomainDescriptor, GoalContract, GoalSnapshot, Interpretation)
 from .policy import CapacityLimits
+from .streams import Block, Launch
 
 
 class Cancellation(Protocol):
@@ -45,10 +46,14 @@ class CostPort(Protocol):
 class AdmissionPort(Protocol):
     """SupervisorFace (ADR 005 item 5a): trusted host capacity per AOR. Requests, hooks and tool text never reach it.
 
-    Called at construction for every AOR and again at every admission check, always under the core's re-entrancy
+    capacity() is called at construction for every AOR and again at every admission check, always under the core's re-entrancy
     guard. None, any other type, a record for another AOR or a raise refuses (fail closed).
     """
     def capacity(self, aor_id: str) -> CapacityLimits | None: ...
+    def launch(self, launch: "Launch") -> None: ...
+    def next_block(self) -> "Block | None": ...
+    def commit(self, block: "Block", action, *, event: str | None = None): ...
+    def signal(self, event: str) -> None: ...
 
 
 class LedgerPort(Protocol):

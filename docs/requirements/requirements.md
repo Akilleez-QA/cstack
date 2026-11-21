@@ -969,6 +969,26 @@ Every DomainExtension interpretation shall expose a scoped verdict, deterministi
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-096 — Forge Core executable launch contract
+
+GoalContract acceptance criteria shall be typed executable test references or oracle IDs, never free prose. A Launch shall bind a mission, goal revision, grid, budget vector, policy, scope locks, priority/weight, dependency events and expiry. Launch admission shall refuse unresolved or noncallable acceptance before consuming an F3 envelope; each issued block shall debit the matching envelope and obey its launch budget and expiry.
+
+- Rationale: no runnable success test, no launch.
+- Derivation: `poodo_core/models.py`; `poodo_core/streams.py`; `adapters/stream_admission.py`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-097 — Forge Core weighted stream scheduling
+
+The optional host AdmissionPort scheduler shall share trusted integer block-cost service across contending missions by weight within five percentage points in deterministic sustained-contention tests, aggregate streams belonging to one mission, reconsider scheduling only at block boundaries, serialize overlapping scope leases through commit, and withhold dependent streams until all named events occur. Failed commits shall release locks without publishing success events.
+
+- Rationale: bounded cooperative scheduling preserves authority and isolates conflicting commits.
+- Derivation: `adapters/stream_admission.py`; [Forge Core](../architecture/forge-core.md#s1-launches-and-streams)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
 ## 5. Non-functional requirements
 
 Bounded resource use is stated as requirements where a test checks it: CS-REQ-006 (wire limits), CS-REQ-011 (output bounds), CS-REQ-009 (deadlines), CS-REQ-041 (capacity), CS-REQ-040 (budget). Replaceability is CS-REQ-075. Reuse (SWE-147) is met by the public GPL-3.0-only license and the family standard; no further obligation is stated.

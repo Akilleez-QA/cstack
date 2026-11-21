@@ -43,7 +43,7 @@ class FakeFoundation(PoodoCore):
 
 def goal(domain="synthetic_sensor", revision=1, goal_id="g"):
     return GoalContract(goal_id, revision, domain, "Synthetic bounded observation", ("Inputs are supplied assumptions.",),
-                        ("No proof or physical-world conclusion.",), "1", ("Observe declared tool output only.",))
+                        ("No proof or physical-world conclusion.",), "1", (AcceptanceReference("oracle", "synthetic-oracle"),))
 
 
 def request(operation="reading", arguments=None, capability="synthetic_sensor", goal_id="g", revision=1, i=1,

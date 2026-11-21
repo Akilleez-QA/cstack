@@ -164,7 +164,7 @@ class InitTests(Case):
         session = build_aor_session("alpha", state_root=self.state, hostname="testbox", fleet_path=self.fleet,
                                     fleet_mail=None)
         try:
-            session.start_goal(domain=DOMAIN, objective=SAMPLE.objective, acceptance_criteria=["Fixture."])
+            session.start_goal(domain=DOMAIN, objective=SAMPLE.objective, acceptance_criteria=[{"kind": "test", "target": "tests.test_core"}])
         finally:
             session.close()
         log = self.state / f"ledger/testbox/alpha/{DOMAIN}.jsonl"

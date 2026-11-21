@@ -162,7 +162,7 @@ A `PoodoCore` is **single-caller**: the host must serialise all calls (reads and
 
 ## Capacity admission (ADR 005 item 5a)
 
-`AdmissionPort` is a SupervisorFace port. Its one method, `capacity(aor_id)`, returns the host's `CapacityLimits` for one AOR:
+`AdmissionPort` is a SupervisorFace port. Its existing method, `capacity(aor_id)`, returns the host's `CapacityLimits` for one AOR:
 - `max_open_goals`, `max_live_attempts` (dispatched and not yet settled) and `max_pending_asks` (the approval queue);
 - `live_cap`, the host's current dial on live attempts, from 0 to `max_live_attempts`. **0 pauses the AOR**;
 - optional `other_open_goals`, `other_live_attempts` and `other_pending_asks`: usage the host sees outside this core, added to the core's own count;
@@ -195,3 +195,16 @@ implement it. Existing append/reserve/read callers require no changes. See
 [Forge Core](../docs/architecture/forge-core.md) for hashing, storage compatibility,
 crash recovery and index boundaries. EndoforgePort's runtime-checked four-method
 surface and the upstream pin remain unchanged.
+
+## Forge Core launch admission (S1)
+
+AdmissionPort adds host-only launch(Launch), next_block(), commit(Block, action,
+event=None) and signal(event). StreamAdmission implements this surface and delegates
+capacity to the host provider. Existing capacity-only core integrations continue to
+work; hosts opt into stream scheduling explicitly. Launch and BudgetVector live in
+`poodo_core/streams.py`; the implementation is `adapters/stream_admission.py`.
+GoalContract JSON acceptance_criteria entries are now objects with exactly kind
+(test or oracle) and target (bounded identifier). The MCP start_goal schema uses the
+same shape. There is no implicit conversion of prose into executable acceptance.
+See [launches and streams](../docs/architecture/forge-core.md#s1-launches-and-streams)
+for budget units, priority, event, lease, expiry and single-process boundaries.

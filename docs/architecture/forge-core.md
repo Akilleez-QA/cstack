@@ -1,7 +1,7 @@
 # Forge Core
 
 Packet F3 implements the envelope and batch ledger layer on the b0761b1 baseline.
-S1 (launch/scheduler) will stack on this branch later. S2 (kill/outbox) and S3
+S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 (kill/outbox) and S3
 (profiler) are outside this packet.
 
 ## GPU mapping
@@ -123,3 +123,58 @@ unchanged. A source pin identifies bytes, not verification or approval.
 
 Focused coverage is in tests/test_interpretation.py (CS-REQ-095). F3 envelopes,
 batch roots and indexed-ledger behavior remain separate requirements.
+
+## S1 launches and streams
+
+Launch in `poodo_core/streams.py` binds a launch ID (also its F3 envelope ID),
+mission ID, immutable GoalContract revision, variants-by-depth grid, integer
+block/cost budget vector, policy and envelope scope, canonical hierarchical scope
+locks, priority, positive mission weight, dependency event IDs and inclusive expiry.
+A stream traverses variants first, then depth, with at most one outstanding block.
+
+GoalContract acceptance criteria are now AcceptanceReference records containing
+kind (test or oracle) and a bounded target ID. Free prose is refused, including
+through JSON and MCP. Existing callers must migrate their criteria to explicit
+references; old goal payloads and ledger contract replay containing prose require
+host migration before reuse. Objective, assumptions and exclusions remain prose.
+The optional StreamAdmission host API requires every reference to resolve to a
+callable in its copied host registry before consuming the envelope. Unknown IDs,
+noncallable entries and expired launches refuse without consuming launch authority.
+Resolution establishes runnability; it does not run the tests or claim they pass.
+The host owns test execution, verdict interpretation and any goal acceptance.
+
+StreamAdmission implements the extended AdmissionPort; capacity delegates to the
+existing host capacity provider. Legacy capacity-only providers still serve the
+existing core admission path. Hosts explicitly construct the scheduler with a slot
+limit, integer clock, callable registry, trusted block-cost function and ApprovalPort.
+It is not automatically wired into CLI/MCP dispatch. Launches grant no authority
+beyond their envelopes: each block is metered before it is issued, against the exact
+goal revision, policy and envelope scope, with effect read. Budget cost uses the same
+host integer minor units as F3, separately from F2 verification bytes. Unknown costs
+refuse; over-budget blocks remain queued; no refunds are inferred after failure.
+
+Scheduling selects the eligible mission with the least accumulated service divided
+by weight, then higher priority, stream progress and launch ID to break ties. Service
+is the trusted cost, with a minimum of one unit for zero-cost blocks. All streams in
+a mission share this account and must use the same weight and priority. New missions
+join at the minimum existing service. Under sustained contention with bounded block
+costs this provides weighted service fairness; priority breaks ties without starving
+lower priorities. Short runs, blocked missions and heterogeneous real runtimes carry
+no wall-time fairness guarantee. Slots and leases are cooperative host contracts.
+
+next_block issues an immutable identity-checked lease. A running block is never
+revoked; the scheduler reconsiders at block boundaries. Exact, ancestor and descendant
+scope paths conflict. Locks cover execution and the entire commit callback, including
+when other threads call next_block. Disjoint scopes may occupy separate slots.
+Dependencies require all named host events; signal or a successful commit with an
+event publishes them. A failed callback stops its stream, releases its lease and
+publishes no event. Commit replay and simultaneous duplicate commits refuse. Expiry
+refuses new dispatch and entry to commit; a callback already entered may finish.
+
+One scheduler must own the whole scope namespace in one process. Queues, dependency
+events and fairness counters are in memory. F3 envelope consumption and debits remain
+durable: restart cannot relaunch an envelope, and hosts must reconcile ambiguous
+work before issuing replacement authority. Cross-process locking, restart recovery,
+kill/outbox and profiler integration remain outside S1. No throughput claim is made.
+
+Acceptance is in `tests/test_stream_scheduler.py` (CS-REQ-096 and CS-REQ-097).

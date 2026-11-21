@@ -104,6 +104,24 @@ class Phase(str, Enum):
 
 
 @dataclass(frozen=True)
+class AcceptanceReference:
+    kind: str
+    target: str
+
+    def __post_init__(self):
+        if type(self.kind) is not str or self.kind not in ('test', 'oracle'):
+            raise ContractError("Acceptance must name a test or oracle")
+        identifier(self.target)
+
+    def to_dict(self):
+        return dict(vars(self))
+
+    @classmethod
+    def from_dict(cls, value):
+        return cls(**exact_fields(value, {'kind', 'target'}))
+
+
+@dataclass(frozen=True)
 class GoalContract:
     goal_id: str
     revision: int
@@ -112,7 +130,7 @@ class GoalContract:
     assumptions: tuple[str, ...]
     exclusions: tuple[str, ...]
     acceptance_version: str
-    acceptance_criteria: tuple[str, ...]
+    acceptance_criteria: tuple[AcceptanceReference, ...]
 
     def __post_init__(self):
         for field in (self.goal_id, self.domain_id, self.acceptance_version):
@@ -120,19 +138,20 @@ class GoalContract:
         if type(self.revision) is not int or not 1 <= self.revision <= 1_000_000:
             raise ContractError("Invalid goal revision")
         prose(self.objective)
-        for values in (self.assumptions, self.exclusions, self.acceptance_criteria):
+        for values in (self.assumptions, self.exclusions):
             if type(values) is not tuple or len(values) > 32:
                 raise ContractError("Goal lists must be bounded immutable tuples")
             for value in values:
                 prose(value)
-        if not self.acceptance_criteria:
+        if (type(self.acceptance_criteria) is not tuple or not 1 <= len(self.acceptance_criteria) <= 32
+                or any(type(ref) is not AcceptanceReference for ref in self.acceptance_criteria)):
             raise ContractError("A versioned acceptance criterion is required")
 
     def to_dict(self):
         return {"goal_id": self.goal_id, "revision": self.revision, "domain_id": self.domain_id,
                 "objective": self.objective, "assumptions": list(self.assumptions),
                 "exclusions": list(self.exclusions), "acceptance_version": self.acceptance_version,
-                "acceptance_criteria": list(self.acceptance_criteria)}
+                "acceptance_criteria": [ref.to_dict() for ref in self.acceptance_criteria]}
 
     @classmethod
     def from_dict(cls, value):
@@ -140,7 +159,8 @@ class GoalContract:
                                      "exclusions", "acceptance_version", "acceptance_criteria"})
         if any(type(value[k]) is not list for k in ("assumptions", "exclusions", "acceptance_criteria")):
             raise ContractError("Goal lists must be JSON arrays")
-        return cls(**{**value, **{k: tuple(value[k]) for k in ("assumptions", "exclusions", "acceptance_criteria")}})
+        return cls(**{**value, **{k: tuple(value[k]) for k in ("assumptions", "exclusions")},
+                      "acceptance_criteria": tuple(AcceptanceReference.from_dict(ref) for ref in value["acceptance_criteria"])})
 
 
 @dataclass(frozen=True)
