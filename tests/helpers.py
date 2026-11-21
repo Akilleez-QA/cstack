@@ -16,7 +16,8 @@ class FakeExtension:
 
     def interpret(self, goal, request, outcome):
         return Interpretation("tool_observation" if outcome.to_dict()["execution_status"] == "completed" else "unassessed",
-                              "Only a synthetic sensor observation.", ("Not physical calibration or proof.",))
+                              "Only a synthetic sensor observation.", ("Not physical calibration or proof.",),
+                              **Interpretation.verification(outcome))
 
 
 class FakeCapability:

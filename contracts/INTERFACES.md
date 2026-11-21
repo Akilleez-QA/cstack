@@ -13,7 +13,15 @@ Ports describe purposeful conversations, not a framework layer around every func
 
 ## Base and extension contract
 
-DomainExtension version poodo.domain-extension/0.1 provides descriptor, admit_goal, validate_call and interpret. It returns immutable data and scoped proposals. It receives no core reference, ledger writer or authority mutator.
+DomainExtension version poodo.domain-extension/0.1 provides descriptor, admit_goal, validate_call and interpret. It returns immutable data and scoped proposals.
+
+Each interpret result exposes verdict (passed, failed or unverified), evidence_hash (lowercase
+SHA-256 of canonical raw_result JSON) and verify_cost (nonnegative integer canonical evidence
+bytes). The core recomputes the hash and byte cost and requires passed for completed observations.
+Missing or malformed metadata quarantines the response as protocol_error. Legacy construction
+defaults to unverified with unknown hash and cost, never zero. A quarantine record retains an
+unverified verdict, the hash of its null evidence and unknown cost. No verdict authorizes goal
+acceptance or merge. It receives no core reference, ledger writer or authority mutator.
 
 PoodoCore owns start_goal, revise_goal, advance, decide, execute and evidence admission. Supported extensions cannot override protected inherited control methods. This prevents accidental API misuse; trusted Python code is not a hostile-code security boundary, and typing.final is not runtime enforcement.
 
@@ -171,3 +179,19 @@ Every count is a bounded non-negative `int`.
 - **Order.** deny, then lane, then capacity, then budget, then approval. A capacity refusal holds no spend, looks up or spends no approval, and does not consume its decision. The decision executes once capacity allows.
 - **Live means unsettled.** An attempt is live from its action event until its outcome and settlement are written. One whose outcome fails to record stays live, which fails closed, as its budget hold does. `soonest_reset_at` is bounded so a refusal record always fits the ledger; like `budget_refused`, the record is appended without a prior reservation.
 - Requests, hooks and tool text cannot reach the port or its limits. A subclass cannot override the checks or shadow their state. Cores built without `admission=` behave and ledger exactly as before. Leases (item 5b) are out of scope.
+
+## Forge Core F3 extensions
+
+ApprovalPort adds consume_envelope(approval_id) and meter(approval_id, *, item_id,
+goal_id, goal_revision, policy, scope, cost, effect="read"). ApprovalWriter's
+host-only record_envelope supplies the explicit cap and expiry. Only durable
+ApprovalReader supports launches; TerminalApprover refuses. Existing lookup and
+consume callers require no changes. Money and outgoing messages still require
+per-item approval; F3 adds no automatic envelope fallback in the core.
+
+LedgerPort adds append_batch(items), a nonempty sequence of (kind, data) pairs,
+returning a Merkle root string. MemoryLedger, DurableLedger and WitnessedLedger
+implement it. Existing append/reserve/read callers require no changes. See
+[Forge Core](../docs/architecture/forge-core.md) for hashing, storage compatibility,
+crash recovery and index boundaries. EndoforgePort's runtime-checked four-method
+surface and the upstream pin remain unchanged.

@@ -65,6 +65,89 @@ class WitnessedLedgerTest(unittest.TestCase):
         core.advance("g", Phase.ORCHESTRATE, PhaseCheckpoint("decide", "Approved fixture action"))
         return core
 
+    def test_batch_root_and_malformed_batch(self):
+        from tests.test_forge_core import root
+        wl = self.ledger()
+        for batch in ([], [("observation", {}), ("bad", {})]):
+            with self.assertRaises(ContractError):
+                wl.append_batch(batch)
+            self.assertEqual(wl.read(), [])
+        self.assertEqual(wl.append_batch([("observation", {"i": i}) for i in range(3)]), root(wl.read()))
+
+    def test_required_index_miss_and_returned_event_mutation(self):
+        wl = self.ledger(enforce=True)
+        event = wl.append("observation", {"original": True})
+        event["data"]["original"] = False
+        self.assertTrue(wl.read()[0]["data"]["original"])
+        wl.append("decision", {"action": "precommit", "request": request().to_dict(),
+                               "request_sha256": request().sha256})
+        ref = wl._intents["d-1"]
+        del wl._log.by_hash[ref]
+        with self.assertRaisesRegex(ContractError, "no-intent"):
+            wl.append("action", {"decision_id": "d-1", "request_sha256": request().sha256})
+
+    def test_killed_batch_recovers_without_a_partial_batch(self):
+        wl = self.ledger()
+        accepted = wl.append("observation", {"accepted": True})
+        wl.close()
+        code = ("import os,json,signal\nfrom adapters.witnessed_ledger import WitnessedLedger\n"
+                f"w=WitnessedLedger({str(self.path)!r},'example-host',{str(self.roster)!r},"
+                f"'poodo-bot',{str(self.key)!r},stream='poodo.math')\n"
+                "def torn(entries):\n"
+                " with open(w._path,'a') as f:\n"
+                "  f.write(json.dumps(entries[0])+'\\n'+json.dumps(entries[1])[:20]); f.flush()\n"
+                " os.kill(os.getpid(),signal.SIGKILL)\n"
+                "w._log._persist=torn\n"
+                "w.append_batch([('observation',{'i':i}) for i in range(3)])")
+        proc = subprocess.run([sys.executable, "-B", "-c", code], capture_output=True)
+        self.assertEqual(proc.returncode, -9, proc.stderr)
+        recovered = self.ledger()
+        self.assertEqual(recovered.read(), [accepted])
+        from tests.test_forge_core import root
+        batch_root = recovered.append_batch([("observation", {"i": i}) for i in range(3)])
+        self.assertEqual(batch_root, root(recovered.read()[1:]))
+        recovered.close()
+        self.assertEqual(len(self.ledger().read()), 4)
+
+    def test_warm_append_and_gate_never_traverse_prior_entries(self):
+        from unittest.mock import patch
+        class IndexedOnly(list):
+            def __iter__(self):
+                raise AssertionError("Full log iteration on append path")
+            def __getitem__(self, key):
+                self.reads = getattr(self, "reads", 0) + 1
+                if isinstance(key, slice):
+                    raise AssertionError("Full log slicing on append path")
+                return super().__getitem__(key)
+        costs = []
+        for count in (10_000, 100_000):
+            self.path = self.d / f"indexed-{count}.jsonl"
+            wl = self.ledger(stream=f"indexed-{count}", enforce=True)
+            core = FakeFoundation(ledger=wl)
+            to_decide(core)
+            core.decide(request(), precommit())
+            log = wl.verified_log()
+            with log.locked():
+                cp = [self.L.cosign(self.k[n], n, log.origin, len(log.entries), log.head) for n in WITNESSES[:2]]
+                log.add_checkpoint(len(log.entries), log.head, cp)
+            wl.reserve(0, 0)
+            original = log.entries
+            padded = IndexedOnly(original + [original[-1]] * (count - len(original)))
+            log.entries = padded
+            wl._seen = (count, log.head)
+            wl._indexed = count
+            padded.reads = 0
+            with patch.object(log, "_persist"):
+                wl.append("observation", {})
+                wl._gate(log, wl._intents["d-1"], {"request_sha256": request().sha256})
+                wl.append("action", {"decision_id": "d-1", "request_sha256": request().sha256})
+                with self.assertRaisesRegex(ContractError, "already-used"):
+                    wl.append("action", {"decision_id": "d-1", "request_sha256": request().sha256})
+            costs.append(padded.reads)
+            wl.close()
+        self.assertLess(max(costs), 100)
+        self.assertLessEqual(max(costs), min(costs) + 2)
+
     def test_full_goal_through_core(self):
         core = FakeFoundation(ledger=self.ledger())
         self.assertEqual(execute_one(core).to_dict()["execution_status"], "completed")

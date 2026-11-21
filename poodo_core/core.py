@@ -264,7 +264,8 @@ class PoodoCore:
             self._ledger.append("outcome", {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": "unassessed", "covered_scope": "No accepted result",
                 "limitations": ["No proof or goal acceptance."], "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False})
+                "runtime_goal_acceptance": False, "verdict": "unverified",
+                "evidence_hash": digest(None), "verify_cost": None}, "goal_closed": False})
             outcomes[attempt_id] = result
         for attempt_id, action in unsettled.items():
             aor, reserved = action["aor_id"], action["cost_reserved"]
@@ -704,13 +705,15 @@ class PoodoCore:
                     or interpretation.formal_proof is not False or interpretation.runtime_goal_acceptance is not False
                     or type(interpretation.limitations) is not tuple or len(interpretation.limitations) > 32):
                 raise ContractError("Extension attempted evidence escalation")
+            Interpretation.validate_verification(interpretation, result)
             prose(interpretation.covered_scope)
             for limitation in interpretation.limitations:
                 prose(limitation)
             terminal = {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": interpretation.evidence_kind, "covered_scope": interpretation.covered_scope,
                 "limitations": list(interpretation.limitations), "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False}
+                "runtime_goal_acceptance": False, "verdict": interpretation.verdict,
+                "evidence_hash": interpretation.evidence_hash, "verify_cost": interpretation.verify_cost}, "goal_closed": False}
             # Validate the WHOLE eventual event, not character-count estimates.
             # Placeholder IDs reserve more bytes than the bounded memory ledger uses.
             framed = {"sequence": 999999999, "kind": "outcome", "data": terminal,
@@ -721,11 +724,13 @@ class PoodoCore:
             _contain(self, error)
             result = outcome_for(request, attempt_id, "protocol_error", "core_evidence_admission_failed",
                 certainty="unknown", limitations=("Response quarantined; no mathematical evidence admitted.",))
-            interpretation = Interpretation("unassessed", "No accepted result", ("No proof or goal acceptance.",))
+            interpretation = Interpretation("unassessed", "No accepted result", ("No proof or goal acceptance.",),
+                evidence_hash=digest(result.to_dict()["raw_result"]))
             terminal = {"outcome": result.to_dict(), "interpretation": {
                 "evidence_kind": interpretation.evidence_kind, "covered_scope": interpretation.covered_scope,
                 "limitations": list(interpretation.limitations), "formal_proof": False,
-                "runtime_goal_acceptance": False}, "goal_closed": False}
+                "runtime_goal_acceptance": False, "verdict": interpretation.verdict,
+                "evidence_hash": interpretation.evidence_hash, "verify_cost": interpretation.verify_cost}, "goal_closed": False}
         self._witness("outcome", result)
         self._ledger.append("outcome", terminal)
         return result

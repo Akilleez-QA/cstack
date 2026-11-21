@@ -925,9 +925,49 @@ Every agent definition and template shall fix `poodo.options` at 20 and `poodo.r
 - Verification: T
 - Status: Proposed
 
+### CS-REQ-092 — Forge Core envelopes
+
+The approval store shall durably consume a scoped, expiring goal/policy envelope once and meter unique read items atomically against an explicit integer USD cap; unknown costs, overspend, scope/policy/goal mismatch, expiry, replay and sensitive effects shall refuse. Exhaustion shall refuse every later meter. Existing per-item approvals shall retain their behavior.
+
+- Rationale: a kernel launch bounds repeated work without granting money or outgoing-message authority.
+- Derivation: `poodo_core/ports.py`; `adapters/approval_store.py`
+- Allocated to: SDD-C10
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-093 — Forge Core batch roots
+
+Memory, durable and witnessed ledgers shall accept a nonempty sequence of event pairs, return a reproducible Merkle root, and refuse malformed batches. Durable batch writes shall use one file sync per batch and quarantine a torn batch whole; replay shall retain accepted events once. Witnessed batches shall recover interrupted writes without adopting partial batches.
+
+- Rationale: batching reduces durable write overhead while retaining evidence integrity.
+- Derivation: `adapters/memory_ledger.py`; `adapters/durable_ledger.py`; `adapters/witnessed_ledger.py`
+- Allocated to: SDD-C13
+- Verification: T
+- Status: Baselined
+
+### CS-REQ-094 — Forge Core indexed append
+
+The witnessed ledger shall use verified hash/ref and stream-state indexes for warm local append and intent gating without traversing prior events; required ref index misses shall refuse. Startup and verification after external disk changes may rebuild indexes.
+
+- Rationale: local append work must not grow linearly with retained history.
+- Derivation: `adapters/ledger.py`; `adapters/witnessed_ledger.py`
+- Allocated to: SDD-C13
+- Verification: T
+- Status: Baselined
+
 ## 4. Interface requirements
 
 The interface requirements are the ones above that name an interface: Foundation stdio bridges (CS-REQ-003 to CS-REQ-008, CS-REQ-064, CS-REQ-065; [Foundation ICD](../icd/icd-foundations.md)), EndoForge evidence and runtime (CS-REQ-020 to CS-REQ-035, CS-REQ-068, CS-REQ-069; [EndoForge ICD](../icd/icd-endoforge.md), [EndoForge pin ICD](../icd/icd-endoforge-pin.md)), POODO snapshot (CS-REQ-019; [POODO ICD](../icd/icd-poodo.md)), CLI (CS-REQ-016 to CS-REQ-018, CS-REQ-067; [commands reference](../guides/reference/commands.md)), MCP (CS-REQ-052, CS-REQ-053, CS-REQ-087; [server and adapters](../guides/explanation/server-and-adapters.md)) and the adapter inventory (CS-REQ-036; [`contracts/INTERFACES.md`](../../contracts/INTERFACES.md)).
+
+### CS-REQ-095 — Forge Core verifier-first interpretation
+
+Every DomainExtension interpretation shall expose a scoped verdict, deterministic evidence hash and explicit nonnegative verification cost in canonical evidence bytes. The core shall recompute the raw_result hash and byte cost, require a status-matched verdict, and quarantine missing, malformed or inconsistent metadata. Unverified or failed evidence shall never establish a merged result or goal acceptance. Unknown verification cost shall remain unknown, never default to zero.
+
+- Rationale: ECC requires reproducible evidence and visible verification work before admitting observations.
+- Derivation: `poodo_core/models.py`; `poodo_core/core.py`; [Forge Core](../architecture/forge-core.md#f2-verifier-first-evidence-and-ecc)
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
 
 ## 5. Non-functional requirements
 

@@ -34,7 +34,7 @@ class EngineExtension:
     def interpret(self, goal, request, outcome):
         completed = outcome.to_dict()["execution_status"] == "completed"
         return Interpretation("tool_observation" if completed else "unassessed",
-            "Only the supplied value against the pinned Foundation Engine validators.", INTERPRETATION_LIMITS)
+            "Only the supplied value against the pinned Foundation Engine validators.", INTERPRETATION_LIMITS, **Interpretation.verification(outcome))
 
 
 class FoundationEngine(PoodoCore):
