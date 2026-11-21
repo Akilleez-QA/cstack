@@ -1029,6 +1029,23 @@ Every irreversible outbox item shall consume its own ApprovalPort approval bound
 - Verification: T
 - Status: Baselined
 
+### CS-REQ-102 — Forge Core ledger profiler and judgment read-model
+
+The host profiler shall reconstruct per-kernel occupancy, divergence, verification,
+cache, burn/envelope and dependency critical-path metrics from ledger aggregates,
+F2 verdict references and F3 roots. The mission board shall compare versioned
+executable acceptance intent with recorded results and report descriptive confidence.
+An exceptions-only projection shall detect excess planned burn, low verification,
+high divergence, scope-lock wait cycles and ungoverned goal conflicts without raw
+per-token payloads. Contextual host judgments shall export as versioned Honcho rows.
+Identical ledger bytes shall produce identical board data.
+
+- Rationale: the board summarizes evidence without becoming an authority store.
+- Derivation: `poodo_core/profiler.py`; `docs/architecture/forge-core.md`
+- Allocated to: SDD-C2
+- Verification: T
+- Status: Baselined
+
 ## 5. Non-functional requirements
 
 Bounded resource use is stated as requirements where a test checks it: CS-REQ-006 (wire limits), CS-REQ-011 (output bounds), CS-REQ-009 (deadlines), CS-REQ-041 (capacity), CS-REQ-040 (budget). Replaceability is CS-REQ-075. Reuse (SWE-147) is met by the public GPL-3.0-only license and the family standard; no further obligation is stated.

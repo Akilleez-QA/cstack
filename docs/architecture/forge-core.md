@@ -1,7 +1,7 @@
 # Forge Core
 
 Packet F3 implements the envelope and batch ledger layer on the b0761b1 baseline.
-S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 adds host kill gates and a staged commit outbox. S3 (profiler) remains outside this packet.
+S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 adds host kill gates and a staged commit outbox. S3 adds the optional host profiler and mission-board ledger projection.
 
 ## GPU mapping
 
@@ -10,7 +10,7 @@ S1 adds the launch descriptor and optional host stream scheduler on F2/F3. S2 ad
 | Host CPU | Craig, who supplies authority and policy |
 | Kernel launch | An envelope on ApprovalPort |
 | Reductions and batching | LedgerPort append_batch and Merkle roots |
-| Nsight | A later profiler operating on ledger roots |
+| Nsight | S3 profiler operating on ledger records and roots |
 
 Future throughput of tokens at 1M/s per isolate is an assumption, not a measured
 result. F3 builds the cheap-today structures: envelopes, batch roots and indexed
@@ -263,3 +263,62 @@ restart and overrun, global freeze, 100 out-of-scope refusals, rollback, rolling
 parallel gate races, per-item approvals, failed ledger/handler behavior and subprocess
 SIGKILL before commit and after a durable record precedes a synthetic world write.
 These are local synthetic checks, not qualification of remote-world transports.
+
+
+## S3 profiler, mission board and judgment export
+
+The optional host API in `poodo_core/profiler.py` records aggregate kernel windows
+with record_profile and reconstructs forge.board/1 through ForgeBoard.read.
+It introduces no registered adapter, background collector, scheduler wiring or
+second persistent store. LedgerPort.read supplies the snapshot. Same ledger bytes
+produce the same board; no clock, randomness or external query enters projection.
+Host callers must serialize aggregate writes, use globally unique kernel IDs and
+supply nonoverlapping windows. Repeated windows add their counters, retaining the
+latest dependency, lock, conflict and policy snapshot. Envelope identity/cap and
+mission binding must remain constant for a kernel.
+
+Each window is an F3 one-event batch. A following root receipt binds a prior aggregate
+event's canonical leaf hash; projection rejects mismatches. A crash between these
+two writes leaves a usable aggregate without an acknowledged root receipt. Roots
+are evidence references, not goal acceptance. Existing F2 outcome hashes supply
+verdicts; missing references refuse projection. Each distinct outcome counts once
+per kernel, including unverified outcomes in the denominator. The projection
+trusts admitted ledger verdicts and does not independently rerun domain verification.
+
+Occupancy is busy slot-time divided by duration times slots. Divergence is divergent
+branches divided by branches. Verify pass rate is passed verdicts divided by all
+referenced verdicts. Cache hit rate is hits divided by lookups. Empty denominators
+produce null. Burn sums trusted integer host costs in the F3 envelope's units;
+burn_vs_envelope divides burn by its fixed cap. Critical path is the longest sum
+of window durations through named kernel dependencies, including the current kernel.
+Missing dependencies and cycles refuse projection; these durations measure recorded
+work, not predicted wall time.
+
+The Friday feed is strictly exceptions-only: each row contains mission, kernel,
+and anomaly, with no source payloads or token text. Aggregate schemas reject extra
+fields; unrelated ledger records are dropped. Version 1 thresholds are explicit:
+burn_over_plan means accumulated burn exceeds accumulated planned burn;
+verify_collapse means pass rate below 0.5; divergence_explosion means divergence
+above 0.5. These are fixed level thresholds, not statistical change detection.
+Scope_lock_deadlock means a cycle of host-recorded wait edges with held locks at
+every participating kernel. Goal_conflict_no_policy requires a host conflict flag
+and absent policy. The host owns cost quotes, timing and wait-edge accuracy.
+
+Native start/revise goal records establish executable intent. Missing results have
+confidence zero. ForgeBoard.run_acceptance resolves every AcceptanceReference in
+a host-owned callable registry before running any test/oracle. Exactly True passes;
+False, other values and exceptions fail. Results bind the full GoalContract revision
+and ordered references. The latest revision wins. Confidence is the fraction of
+acceptance references passing, a descriptive score without probabilistic calibration;
+runtime_goal_acceptance remains false. Callables must themselves execute the named
+acceptance checks; the board cannot establish the provenance of arbitrary host code.
+
+The trusted host records Craig's approve, reject, edit_spec and resolve_conflict
+judgments with record_decision, including mission, revision, bounded JSON context
+and a nonempty reason. This API records judgments; it grants no approval authority
+and must not be exposed as a worker impersonation channel. export_decisions returns
+forge.honcho-decision/1 JSON-compatible rows with source event hashes, context and
+reason, in ledger order. The host can serialize these rows for Honcho; no network
+export or Honcho training service is invoked. Source ledger durability applies.
+
+Focused synthetic acceptance is in `tests/test_forge_profiler.py` (CS-REQ-102).

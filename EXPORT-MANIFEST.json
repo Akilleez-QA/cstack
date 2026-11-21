@@ -603,16 +603,16 @@
    "bytes": 684
   },
   "docs/README.md": {
-   "sha256": "50c06bd948a26fc691c5b7b012aae5978e49b7e6d3064fa170c1c0d34e491b8e",
-   "bytes": 7413
+   "sha256": "db68f198d40dffb51fe7177c4039158484067d8cbb7ee032b09f137f16d994a3",
+   "bytes": 7419
   },
   "docs/architecture/architecture.md": {
-   "sha256": "9aa42dc85262c267637e670b857257d6f76217f74f1fbc5b815107bbfee8fa0b",
-   "bytes": 24724
+   "sha256": "1176719d5c2f16c15518d972adabedd7520c27a41ddcddaf5405542f0c5d23fb",
+   "bytes": 24736
   },
   "docs/architecture/forge-core.md": {
-   "sha256": "b929c78dedd007c68e03221ede4f8c2d984b6f8787c4459cfe5038632f155c62",
-   "bytes": 17551
+   "sha256": "237f1633272ef192ffa15a556d9b4f9024571f9ddd5f8a12c5ad4437af1944e7",
+   "bytes": 21565
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "125c34adde85a2d1e2ffecc200fdc6836d1a694e7d7e09cb15505930323cdd00",
@@ -747,8 +747,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "e18f26d874f6c9ca1ad1823620d27c67592e89833b8f3e1badd7aeba9c9aa30b",
-   "bytes": 66150
+   "sha256": "fc56ce427e4b832be524be8d702274ada84436295f9d7e9d8482889530515ae2",
+   "bytes": 67076
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -855,8 +855,8 @@
    "bytes": 9725
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "5daaa29dcc3edd2be3006657f84dc05f7129c83d862cc03536e51c4b06e74cfb",
-   "bytes": 29215
+   "sha256": "7dade8c2d6e27f490c158c20545d66fdf4f107f0355dc573be4018fe0d5d4571",
+   "bytes": 29536
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -1994,9 +1994,17 @@
    "sha256": "4d73c9e1b43956f3305358d7e480803f00035edad9ec256dcd17eb16da7415c4",
    "bytes": 50322
   },
+  "poodo_core/kill.py": {
+   "sha256": "9d70527f82b91a30e60bc2f92f962989b8afa5c2ed026803fa496179e9e2188a",
+   "bytes": 3378
+  },
   "poodo_core/models.py": {
    "sha256": "3575a48656b88e38069ccde5518472661286e5f647fb910cc1755daf54c288fe",
    "bytes": 16864
+  },
+  "poodo_core/outbox.py": {
+   "sha256": "a572da9f3072492493b5db045df2a9bcad1f566fffd495431e268d6c1a2745b5",
+   "bytes": 5509
   },
   "poodo_core/policy.py": {
    "sha256": "177b66cbfd0c4141b5ec43a9a1ba5598936cf715db0a2901beb9836aaf6e71a2",
@@ -2525,6 +2533,10 @@
   "tests/test_inventory_crosscheck.py": {
    "sha256": "4fea41b3645955e41b719dfd944c6655ffda10ce8a631dfce21d9e2b5129677f",
    "bytes": 2634
+  },
+  "tests/test_kill_outbox.py": {
+   "sha256": "59b7169e4f1b09ef6d8ce97d09c1c1e456b697739f63355af6c1bfc1dafd13c2",
+   "bytes": 15736
   },
   "tests/test_math_adapter.py": {
    "sha256": "8160ab1a8d31effa67931a35fc25eef8fb32321874b45f2879a7934d966b4244",
