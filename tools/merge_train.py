@@ -2,8 +2,11 @@
 """Merge train for the cstack monorepo .
 
 Merges open PRs in dependency order: roots first (base = main), then retargets each merged PR's children to main and
-merges them in a later pass. Squash merges only; never deletes branches; never force-pushes; never merges a PR whose
-body lists no local checks (CI is down, so the listed checks are the evidence).
+merges them in a later pass. Squash merges only; never deletes branches; never force-pushes. A PR merges only on CI that
+GitHub recorded for its head commit: every required check (REQUIRED_CHECKS, the jobs in .github/workflows/ci.yml) completed
+with success and no other check failed or pending. What the PR body says about checks is never evidence. The merge is
+pinned to that head commit, so a push after the check is read is not merged. A PR that changes .github/ is never merged
+by the train, because it could change the checks that judge it.
 
   python3 tools/merge_train.py --dry-run                # what would merge now
   python3 tools/merge_train.py                          # merge everything in scope (all policy)
@@ -27,6 +30,9 @@ CORE = ['poodo_core/*', 'adapters/*', 'contracts/*', 'tools/*', 'tests/*', 'boot
         'extensions/*', 'vendor/*', '.github/*']
 LOW_RISK = ['docs/*', '*.md']
 NEVER_AUTO = ['contracts/*']
+CI_PATHS = ['.github/*']
+REQUIRED_CHECKS = ('test', 'secrets')
+PASSING = {'SUCCESS', 'NEUTRAL', 'SKIPPED'}
 WIP_LIMIT = 10
 
 
@@ -46,7 +52,7 @@ def match(path, globs):
 
 def pr_detail(n, cache):
     if n not in cache:
-        d = json.loads(gh('pr', 'view', str(n), '--json', 'files,body,mergeable,mergeStateStatus,baseRefName,headRefName,state,isDraft'))
+        d = json.loads(gh('pr', 'view', str(n), '--json', 'files,mergeable,mergeStateStatus,baseRefName,headRefName,state,isDraft'))
         cache[n] = d
     return cache[n]
 
@@ -62,10 +68,28 @@ def in_scope(p, files):
     return False
 
 
-def has_checks(body):
-    """A checks section (any heading style) with at least one recorded result."""
-    b = body or ''
-    return bool(re.search(r'checks?\b', b, re.I) and re.search(r'→|->|\bPASS(ED)?\b|\bpassed\b|\bok\b|0 error', b, re.I))
+def ci_problem(rollup):
+    """None when GitHub's recorded checks on the head commit pass; otherwise why not. Reads only recorded check results."""
+    runs = {}
+    for check in rollup or []:
+        if check.get('__typename') == 'StatusContext':
+            name, done, result = check.get('context'), True, check.get('state')
+        else:
+            name, done, result = check.get('name'), check.get('status') == 'COMPLETED', check.get('conclusion')
+        if not done or result in (None, '', 'PENDING', 'EXPECTED'):
+            return f"check '{name}' has not finished"
+        if result not in PASSING:
+            return f"check '{name}' is {str(result).lower()}"
+        runs[name] = result
+    missing = [name for name in REQUIRED_CHECKS if runs.get(name) != 'SUCCESS']
+    if missing:
+        return 'no passing CI recorded for: ' + ', '.join(missing)
+    return None
+
+
+def head_checks(n):
+    d = json.loads(gh('pr', 'view', str(n), '--json', 'headRefOid,statusCheckRollup'))
+    return d['headRefOid'], ci_problem(d.get('statusCheckRollup'))
 
 
 def superseded(p, all_heads):
@@ -145,8 +169,8 @@ def consider(p, heads, all_heads, cache, a):
                 gh('pr', 'edit', str(n), '--base', 'main')
             cache.pop(n, None)
         return 'retargeted', ''
-    if not has_checks(d.get('body')):
-        return 'skip', 'no local checks listed'
+    if any(match(f, CI_PATHS) for f in files):
+        return 'skip', 'changes CI itself (.github/); needs review'
     if a.policy == 'low-risk' and not low_risk(files):
         return 'skip', 'not low-risk (needs review)'
     st = wait_mergeable(n) if not a.dry_run else d
@@ -156,9 +180,12 @@ def consider(p, heads, all_heads, cache, a):
         return 'skip', 'conflicts with main'
     if st.get('mergeable') != 'MERGEABLE':
         return 'skip', f"mergeable={st.get('mergeable')} state={st.get('mergeStateStatus')}"
+    head, problem = head_checks(n)
+    if problem:
+        return 'skip', problem
     if a.dry_run:
         return 'merged', ''
-    r = subprocess.run(['gh', 'pr', 'merge', str(n), '--squash'], capture_output=True, text=True)
+    r = subprocess.run(['gh', 'pr', 'merge', str(n), '--squash', '--match-head-commit', head], capture_output=True, text=True)
     if r.returncode:
         return 'skip', 'merge failed: ' + r.stderr.strip()[:160]
     return 'merged', ''
