@@ -669,6 +669,16 @@ The Foundations MCP server shall list, as `<foundation>.<tool>`, only the tools 
 - Verification: T. No test drives it from a real MCP client; one session allows 64 calls per Foundation.
 - Status: Baselined
 
+### CS-REQ-092 — Intent contract (TypeScript)
+
+The intent contract `cstack.intent/1` shall be defined once as a JSON Schema, with its TypeScript types generated from it and checked for staleness. Its digest shall be the v1 canonical form, byte for byte equal to Python's `poodo_core.models.canonical` on a shared set of golden vectors, and the TypeScript side shall refuse floats and integers beyond 2^53 - 1, including number text such as `1.0` that plain `JSON.parse` would silently change. A draft shall be refused when it fails the schema, when an acceptance test can't fail, when an acceptance test's author is the spec writer or the builder, or when revision and `supersedes` disagree. The intent lifecycle shall be a pure transition function over the intent stream: only the chief drafts, revises and proposes; only the host confirms, on an approval from the owner bound to the current digest and used once; derivation, delivery and acceptance shall run on the proposed revision without waiting for confirmation; an artifact or ref from a superseded revision shall be refused as stale; acceptance shall run only against a delivered artifact and report every test once, with an owner check passing only on the owner's answer; and the goal shall close only on a passing acceptance run of the current, confirmed revision. Replaying the stream shall rebuild the same state and refuse a tampered entry.
+
+- Rationale: everything was checked against the frozen spec and nothing against what the owner asked for; the contract is the one record from the owner's words to delivered software. Confirmation never blocks the work (high-trust model).
+- Derivation: `ts/packages/contracts/schema/intent.schema.json`; `ts/packages/contracts/src/canonical.ts`; `ts/packages/intent/src/lifecycle.ts`; `ts/packages/intent/src/draft.ts`; `tools/intent_vectors.py`
+- Allocated to: SDD-C32
+- Verification: T. The TypeScript suite runs under `node --test` in the `test` CI job; the Python test checks the shared vectors. Not yet wired to the forge or a ledger writer.
+- Status: Draft
+
 ### CS-REQ-054 — Fleet mail
 
 Fleet mail shall stamp the sender so input cannot override it, accept only fleet slugs, all-bots or host extras as recipients, refuse over-long strings, control and look-alike characters, mentions and cross-repository references, enforce send, all-bots and per-thread reply allowances with refusals recorded once per window, refuse writes while shields are up, record message number and digest but never the body, verify signatures against the roster and show forgeries as unverified, keep fleet mail out of the approval path, run `gh` with a fixed argument shape, fixed environment, stdin-only message text, deadline and output bounds, and keep the MCP mail tools off by default. The send-budget file shall be private, refuse an emptied state, and never let several processes pass the limit.
@@ -968,3 +978,4 @@ GPL-3.0-only. Commercial licenses under different terms are available from Refri
 | 2.1 | 2026-11-09 | 6088dd4 | CS-REQ-045 covers a session that ends with an unknown outcome; CS-REQ-047 covers a failed file open | PR fixing the 2026-11-09 backfill-review findings |
 | 2.2 | 2026-11-16 | feat/cstack-init | CS-REQ-084 to CS-REQ-086 added: one-command setup, no memory ledger in agent mode, device identity without Tailscale | Draft PR for `cstack init` |
 | 2.3 | 2026-11-16 | this PR | CS-REQ-088 honest run status added | fix/repin-endoforge-macos PR |
+| 2.4 | 2026-11-19 | this PR | CS-REQ-092 intent contract (TypeScript) added | feat/ts-intent-contract PR |

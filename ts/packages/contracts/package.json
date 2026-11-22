@@ -1,0 +1,8 @@
+{
+  "name": "@cstack/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./intent.schema.json": "./schema/intent.schema.json" },
+  "dependencies": { "ajv": "8.17.1" }
+}

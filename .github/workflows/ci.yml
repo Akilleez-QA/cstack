@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: 24
       - run: npm ci --prefix adapters/workcell-toolchain --ignore-scripts --no-audit --no-fund
+      - run: npm ci --prefix ts --ignore-scripts --no-audit --no-fund
+      - run: npm run check --prefix ts
+      - run: npm test --prefix ts
       - run: python -B -m unittest discover -s tests
       - run: bash ci/run-local.sh python links trace
   secrets:
