@@ -70,7 +70,7 @@
         "lo": "i32",
         "hi": "i32"
        },
-       "predicate": "out.every(v => lo <= v && v <= hi)",
+       "predicate": "lo > hi || out.every(v => lo <= v && v <= hi)",
        "samples": 1000
       }
      },
@@ -103,8 +103,8 @@
      "deadline": null
     }
    },
-   "canonical": "{\"acceptance\":[{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"expect\":[0,0,3],\"inputs\":{\"hi\":3,\"lo\":0,\"xs\":[-5,0,9]},\"kind\":\"example\",\"tolerance_ulps\":0},\"id\":\"clamps-example\",\"says\":\"Values below lo become lo and above hi become hi.\"},{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"domain\":{\"hi\":\"i32\",\"lo\":\"i32\",\"xs\":\"i32[0..1024]\"},\"kind\":\"property\",\"predicate\":\"out.every(v => lo <= v && v <= hi)\",\"samples\":1000},\"id\":\"stays-in-range\",\"says\":\"Every output is between lo and hi.\"},{\"author\":\"sage\",\"check\":{\"argv\":[\"node\",\"clamp.mjs\",\"--self-check\"],\"expect_exit\":0,\"kind\":\"command\"},\"id\":\"runs\",\"says\":\"The delivered package runs its own self-check.\"}],\"delivery\":{\"how_to_run\":[\"node\",\"clamp.mjs\"],\"kind\":\"kernel\",\"where\":\"artifacts/clamp\"},\"intent_id\":\"intent.example-clamp\",\"limits\":{\"budget_cents\":0,\"deadline\":null,\"model_runs\":\"stand-in\"},\"owner_words\":{\"channel\":\"chat\",\"received_at\":\"2026-11-19T09:00:00Z\",\"text\":\"I need a clamp for integer arrays that never allocates.\"},\"restatement\":{\"assumptions\":[\"lo <= hi is the caller\\u2019s job\"],\"exclusions\":[\"floating-point arrays\"],\"objective\":\"A kernel that clamps every element of an i32 array into [lo, hi] in place.\",\"questions_asked\":[{\"owner_answer\":\"In place.\",\"q\":\"In place, or a new array?\"}]},\"revision\":1,\"roles\":{\"builder\":\"smith\",\"chief\":\"chief\",\"spec_writer\":\"scribe\"},\"schema\":\"cstack.intent/1\",\"supersedes\":null}",
-   "sha256": "391162e2057ca287174e2da7fcd92890596dbac64bdc05e3a16212485ed1a84d"
+   "canonical": "{\"acceptance\":[{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"expect\":[0,0,3],\"inputs\":{\"hi\":3,\"lo\":0,\"xs\":[-5,0,9]},\"kind\":\"example\",\"tolerance_ulps\":0},\"id\":\"clamps-example\",\"says\":\"Values below lo become lo and above hi become hi.\"},{\"author\":\"sage\",\"check\":{\"call\":\"clamp\",\"domain\":{\"hi\":\"i32\",\"lo\":\"i32\",\"xs\":\"i32[0..1024]\"},\"kind\":\"property\",\"predicate\":\"lo > hi || out.every(v => lo <= v && v <= hi)\",\"samples\":1000},\"id\":\"stays-in-range\",\"says\":\"Every output is between lo and hi.\"},{\"author\":\"sage\",\"check\":{\"argv\":[\"node\",\"clamp.mjs\",\"--self-check\"],\"expect_exit\":0,\"kind\":\"command\"},\"id\":\"runs\",\"says\":\"The delivered package runs its own self-check.\"}],\"delivery\":{\"how_to_run\":[\"node\",\"clamp.mjs\"],\"kind\":\"kernel\",\"where\":\"artifacts/clamp\"},\"intent_id\":\"intent.example-clamp\",\"limits\":{\"budget_cents\":0,\"deadline\":null,\"model_runs\":\"stand-in\"},\"owner_words\":{\"channel\":\"chat\",\"received_at\":\"2026-11-19T09:00:00Z\",\"text\":\"I need a clamp for integer arrays that never allocates.\"},\"restatement\":{\"assumptions\":[\"lo <= hi is the caller\\u2019s job\"],\"exclusions\":[\"floating-point arrays\"],\"objective\":\"A kernel that clamps every element of an i32 array into [lo, hi] in place.\",\"questions_asked\":[{\"owner_answer\":\"In place.\",\"q\":\"In place, or a new array?\"}]},\"revision\":1,\"roles\":{\"builder\":\"smith\",\"chief\":\"chief\",\"spec_writer\":\"scribe\"},\"schema\":\"cstack.intent/1\",\"supersedes\":null}",
+   "sha256": "6e4a9d1fedcc19df6c39e124888107de1d8fcb479cae82ead31e61ddb53dad6e"
   },
   {
    "name": "empty-object",

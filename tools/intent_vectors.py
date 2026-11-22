@@ -36,7 +36,7 @@ CONTRACT = {
                    'expect': [0, 0, 3], 'tolerance_ulps': 0}},
         {'id': 'stays-in-range', 'says': 'Every output is between lo and hi.', 'author': 'sage',
          'check': {'kind': 'property', 'call': 'clamp', 'domain': {'xs': 'i32[0..1024]', 'lo': 'i32', 'hi': 'i32'},
-                   'predicate': 'out.every(v => lo <= v && v <= hi)', 'samples': 1000}},
+                   'predicate': 'lo > hi || out.every(v => lo <= v && v <= hi)', 'samples': 1000}},
         {'id': 'runs', 'says': 'The delivered package runs its own self-check.', 'author': 'sage',
          'check': {'kind': 'command', 'argv': ['node', 'clamp.mjs', '--self-check'], 'expect_exit': 0}},
     ],
