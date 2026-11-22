@@ -603,8 +603,8 @@
    "bytes": 7304
   },
   "docs/architecture/architecture.md": {
-   "sha256": "b9bf75abb0e103079077233e266435badf33df6898280438a1589f75d38a7369",
-   "bytes": 24142
+   "sha256": "2887cd141381c43ad5017a1535bd81f37ba166500f74a352cb568eb0a5e7e606",
+   "bytes": 24192
   },
   "docs/assurance/assurance-record.md": {
    "sha256": "125c34adde85a2d1e2ffecc200fdc6836d1a694e7d7e09cb15505930323cdd00",
@@ -739,8 +739,8 @@
    "bytes": 5760
   },
   "docs/requirements/requirements.md": {
-   "sha256": "d52dec2a3dd9eeb3c7c4a7cfba034be04cbb449d4babeac37115963171828240",
-   "bytes": 61587
+   "sha256": "f511145f586ffc5ba02b226ed0a52d070e8ed807deda941bfeffbd1f9ec0a38b",
+   "bytes": 62473
   },
   "docs/rules/no-comments.md": {
    "sha256": "cd0aac16b8119228bb5b7e79d38e71ddcc430679916a9f7080d7b3bd88fb4a90",
@@ -847,8 +847,8 @@
    "bytes": 9725
   },
   "docs/verification/verification-matrix.md": {
-   "sha256": "6fca8fe82e853d3ccb71f7ae53c589568d844e5bfa5981f4eb04df4bd412c728",
-   "bytes": 26698
+   "sha256": "7e7a11bf30470477ca587c4bc2a3efe49e5a1ab3c83d843dac656492b318659f",
+   "bytes": 26831
   },
   "docs/verification/wiring-acceptance.md": {
    "sha256": "a063e0580bf60ca41b37d473f1df7989b12c7e0aa915cecef30b916a4c4720d8",
@@ -2711,8 +2711,8 @@
    "bytes": 5253
   },
   "tools/intent_vectors.py": {
-   "sha256": "ffc40547d0a2c7c5e334142d8b45e20124bd38b51d23e65d3ea33ea06ed7e37c",
-   "bytes": 3978
+   "sha256": "39f7cfc5ca8ad63b1db50743235f83c911e213c48a5ea42fe9421ee49396fc7c",
+   "bytes": 3989
   },
   "tools/measure_foundation_routes.py": {
    "sha256": "27e3e578e9c77a6c5214e835d2a1a17476cbcb5571c1241c61d2c1255d52ecaf",
@@ -2763,16 +2763,60 @@
    "bytes": 16851
   },
   "ts/README.md": {
-   "sha256": "c5fb80fa6d3f66aafcfcf4dd7892253a0d26f77e9a44bd35f5b892a6ac0dea12",
-   "bytes": 1491
+   "sha256": "9e71e98552afa4faa9d7c9910f8c75f3ced3bb91712c945f055688e4a35935e6",
+   "bytes": 2511
   },
   "ts/package-lock.json": {
-   "sha256": "f9b97c9c274b1e083fc18e3f42e5f3b513cacba215ef8325b30acee2c10333fb",
-   "bytes": 10988
+   "sha256": "c4cdae6f08ed1ec4e6b22482e567d46d13958358db8069ec6d3f3a98170fef4e",
+   "bytes": 11298
   },
   "ts/package.json": {
    "sha256": "b020d4e044bff6eff5729330f083bfdbe4a5cae5f46c649aacfbcd34b83a66ff",
    "bytes": 471
+  },
+  "ts/packages/acceptance/package.json": {
+   "sha256": "1524c0a6b929c95348c3ae300e5bce66116bf0ca0811ebabeeb345cb724aef2e",
+   "bytes": 215
+  },
+  "ts/packages/acceptance/src/artifact.ts": {
+   "sha256": "2f9faa7f21876ac92aff86f7df9884e29daeea25ef9981939c90650ebd1c4895",
+   "bytes": 1070
+  },
+  "ts/packages/acceptance/src/compare.ts": {
+   "sha256": "09b4f3fc1e14984e62414b0176fffebe4ee90b81d4d6f2518227e0c457c889ca",
+   "bytes": 2348
+  },
+  "ts/packages/acceptance/src/domain.ts": {
+   "sha256": "7c4f912bb93bd2f75eaa327f896b81c343e9c74c42eb99bc41d7fb6cf2a5d1eb",
+   "bytes": 2849
+  },
+  "ts/packages/acceptance/src/index.ts": {
+   "sha256": "3485d30326aa45e73561e6cad3cc53ba79658ab7d95b5d2fa82eb02798e1cf87",
+   "bytes": 353
+  },
+  "ts/packages/acceptance/src/ports.ts": {
+   "sha256": "88222a8f0c863fc3e652a5b4857c7a85aa61f5b6912b77614a2d8dc20a1933a5",
+   "bytes": 3122
+  },
+  "ts/packages/acceptance/src/runner.ts": {
+   "sha256": "7d617fa7d995d26098631722b4ff4f5c883fa60821706e163e3d2986b8b6e114",
+   "bytes": 5319
+  },
+  "ts/packages/acceptance/src/worker.ts": {
+   "sha256": "2c7adfdfec0867c12dab1f3c4f3ef8589b0ce6138107e000bca59b639918a44e",
+   "bytes": 1963
+  },
+  "ts/packages/acceptance/test/domain.test.ts": {
+   "sha256": "4635db95d2bc40225ae63fc24e15cb8282c872547c8792037a8462c6d466b5e0",
+   "bytes": 1859
+  },
+  "ts/packages/acceptance/test/fixtures.ts": {
+   "sha256": "6a3fcab6637a3960ce8521dc5193e332371beb051457c59c0921aa4d626b69d5",
+   "bytes": 2063
+  },
+  "ts/packages/acceptance/test/runner.test.ts": {
+   "sha256": "6f1e707a345f54ffd0e230ce73c64a42ecce68159271616d94d5612deda5b996",
+   "bytes": 7741
   },
   "ts/packages/contracts/package.json": {
    "sha256": "ff2ab377f111faff9bcf115a575d3fedd0deed9a34a20b03bdf26899cea58a27",
@@ -2827,8 +2871,8 @@
    "bytes": 10808
   },
   "ts/packages/intent/vectors/digest.json": {
-   "sha256": "74b575e542c4b65778c2f2043787c195bcc7a99bd6c66faeb9caf05c0ed7aed5",
-   "bytes": 6183
+   "sha256": "856d7ad943ae099aee5a01a8fc54815d510f20a082df6443a9beae6d8471d31f",
+   "bytes": 6205
   },
   "ts/tsconfig.json": {
    "sha256": "829390489828aced63a60f758d7f485f90f31669713512a1eebb29fd12962cea",
